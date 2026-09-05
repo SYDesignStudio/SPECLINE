@@ -1,42 +1,56 @@
 const PRACTICE = {name:"SY Design Studio Ltd", addr:"49 Durham Avenue, Hounslow, TW5 0HG", email:"info@sydesignstudio.co.uk"};
 const GROUPS = {SW:"Separating walls", SF:"Separating floors", EW:"External walls", IW:"Internal walls", GF:"Ground floors", IF:"Floors", RF:"Roofs", BW:"Basement walls", BF:"Basement floors"};
-const GORDER = ["SW","SF","EW","IW","GF","IF","RF"];
+const GORDER = ["SW","SF","EW","IW","GF","IF","RF","BW","BF"];
 
-/* every project type in the library, built or not */
+/* every project type in the library */
 const TYPES = [
-  {k:"extension", n:"House Extension",     r:"England", ready:true,  d:"Single and two storey"},
-  {k:"loft",      n:"Loft Conversion",     r:"England", ready:true,  d:"Dormer, hip to gable, room in roof"},
-  {k:"garage",    n:"Garage Conversion",   r:"England", ready:true, d:"Integral and detached"},
-  {k:"flat",      n:"Flat Conversion",     r:"England", ready:true,  d:"Material change of use"},
-  {k:"newbuild",  n:"New Build",           r:"England", ready:true, d:"Dwellinghouse"},
-  {k:"nbflats",   n:"New Build Flats",     r:"England", ready:true, d:"Purpose built"},
-  {k:"basement",  n:"Basement Conversion", r:"England", ready:true, d:"Underpinning and tanking"},
-  {k:"garagebld", n:"Garage Build",        r:"England", ready:true, d:"Detached and attached"}
+  {k:"extension", code:"EXT", n:"House Extension",     r:"England", ready:true, d:"Single and two storey, rear and side"},
+  {k:"loft",      code:"LFT", n:"Loft Conversion",     r:"England", ready:true, d:"Dormer, hip to gable, room in roof"},
+  {k:"flat",      code:"FLT", n:"Flat Conversion",     r:"England", ready:true, d:"Material change of use, Part E"},
+  {k:"garage",    code:"GAR", n:"Garage Conversion",   r:"England", ready:true, d:"Integral and detached"},
+  {k:"newbuild",  code:"NBH", n:"New Build",           r:"England", ready:true, d:"Dwellinghouse, full notional assessment"},
+  {k:"nbflats",   code:"NBF", n:"New Build Flats",     r:"England", ready:true, d:"Purpose built, separating construction"},
+  {k:"basement",  code:"BSM", n:"Basement Conversion", r:"England", ready:true, d:"Underpinning, tanking, BS 8102"},
+  {k:"garagebld", code:"GBD", n:"Garage Build",        r:"England", ready:true, d:"Detached and attached, unheated"}
 ];
 
-
+/* job record: key, label, example, wide, hint */
 const FIELDS = [
-  ["project","Project","Single storey rear extension",1],
-  ["address","Site address","00 Example Road, Hounslow TW3 0AA",1],
-  ["client","Client","Mr & Mrs Example",0],
-  ["job","Job number","1134",0],
-  ["la","Local authority","London Borough of Hounslow",0],
-  ["rev","Revision","P01",0]
+  ["job","Job number","",0,"Practice sequence. Typed, never generated."],
+  ["rev","Revision","P01",0,"Moves on each time you issue."],
+  ["client","Client","",0,"Prints on the cover page."],
+  ["la","Local authority","London Borough of Hounslow",0,"Prints on the cover page."],
+  ["project","Project","",1,"One line, as it should read on the cover."],
+  ["address","Site address","",1,"Prints on the cover and in the running header."]
 ];
 
-let S = {type:null, data:{}, sel:[], notes:{}, step:0, open:{}, mobile:"build"};
+/* the practice standards, stated the same way on every job (CLAUDE.md) */
+const STANDARDS = [
+  {item:"Fire doors", value:"FD30S doorset (E 30 Sa, intumescent strips and cold smoke seals) with self-closer.", flag:"Exceeds the AD B minimum of E 20"},
+  {item:"Alarms", value:"BS 5839-6 Grade D1 Category LD2, mains powered with integral back-up, interlinked.", flag:"Exceeds the AD B minimum of D2 LD3"},
+  {item:"Escape window", value:"Openable area not less than 0.33 m², clear dimensions not less than 450 × 450 mm, bottom of the openable area not more than 1100 mm and not less than 800 mm above floor level unless guarded, openable without a key.", flag:""},
+  {item:"Hot water", value:"Cylinder capable of storage at not less than 60 °C. Bath supply limited to 48 °C by a thermostatic mixing valve to BS EN 1111 or BS EN 1287 (Approved Document G3). Never ‘taps limited to 60 °C’.", flag:""},
+  {item:"Fixed lighting", value:"75 lumens per circuit-watt for all fixed internal and external fittings, those under 5 circuit-watts excluded. The ‘three quarters of fittings’ rule was withdrawn in AD L 2021.", flag:""},
+  {item:"Building control", value:"Lower case in prose. ‘The Building Control Officer’ for the person.", flag:""}
+];
+
+let S = {route:"home", type:null, id:null, data:{}, sel:[], notes:{}, step:-1, open:{}, custom:[], cfg:null, cfgF:null, cfgR:null, history:[], created:0, updated:0};
 FIELDS.forEach(f=>S.data[f[0]]=f[2]);
 
 const el = id => document.getElementById(id);
 const esc = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const spec = () => SPECS[S.type];
 const cats = () => (spec().cats) || [];
+const typeOf = k => TYPES.find(t=>t.k===k);
 const buCat = b => {
   if(b.cat==="__wall__")  return cats().find(isWallCat)||cats()[0];
   if(b.cat==="__floor__") return cats().find(isFloorCat)||cats()[0];
   if(b.cat==="__roof__")  return cats().find(isRoofCat)||cats()[0];
   return b.c; };
 const ntCat = n => n.c;
+const fmtDate = t => new Date(t).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+const WORDS = ["No","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve"];
+const word = n => n<WORDS.length ? WORDS[n] : String(n);
 
 function catItems(cat){
   const bus = allBU().map((b,i)=>({b,i})).filter(x=>buCat(x.b)===cat);
@@ -50,9 +64,9 @@ function catCount(cat){
 function catTotal(cat){ const {bus,nts}=catItems(cat); return bus.length+nts.length; }
 
 function defaults(){
-  S.sel=[]; S.notes={}; S.step=0; S.open={}; S.custom=[];
+  S.sel=[]; S.notes={}; S.step=-1; S.open={}; S.custom=[]; S.cfg=null; S.cfgF=null; S.cfgR=null; S.visited={};
   spec().notes.forEach((n,i)=>S.notes[i]=true);
-  ["SW","SF","EW","GF","RF","IF"].forEach(g=>{ const i=spec().buildups.findIndex(b=>b.g===g); if(i>=0) S.sel.push(i); });
+  ["SW","SF","EW","GF","RF","IF","BW","BF"].forEach(g=>{ const i=spec().buildups.findIndex(b=>b.g===g); if(i>=0) S.sel.push(i); });
   S.sel.sort((a,b)=>a-b);
 }
 function refs(){
@@ -76,47 +90,190 @@ function noteSections(){
   m.forEach((v,k)=>{ if(!ordered.has(k)) ordered.set(k,v); });
   return ordered;
 }
+const calcsOnJob = () => orderedSel().map(i=>({i,b:allBU()[i]})).filter(x=>x.b.calc);
 
-/* ---------------- type chooser ---------------- */
-function showChooser(){
-  el("chooser").hidden=false;
-  el("tiles").innerHTML = TYPES.map(t=>`
-    <button class="tile ${t.ready?"":"soon"}" data-k="${t.k}" ${t.ready?"":"disabled"}>
-      <span class="tn">${esc(t.n)}</span>
-      <span class="td">${esc(t.d)}</span>
-      <span class="tr">${t.ready?esc(t.r):"Not yet written"}</span>
-    </button>`).join("");
-  el("tiles").querySelectorAll("button:not(:disabled)").forEach(b=>b.onclick=()=>{
-    S.type=b.dataset.k; defaults(); el("chooser").hidden=true; renderAll(); save();
-  });
+/* ---------------- the layer bar: a build-up drawn to scale ---------------- */
+function swatchFor(name){
+  const n=String(name).toLowerCase();
+  if(/plasterboard|plaster|skim/.test(n)) return {c:"#EDE6DA"};
+  if(/brick/.test(n)) return {c:"#A8705A"};
+  if(/render|stone/.test(n)) return {c:"#C7BFB3"};
+  if(/aircrete|block/.test(n)) return {c:"#C3C7CB"};
+  if(/screed|concrete|slab/.test(n)) return {c:"#A9ADB2"};
+  if(/dritherm|rockwool|mineral wool|quilt|batt|earthwool/.test(n)) return {c:"#D9C98F"};
+  if(/kooltherm|celotex|sopra|unilin|ecotherm|pir|thermafloor|thermaclass|cavitytherm|xps|eps|insulat|k10|tf70|tr2|k11|board/.test(n)) return {c:"#E4CF8A"};
+  if(/timber|joist|rafter|osb|ply|chipboard|deck|batten|floorboard/.test(n)) return {c:"#C9A676"};
+  if(/air|cavity|void|gap/.test(n)) return {c:"#F1F0EC",air:true};
+  if(/membrane|vapour|dpm|felt|single ply|covering|underlay/.test(n)) return {c:"#6E7378"};
+  if(/hardcore|sand|ground|earth|soil|blinding/.test(n)) return {c:"#B9A68F"};
+  return {c:"#CFCBC3"};
+}
+/* layers: [{n,d,R}] — surfaces (no d) are skipped; opts.small for the 16px variant */
+function layerBar(layers, opts){
+  const o=opts||{};
+  const L=(layers||[]).filter(l=>l.d!=null && +l.d>0);
+  if(!L.length) return "";
+  return `<div class="lbar ${o.small?"sm":""}" role="img" aria-label="${esc(L.map(l=>l.d+" mm "+l.n).join(", "))}">`+
+    L.map((l,i)=>{ const s=swatchFor(l.n);
+      return `<span class="${s.air?"air":""}" style="flex:${+l.d};background:${s.c};--i:${i}" title="${esc(l.d+" mm "+l.n)}"></span>`; }).join("")+`</div>`;
+}
+function layerKey(layers){
+  const L=(layers||[]).filter(l=>l.d!=null && +l.d>0);
+  return `<p class="lkey">${esc(L.map(l=>(/^\d/.test(String(l.n))?"":l.d+" mm ")+String(l.n).toLowerCase()).join("  ·  "))}</p>`;
 }
 
-/* ---------------- panes ---------------- */
+/* ---------------- type chooser ---------------- */
+function showChooser(mode){
+  /* mode "new": start a job of the chosen type. mode "change": swap the type of the current job. */
+  S.chooserMode = mode||"new";
+  el("chooserKicker").textContent = mode==="change" ? "Change project type" : "New job · Project type";
+  el("chooserTitle").textContent = mode==="change" ? "Change the project type?" : "What are we specifying?";
+  el("chooserLede").textContent = mode==="change"
+    ? "The job record stays. Build-up and note selections are reset to the new type's defaults."
+    : "Each type carries its own categories, build-ups and notes from the library. You can change it later without losing the job record.";
+  el("tiles").innerHTML = typeTiles();
+  el("chooser").hidden=false;
+  el("tiles").querySelectorAll("button:not(:disabled)").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.k;
+    el("chooser").hidden=true; el("tiles").innerHTML="";
+    if(S.chooserMode==="change" && S.type){ S.type=k; defaults(); renderAll(); save(); }
+    else newJob(k);
+  });
+}
+function typeTiles(){
+  return TYPES.map(t=>{ const v=SPECS[t.k];
+    const g={}; (v?v.buildups:[]).forEach(b=>{g[b.g]=(g[b.g]||0)+1});
+    const top=Object.entries(g).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([k,n])=>n+" "+k).join(" · ");
+    return `<button class="tile ${t.ready?"":"soon"}" data-k="${t.k}" ${t.ready?"":"disabled"}>
+      <span class="tk"><b>${t.code}</b><span>${v?esc(top+" · "+v.notes.length+" notes"):"Not yet written"}</span></span>
+      <span class="tn">${esc(t.n)}</span>
+      <span class="td">${esc(t.d)}</span></button>`; }).join("");
+}
+
+/* ---------------- routing ---------------- */
+const ROUTES=["home","job","spec","calc","standards"];
+function go(route){
+  if(["job","spec","calc"].includes(route) && !S.type){ route="home"; }
+  S.route=route;
+  el("home").hidden = route!=="home";
+  if(route!=="home") el("home").innerHTML="";   /* the desk re-renders on return; keeps one set of .tile nodes in the DOM */
+  el("app").hidden = route!=="job";
+  el("specpage").hidden = route!=="spec";
+  el("calcpage").hidden = route!=="calc";
+  el("stdpage").hidden = route!=="standards";
+  el("tabs").querySelectorAll("button").forEach(b=>{
+    b.classList.toggle("cur",b.dataset.r===route);
+    b.disabled = ["job","spec","calc"].includes(b.dataset.r) && !S.type;
+  });
+  /* one paper node, re-parented between the workspace viewer and the specification page */
+  const paper=el("paper");
+  if(route==="spec"){ el("specpaper").appendChild(paper); } else if(paper.parentNode!==el("viewer")) el("viewer").appendChild(paper);
+  if(route==="home") renderHome();
+  if(route==="job") { renderSteps(); renderStage(); renderPaper(); }
+  if(route==="spec") { renderPaper(); renderSpecNav(); }
+  if(route==="calc") renderCalcPage();
+  if(route==="standards") renderStandards();
+  window.scrollTo(0,0);
+  try{ localStorage.setItem("syds-route",route); }catch(e){}
+}
+el("tabs").querySelectorAll("button").forEach(b=>b.onclick=()=>go(b.dataset.r));
+el("brandHome").onclick=()=>go("home");
+
+/* ---------------- home: the desk ---------------- */
+function renderHome(){
+  const jobs=jobsCache.slice().sort((a,b)=>(b.updated||0)-(a.updated||0));
+  const n=jobs.length, issued=jobs.filter(j=>(j.history||[]).length).length;
+  const head = n===0 ? `Nothing on the desk yet.` : `${word(n)} ${n===1?"job":"jobs"} in hand. <em>${issued?word(issued)+" issued.":"None issued yet."}</em>`;
+  const sub = n===0 ? "Start the first job from a project type below. It is saved as you go, and comes back here to be reopened, revised and issued."
+                    : "Open a job to carry on where you left off, or start another from a project type below.";
+  /* the card: the newest calculated build-up on the desk, or the library's default cavity wall */
+  let card;
+  const withCalc=jobs.map(j=>({j,c:(j.custom||[]).find(b=>b.calc)})).find(x=>x.c);
+  if(withCalc){ const {j,c}=withCalc, res=c.calc.result;
+    const tgt=(c.calc.params&&c.calc.params.limit)||null, pass=tgt?res.U<=tgt+1e-9:true;
+    card={kicker:`${esc(c.g)} · ${esc(c.t)} · job ${esc(j.data.job||"—")}`, U:res.U, tgt, pass, layers:res.layers, note:"Calculated on the job shown. Open it to change the layers."};
+  } else { const r=UC.wall(CFG_DEFAULT);
+    card={kicker:"Library default · full fill cavity wall", U:r.U, tgt:CFG_DEFAULT.limit, pass:r.U<=CFG_DEFAULT.limit+1e-9, layers:r.layers, note:"The default the External Walls configurator opens with. Every job calculates its own."};
+  }
+  el("home").innerHTML=`
+    <section class="desk">
+      <div>
+        <p class="eyebrow">SY Design Studio · Building regulations · England</p>
+        <h1>${head}</h1>
+        <p class="lede">${esc(sub)}</p>
+        <div class="actions"><button class="btn btn-primary btn-lg" id="homeNew">Start a new job</button>
+          ${n?`<button class="btn btn-lg" id="homeOpen">Open ${esc(jobs[0].data.job?"job "+jobs[0].data.job:"the latest job")}</button>`:""}</div>
+      </div>
+      <div class="ucard">
+        <div class="uhead"><span class="eyebrow">${card.kicker}</span><span class="chip ${card.pass?"ok":"bad"}">${card.pass?"Within target":"Over target"}</span></div>
+        <div class="ubig"><b>${card.U.toFixed(2)}</b><span class="unit">W/m²K${card.tgt?`<small>target ${card.tgt.toFixed(2)}</small>`:""}</span></div>
+        ${layerBar(card.layers)}${layerKey(card.layers)}
+      </div>
+    </section>
+    <section class="section">
+      <div class="sechead"><h2>Jobs</h2><span class="aside">${n?n+" saved":"none saved"}</span></div>
+      <div class="joblist">${n?jobs.map(jobRow).join(""):`<div class="empty"><b>No jobs yet.</b>Start one from a project type below. The job record, the build-ups you choose and the notes you keep are saved as you work.</div>`}</div>
+    </section>
+    <section class="section">
+      <div class="sechead"><h2>Start a new job</h2><span class="aside">Eight project types · England</span></div>
+      <div class="tiles" id="hometiles">${typeTiles()}</div>
+    </section>
+    <div class="regflag"><span class="chip dim">AD L1 / F1 2026</span>
+      <p>The 2026 editions of Approved Documents L1 and F1 were published on 24 March 2026 and come into force on 24 March 2027, with transitional relief for new dwellings commenced before 24 March 2028. Every specification carries the flag.</p></div>`;
+  el("homeNew").onclick=()=>showChooser("new");
+  const ho=el("homeOpen"); if(ho) ho.onclick=()=>openJob(jobs[0].id);
+  el("hometiles").querySelectorAll("button:not(:disabled)").forEach(b=>b.onclick=()=>newJob(b.dataset.k));
+  el("home").querySelectorAll(".jobrow").forEach(b=>b.onclick=()=>openJob(b.dataset.id));
+}
+function jobRow(j){
+  const t=typeOf(j.type), hist=j.history||[];
+  const L=(SPECS[j.type]?SPECS[j.type].buildups:[]).concat(j.custom||[]);
+  const c={}, tags=[]; (j.sel||[]).forEach(i=>{ const b=L[i]; if(!b) return; c[b.g]=(c[b.g]||0)+1; if(c[b.g]===1) tags.push(b.g+"1"); });
+  const status = hist.length ? {cls:"done",t:`${hist[hist.length-1].rev} issued`} : {cls:"wip",t:`Drafting ${j.data.rev||"P01"}`};
+  return `<button class="jobrow" data-id="${esc(j.id)}">
+    <span class="jn">${esc(j.data.job||"—")}</span>
+    <span><span class="jt">${esc(j.data.address||j.data.project||"Untitled job")}</span><span class="jm">${esc(t?t.n:j.type)}${j.data.client?" · "+esc(j.data.client):""}${j.data.project&&j.data.address?" · "+esc(j.data.project):""}</span></span>
+    <span class="jr">${tags.slice(0,4).map(x=>`<span class="chip ref">${x}</span>`).join("")}</span>
+    <span class="js ${status.cls}"><b>${esc(status.t)}</b><small>${fmtDate(j.updated||j.created||Date.now())}</small></span></button>`;
+}
+
+/* ---------------- workspace: rail ---------------- */
 function renderSteps(){
+  const N=cats().length;
+  el("stepJob").classList.toggle("cur",S.step===-1);
+  el("stepJob").classList.toggle("done",S.step!==-1 && !!S.data.job);
+  el("stepReview").classList.toggle("cur",S.step==="review");
   el("steps").innerHTML = cats().map((c,i)=>{
     const n=catCount(c), tot=catTotal(c);
-    return `<button class="step ${i===S.step?"cur":""}" data-i="${i}">
-      <span class="sn">${String(i+1).padStart(2,"0")}</span>
+    return `<button class="rstep step ${i===S.step?"cur":""} ${S.visited&&S.visited[i]&&i!==S.step?"done":""}" data-i="${i}">
+      <span class="sn">${i+1}</span>
       <span class="st">${esc(c)}</span>
       <span class="sc ${n?"has":""}">${n}/${tot}</span></button>`;
   }).join("");
-  el("steps").querySelectorAll("button").forEach(b=>b.onclick=()=>{ S.step=+b.dataset.i; renderStage(); renderSteps(); });
+  el("steps").querySelectorAll("button").forEach(b=>b.onclick=()=>setStep(+b.dataset.i));
+  el("stepJob").onclick=()=>setStep(-1);
+  el("stepReview").onclick=()=>setStep("review");
+  el("jobTitle").textContent = S.data.address || S.data.project || (S.data.job?"Job "+S.data.job:"New job");
+  el("jobSub").textContent = [S.data.job?"Job "+S.data.job:"", S.data.rev||"P01"].filter(Boolean).join(" · ");
+}
+function setStep(s){
+  if(typeof S.step==="number" && S.step>=0){ S.visited=S.visited||{}; S.visited[S.step]=1; }
+  S.step=s; renderStage(); renderSteps(); save();
 }
 
+/* ---------------- workspace: stage ---------------- */
 function renderStage(){
+  if(S.step===-1) return renderJobRecord();
+  if(S.step==="review") return renderReview();
   const cat = cats()[S.step];
-  if(cat===undefined) return;
+  if(cat===undefined){ S.step=-1; return renderJobRecord(); }
   const {bus,nts} = catItems(cat);
   const r = refs();
   let h = `<div class="stagehead">
       <p class="crumb">Step ${S.step+1} of ${cats().length} &nbsp;·&nbsp; ${esc(spec().name)}</p>
       <h2>${esc(cat)}</h2>
-      <p class="lede">${bus.length?"Tick the build-ups used on this project. They number themselves in the order you select them.":"Tick the notes to include. Everything here is on by default — untick what does not apply."}</p>
+      <p class="lede">${bus.length?"Tick the build-ups used on this job. They number themselves in the order you tick them.":"Every note is on to begin with. Untick what does not apply to this job."}</p>
     </div>`;
-
-  if(S.step===0){
-    h += `<div class="card projcard"><h3>Project details</h3><div class="fields" id="fields"></div></div>`;
-  }
   if(isWallCat(cat)) h += renderConfigurator();
   if(isFloorCat(cat)) h += renderFloorConfigurator(cat);
   if(isRoofCat(cat)) h += renderRoofConfigurator();
@@ -129,7 +286,8 @@ function renderStage(){
           <span class="tag ${on?"":"off"}">${on?r[i]:"—"}</span>
           <span class="ct">${esc(b.t)}</span>
           ${b.u?`<span class="cu">${esc(b.u)}</span>`:""}
-          ${b.calc?`<button class="rm" data-rm="${i}" title="Remove this custom build-up">Remove</button>`:""}</label>
+          ${b.calc?`<button class="rm" data-rm="${i}" title="Remove this calculated build-up">Remove</button>`:""}</label>
+        ${b.calc?`<div class="cfgbar">${layerBar(b.calc.result.layers,{small:true})}</div>`:""}
         ${b.tgt?`<p class="tgt">${esc(b.tgt)}</p>`:""}
         <div class="text ${opened?"":"clip"}">${b.p.map(x=>`<p class="${x.startsWith("NOTE")?"nt":""}">${esc(x)}</p>`).join("")}</div>
         ${b.p.length>1||b.p[0].length>210?`<button class="more" data-o="b${i}">${opened?"Show less":"Read full clause"}</button>`:""}
@@ -152,15 +310,14 @@ function renderStage(){
 
   const last = S.step===cats().length-1;
   h += `<div class="navbar">
-      <button class="btn" id="prev" ${S.step?"":"disabled"}>← Back</button>
-      <span class="prog"><span style="width:${((S.step+1)/cats().length*100).toFixed(1)}%"></span></span>
-      ${last?`<button class="btn btn-primary" id="finish">Generate PDF</button>`
+      <button class="btn" id="prev">← Back</button>
+      <span class="prog"><span style="width:${((S.step+1)/(cats().length+1)*100).toFixed(1)}%"></span></span>
+      ${last?`<button class="btn btn-primary" id="finish">Review and issue →</button>`
             :`<button class="btn btn-primary" id="next">Next →</button>`}
     </div>`;
   el("stage").innerHTML=h;
   el("stage").scrollTop=0;
 
-  if(S.step===0) renderFields();
   el("stage").querySelectorAll('input[type=checkbox]').forEach(inp=>inp.onchange=()=>{
     const i=+inp.dataset.i;
     if(inp.dataset.t==="b"){ if(inp.checked){ if(!S.sel.includes(i)) S.sel.push(i); } else S.sel=S.sel.filter(x=>x!==i); }
@@ -178,16 +335,76 @@ function renderStage(){
     S.open[b.dataset.o]=!S.open[b.dataset.o]; renderStage();
   });
   const p=el("prev"), n=el("next"), f=el("finish");
-  if(p) p.onclick=()=>{ if(S.step){S.step--; renderStage(); renderSteps();} };
-  if(n) n.onclick=()=>{ if(S.step<cats().length-1){S.step++; renderStage(); renderSteps();} };
-  if(f) f.onclick=makePdf;
+  if(p) p.onclick=()=>setStep(S.step===0?-1:S.step-1);
+  if(n) n.onclick=()=>{ if(S.step<cats().length-1) setStep(S.step+1); };
+  if(f) f.onclick=()=>setStep("review");
 }
 
+function renderJobRecord(){
+  const hist=S.history||[];
+  el("stage").innerHTML=`<div class="stagehead">
+      <p class="crumb">Job record &nbsp;·&nbsp; ${esc(spec().name)}</p>
+      <h2>Which job is this?</h2>
+      <p class="lede">These fields print on the cover page and in the running header of every issue. The job number follows the practice sequence: type it, the app never invents one.</p>
+    </div>
+    <div class="card"><div class="fields" id="fields"></div></div>
+    <div class="card hist"><p class="grouplabel" style="margin-top:0">Issue history</p>
+      ${hist.length?`<table>${hist.slice().reverse().map(h=>`<tr><td>${esc(h.rev)}</td><td>${esc(h.n)} build-ups · ${esc(h.m)} notes</td><td>${fmtDate(h.at)}</td></tr>`).join("")}</table>`
+                   :`<p class="none">Nothing issued yet. ${esc(S.data.rev||"P01")} is the working revision; it moves on when you issue from the last step.</p>`}
+    </div>
+    <div class="navbar"><button class="btn btn-quiet" id="delJob">Delete this job</button><span class="prog"><span style="width:0%"></span></span><button class="btn btn-primary" id="next">Start on the categories →</button></div>`;
+  renderFields();
+  el("next").onclick=()=>setStep(0);
+  el("delJob").onclick=()=>{ if(confirm("Delete this job and its history? This cannot be undone.")) deleteJob(S.id); };
+}
 function renderFields(){
   const c=el("fields"); if(!c) return;
   c.innerHTML = FIELDS.map(f=>
-    `<label class="${f[3]?"wide":""}">${esc(f[1])}<input data-k="${f[0]}" value="${esc(S.data[f[0]])}"></label>`).join("");
-  c.querySelectorAll("input").forEach(i=>i.oninput=()=>{ S.data[i.dataset.k]=i.value; renderPaper(); save(); });
+    `<label class="${f[3]?"wide":""}">${esc(f[1])}<input data-k="${f[0]}" value="${esc(S.data[f[0]])}" ${f[0]==="job"?'inputmode="numeric"':""}><small>${esc(f[4])}</small></label>`).join("");
+  c.querySelectorAll("input").forEach(i=>i.oninput=()=>{ S.data[i.dataset.k]=i.value; renderPaper(); renderSteps(); save(); });
+}
+
+function renderReview(){
+  const sel=orderedSel(), r=refs(), ns=noteSections(), calcs=calcsOnJob();
+  let notes=0; ns.forEach(v=>notes+=v.length);
+  const missing=FIELDS.filter(f=>!S.data[f[0]]).map(f=>f[1]);
+  const rows=[
+    ["Job", `${esc(S.data.job||"—")} · ${esc(S.data.rev||"P01")} · ${esc(S.data.address||"no site address")}`, missing.length?["bad",`${missing.length} of ${FIELDS.length} fields not set`]:["ok","Cover page complete"]],
+    ["Type", `${esc(spec().name)} · ${esc(spec().region)}`, ["ok","Set"]],
+    ...sel.map(i=>{ const b=allBU()[i]; let f=["dim",b.u||"Library build-up"];
+      if(b.calc){ const lim=b.calc.params&&b.calc.params.limit; const pass=lim?b.calc.result.U<=lim+1e-9:true; f=[pass?"ok":"bad",`${b.calc.result.U.toFixed(2)} against ${lim?lim.toFixed(2):"—"}`]; }
+      return [r[i], esc(b.t), f]; }),
+    ["Notes", `${notes} notes in ${ns.size} of ${cats().length} categories`, [notes?"ok":"bad", notes?"Part B ready":"No notes selected"]],
+    ["Working", calcs.length?`${calcs.length} calculated build-up${calcs.length>1?"s":""} carried into section 4.0`:"No calculated build-ups on this job", ["dim", calcs.length?"BS EN ISO 6946 / 13370":"Optional"]],
+    ["Regulatory flag", "AD L1 / F1 2026 editions in force 24 March 2027", ["dim","Carried on the last page"]]
+  ];
+  el("stage").innerHTML=`<div class="stagehead">
+      <p class="crumb">Review and issue &nbsp;·&nbsp; ${esc(spec().name)}</p>
+      <h2>Ready to issue ${esc(S.data.rev||"P01")}?</h2>
+      <p class="lede">Check the summary, then download the PDF. Issuing records this revision in the job's history and moves the working revision on.</p>
+    </div>
+    <div class="review">
+      <div class="xcard"><span class="eyebrow">PDF</span><b>Download ${esc(S.data.rev||"P01")}</b><p>The branded specification with the U-value working as its own section. Nothing is recorded.</p><button class="btn" id="finish">Download PDF</button></div>
+      <div class="xcard"><span class="eyebrow">Issue</span><b>Issue ${esc(S.data.rev||"P01")}</b><p>Downloads the PDF, records the issue against this job and sets the working revision to ${esc(nextRev(S.data.rev))}.</p><button class="btn btn-accent" id="issue">Issue ${esc(S.data.rev||"P01")}</button></div>
+      <div class="xcard"><span class="eyebrow">Read</span><b>Specification</b><p>Read the whole document as it will print before you send it.</p><button class="btn" id="readSpec">Open specification</button></div>
+    </div>
+    <div class="rows">${rows.map(([l,v,f])=>`<div class="row"><span class="rl">${esc(l)}</span><span class="rv">${v}</span><span class="rf ${f[0]}">${esc(f[1])}</span></div>`).join("")}</div>
+    <div class="navbar"><button class="btn" id="prev">← Back</button><span class="prog"><span style="width:100%"></span></span></div>`;
+  el("finish").onclick=makePdf;
+  el("issue").onclick=issue;
+  el("readSpec").onclick=()=>go("spec");
+  el("prev").onclick=()=>setStep(cats().length-1);
+}
+function nextRev(rev){ const m=/^([A-Za-z]*)(\d+)$/.exec(rev||"P01"); if(!m) return "P02";
+  return m[1]+String(+m[2]+1).padStart(m[2].length,"0"); }
+async function issue(){
+  const ok=await makePdf();
+  if(!ok) return;
+  let n=0, ns=noteSections(); ns.forEach(v=>n+=v.length);
+  S.history=S.history||[]; S.history.push({rev:S.data.rev||"P01", at:Date.now(), n:orderedSel().length, m:n});
+  const was=S.data.rev||"P01"; S.data.rev=nextRev(was);
+  save(); renderStage(); renderSteps(); renderPaper();
+  toast(`Issued ${was}. Working revision is now ${S.data.rev}.`);
 }
 
 /* ---------------- preview ---------------- */
@@ -195,7 +412,7 @@ function renderPaper(){
   if(!S.type) return;
   const r=refs(), sel=orderedSel(), d=S.data;
   const today=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
-  let h=`<img class="plogo lg-l" src="${LOGO}" alt="SY Design Studio"><img class="plogo lg-d" src="${LOGO_DARK}" alt="">
+  let h=`<img class="plogo" src="${LOGO}" alt="SY Design Studio">
     <p class="paddr">${esc(PRACTICE.addr)} &nbsp;·&nbsp; ${esc(PRACTICE.email)}</p>
     <h1 class="ptitle">BUILDING REGULATIONS<span class="o">SPECIFICATION</span></h1>
     <p class="psub">${esc(spec().name)} — ${esc(spec().region)}</p>
@@ -213,16 +430,16 @@ function renderPaper(){
       drawing pack, the structural engineer's design and calculations, and any specialist sub-contractor design.
       All work to comply with the Building Regulations 2010 (as amended) and the Approved Documents current at
       the date of issue.</div>
-    <div class="sec"><i>1.0</i>Construction build-up schedule</div>`;
+    <div class="sec" id="s-sched"><i>1.0</i>Construction build-up schedule</div>`;
   if(!sel.length) h+=`<p class="empty">No build-ups selected yet.</p>`;
   else {
     h+=`<table class="sched"><tr><th>Ref</th><th>Build-up</th><th>Standard</th></tr>`+
       sel.map(i=>{const b=allBU()[i];
         return `<tr><td class="r">${r[i]}</td><td>${esc(b.t)}</td><td class="u">${esc(b.u||"—")}</td></tr>`;}).join("")+`</table>`;
-    h+=`<div class="sec"><i>2.0</i>Part A — Construction build-ups</div>`;
+    h+=`<div class="sec" id="s-parta"><i>2.0</i>Part A — Construction build-ups</div>`;
     let lg=null;
     sel.forEach(i=>{const b=allBU()[i];
-      if(b.g!==lg){lg=b.g; h+=`<p class="glab">${esc(GROUPS[b.g]||b.g)}</p>`;}
+      if(b.g!==lg){lg=b.g; h+=`<p class="glab" id="g-${b.g}">${esc(GROUPS[b.g]||b.g)}</p>`;}
       h+=`<div class="eh"><span class="tag2">${r[i]}</span><h4>${esc(b.t)}</h4></div>`;
       if(b.tgt) h+=`<p class="tl">${esc(b.tgt)}</p>`;
       h+=b.p.map(x=>`<p class="${x.startsWith("NOTE")?"nt":""}">${esc(x)}</p>`).join("");
@@ -230,17 +447,18 @@ function renderPaper(){
   }
   const ns=noteSections();
   if(ns.size){
-    h+=`<div class="sec"><i>3.0</i>Part B — General specification notes</div>`;
-    ns.forEach((items,s)=>{ h+=`<p class="glab">${esc(s)}</p>`;
+    h+=`<div class="sec" id="s-partb"><i>3.0</i>Part B — General specification notes</div>`;
+    let k=0;
+    ns.forEach((items,s)=>{ h+=`<p class="glab" id="n-${k++}">${esc(s)}</p>`;
       items.forEach(it=>{ h+=`<div class="eh"><h4>${esc(it.t)}</h4></div>`+it.p.map(x=>`<p class="${x.startsWith("NOTE")?"nt":""}">${esc(x)}</p>`).join(""); });
     });
   }
-  const calcs=sel.map(i=>({i,b:allBU()[i]})).filter(x=>x.b.calc);
+  const calcs=calcsOnJob();
   if(calcs.length){
-    h+=`<div class="sec"><i>4.0</i>U-value calculations</div>
-        <p style="color:var(--muted)">Calculated to BS EN ISO 6946 using the combined method for mortar-bridged blockwork and the Annex F corrections for air gaps and wall ties. Indicative — the manufacturer's certified calculation is to be obtained before submission.</p>`;
+    h+=`<div class="sec" id="s-working"><i>4.0</i>U-value calculations</div>
+        <p style="color:var(--pmuted)">Calculated to BS EN ISO 6946 using the combined method for mortar-bridged blockwork and the Annex F corrections for air gaps and wall ties. Indicative — the manufacturer's certified calculation is to be obtained before submission.</p>`;
     calcs.forEach(({i,b})=>{ h+=`<div class="eh"><span class="tag2">${r[i]}</span><h4>${esc(b.t)}</h4></div>`+(b.calc.result.steps?layersOnly(b.calc.result)+stepsTable(b.calc.result):workingTable(b.calc.result))+
-      `<p style="font-size:9.5px;color:var(--muted)">Sources: ${b.calc.result.src.map(esc).join(" · ")}</p>`; });
+      `<p style="font-size:9.5px;color:var(--pmuted)">Sources: ${b.calc.result.src.map(esc).join(" · ")}</p>`; });
   }
   h+=`<div class="flag" style="margin-top:26px"><b>VERIFY BEFORE ISSUE.</b> Approved Documents L1 and F1, 2026
     editions, come into force on 24 March 2027; work with a full plans application submitted before that date
@@ -248,25 +466,63 @@ function renderPaper(){
     table references against the edition in force at the date of submission.</div>`;
   el("paper").innerHTML=h;
 }
+function renderSpecNav(){
+  const sel=orderedSel(), ns=noteSections();
+  const groups=[]; sel.forEach(i=>{ const g=allBU()[i].g; if(!groups.includes(g)) groups.push(g); });
+  el("specTitle").textContent = `${spec().name} — ${S.data.rev||"P01"}`;
+  let h=`<p class="raillabel">Contents</p><a href="#s-sched">1.0 Schedule</a><a href="#s-parta">2.0 Part A</a>`;
+  h+=groups.map(g=>`<a href="#g-${g}" style="padding-left:22px">${esc(GROUPS[g]||g)}</a>`).join("");
+  h+=`<a href="#s-partb">3.0 Part B</a>`;
+  let k=0; ns.forEach((v,s)=>{ h+=`<a href="#n-${k++}" style="padding-left:22px">${esc(s)}</a>`; });
+  if(calcsOnJob().length) h+=`<a href="#s-working">4.0 U-value working</a>`;
+  el("specnav").innerHTML=h;
+  el("specnav").querySelectorAll("a").forEach(a=>a.onclick=e=>{ e.preventDefault(); const t=document.querySelector(a.getAttribute("href")); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); });
+}
+
+/* ---------------- U-value working page ---------------- */
+function renderCalcPage(){
+  const calcs=calcsOnJob(), r=refs();
+  let h=`<div class="pagehead"><div><p class="eyebrow">U-value working · carried into the PDF</p>
+    <h1>${calcs.length?`${calcs.length} calculated build-up${calcs.length>1?"s":""} on job ${esc(S.data.job||"—")}`:"No calculated build-ups yet"}</h1>
+    <p class="lede">Calculated to BS EN ISO 6946 by the combined method with the Annex F corrections for air gaps and wall ties, and to BS EN ISO 13370 for ground floors and heated basements. Conductivities verified against manufacturer and BBA data on 5 September 2026.</p></div>
+    ${calcs.length?"":`<button class="btn btn-primary btn-lg" id="calcGo">Open the workspace</button>`}</div>`;
+  if(!calcs.length) h+=`<div class="empty"><b>Build one from the workspace.</b>The External Walls, Ground Floors and Roofs categories each carry a configurator. Add a build-up there and its working appears here and in section 4.0 of the PDF.</div>`;
+  h+=`<div class="calcs">`+calcs.map(({i,b})=>{ const res=b.calc.result, lim=b.calc.params&&b.calc.params.limit, pass=lim?res.U<=lim+1e-9:true;
+    return `<div class="ccard"><div class="chead"><div><span class="chip ref">${r[i]}</span><h3 style="margin-top:8px">${esc(b.t)}</h3></div>
+      <div class="cu"><b>${res.U.toFixed(2)}</b><span class="muted">W/m²K${lim?` · target ${lim.toFixed(2)}`:""}</span><span class="chip ${pass?"ok":"bad"}">${pass?"Within target":"Over target"}</span></div></div>
+      ${layerBar(res.layers)}${layerKey(res.layers)}
+      ${res.steps?layersOnly(res)+stepsTable(res):workingTable(res)}
+      <p class="srcs">Sources: ${res.src.map(esc).join(" · ")}</p></div>`; }).join("")+`</div>`;
+  el("calcpage").innerHTML=h;
+  const g=el("calcGo"); if(g) g.onclick=()=>go("job");
+}
+
+/* ---------------- practice standards ---------------- */
+function renderStandards(){
+  el("stdpage").innerHTML=`<div class="pagehead"><div><p class="eyebrow">Practice standards</p><h1>Stated the same way on every job</h1>
+    <p class="lede">Where the practice standard exceeds the Approved Document minimum, the specification says so explicitly. The library is written to these; check a new note against them before adding it.</p></div></div>
+    <div class="stdtable">${STANDARDS.map(s=>`<div class="stdrow"><span class="si">${esc(s.item)}</span><span class="sv">${esc(s.value)}${s.flag?`<br><span class="chip ok">${esc(s.flag)}</span>`:""}</span></div>`).join("")}</div>
+    <div class="section"><div class="sechead"><h2>Regulatory horizon</h2></div>
+    <p class="lede" style="max-width:72ch">Approved Documents L1 and F1, 2026 editions, were published on 24 March 2026 and come into force on 24 March 2027, with transitional relief for new dwellings commenced before 24 March 2028. Every specification carries the flag. The Part L and Part F content will need a full pass against the new editions during 2027.</p></div>`;
+}
 
 function renderAll(){
-  if(!S.type){ showChooser(); return; }
+  if(!S.type){ go("home"); return; }
   el("typename").textContent = spec().name;
-  el("app").hidden=false;
-  renderSteps(); renderStage(); renderPaper();
+  go(S.route==="home"?"job":S.route);
 }
 
 /* ---------------- PDF ---------------- */
 /* jsPDF standard fonts use WinAnsi. Anything outside it prints as rubbish, so map the
    likely offenders to safe equivalents and drop anything still unrepresentable. */
-const SAFE_MAP={"\u2264":"<=","\u2265":">=","\u03A8":"psi","\u03C8":"psi","\u00B1":"+/-","\u00D7":"x",
-  "\u00F7":"/","\u2192":"->","\u2248":"~","\u2260":"!=","\u2212":"-","\u2013":"-","\u2012":"-",
-  "\u00BD":"1/2","\u00BC":"1/4","\u00BE":"3/4","\u00D8":"dia.","\u2300":"dia.","\u2205":"dia.",
-  "\u2022":"-","\u00A0":" ","\u03BB":"lambda ","\u03C0":"pi","\u03C8":"psi","\u0394":"delta","\u2080":"0","\u00B7":"."};
-const SAFE_KEEP=/[\u2018\u2019\u201C\u201D\u2014\u2026\u20AC\u2122\u0152\u0153\u0160\u0161\u017D\u017E\u0178\u0192\u02C6\u02DC\u2020\u2021\u2030\u2039\u203A\u201A\u201E]/;
+const SAFE_MAP={"≤":"<=","≥":">=","Ψ":"psi","ψ":"psi","±":"+/-","×":"x",
+  "÷":"/","→":"->","≈":"~","≠":"!=","−":"-","–":"-","‒":"-",
+  "½":"1/2","¼":"1/4","¾":"3/4","Ø":"dia.","⌀":"dia.","∅":"dia.",
+  "•":"-"," ":" ","λ":"lambda ","π":"pi","Δ":"delta","₀":"0","·":"."};
+const SAFE_KEEP=/[‘’“”—…€™ŒœŠšŽžŸƒˆ˜†‡‰‹›‚„]/;
 function safe(t){
   return String(t==null?"":t)
-    .replace(/[\u2264\u2265\u03A8\u03C8\u00B1\u00D7\u00F7\u2192\u2248\u2260\u2212\u2013\u2012\u00BD\u00BC\u00BE\u00D8\u2300\u2205\u2022\u00A0\u03BB\u03C0\u0394\u2080]/g, c=>SAFE_MAP[c])
+    .replace(/[≤≥Ψψ±×÷→≈≠−–‒½¼¾Ø⌀∅• λπΔ₀]/g, c=>SAFE_MAP[c])
     .split("").filter(c=>{ const n=c.charCodeAt(0);
       return n<0x100 || SAFE_KEEP.test(c); }).join("");
 }
@@ -284,8 +540,9 @@ function buildPdf(){
     doc.text(PRACTICE.name+"  ·  "+PRACTICE.email,L,290);
     doc.text("Page "+page,210-R,290,{align:"right"}); };
   const head=()=>{ doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
-    doc.text(safe(spec().name+" \u2014 Building Regulations Specification"),L,13);
-    doc.text(safe((d.job||"")+"  |  Rev "+(d.rev||"P01")),210-R,13,{align:"right"});
+    const left=safe(spec().name+" — Building Regulations Specification"+(d.address?"  ·  "+d.address:""));
+    doc.text(doc.splitTextToSize(left,W-40)[0],L,13);
+    doc.text(safe((d.job?"Job "+d.job:"")+"  |  Rev "+(d.rev||"P01")),210-R,13,{align:"right"});
     doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.line(L,15.5,210-R,15.5); };
   const newPage=()=>{ foot();doc.addPage();page++;head();y=24; };
   const need=h=>{ if(y+h>BOT) newPage(); };
@@ -301,7 +558,7 @@ function buildPdf(){
   doc.text("BUILDING REGULATIONS",L,78);
   doc.setTextColor(...ORANGE);doc.text("SPECIFICATION",L,90);
   doc.setFontSize(11);doc.setTextColor(...MUTED);
-  doc.text(safe((spec().name+" \u2014 "+spec().region).toUpperCase()),L,100);
+  doc.text(safe((spec().name+" — "+spec().region).toUpperCase()),L,100);
   const rows=[["Project",d.project],["Site address",d.address],["Client",d.client],["Job number",d.job],
     ["Local authority",d.la],["Application","Full Plans Application"],
     ["Prepared by","Salman Yousaf, "+PRACTICE.name],["Date",today],["Revision",d.rev||"P01"]];
@@ -311,7 +568,7 @@ function buildPdf(){
     doc.rect(L,y-5,42,7.6,"FD");doc.rect(L+42,y-5,W-42,7.6,"D");
     doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...DARK);doc.text(safe(k),L+2.5,y);
     doc.setFont("helvetica","normal");doc.setFontSize(8.5);
-    doc.text(doc.splitTextToSize(safe(v||"\u2014"),W-46)[0],L+44.5,y); y+=7.6; });
+    doc.text(doc.splitTextToSize(safe(v||"—"),W-46)[0],L+44.5,y); y+=7.6; });
   y+=10;
   doc.setDrawColor(...ORANGE);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
   doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(...ORANGE);
@@ -319,6 +576,11 @@ function buildPdf(){
   para("To be read with the SY Design Studio Ltd drawing pack, the structural engineer's design and calculations, "+
        "and any specialist sub-contractor design. All work to comply with the Building Regulations 2010 (as "+
        "amended) and the Approved Documents current at the date of issue.",8,2,MUTED);
+  const hist=S.history||[];
+  if(hist.length){ y+=6;
+    doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...MUTED);doc.text("ISSUE HISTORY",L,y);y+=5;
+    hist.forEach(hh=>{ doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(...DARK);
+      doc.text(safe(hh.rev),L,y); doc.text(safe("Issued "+fmtDate(hh.at)),L+16,y); y+=4.6; }); }
   foot();doc.addPage();page++;head();y=24;
 
   const secHead=(num,txt)=>{ need(16);y+=4;
@@ -348,7 +610,7 @@ function buildPdf(){
       doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...ORANGE);doc.text(r[i],L+2,y);
       doc.setFont("helvetica","normal");doc.setTextColor(...DARK);
       tl.forEach((ln,k)=>doc.text(ln,L+cw[0]+2,y+k*3.6));
-      doc.text(safe(b.u||"\u2014"),L+cw[0]+cw[1]+2,y); y+=rh; });
+      doc.text(safe(b.u||"—"),L+cw[0]+cw[1]+2,y); y+=rh; });
     y+=4;
     secHead("2.0","Part A — Construction build-ups");
     let lg=null;
@@ -360,11 +622,11 @@ function buildPdf(){
   } else para("No build-ups selected.",9,3,MUTED);
 
   const ns=noteSections();
-  if(ns.size){ secHead("3.0","Part B \u2014 General specification notes");
+  if(ns.size){ secHead("3.0","Part B — General specification notes");
     let sub=0;
     ns.forEach((items,s)=>{ sub++; grpLabel("3."+sub+"   "+s);
       items.forEach(it=>{ entry("",it.t); it.p.forEach(t=>para(t, t.startsWith("NOTE")?8:9, 2.4, t.startsWith("NOTE")?MUTED:DARK)); }); }); }
-  const calcs=sel.map(i=>({i,b:allBU()[i]})).filter(x=>x.b.calc);
+  const calcs=calcsOnJob();
   if(calcs.length){
     need(75);
     secHead("4.0","U-value calculations");
@@ -379,9 +641,9 @@ function buildPdf(){
         doc.text(safe(bb),L+cw[0]+cw[1]-2,y,{align:"right"}); doc.text(safe(c),L+cw[0]+cw[1]+cw[2]-2,y,{align:"right"});
         y+=Math.max(4.6,doc.splitTextToSize(safe(a),cw[0]-3).length*3.4+1.2); };
       doc.setFont("helvetica","bold");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
-      doc.text("LAYER",L+1.5,y);doc.text("MM",L+cw[0]+cw[1]-2,y,{align:"right"});doc.text("R  m\u00B2K/W",L+cw[0]+cw[1]+cw[2]-2,y,{align:"right"});
+      doc.text("LAYER",L+1.5,y);doc.text("MM",L+cw[0]+cw[1]-2,y,{align:"right"});doc.text("R  m²K/W",L+cw[0]+cw[1]+cw[2]-2,y,{align:"right"});
       y+=1.5;doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.line(L,y,L+cw[0]+cw[1]+cw[2],y);y+=4.2;
-      res.layers.forEach(l=>row(l.n, l.d!=null?String(l.d):"\u2014", l.R.toFixed(3)));
+      res.layers.forEach(l=>row(l.n, l.d!=null?String(l.d):"—", l.R.toFixed(3)));
       doc.setDrawColor(...RULE);doc.line(L,y-3,L+cw[0]+cw[1]+cw[2],y-3);
       if(res.steps){ res.steps.forEach(([a,bb],k)=>row(a,"",bb,k===res.steps.length-1)); }
       else {
@@ -390,9 +652,9 @@ function buildPdf(){
         row("U0 = 1 / RT","",res.U0.toFixed(3),true);
         if(res.dUg) row("dUg  air gaps (Annex F)","","+"+res.dUg.toFixed(3));
         if(res.dUf) row("dUf  fasteners (Annex F)","","+"+res.dUf.toFixed(3));
-        row("U","",res.U.toFixed(3)+"  ->  "+res.U.toFixed(2)+" W/m\u00B2K",true);
+        row("U","",res.U.toFixed(3)+"  ->  "+res.U.toFixed(2)+" W/m²K",true);
       }
-      para("Sources: "+res.src.join(" \u00B7 "),7.5,3,MUTED);
+      para("Sources: "+res.src.join(" · "),7.5,3,MUTED);
     });
   }
   need(24);y+=4;
@@ -410,71 +672,119 @@ function buildPdf(){
 /* ---------------- actions ---------------- */
 let downloads=null, db=null;
 function toast(m){ const t=document.createElement("div");t.className="toast";t.textContent=m;
-  document.body.appendChild(t);setTimeout(()=>t.remove(),3200); }
+  document.body.appendChild(t);setTimeout(()=>t.remove(),3400); }
 
 async function makePdf(){
-  const btns=[el("btnPdf"),el("finish")].filter(Boolean);
-  btns.forEach(b=>{b.disabled=true;b.dataset.l=b.textContent;b.textContent="Generating…";});
+  const btns=[el("btnPdf"),el("btnPdf2"),el("finish"),el("issue")].filter(Boolean);
+  btns.forEach(b=>{b.disabled=true;b.dataset.l=b.textContent;b.textContent="Building the PDF…";});
+  let ok=false;
   try{
     const blob=buildPdf().output("blob");
     const fn=`${(S.data.job||"spec").replace(/[^\w-]/g,"")}_${spec().name.replace(/\s+/g,"_")}_Spec_${S.data.rev||"P01"}.pdf`;
     if(downloads){
-      try{ await downloads.save({filename:fn,data:blob}); toast("PDF saved"); }
+      try{ await downloads.save({filename:fn,data:blob}); toast("PDF saved"); ok=true; }
       catch(e){ toast(e&&e.code==="declined"?"Download declined":"Could not save the PDF"); }
     } else {
       const u=URL.createObjectURL(blob), a=document.createElement("a");
       a.href=u; a.download=fn; document.body.appendChild(a); a.click(); a.remove();
       setTimeout(()=>URL.revokeObjectURL(u),4000);
-      toast("PDF downloaded");
+      toast("PDF downloaded"); ok=true;
     }
   }catch(e){ toast("Something went wrong building the PDF"); console.error(e); }
   btns.forEach(b=>{b.disabled=false;b.textContent=b.dataset.l;});
+  return ok;
 }
 
-function snapshot(){ return {type:S.type,data:{...S.data},sel:[...S.sel],notes:{...S.notes},step:S.step,custom:S.custom||[],cfg:S.cfg||null,cfgF:S.cfgF||null,cfgR:S.cfgR||null,at:Date.now()}; }
-function save(){ try{ localStorage.setItem("syds-spec-draft",JSON.stringify(snapshot())); }catch(e){} }
+/* ---------------- jobs: draft, store, list ---------------- */
+function uid(){ return "j"+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function snapshot(){ return {id:S.id,type:S.type,data:{...S.data},sel:[...S.sel],notes:{...S.notes},step:S.step,visited:S.visited||{},custom:S.custom||[],cfg:S.cfg||null,cfgF:S.cfgF||null,cfgR:S.cfgR||null,history:S.history||[],created:S.created||Date.now(),updated:Date.now(),route:S.route}; }
+function loadInto(j){
+  S.id=j.id||uid(); S.type=j.type; S.data={...S.data,...j.data}; S.sel=[...(j.sel||[])]; S.notes={...(j.notes||{})};
+  S.step=(j.step===undefined||j.step===null)?-1:j.step; S.visited=j.visited||{}; S.open={}; S.custom=j.custom||[];
+  S.cfg=j.cfg||null; S.cfgF=j.cfgF||null; S.cfgR=j.cfgR||null; S.history=j.history||[]; S.created=j.created||Date.now();
+}
+function newJob(type){
+  S.id=uid(); S.type=type; S.data={}; FIELDS.forEach(f=>S.data[f[0]]=f[2]); S.history=[]; S.created=Date.now();
+  defaults(); S.route="job"; renderAll(); save();
+  toast("New job started. It saves as you go.");
+}
+function openJob(id){
+  const j=jobsCache.find(x=>x.id===id); if(!j||!SPECS[j.type]) return;
+  loadInto(j); S.route="job"; renderAll(); save(); toast("Job opened");
+}
+
+let jobsCache=[], saveTimer=null;
+const JOBS_KEY="syds-jobs";
+function localJobs(){ try{ return JSON.parse(localStorage.getItem(JOBS_KEY)||"{}"); }catch(e){ return {}; } }
+function localPut(j){ try{ const m=localJobs(); m[j.id]=j; localStorage.setItem(JOBS_KEY,JSON.stringify(m)); }catch(e){} }
+function localDel(id){ try{ const m=localJobs(); delete m[id]; localStorage.setItem(JOBS_KEY,JSON.stringify(m)); }catch(e){} }
+
+function setSaveState(cls,txt){ const s=el("savestate"); s.hidden=!S.type; s.className="savestate "+cls; el("savetext").textContent=txt; }
+function save(){
+  try{ localStorage.setItem("syds-spec-draft",JSON.stringify(snapshot())); }catch(e){}
+  if(!S.type) return;
+  setSaveState("busy","Saving…");
+  clearTimeout(saveTimer); saveTimer=setTimeout(persist,650);
+}
+async function persist(){
+  const j=snapshot(); localPut(j);
+  const k=jobsCache.findIndex(x=>x.id===j.id); if(k>=0) jobsCache[k]=j; else jobsCache.push(j);
+  if(db){
+    try{ await db.doc("jobs/"+j.id).set(j); setSaveState("","Saved · "+(j.data.job?"job "+j.data.job:"unnumbered")); }
+    catch(e){ setSaveState("err","Kept in this browser only"); console.error(e); }
+  } else setSaveState("","Kept in this browser");
+  if(S.route==="home") renderHome();
+}
 function restore(){
   try{ const j=JSON.parse(localStorage.getItem("syds-spec-draft")||"null");
-    if(j&&j.type&&SPECS[j.type]){ S.type=j.type;S.data=j.data;S.sel=j.sel;S.notes=j.notes;S.step=j.step||0;S.custom=j.custom||[];S.cfg=j.cfg||null;S.cfgF=j.cfgF||null;S.cfgR=j.cfgR||null; return true; }
+    if(j&&j.type&&SPECS[j.type]){ loadInto(j); S.route=j.route&&ROUTES.includes(j.route)?j.route:"job"; return true; }
   }catch(e){} return false;
 }
-
-el("btnPdf").onclick=makePdf;
-el("btnType").onclick=()=>showChooser();
-el("closeChooser").onclick=()=>{ if(S.type) el("chooser").hidden=true; };
-el("btnSave").onclick=async()=>{
-  if(!db){ toast("Saved jobs need the database capability — your draft is kept in this browser"); return; }
-  const id=(S.data.job||"job").replace(/[^\w-]/g,"")+"-"+S.type;
-  try{ await db.doc("jobs/"+id).set({...snapshot(),label:(S.data.job||"—")+" "+(S.data.address||"")});
-       toast("Job saved"); loadJobs(); }catch(e){ toast("Could not save the job"); }
-};
 async function loadJobs(){
-  if(!db) return;
-  try{
-    const snap=await db.collection("jobs").limit(40).get();
-    const docs=(snap&&(snap.docs||snap))||[];
-    const list=docs.map(x=>x.data?{id:x.id,...x.data()}:x).filter(Boolean);
-    if(!list.length){ el("jobsWrap").hidden=true; return; }
-    el("jobsWrap").hidden=false;
-    el("jobs").innerHTML=list.map(j=>`<div class="job"><b>${esc((j.data&&j.data.job)||j.id)}</b>
-      <span class="n">${esc(j.label||"")}</span>
-      <button data-id="${esc(j.id)}" data-a="load">Load</button>
-      <button data-id="${esc(j.id)}" data-a="del">Delete</button></div>`).join("");
-    el("jobs").querySelectorAll("button").forEach(btn=>btn.onclick=async()=>{
-      const j=list.find(x=>x.id===btn.dataset.id); if(!j) return;
-      if(btn.dataset.a==="load"){ S.type=j.type;S.data={...j.data};S.sel=[...j.sel];S.notes={...j.notes};S.step=j.step||0;S.custom=j.custom||[];S.cfg=j.cfg||null;
-        el("chooser").hidden=true; renderAll(); save(); toast("Job loaded"); }
-      else { try{ await db.doc("jobs/"+j.id).delete(); loadJobs(); toast("Job deleted"); }catch(e){ toast("Could not delete"); } }
-    });
-  }catch(e){ el("jobsWrap").hidden=true; }
+  const local=Object.values(localJobs());
+  if(db){
+    try{
+      const snap=await db.collection("jobs").limit(100).get();
+      const docs=(snap&&(snap.docs||snap))||[];
+      jobsCache=docs.map(x=>x.data?{id:x.id,...x.data()}:x).filter(j=>j&&j.type);
+      /* anything saved offline that the store has not seen yet */
+      local.forEach(j=>{ if(!jobsCache.find(x=>x.id===j.id)) jobsCache.push(j); });
+    }catch(e){ jobsCache=local; console.error(e); }
+  } else jobsCache=local;
+  if(S.route==="home") renderHome();
 }
+async function deleteJob(id){
+  localDel(id); jobsCache=jobsCache.filter(j=>j.id!==id);
+  if(db){ try{ await db.doc("jobs/"+id).delete(); }catch(e){} }
+  if(S.id===id){ S.type=null; S.id=null; try{ localStorage.removeItem("syds-spec-draft"); }catch(e){} }
+  go("home"); toast("Job deleted");
+}
+
+/* ---------------- header and chrome ---------------- */
+el("btnPdf").onclick=makePdf;
+el("btnPdf2").onclick=makePdf;
+el("btnNew").onclick=()=>showChooser("new");
+el("btnType").onclick=()=>showChooser("change");
+el("closeChooser").onclick=()=>{ el("chooser").hidden=true; el("tiles").innerHTML=""; };
+el("chooser").addEventListener("click",e=>{ if(e.target===el("chooser")) el("closeChooser").click(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!el("chooser").hidden) el("closeChooser").click(); });
+el("btnSave").onclick=async()=>{ clearTimeout(saveTimer); await persist(); toast(db?"Job saved":"Job kept in this browser"); };
 el("btnPrev").onclick=()=>{ document.body.classList.toggle("showprev");
   el("btnPrev").textContent = document.body.classList.contains("showprev") ? "Hide preview" : "Preview"; };
+el("themeBtn").onclick=()=>{
+  const root=document.documentElement;
+  const dark = root.dataset.theme==="dark" || (!root.dataset.theme && matchMedia("(prefers-color-scheme:dark)").matches);
+  root.dataset.theme = dark?"light":"dark";
+  try{ localStorage.setItem("syds-theme",root.dataset.theme); }catch(e){}
+};
+try{ const t=localStorage.getItem("syds-theme"); if(t) document.documentElement.dataset.theme=t; }catch(e){}
+el("brandLogo").src=LOGO;
 
-el("brandLogo").src=LOGO; el("brandLogoD").src=LOGO_DARK;
-if(restore()){ renderAll(); } else { showChooser(); }
+jobsCache=Object.values(localJobs());
+if(restore()){ renderAll(); setSaveState("",db?"Saved":"Kept in this browser"); } else { go("home"); }
 (async()=>{
   if(!window.claude||!claude.use) return;
   try{ downloads=await claude.use("downloads"); }catch(e){}
-  try{ db=await claude.use("db"); if(db) loadJobs(); }catch(e){}
+  try{ db=await claude.use("db"); }catch(e){}
+  if(db) loadJobs();
 })();

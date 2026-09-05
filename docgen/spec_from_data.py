@@ -117,7 +117,10 @@ def build(key, S):
 
     fn=f"SYDS_SPEC_{T['name'].replace(' ','_')}_{T.get('region','England')}.docx"
     path=os.path.join(OUT,fn); d.save(path)
-    subprocess.run(['soffice','--headless','--convert-to','pdf','--outdir',OUT,path],check=True,capture_output=True)
+    try:
+        subprocess.run(['soffice','--headless','--convert-to','pdf','--outdir',OUT,path],check=True,capture_output=True)
+    except FileNotFoundError:
+        print('WARNING: soffice (LibreOffice) not on PATH - .docx written, PDF skipped',file=sys.stderr)
     print(key,"->",fn,"build-ups:",len(BUILDUPS),"notes:",len(T['notes']))
     return path
 

@@ -42,7 +42,8 @@ function renderFloorConfigurator(cat){
   const isB=c.kind==="basement";
   let h=`<div class="card cfgcard"><div class="cfghead"><h3>${isB?"Build a heated basement floor and wall":"Build a ground floor"}</h3>
     <span class="uval ${pass?"ok":"bad"}"><b>${r.U.toFixed(2)}</b> W/m²K <small>(${r.U.toFixed(3)})</small></span></div>
-    <p class="lede" style="margin-bottom:12px">${isB?"Heated basements are calculated to BS EN ISO 13370 — the ground reduces the heat loss with depth, so the below-ground wall and the basement floor are calculated together and reported as an area-weighted U-value.":"Ground floors are calculated to BS EN ISO 13370 — the U-value depends on the floor's perimeter-to-area ratio and the ground beneath as much as on the insulation."}</p>
+    <div class="cfgbar">${layerBar(r.layers)}${layerKey(r.layers)}</div>
+    <p class="lede" style="margin-bottom:14px">${isB?"Heated basements are calculated to BS EN ISO 13370 — the ground reduces the heat loss with depth, so the below-ground wall and the basement floor are calculated together and reported as an area-weighted U-value.":"Ground floors are calculated to BS EN ISO 13370 — the U-value depends on the floor's perimeter-to-area ratio and the ground beneath as much as on the insulation."}</p>
     <div class="cfggrid">
       ${sel("kind",[{v:"solid",n:"Solid — insulation over slab"},{v:"timber",n:"Suspended timber"},{v:"bb",n:"Beam and block"},{v:"basement",n:"Heated basement — floor and below-ground wall"}],c.kind,"Floor type")}
       ${isB?sel("depth",[1.5,2.0,2.4,2.7,3.0,3.5].map(v=>({v,n:v.toFixed(1)+" m below ground"})),c.depth,"Basement depth"):""}
@@ -95,7 +96,8 @@ function renderRoofConfigurator(){
   const pass=r.U<=c.limit+1e-9;
   return `<div class="card cfgcard"><div class="cfghead"><h3>Build a roof</h3>
     <span class="uval ${pass?"ok":"bad"}"><b>${r.U.toFixed(2)}</b> W/m²K <small>(${r.U.toFixed(3)})</small></span></div>
-    <p class="lede" style="margin-bottom:12px">Calculated to BS EN ISO 6946 with the combined method for rafter and joist bridging. Rafter bridging roughly halves the effective resistance of a high-performance board — thinner arrangements miss the target by more than intuition suggests.</p>
+    <div class="cfgbar">${layerBar(r.layers)}${layerKey(r.layers)}</div>
+    <p class="lede" style="margin-bottom:14px">Calculated to BS EN ISO 6946 with the combined method for rafter and joist bridging. Rafter bridging roughly halves the effective resistance of a high-performance board — thinner arrangements miss the target by more than intuition suggests.</p>
     <div class="cfggrid">
       ${sel("kind",[{v:"flat",n:"Warm deck flat roof"},{v:"rafter",n:"Pitched — insulation at rafter level"},{v:"ceiling",n:"Pitched — insulation at ceiling level"}],c.kind,"Roof type")}
       ${body}

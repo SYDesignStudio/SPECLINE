@@ -28,7 +28,8 @@ function renderConfigurator(){
   let h=`<div class="card cfgcard">
     <div class="cfghead"><h3>Build a cavity wall</h3>
       <span class="uval ${pass?"ok":"bad"}"><b>${r.U.toFixed(2)}</b> W/m²K <small>(${r.U.toFixed(3)})</small></span></div>
-    <p class="lede" style="margin-bottom:12px">Choose the layers and the U-value is calculated live to BS EN ISO 6946. Add it and it becomes a numbered EW build-up with the working attached.</p>
+    <div class="cfgbar">${layerBar(r.layers)}${layerKey(r.layers)}</div>
+    <p class="lede" style="margin-bottom:14px">Choose the layers and the U-value is calculated live to BS EN ISO 6946. Add it and it becomes a numbered EW build-up with the working attached.</p>
     <div class="cfggrid">
       ${sel("outer",UC.outer.map(o=>({v:o.id,n:o.n})),c.outer,"Outer leaf")}
       ${sel("fill",[{v:"full",n:"Full fill"},{v:"partial",n:"Partial fill"}],c.fill,"Cavity fill")}

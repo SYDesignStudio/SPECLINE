@@ -37,7 +37,7 @@ with sync_playwright() as p:
     ok("L4 no orphan notes", len(counts["orphanN"])==0, str(counts["orphanN"]))
 
     # PDF from loft
-    pg.locator("button.step").first.click(); pg.wait_for_timeout(200)
+    pg.click("#stepJob"); pg.wait_for_timeout(200)
     pg.fill('#fields input[data-k="job"]',"1141")
     pg.fill('#fields input[data-k="project"]',"Rear dormer loft conversion")
     pg.wait_for_timeout(250)

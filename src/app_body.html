@@ -1,35 +1,64 @@
-<div class="topbar">
-  <div class="brand"><img id="brandLogo" class="lg-l" alt="SY Design Studio"><img id="brandLogoD" class="lg-d" alt=""><em>Spec Builder</em></div>
-  <span class="chip" id="typename">—</span>
-  <button class="btn" id="btnType">Change type</button>
+<header class="topbar">
+  <button class="brand" id="brandHome" title="Jobs"><img id="brandLogo" alt="SY Design Studio"><span class="bt"><b>Spec Builder</b><small>SY Design Studio</small></span></button>
+  <nav class="tabs" id="tabs" aria-label="Sections">
+    <button data-r="home">Jobs</button>
+    <button data-r="job">Workspace</button>
+    <button data-r="spec">Specification</button>
+    <button data-r="calc">U-value working</button>
+    <button data-r="standards">Practice standards</button>
+  </nav>
   <div class="spacer"></div>
-  <button class="btn" id="btnPrev">Preview</button>
-  <button class="btn" id="btnSave">Save job</button>
-  <button class="btn btn-primary" id="btnPdf">Generate PDF</button>
-</div>
+  <span class="savestate" id="savestate" hidden><i></i><span id="savetext">Saved</span></span>
+  <button class="iconbtn" id="themeBtn" title="Switch light or dark" aria-label="Switch light or dark">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+  </button>
+  <button class="btn btn-primary" id="btnNew">New job</button>
+</header>
+
+<main id="home" class="page" hidden></main>
 
 <div class="overlay" id="chooser" hidden>
-  <div class="dialog">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="chooserTitle">
     <button class="closeX" id="closeChooser" aria-label="Close">×</button>
-    <img class="dl" src="" alt="" id="dlogo" hidden>
-    <h1>What are you specifying?</h1>
-    <p class="sub">Choose the project type. You will then work through each category in turn — structure,
-      floors, walls, roofs, fire, ventilation and the rest — selecting the build-ups and notes that apply.
-      The specification builds as you go.</p>
+    <p class="eyebrow" id="chooserKicker">New job · Project type</p>
+    <h1 id="chooserTitle">What are we specifying?</h1>
+    <p class="lede" id="chooserLede">Each type carries its own categories, build-ups and notes from the library. You can change it later without losing the job record.</p>
     <div class="tiles" id="tiles"></div>
   </div>
 </div>
 
-<div class="wrap" id="app" hidden>
-  <div class="rail">
-    <p class="raillabel">Categories</p>
-    <div id="steps"></div>
-    <div class="jobsWrap" id="jobsWrap" hidden>
-      <p class="raillabel" style="padding-left:0">Saved jobs</p>
-      <div id="jobs"></div>
-    </div>
+<section id="app" hidden>
+  <div class="jobbar">
+    <div class="jtitle"><b id="jobTitle">New job</b><span class="jsub" id="jobSub"></span></div>
+    <span class="chip type" id="typename">—</span>
+    <button class="btn btn-quiet" id="btnType">Change type</button>
+    <div class="spacer"></div>
+    <button class="btn" id="btnPrev">Preview</button>
+    <button class="btn" id="btnSave">Save job</button>
+    <button class="btn btn-primary" id="btnPdf">Download PDF</button>
   </div>
-  <div class="stage" id="stage"></div>
-  <div class="viewer"><div class="paper" id="paper"></div></div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <div class="wrap">
+    <div class="rail">
+      <button class="rstep fixed" id="stepJob" data-s="-1"><span class="sn">J</span><span class="st">Job record</span></button>
+      <p class="raillabel">Categories</p>
+      <div id="steps"></div>
+      <p class="raillabel">Issue</p>
+      <button class="rstep fixed" id="stepReview" data-s="review"><span class="sn">✓</span><span class="st">Review and issue</span></button>
+    </div>
+    <div class="stage" id="stage"></div>
+    <div class="viewer" id="viewer"><div class="paper" id="paper"></div></div>
+  </div>
+</section>
+
+<main id="specpage" class="page" hidden>
+  <div class="pagehead">
+    <div><p class="eyebrow">Specification · as it will print</p><h1 id="specTitle">Specification</h1>
+      <p class="lede">The document below is what the PDF contains, page for page. Change anything from the workspace.</p></div>
+    <button class="btn btn-primary btn-lg" id="btnPdf2">Download PDF</button>
+  </div>
+  <div class="specgrid"><nav class="specnav" id="specnav"></nav><div id="specpaper"></div></div>
+</main>
+
+<main id="calcpage" class="page" hidden></main>
+
+<main id="stdpage" class="page" hidden></main>

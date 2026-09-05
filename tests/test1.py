@@ -12,17 +12,17 @@ with sync_playwright() as p:
     pg.goto(URL); pg.wait_for_timeout(900)
 
     # T1 chooser shows first, 8 tiles, 2 enabled
-    ok("T1 chooser visible on load", pg.is_visible("#chooser"))
+    ok("T1 desk visible on load", pg.is_visible("#home") and not pg.is_visible("#chooser"))
     ok("T1 eight project types", pg.locator(".tile").count()==8, str(pg.locator(".tile").count()))
     ok("T1 built types enabled", pg.locator(".tile:not(.soon)").count()==8, str(pg.locator(".tile:not(.soon)").count()))
-    ok("T1 app hidden behind chooser", not pg.is_visible("#stage"))
+    ok("T1 workspace hidden on the desk", not pg.is_visible("#stage"))
 
     # T2 pick extension
     pg.click('.tile[data-k="extension"]'); pg.wait_for_timeout(600)
-    ok("T2 chooser closes", not pg.is_visible("#chooser"))
+    ok("T2 desk closes", not pg.is_visible("#home") and pg.is_visible("#stage"))
     ok("T2 18 categories", pg.locator("button.step").count()==18, str(pg.locator("button.step").count()))
-    ok("T2 starts at step 1", "STEP 1 OF 18" in pg.inner_text(".crumb").upper())
-    ok("T2 project fields on step 1", pg.locator("#fields input").count()==6)
+    ok("T2 starts at the job record", "JOB RECORD" in pg.inner_text(".crumb").upper())
+    ok("T2 six job record fields", pg.locator("#fields input").count()==6)
     ok("T2 chip shows type", pg.inner_text("#typename")=="House Extension")
 
     # T3 every category reachable and populated
@@ -69,7 +69,7 @@ with sync_playwright() as p:
     ok("T7 read full clause expands", after>before, f"{before:.0f}->{after:.0f}")
 
     # T8 project details flow into preview
-    pg.locator("button.step").first.click(); pg.wait_for_timeout(200)
+    pg.click("#stepJob"); pg.wait_for_timeout(200)
     pg.fill('#fields input[data-k="job"]', "1140")
     pg.fill('#fields input[data-k="address"]', "28 Talbot Road, Isleworth TW7 7HH")
     pg.wait_for_timeout(300)
@@ -78,7 +78,7 @@ with sync_playwright() as p:
 
     # T9 persistence across reload
     pg.reload(); pg.wait_for_timeout(900)
-    ok("T9 no chooser after reload", not pg.is_visible("#chooser"))
+    ok("T9 workspace restored after reload", pg.is_visible("#stage") and not pg.is_visible("#home"))
     ok("T9 job number restored", "1140" in pg.inner_text("#paper"))
     ok("T9 EW numbering restored", "EW1" in pg.inner_text("#paper .sched"))
 

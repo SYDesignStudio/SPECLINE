@@ -44,9 +44,9 @@ data/                 THE LIBRARY. Six JS files, one SPECS.<type> object each.
   specdata_basement.js  basement conversion
   specdata_garagebld.js new detached/attached garage
 src/
-  app_head.html         <style> and the page head fragment
-  app_body.html         the page skeleton
-  app_js.js             the app: chooser, stage, preview, jsPDF export
+  app_head.html         <style> and the page head fragment (design tokens live here)
+  app_body.html         the page skeleton: header + five routes (desk, workspace, spec, working, standards)
+  app_js.js             the app: routing, jobs desk, workspace, job store, preview, jsPDF export
   configurator.js       cavity wall U-value configurator (UI)
   configurator2.js      floor / basement / roof configurators (UI)
   ucalc.js              UC: materials with verified conductivities + wall calculations
@@ -170,16 +170,40 @@ The generated documents are filed on Salman's PC under `D:\BUILDING REGULATIONS\
 
 ---
 
+## The app (rebuilt 5 September 2026)
+
+Five routes behind the top tabs: **Jobs** (the desk: a live headline, the saved jobs, the eight
+project types), **Workspace** (rail of job record → categories → review and issue, stage, live
+preview), **Specification** (the preview full width with a contents nav), **U-value working**
+(every calculated build-up on the job with its layer bar and working) and **Practice standards**.
+
+- A job is `{id, type, data, sel, notes, custom, cfg*, history, created, updated}`. It autosaves
+  to `localStorage` on every change and, in the artifact, to `db` collection `jobs/<id>` (debounced).
+  Without `db` the app says "Kept in this browser" and still works.
+- **Issue** downloads the PDF, appends `{rev, at, n, m}` to `history` and moves `data.rev` on
+  (P01 → P02). Job numbers are typed, never generated.
+- The **layer bar** (`layerBar()` in `app_js.js`) draws a build-up's layers to scale from the
+  calculator's `layers` array. It is the app's signature: on the desk, in every configurator, on
+  each calculated build-up card, on the working page. Colours come from `swatchFor()` by material.
+- Design: warm paper ground, Newsreader for headings, Geist for text, Geist Mono for figures.
+  Graphite for actions; the studio orange only for the built thing (references, targets, the bar).
+  The logo from `src/logos.js` sits on a white plate in dark mode (`--logo-plate`).
+  `LOGO_DARK` is a screenshot strip with UI baked in — do not use it.
+- Test selectors that must survive a restyle: `.tile[data-k]`, `button.step` (`.st`, `.sc`),
+  `#stepJob`, `.crumb`, `#fields input[data-k]`, `#typename`, `#stage .card` (`.tag`, `.more`,
+  `.rm`), `#paper .sched`, `#btnPdf`, `#btnPrev`, `#btnType`, `.viewer`, `.cfgcard`, `.uval`,
+  `#addWall/#addFloor/#addRoof`, `select[data-cf]`, `table.wk`, `.cfgwarn`.
+- The wizard-style answer steps in the Claude Design artboard (fire safety, sound, ventilation as
+  single choices) were deliberately **not** built: the library has no rule mapping answers to
+  notes, and a radio choice would have let a job issue without an alarm note. Notes stay
+  on/off per category.
+
 ## Backlog
 
-**Next up — job save/load and client management.** The app currently keeps a job in the artifact
-database but has no real job record. Wanted: save a job and reopen it later, revision history
-(P01, P02 …), and client/address/job-number fields that flow into the cover page and the running
-header instead of the `[JOB NUMBER]` placeholder. Job numbers follow the practice's own sequence
-(e.g. 1134, 1141) — the user types it, the app does not generate it.
+Roughly in order:
 
-Then, roughly in order:
-
+- Word export from the app. Word files are still generated on the practice PC by
+  `python build.py --docs`; the app offers PDF only and says so.
 - Parametric timber frame walls, dormer cheeks and internal linings — these are still fixed
   build-ups while cavity walls, floors, basements and roofs are configurable.
 - Wales as a second region (different Part L/F targets and a separate notional dwelling).
