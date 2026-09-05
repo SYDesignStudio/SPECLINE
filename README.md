@@ -21,8 +21,9 @@ python build.py --all      # ... plus the 141 tests and all 16 documents
 
 Then open `dist/preview.html` in a browser.
 
-You also need **Node** (the build uses it to evaluate the library) and **LibreOffice** on PATH as
-`soffice` (used to convert the generated .docx to .pdf). Neither the app nor the tests need a network
+You also need **Node** (the build uses it to evaluate the library) and **LibreOffice** (used to
+convert the generated .docx to .pdf; it is found on PATH or in the usual install locations, and
+without it the Word files are still written). Neither the app nor the tests need a network
 connection.
 
 ## What is where

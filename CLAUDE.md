@@ -81,8 +81,10 @@ change. `dist/syds-spec-builder.html` is the file published as the Claude artifa
 a category left with nothing in it.
 
 Dependencies: Python with `python-docx` and `playwright` (`pip install -r requirements.txt`, then
-`playwright install chromium`), Node (for the library check), and LibreOffice on PATH as `soffice`
-for the PDF step. The app itself has no build step and no npm dependencies.
+`playwright install chromium`), Node (for the library check), and LibreOffice for the PDF step.
+`_soffice()` in `docgen/spec_from_data.py` finds LibreOffice on PATH or in the usual install
+locations, so it does not need to be on PATH; without it the Word files are still written and the
+PDFs are skipped with a warning. The app itself has no build step and no npm dependencies.
 
 ---
 

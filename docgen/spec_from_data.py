@@ -2,7 +2,7 @@
 straight from the app library (specdata.js) — single source of truth.
 Usage: python3 spec_from_data.py <typekey> [<typekey> ...]   e.g. extension loft flat
 """
-import sys, json, subprocess, os, re
+import sys, json, subprocess, os, re, shutil
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 from build_spec import *
 from brand import _rule, _shade, _field
@@ -10,6 +10,25 @@ ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SPECDATA=os.path.join(ROOT,'dist','specdata.js').replace('\\','/')
 OUT=os.path.join(ROOT,'output')
 os.makedirs(OUT,exist_ok=True)
+
+def _soffice():
+    """LibreOffice, for the .docx -> .pdf step.
+
+    The Windows installer does not add itself to PATH, so look in the usual
+    install locations as well. Returns None when it is not installed; the
+    caller then writes the Word file and skips the PDF.
+    """
+    found = shutil.which('soffice') or shutil.which('soffice.exe')
+    if found: return found
+    for p in [os.path.join(os.environ.get('PROGRAMFILES',r'C:\Program Files'),'LibreOffice','program','soffice.exe'),
+              os.path.join(os.environ.get('PROGRAMFILES(X86)',r'C:\Program Files (x86)'),'LibreOffice','program','soffice.exe'),
+              os.path.join(os.environ.get('LOCALAPPDATA',''),'Programs','LibreOffice','program','soffice.exe'),
+              '/usr/bin/soffice','/usr/local/bin/soffice',
+              '/Applications/LibreOffice.app/Contents/MacOS/soffice']:
+        if p and os.path.exists(p): return p
+    return None
+
+SOFFICE=_soffice()
 
 def load():
     js=f'const fs=require("fs");eval(fs.readFileSync("{SPECDATA}","utf8")+";globalThis.SPECS=SPECS");process.stdout.write(JSON.stringify(SPECS))'
@@ -117,10 +136,10 @@ def build(key, S):
 
     fn=f"SYDS_SPEC_{T['name'].replace(' ','_')}_{T.get('region','England')}.docx"
     path=os.path.join(OUT,fn); d.save(path)
-    try:
-        subprocess.run(['soffice','--headless','--convert-to','pdf','--outdir',OUT,path],check=True,capture_output=True)
-    except FileNotFoundError:
-        print('WARNING: soffice (LibreOffice) not on PATH - .docx written, PDF skipped',file=sys.stderr)
+    if SOFFICE:
+        subprocess.run([SOFFICE,'--headless','--convert-to','pdf','--outdir',OUT,path],check=True,capture_output=True)
+    else:
+        print('WARNING: LibreOffice not found - .docx written, PDF skipped',file=sys.stderr)
     print(key,"->",fn,"build-ups:",len(BUILDUPS),"notes:",len(T['notes']))
     return path
 
