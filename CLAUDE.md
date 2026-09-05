@@ -221,6 +221,32 @@ car park ventilation percentages in New Build Flats. Both are conservative as wr
 against the Approved Document before the first job of either kind rather than changing them on an
 assumption.
 
+## Brand — Specline
+
+The product is sold as **Specline**, separately from SY Design Studio. Tokens live in
+`src/tokens.css`; the identity sheet (mark, rationale, component specs) is the reference.
+
+**The commercial rule:** Specline brands the *application*. The specification the app generates
+carries the subscribing practice's own logo, name and address — never Specline's and never SY
+Design Studio's. No technologist will issue a document to building control under another company's
+brand. Treat any Specline mark appearing on a generated cover page, running header or footer as a
+bug.
+
+- **Colour.** Warm detail paper `#F4F3F0` against cool drafting ink `#10191F`, with deep petrol
+  `#0E6E85` as the single accent (`#3FA6BE` on dark). Green/red/amber are semantic only — pass,
+  fail and "confirm before issue" — and never do brand duty. **No SY Design Studio orange.**
+- **Type.** IBM Plex Sans for everything read, IBM Plex Sans Condensed for uppercase micro-labels,
+  IBM Plex Mono for anything measurable — references, U-values, thicknesses. Always
+  `font-variant-numeric: tabular-nums` where figures align in a column.
+- **Measure.** 4px base. Radii 2/4/6/10 — tight, because a precision instrument should not look
+  soft. Divide with 1px hairlines before reaching for a card, and a card before a shadow;
+  `--shadow-2` is for menus and modals only.
+- **Themes.** Define the full light palette on bare `:root`, redefine tokens under
+  `@media (prefers-color-scheme:dark)` guarded as `:root:not([data-theme="light"])`, and again under
+  `:root[data-theme="dark"]`. Never style a component inside a theme block. The A4 preview stays
+  true white in both themes — it is paper, not chrome.
+- **Status.** Never colour alone. The figure goes in the label: "Meets 0.18", not a green tick.
+
 ## Regulatory horizon
 
 Approved Documents L1 and F1 **2026 editions** were published on 24 March 2026 and come into force

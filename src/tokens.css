@@ -1,0 +1,103 @@
+/* ============================================================
+   Specline — design tokens  v1  (05.09.2026)
+   Identity sheet: mark, rationale and component specs.
+   Specline brands the APP. The generated specification carries
+   the subscribing practice's own logo and details — never these.
+   ============================================================ */
+
+/* Fonts: IBM Plex, drawn for engineering documentation.
+   In the app_head <head>, or as an @import at the top of the stylesheet:
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"> */
+
+:root{
+  /* ---- ground and ink: warm detail paper, cool drafting ink ---- */
+  --paper:#F4F3F0;        /* page ground — warm grey, never pure white */
+  --surface:#FBFAF8;      /* raised panel */
+  --sunk:#EAE8E2;         /* wells, table headers, code */
+  --ink:#10191F;          /* primary text */
+  --ink-2:#3C4A54;        /* secondary text */
+  --ink-3:#6B7A85;        /* muted text and labels */
+  --line:#DAD7D0;         /* hairline — does the dividing work */
+  --line-strong:#BCB8AF;  /* input and control borders */
+
+  /* ---- signal: the only colour that carries brand duty ---- */
+  --petrol:#0E6E85;
+  --petrol-hi:#0B586B;    /* hover / pressed */
+  --petrol-soft:#E0EEF2;  /* tint background, focus ring */
+  --on-petrol:#FBFAF8;    /* text on petrol */
+
+  /* ---- semantic: status only, never decoration ---- */
+  --pass:#2E7D4F;  --pass-soft:#E3F0E8;   /* meets the target U-value */
+  --fail:#B3352B;  --fail-soft:#F8E8E6;   /* misses the limiting value */
+  --hold:#8A6108;  --hold-soft:#F6EEDB;   /* designer note, confirm before issue */
+
+  /* ---- type ---- */
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --cond:"IBM Plex Sans Condensed","IBM Plex Sans",-apple-system,"Segoe UI",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+  --fs-display:36px; --lh-display:1.1;  --ls-display:-0.02em;
+  --fs-h1:26px;      --lh-h1:1.2;       --ls-h1:-0.015em;
+  --fs-h2:20px;      --lh-h2:1.3;       --ls-h2:-0.01em;
+  --fs-h3:16px;      --lh-h3:1.4;
+  --fs-body:14px;    --lh-body:1.6;     /* app default */
+  --fs-sm:13px;      --lh-sm:1.5;
+  --fs-label:11px;   --ls-label:0.09em; /* condensed, uppercase */
+  --fs-mono:13px;
+
+  /* ---- measure: 4px base ---- */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px;
+  --s5:24px; --s6:32px; --s7:48px; --s8:64px;
+
+  --r-input:2px;   /* text fields, tags */
+  --r-ctl:4px;     /* buttons, selects */
+  --r-card:6px;    /* panels, code blocks */
+  --r-modal:10px;  /* dialogs, popovers */
+
+  --shadow-1:0 1px 2px rgba(16,25,31,.06);
+  --shadow-2:0 4px 14px rgba(16,25,31,.10);  /* menus and modals only */
+}
+
+/* Dark. Redefines tokens only — never style components inside this block.
+   Guarded so an explicit light choice beats a dark OS setting. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#10191F; --surface:#17222A; --sunk:#0B1319;
+    --ink:#EDEAE4; --ink-2:#A8B4BC; --ink-3:#78868F;
+    --line:#263239; --line-strong:#38464E;
+    --petrol:#3FA6BE; --petrol-hi:#63BDD1; --petrol-soft:#0F323C; --on-petrol:#08141A;
+    --pass:#5CB981; --pass-soft:#142A1E;
+    --fail:#E1766B; --fail-soft:#2E1815;
+    --hold:#D7A54A; --hold-soft:#2B2113;
+    --shadow-1:0 1px 2px rgba(0,0,0,.4);
+    --shadow-2:0 4px 16px rgba(0,0,0,.5);
+  }
+}
+/* Again, so an in-app toggle wins in both directions. */
+:root[data-theme="dark"]{
+  --paper:#10191F; --surface:#17222A; --sunk:#0B1319;
+  --ink:#EDEAE4; --ink-2:#A8B4BC; --ink-3:#78868F;
+  --line:#263239; --line-strong:#38464E;
+  --petrol:#3FA6BE; --petrol-hi:#63BDD1; --petrol-soft:#0F323C; --on-petrol:#08141A;
+  --pass:#5CB981; --pass-soft:#142A1E;
+  --fail:#E1766B; --fail-soft:#2E1815;
+  --hold:#D7A54A; --hold-soft:#2B2113;
+  --shadow-1:0 1px 2px rgba(0,0,0,.4);
+  --shadow-2:0 4px 16px rgba(0,0,0,.5);
+}
+
+/* ---- rules that keep the system honest -------------------------------
+   1. The A4 preview stays true white in both themes. It is paper, not chrome:
+        #paper { background:#FFFFFF; color:#10191F; }
+   2. Every figure that lines up in a column gets tabular numerals:
+        font-variant-numeric: tabular-nums;
+   3. Build-up references (EW1, GF1, RF1) are mono, petrol on --petrol-soft.
+   4. Status is never colour alone — the figure goes in the label
+      ("Meets 0.18", not a green tick).
+   5. Divide with a 1px --line before reaching for a card, and a card before
+      a shadow. --shadow-2 is for menus and modals only.
+   6. One accent. If something needs to stand out, take colour away from
+      what surrounds it rather than adding a second hue.
+   7. No SY Design Studio orange anywhere — the two businesses must not
+      read as one.
+   --------------------------------------------------------------------- */
