@@ -1,0 +1,75 @@
+Copyright (c) 2026 SY Design Studio Ltd. All rights reserved.
+
+SY Design Studio Ltd, 49 Durham Avenue, Hounslow TW5 0HG, United Kingdom.
+
+
+PROPRIETARY — SOURCE-AVAILABLE, NOT OPEN SOURCE
+
+This repository is published so that its source may be read. It is not
+open source and no open source licence is granted.
+
+1. SCOPE
+
+   This notice covers everything in this repository, including but not
+   limited to:
+
+     (a) the software — the application in src/, the build and document
+         generation in build.py, docgen/ and tests/;
+
+     (b) the specification library in data/ and the reference material in
+         reference/, being original written work prepared from the
+         Approved Documents to the Building Regulations 2010 (as
+         amended). This text is a literary work in its own right and its
+         copyright is asserted independently of the software; and
+
+     (c) the SY Design Studio and Specline names, marks and logos,
+         including the image data in src/logos.js and docgen/. No
+         trade mark licence is granted by this notice or by the
+         publication of this repository.
+
+2. NO LICENCE GRANTED
+
+   No permission is granted to any person to use, copy, modify, merge,
+   publish, distribute, sublicense, sell, or create derivative works from
+   any part of this repository, whether for commercial purposes or
+   otherwise, except with the prior written permission of SY Design
+   Studio Ltd.
+
+   In particular, no permission is granted to reproduce or adapt the
+   specification text in data/ in any specification, drawing, document or
+   product, whether or not this repository is credited.
+
+3. GITHUB
+
+   Where this repository is hosted publicly on GitHub, GitHub's Terms of
+   Service give other GitHub users a limited right to view and to fork it
+   within GitHub. Nothing beyond that is permitted, and that right does
+   not extend to using the contents in any other work or product.
+
+4. LICENSING ENQUIRIES
+
+   Specline is intended to be made available to other practices under a
+   commercial licence. Enquiries: info@sydesignstudio.co.uk
+
+5. NO WARRANTY
+
+   THE CONTENTS OF THIS REPOSITORY ARE PROVIDED "AS IS", WITHOUT WARRANTY
+   OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL SY DESIGN STUDIO LTD BE LIABLE FOR
+   ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE CONTENTS OR THEIR USE.
+
+6. NOT PROFESSIONAL ADVICE
+
+   The specification text is prepared for use by a competent designer who
+   remains responsible for its suitability on any particular project. It
+   is not a substitute for reading the Approved Documents and the
+   standards current at the date of submission, nor for the design of a
+   structural engineer or other specialist. Every figure must be checked
+   against the edition in force when the work is submitted to building
+   control.
+
+7. GOVERNING LAW
+
+   This notice is governed by the law of England and Wales.

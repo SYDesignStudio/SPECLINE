@@ -1,7 +1,12 @@
-# SY Spec Builder
+# Specline
+
+[![Licence: proprietary](https://img.shields.io/badge/licence-proprietary-0E6E85)](LICENSE)
 
 Building Regulations specifications for building control, generated from one library.
 Eight residential project types, England.
+
+Specline is the application. The specification it produces carries the practice's own logo,
+name and address — never Specline's. Built and used in house at SY Design Studio Ltd.
 
 | | |
 |---|---|
@@ -47,4 +52,18 @@ notes by topic.
 Nothing in this repo is copied from a commercial specification library. All wording is written from
 the Approved Documents. See the non-negotiables in `CLAUDE.md`.
 
-© SY Design Studio Ltd. Private repository — not for distribution.
+## Licence
+
+Copyright © 2026 SY Design Studio Ltd. All rights reserved.
+
+**Source-available, not open source.** The source is published so it can be read. No permission is
+granted to use, copy, modify or distribute any part of it, and that applies to the specification
+text in `data/` as much as to the code — reproducing those clauses in another specification,
+drawing or product is not permitted. See [LICENSE](LICENSE) for the full terms.
+
+Specline is intended to be licensed commercially to other practices. Enquiries:
+info@sydesignstudio.co.uk
+
+The specification text is written for a competent designer who stays responsible for its
+suitability on the job. Check every figure against the Approved Document in force at the date of
+submission.
