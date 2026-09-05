@@ -778,7 +778,8 @@ el("themeBtn").onclick=()=>{
   try{ localStorage.setItem("syds-theme",root.dataset.theme); }catch(e){}
 };
 try{ const t=localStorage.getItem("syds-theme"); if(t) document.documentElement.dataset.theme=t; }catch(e){}
-el("brandLogo").src=LOGO;
+/* chrome carries the Specline mark (app_body.html). LOGO is the practice mark
+   and belongs only on the generated document. */
 
 jobsCache=Object.values(localJobs());
 if(restore()){ renderAll(); setSaveState("",db?"Saved":"Kept in this browser"); } else { go("home"); }

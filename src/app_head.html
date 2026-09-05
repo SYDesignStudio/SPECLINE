@@ -1,28 +1,45 @@
 <title>SY Spec Builder</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
 /* ---------- tokens: light is the base; dark redefines the same names ---------- */
 :root{
-  --paper:#F7F5F0; --paper2:#EFECE5; --surface:#FFFFFF;
-  --ink:#23262A; --ink2:#5C6167; --ink3:#6C7278;
-  --line:#DED9D1; --line2:#C8C2B8;
-  --accent:#E8850C; --accent-ink:#B5640A; --accent-soft:#FBEEDC; --on-accent:#FFFFFF;
-  --ok:#2F7355; --ok-soft:#E7F1EB; --warn:#B4541E; --warn-soft:#FBECE3;
-  --shadow:0 1px 2px rgba(35,30,20,.06),0 10px 28px rgba(35,30,20,.08);
-  --shadow-lg:0 2px 8px rgba(20,16,10,.12),0 36px 90px rgba(20,16,10,.22);
-  --disp:"Newsreader",Georgia,"Times New Roman",serif;
-  --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  --mono:"Geist Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  /* Specline identity — see src/tokens.css and the identity sheet.
+     Warm detail paper against cool drafting ink, one petrol signal.
+     Names are historic; values are the brand. */
+  --paper:#F4F3F0; --paper2:#EAE8E2; --surface:#FBFAF8;
+  --ink:#10191F; --ink2:#3C4A54; --ink3:#6B7A85;
+  --line:#DAD7D0; --line2:#BCB8AF;
+  --accent:#0E6E85; --accent-ink:#0B586B; --accent-soft:#E0EEF2; --on-accent:#FBFAF8;
+  --ok:#2E7D4F; --ok-soft:#E3F0E8; --warn:#B3352B; --warn-soft:#F8E8E6;
+  --hold:#8A6108; --hold-soft:#F6EEDB;
+  --shadow:0 1px 2px rgba(16,25,31,.06);
+  --shadow-lg:0 4px 14px rgba(16,25,31,.10),0 24px 60px rgba(16,25,31,.12);
+  --disp:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  --cond:"IBM Plex Sans Condensed","IBM Plex Sans","Segoe UI",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --r-input:2px; --r-ctl:4px; --r-card:6px; --r-modal:10px;
   --logo-plate:transparent;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --paper:#16181B; --paper2:#1C1F22; --surface:#22262A;
-  --ink:#ECE9E3; --ink2:#B5BAC0; --ink3:#8F959B;
-  --line:#33393F; --line2:#474E55;
-  --accent:#F5A03A; --accent-ink:#F5A03A; --accent-soft:#2E2418; --on-accent:#1A1207;
-  --ok:#7FC29B; --ok-soft:#1F3128; --warn:#E8A06A; --warn-soft:#3A2418;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);
-  --shadow-lg:0 2px 8px rgba(0,0,0,.5),0 36px 90px rgba(0,0,0,.55);
+  --paper:#10191F; --paper2:#0B1319; --surface:#17222A;
+  --ink:#EDEAE4; --ink2:#A8B4BC; --ink3:#78868F;
+  --line:#263239; --line2:#38464E;
+  --accent:#3FA6BE; --accent-ink:#63BDD1; --accent-soft:#0F323C; --on-accent:#08141A;
+  --ok:#5CB981; --ok-soft:#142A1E; --warn:#E1766B; --warn-soft:#2E1815;
+  --hold:#D7A54A; --hold-soft:#2B2113;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+  --shadow-lg:0 4px 16px rgba(0,0,0,.5),0 24px 70px rgba(0,0,0,.55);
+  --logo-plate:#FFFFFF;}}
+:root[data-theme="dark"]{
+  --paper:#10191F; --paper2:#0B1319; --surface:#17222A;
+  --ink:#EDEAE4; --ink2:#A8B4BC; --ink3:#78868F;
+  --line:#263239; --line2:#38464E;
+  --accent:#3FA6BE; --accent-ink:#63BDD1; --accent-soft:#0F323C; --on-accent:#08141A;
+  --ok:#5CB981; --ok-soft:#142A1E; --warn:#E1766B; --warn-soft:#2E1815;
+  --hold:#D7A54A; --hold-soft:#2B2113;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+  --shadow-lg:0 4px 16px rgba(0,0,0,.5),0 24px 70px rgba(0,0,0,.55);
   --logo-plate:#FFFFFF;}}
 :root[data-theme="dark"]{
   --paper:#16181B; --paper2:#1C1F22; --surface:#22262A;
@@ -52,11 +69,11 @@ h1,h2,h3{font-family:var(--disp);font-weight:400;letter-spacing:-.015em;margin:0
 .lede{color:var(--ink2);font-size:14px;margin:0;max-width:62ch}
 
 /* ---------- buttons ---------- */
-.btn{border:1px solid var(--line2);background:var(--surface);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500;
+.btn{border:1px solid var(--line2);background:var(--surface);border-radius:var(--r-ctl);padding:8px 14px;font-size:13px;font-weight:500;
   color:var(--ink);display:inline-flex;align-items:center;gap:7px;line-height:1.2;white-space:nowrap}
 .btn:hover{border-color:var(--ink2)}
-.btn-primary{background:var(--ink);border-color:var(--ink);color:var(--paper)}
-.btn-primary:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{background:var(--accent-ink);border-color:var(--accent-ink);color:var(--on-accent)}
 .btn-accent{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:600}
 .btn-accent:hover{filter:brightness(1.05)}
 .btn-quiet{border-color:transparent;background:transparent;color:var(--ink2)}
@@ -71,9 +88,9 @@ h1,h2,h3{font-family:var(--disp);font-weight:400;letter-spacing:-.015em;margin:0
 .brand img{height:36px;width:auto;display:block;background:var(--logo-plate);border-radius:5px;padding:2px}
 .brand .bt{display:flex;flex-direction:column;line-height:1.05}
 .brand .bt b{font-family:var(--disp);font-weight:500;font-size:17px;letter-spacing:-.01em}
-.brand .bt small{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-top:3px}
+.brand .bt small{font-family:var(--cond);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-top:3px}
 .tabs{display:flex;gap:2px;min-width:0;overflow:auto;scrollbar-width:none}
-.tabs button{border:0;background:none;padding:7px 11px;border-radius:7px;font-size:13px;color:var(--ink2);white-space:nowrap}
+.tabs button{border:0;background:none;padding:7px 11px;border-radius:var(--r-ctl);font-size:13px;color:var(--ink2);white-space:nowrap}
 .tabs button:hover{background:var(--paper2);color:var(--ink)}
 .tabs button.cur{background:var(--paper2);color:var(--ink);font-weight:500}
 .tabs button:disabled{opacity:.4;cursor:not-allowed;background:none}

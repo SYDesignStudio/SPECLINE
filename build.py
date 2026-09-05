@@ -123,6 +123,13 @@ def test():
         r = subprocess.run([sys.executable, t], capture_output=True, text=True, cwd=ROOT)
         passes = r.stdout.count('"r": "PASS"')
         f = r.stdout.count('"r": "FAIL"')
+        if passes + f == 0:
+            # A suite that asserts nothing is not a suite that passed — usually
+            # Playwright or its browser is missing. Never let this read as green.
+            fails += 1
+            print("  test%d: DID NOT RUN — no assertions produced" % n)
+            print((r.stderr or r.stdout or "").strip()[-600:])
+            continue
         fails += f
         print("  test%d: %d passed, %d failed" % (n, passes, f))
         if f:

@@ -1,9 +1,16 @@
 /* ============================================================
    Specline — design tokens  v1  (05.09.2026)
-   Identity sheet: mark, rationale and component specs.
-   Specline brands the APP. The generated specification carries
-   the subscribing practice's own logo and details — never these.
+
+   REFERENCE COPY. The values that ship are the :root blocks at the
+   top of src/app_head.html, because that is what build.py inlines.
+   The variable NAMES there are historic (--paper2, --ink2, --line2,
+   --accent, --ok, --warn); the VALUES are the ones below.
+   Change a colour in app_head.html first, then mirror it here.
+
+   Specline brands the APP. The generated specification carries the
+   subscribing practice's own logo and details — never these.
    ============================================================ */
+
 
 /* Fonts: IBM Plex, drawn for engineering documentation.
    In the app_head <head>, or as an @import at the top of the stylesheet:
