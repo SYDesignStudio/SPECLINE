@@ -1,0 +1,35 @@
+<div class="topbar">
+  <div class="brand"><img id="brandLogo" class="lg-l" alt="SY Design Studio"><img id="brandLogoD" class="lg-d" alt=""><em>Spec Builder</em></div>
+  <span class="chip" id="typename">—</span>
+  <button class="btn" id="btnType">Change type</button>
+  <div class="spacer"></div>
+  <button class="btn" id="btnPrev">Preview</button>
+  <button class="btn" id="btnSave">Save job</button>
+  <button class="btn btn-primary" id="btnPdf">Generate PDF</button>
+</div>
+
+<div class="overlay" id="chooser" hidden>
+  <div class="dialog">
+    <button class="closeX" id="closeChooser" aria-label="Close">×</button>
+    <img class="dl" src="" alt="" id="dlogo" hidden>
+    <h1>What are you specifying?</h1>
+    <p class="sub">Choose the project type. You will then work through each category in turn — structure,
+      floors, walls, roofs, fire, ventilation and the rest — selecting the build-ups and notes that apply.
+      The specification builds as you go.</p>
+    <div class="tiles" id="tiles"></div>
+  </div>
+</div>
+
+<div class="wrap" id="app" hidden>
+  <div class="rail">
+    <p class="raillabel">Categories</p>
+    <div id="steps"></div>
+    <div class="jobsWrap" id="jobsWrap" hidden>
+      <p class="raillabel" style="padding-left:0">Saved jobs</p>
+      <div id="jobs"></div>
+    </div>
+  </div>
+  <div class="stage" id="stage"></div>
+  <div class="viewer"><div class="paper" id="paper"></div></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
