@@ -16,7 +16,6 @@
 declare(strict_types=1);
 
 const NOTIFY_TO   = 'info@sydesignstudio.co.uk';
-const NOTIFY_FROM = 'no-reply@specline.co.uk';   // must be a real mailbox on this domain
 const STORE       = __DIR__ . '/../../specline-waitlist.csv';
 const RATE_DIR    = __DIR__ . '/../../specline-ratelimit';
 const RATE_MAX    = 5;      // submissions per IP
@@ -94,7 +93,14 @@ if (flock($fh, LOCK_EX)) {
 fclose($fh);
 @chmod(STORE, 0600);
 
-/* Notify the studio. A failure here must not lose the signup, which is already stored. */
+/* Notify the studio. A failure here must not lose the signup, which is already stored.
+ *
+ * No From header is set, deliberately. A From of no-reply@specline.co.uk would need a real
+ * mailbox on the domain, and mail claiming to come from an address that does not exist is
+ * commonly dropped by the receiving server. Left alone, the MTA sets the sender to the
+ * hosting account's own address, which its SPF record already covers, so the message is
+ * accepted. Reply-To carries the signup's address, so replying to the notification reaches
+ * the person who signed up. */
 $body = "New Specline waiting list signup\n\n"
       . "Email:    {$email}\n"
       . "Name:     " . ($name !== '' ? $name : '—') . "\n"
@@ -105,7 +111,7 @@ $body = "New Specline waiting list signup\n\n"
     NOTIFY_TO,
     'Specline waiting list: ' . $email,
     $body,
-    "From: Specline <" . NOTIFY_FROM . ">\r\nReply-To: " . $email . "\r\nContent-Type: text/plain; charset=utf-8"
+    "Reply-To: " . $email . "\r\nContent-Type: text/plain; charset=utf-8"
 );
 
 out(200, 'Thank you. You are on the list and we will be in touch when Specline opens.', true);

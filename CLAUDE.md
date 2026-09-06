@@ -308,8 +308,10 @@ The site is four files: `index.html`, `terms.html`, `privacy.html` and `waitlist
 appends to `../../specline-waitlist.csv` — the domain directory **above `public_html`**, which is
 never web-served and which a deployment never touches, so the list survives every push —
 then emails the studio. Read the list by downloading that CSV over SFTP or File Manager.
-`NOTIFY_FROM` in the script must be a real mailbox on the domain or the notification will be
-dropped by the receiving server; the signup is stored either way.
+The notification sets no From header on purpose: an address that has no mailbox behind it is
+commonly dropped by the receiving server, so the MTA's own sender is used, which SPF already
+covers. Reply-To is the signup's address. **No mailbox is needed on specline.co.uk**, and the
+signup is stored whether or not the mail is delivered.
 
 Terms and privacy are published and **drafted in-house, not reviewed by a solicitor**. Both say so
 on the page. `docs/TERMS-DRAFT.md` is the brief they were written from, kept for the solicitor.
