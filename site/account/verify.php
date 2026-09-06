@@ -4,9 +4,14 @@ $u = consume_token((string)($_GET['t'] ?? ''), 'verify');
 if ($u) {
     if (empty($u['verified_at'])) q('UPDATE users SET verified_at = ? WHERE id = ?', [now(), (int)$u['id']]);
     audit('verified', $u['email']);
-    if (!current_user()) login_user($u);
-    flash('Thank you — ' . $u['email'] . ' is verified.');
-    redirect('/account/');
+    /* Verifying still records the address while the site is locked; it just does not sign
+       anyone in past the lock. */
+    if (current_user() || login_user($u)) {
+        flash('Thank you — ' . $u['email'] . ' is verified.');
+        redirect('/account/');
+    }
+    flash('Thank you — ' . $u['email'] . ' is verified. ' . LOCKED_MESSAGE, 'hold');
+    redirect('/account/login.php');
 }
 page_start('Verify your email');
 ?>

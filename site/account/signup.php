@@ -2,6 +2,25 @@
 require __DIR__ . '/../app/bootstrap.php';
 if (current_user()) redirect('/account/');
 
+/* Closed before launch. The form is not rendered and a POST is refused, so this cannot be
+   walked past by sending the form directly. The waiting list stays open, which is the whole
+   reason for having one. */
+if (site_locked()) {
+    http_response_code(403);
+    page_start('Not open yet');
+    ?>
+    <div class="sheet">
+      <h1>Specline is not open yet</h1>
+      <p class="lede">Accounts are closed while the first release is finished. Join the waiting list and you will be emailed when Specline opens to your practice.</p>
+      <p class="actions"><a class="btn btn-primary" href="/#join">Join the waiting list</a><a href="/account/login.php">I already have an account</a></p>
+      <hr>
+      <p class="small muted">Specline drafts Building Regulations specifications for building control across eight residential project types in England, issued under your own practice's name. There is nothing to pay to join the list.</p>
+    </div>
+    <?php
+    page_end();
+    exit;
+}
+
 $errors = [];
 if (is_post()) {
     csrf_check();

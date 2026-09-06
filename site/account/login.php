@@ -17,13 +17,17 @@ if (is_post()) {
            does not say whether the account exists. */
         $ok = password_verify($pass, $u['pass_hash'] ?? '$2y$10$abcdefghijklmnopqrstuuA9Q1vY6Wc0j5s2K0fTq5eZ9vPq6T0nq6');
         if ($u && $ok) {
+            /* login_user refuses a non-owner while the site is locked, and creates nothing.
+               The check happens after the password so this cannot be used to find out who
+               has an account. */
             if (password_needs_rehash($u['pass_hash'], PASSWORD_DEFAULT)) q('UPDATE users SET pass_hash = ? WHERE id = ?', [password_hash($pass, PASSWORD_DEFAULT), (int)$u['id']]);
-            login_user($u);
-            audit('login', $email);
-            redirect($next);
+            if (login_user($u)) { audit('login', $email); redirect($next); }
+            $error = LOCKED_MESSAGE;
         }
-        $error = 'That email and password do not match. Check both, or reset your password below.';
-        audit('login-failed', $email);
+        if ($error === null) {
+            $error = 'That email and password do not match. Check both, or reset your password below.';
+            audit('login-failed', $email);
+        }
     }
 }
 page_start('Sign in');
@@ -31,6 +35,7 @@ page_start('Sign in');
 <div class="sheet">
   <h1>Sign in</h1>
   <p class="lede">To your practice's Specline account.</p>
+  <?php if (site_locked()) echo '<p class="notice notice-hold">Specline is not open yet. Accounts are closed while the first release is finished, and existing accounts cannot sign in until it opens. <a href="/#join">Join the waiting list</a> to be told when it does.</p><br>'; ?>
   <?php show_flash(); if ($error) echo '<ul class="errs"><li>' . e($error) . '</li></ul>'; ?>
   <form class="stack" method="post" action="/account/login.php" novalidate>
     <?= csrf_field() ?>
@@ -43,6 +48,10 @@ page_start('Sign in');
     </div>
   </form>
   <hr>
-  <p class="small muted">No account yet? <a href="/account/signup.php">Create one</a>. It takes a minute and there is nothing to pay.</p>
+  <?php if (site_locked()): ?>
+    <p class="small muted">No account yet? Accounts open with the first release. <a href="/#join">Join the waiting list</a> and you will be emailed when they do.</p>
+  <?php else: ?>
+    <p class="small muted">No account yet? <a href="/account/signup.php">Create one</a>. It takes a minute and there is nothing to pay.</p>
+  <?php endif; ?>
 </div>
 <?php page_end();

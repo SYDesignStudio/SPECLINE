@@ -478,6 +478,16 @@ the app. That file is denied to the web by `site/app/.htaccess`.
   `practice_id`. Verified by test: a second practice reading, listing, overwriting and deleting
   another's job gets null, an empty list, a refusal, and no effect. This is the per-practice
   separation the artifact could never have, because it had no idea who was looking at it.
+- **Before launch there is one lock** (`site_lock`, in Settings): no new sign-ups, and nobody
+  but the owner may sign in. One switch rather than two, so "the site is not open yet" cannot
+  end up half true. The waiting list stays open, which is the point of being closed.
+  `site/index.php` is PHP for this reason alone — its sign-up button follows the lock instead of
+  needing an edit at launch.
+  **Enforce it in `login_user()` and nowhere else.** Three paths create a session — signing in,
+  verifying an address and completing a password reset — and when the check lived only in
+  `login.php` a password reset signed a non-owner straight past it and into the tool. Found by
+  testing the reset path on 6 September 2026 and fixed the same day: `login_user()` now returns
+  false and creates nothing when it must refuse, so a caller cannot forget.
 - **Access is shut by default** (`app_open` = `admin`; also `verified` or `closed`), set in
   Settings. Deploying the tool must not by itself hand it to everyone who has signed up. Closing
   it hides the tool and deletes nothing.

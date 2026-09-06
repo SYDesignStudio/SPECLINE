@@ -89,9 +89,21 @@ function db(): PDO {
         $pdo->exec('PRAGMA busy_timeout=5000');
         $GLOBALS['DB_DRIVER'] = 'sqlite';
     }
-    migrate($pdo);
+    /* Run the schema statements only when the code has moved past what the database was
+       built to. The home page opens this on every visit, and issuing a dozen CREATE TABLE
+       statements to answer "is the site locked" would be silly. Bump SCHEMA_VERSION whenever
+       migrate() changes, or the new table will not appear. */
+    $have = null;
+    try { $st = $pdo->query("SELECT v FROM settings WHERE k = 'schema_v'"); $have = $st ? $st->fetchColumn() : null; }
+    catch (Throwable $t) { $have = null; }
+    if ((string)$have !== (string)SCHEMA_VERSION) {
+        migrate($pdo);
+        $pdo->prepare('DELETE FROM settings WHERE k = ?')->execute(['schema_v']);
+        $pdo->prepare('INSERT INTO settings (k, v) VALUES (?, ?)')->execute(['schema_v', (string)SCHEMA_VERSION]);
+    }
     return $pdo;
 }
+const SCHEMA_VERSION = 3;
 function db_driver(): string { db(); return $GLOBALS['DB_DRIVER'] ?? '?'; }
 
 function migrate(PDO $pdo): void {
@@ -180,13 +192,25 @@ function current_user(): ?array {
     $u = row('SELECT u.*, p.name AS practice_name, p.plan, p.seats FROM users u JOIN practices p ON p.id = u.practice_id WHERE u.id = ?', [(int)$_SESSION['uid']]);
     return $u;
 }
-function login_user(array $user): void {
+/* The only place a session is created. Three paths reach it — signing in, verifying an
+ * address and completing a password reset — and the before-launch lock is enforced HERE
+ * rather than at each of them, because it was originally checked only in login.php and a
+ * password reset signed a non-owner straight in past it. Returns false and creates nothing
+ * when the caller must refuse.
+ */
+function login_user(array $user): bool {
+    if (site_locked() && ($user['role'] ?? '') !== 'owner') {
+        audit('login-locked', (string)($user['email'] ?? ''));
+        return false;
+    }
     session_start_secure();
     session_regenerate_id(true);
     $_SESSION['uid'] = (int)$user['id'];
     $_SESSION['seen'] = time();
     q('UPDATE users SET last_login_at = ?, login_count = login_count + 1 WHERE id = ?', [now(), (int)$user['id']]);
+    return true;
 }
+const LOCKED_MESSAGE = 'Specline is not open yet. Your account and your work are safe, and you will be emailed when it opens.';
 function logout_user(): void {
     session_start_secure();
     $_SESSION = [];
@@ -207,6 +231,16 @@ function require_admin(): array {
     return $u;
 }
 function admin_exists(): bool { return (int)val("SELECT COUNT(*) FROM users WHERE role = 'owner'") > 0; }
+
+/* ---------- before launch ----------
+ * Locked means two things at once, because they are the same intention: nobody new may create
+ * an account, and nobody but the owner may sign in. It is one switch rather than two so that
+ * "the site is not open yet" cannot end up half true.
+ *
+ * What it does NOT do is touch the waiting list, which is the point of being closed: a practice
+ * that finds the site can still ask to be told when it opens.
+ */
+function site_locked(): bool { return setting('site_lock', '0') === '1'; }
 
 /* ---------- who may open the specification tool ----------
  * Deliberately shut by default. Deploying the tool must not, by itself, hand it to everyone
@@ -338,6 +372,7 @@ function page_start(string $title, array $o = []): void {
     } else {
         echo '<header class="top">' . lockup() . '<nav aria-label="Account">';
         if ($u) echo '<a href="/account/">' . e($u['name']) . '</a>' . ($u['role'] === 'owner' ? '<a href="/admin/">Administration</a>' : '') . '<a href="/account/logout.php">Sign out</a>';
+        elseif (site_locked()) echo '<a href="/account/login.php">Sign in</a><a class="btn btn-primary btn-sm" href="/#join">Join the waiting list</a>';
         else echo '<a href="/account/login.php">Sign in</a><a class="btn btn-primary btn-sm" href="/account/signup.php">Create an account</a>';
         echo '</nav></header><main class="wrap">';
     }

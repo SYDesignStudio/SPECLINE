@@ -1,4 +1,11 @@
-<!doctype html>
+<?php
+/* The marketing home page. It is PHP only so that the sign-up button can follow the
+   before-launch lock in Settings rather than needing an edit at launch. Everything else
+   on it is static. */
+require __DIR__ . '/app/bootstrap.php';
+/* This one is public and cacheable, unlike the account pages bootstrap.php assumes. */
+header('Cache-Control: public, max-age=900');
+?><!doctype html>
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -255,7 +262,11 @@ footer .links span{color:var(--ink-3)}
     </nav>
     <span class="spacer"></span>
     <a class="btn btn-quiet" href="/account/login.php">Sign in</a>
+<?php if (site_locked()): ?>
+    <a class="btn btn-primary" href="#join">Join the waiting list</a>
+<?php else: ?>
     <a class="btn btn-primary" href="/account/signup.php">Create an account</a>
+<?php endif; ?>
   </div>
 </header>
 

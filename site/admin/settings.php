@@ -5,7 +5,12 @@ $me = require_admin();
 if (is_post()) {
     csrf_check();
     $a = (string)($_POST['action'] ?? '');
-    if ($a === 'general') {
+    if ($a === 'lock') {
+        $on = ($_POST['site_lock'] ?? '') === '1';
+        set_setting('site_lock', $on ? '1' : '0');
+        flash($on ? 'Locked. Nobody can create an account, and only you can sign in. The waiting list is still open.'
+                  : 'Unlocked. Anyone can create an account and existing account holders can sign in again.');
+    } elseif ($a === 'general') {
         $mode = in_array($_POST['app_open'] ?? '', ['closed', 'admin', 'verified'], true) ? $_POST['app_open'] : 'admin';
         set_setting('app_open', $mode);
         set_setting('opening_note', clean('opening_note', 400));
@@ -30,6 +35,20 @@ page_start('Settings', ['admin' => true]);
 ?>
 <header><div><h1>Settings</h1><p>Where the data sits, how the daily check is triggered, and what account holders see.</p></div></header>
 <?php show_flash(); ?>
+
+<section>
+  <h2>Before launch</h2>
+  <?php $locked = site_locked(); $others = (int)val("SELECT COUNT(*) FROM users WHERE role <> 'owner'"); ?>
+  <p class="small muted" style="max-width:74ch;margin-bottom:14px">One switch, because they are one intention: while this is on, nobody can create an account and nobody but you can sign in. The waiting list stays open, which is the point of being closed — a practice that finds the site can still ask to be told when it opens.</p>
+  <form method="post" class="inline" style="gap:14px"><?= csrf_field() ?><input type="hidden" name="action" value="lock">
+    <input type="hidden" name="site_lock" value="<?= $locked ? '0' : '1' ?>">
+    <span class="pill <?= $locked ? 'pill-hold' : 'pill-pass' ?>"><?= $locked ? 'Locked — sign-ups closed' : 'Open — anyone can sign up' ?></span>
+    <button class="btn btn-sm <?= $locked ? '' : 'btn-danger' ?>" type="submit"><?= $locked ? 'Open sign-ups' : 'Lock until launch' ?></button>
+  </form>
+  <?php if ($locked && $others): ?>
+    <p class="small notice notice-hold" style="margin-top:12px;max-width:74ch"><?= $others ?> account<?= $others === 1 ? '' : 's' ?> other than yours <?= $others === 1 ? 'exists' : 'exist' ?> and cannot sign in while this is locked. Their work is untouched and they get back in the moment you open sign-ups.</p>
+  <?php endif; ?>
+</section>
 
 <section>
   <h2>Who can open the specification tool</h2>

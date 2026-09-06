@@ -16,9 +16,14 @@ if (is_post()) {
         else {
             q('UPDATE users SET pass_hash = ? WHERE id = ?', [password_hash($pass, PASSWORD_DEFAULT), (int)$u['id']]);
             audit('reset-done', $u['email']);
-            login_user($u);
-            flash('Your password is changed and you are signed in.');
-            redirect('/account/');
+            /* The new password is saved either way; the lock only decides whether the reset
+               also signs them in. It used to sign anyone in, straight past the lock. */
+            if (login_user($u)) {
+                flash('Your password is changed and you are signed in.');
+                redirect('/account/');
+            }
+            flash('Your password is changed. ' . LOCKED_MESSAGE, 'hold');
+            redirect('/account/login.php');
         }
     }
 }
