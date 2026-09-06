@@ -47,4 +47,12 @@ RedirectMatch 404 ^/(\.git|\.github|data|src|docgen|tests|reference|docs|dist|ou
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # The host sets its own Content-Security-Policy ("upgrade-insecure-requests") at server
+  # level, and that replaced the stricter policy the PHP pages send with header(). Setting
+  # it here wins, because .htaccess is the more specific context. Keep the two in step:
+  # the same policy is in site/app/bootstrap.php for anywhere this file is not read.
+  # Google Fonts is the only third party; everything else is same-origin. Inline style and
+  # script are allowed because the home page and the account pages carry both inline.
+  Header always set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; form-action 'self'; frame-ancestors 'self'; base-uri 'self'; upgrade-insecure-requests"
 </IfModule>
