@@ -254,8 +254,8 @@ footer .links span{color:var(--ink-3)}
       <a href="#pricing">Pricing</a>
     </nav>
     <span class="spacer"></span>
-    <button class="btn btn-quiet" id="signin">Sign in</button>
-    <a class="btn btn-primary" href="#join">Join the waiting list</a>
+    <a class="btn btn-quiet" href="/account/login.php">Sign in</a>
+    <a class="btn btn-primary" href="/account/signup.php">Create an account</a>
   </div>
 </header>
 
@@ -429,17 +429,6 @@ footer .links span{color:var(--ink-3)}
   </div>
 </footer>
 
-<div class="overlay" id="signinDlg" hidden>
-  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="signinTitle">
-    <button class="closeX" id="closeSignin" aria-label="Close">×</button>
-    <p class="eyebrow" style="margin-bottom:8px">Subscribers</p>
-    <h2 id="signinTitle">Sign-in opens with the first release</h2>
-    <p>There are no subscriber accounts yet, so there is nothing here to sign into, and nothing on this page will ask you for a password until there is.</p>
-    <div class="field">Email and password · not yet</div>
-    <a class="btn btn-primary" href="#join" id="signinJoin">Join the waiting list instead</a>
-  </div>
-</div>
-
 <script>
 /* The hero: the wall draws in layer by layer, and the U-value settles from the uninsulated
    figure to the calculated one. Static at the final state when motion is reduced. */
@@ -479,12 +468,6 @@ footer .links span{color:var(--ink-3)}
     btn.disabled=false; btn.textContent=was;
   });
 })();
-const dlg=document.getElementById('signinDlg');
-document.getElementById('signin').onclick=()=>{ dlg.hidden=false; document.getElementById('closeSignin').focus(); };
-document.getElementById('closeSignin').onclick=()=>{ dlg.hidden=true; };
-dlg.addEventListener('click',e=>{ if(e.target===dlg) dlg.hidden=true; });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') dlg.hidden=true; });
-document.getElementById('signinJoin').onclick=()=>{ dlg.hidden=true; };
 </script>
 </body>
 </html>

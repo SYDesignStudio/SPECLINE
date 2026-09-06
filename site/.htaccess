@@ -8,7 +8,8 @@
 # Nothing here is uploaded by hand. A manual upload is wiped by the next deployment.
 
 Options -Indexes
-DirectoryIndex index.html
+# index.php as well as index.html: /account/ and /admin/ are PHP applications.
+DirectoryIndex index.html index.php
 
 # The waiting list writes ../specline-waitlist.csv, one directory above this one and
 # therefore never web-served. This is only for the case where it is moved by mistake.

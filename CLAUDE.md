@@ -272,12 +272,11 @@ Roughly in order:
   characters *are* in the file; some viewers substitute a font that lacks the glyph because the
   standard PDF fonts are referenced rather than embedded. Costs roughly 300 KB per file.
 
-- **Accounts and billing.** Neither exists. The app has no sign-in, no sessions and no separation
-  of one practice's data from another: today the Claude artifact and the owner's Claude login are
-  the whole of it, and the artifact's `user` capability is not available on this account, so
-  per-viewer identity cannot be done inside the artifact either. A real product needs a hosted
-  application with its own authentication, per-practice data separation and a payment processor.
-  That is a build, not a patch, and it is gated on the solicitor review above.
+- **Billing, and moving the tool behind the login.** Accounts, the admin dashboard and the
+  regulations watch were built on 6 September 2026 (see "Accounts, administration and the
+  regulations watch" above). What is still missing is a payment processor and per-practice
+  separation of job data, because the specification tool itself is still the single Claude
+  artifact rather than a hosted application. That is the next build.
 - Reissue the SSL certificate for `specline.co.uk` to cover `www` as well. The handshake fails on
   `www` today, so the redirect in `.htaccess` never gets a chance to run.
 - Delete the leftover `site/` folder from `public_html`; it serves a duplicate of the home page.
@@ -369,6 +368,65 @@ on the page. `docs/TERMS-DRAFT.md` is the brief they were written from, kept for
 
 `site/.htaccess` is defence in depth, not the fix: it disables directory listing, refuses dotfiles
 and source extensions, 404s the repo directories, folds `www` into the apex and forces HTTPS.
+
+## Accounts, administration and the regulations watch
+
+Built 6 September 2026 as PHP under `site/`, because the artifact cannot do it: the Claude
+artifact's `user` capability is not available on this account, so per-viewer identity is
+impossible inside it. Authentication therefore lives on specline.co.uk, and the artifact stays
+the tool.
+
+```
+site/app/bootstrap.php   config, database + schema, session, CSRF, throttle, mail, layout, guards
+site/app/regwatch.php    the 19 Approved Documents, gov.uk fetch/parse, citation mapping
+site/account/            signup, login, logout, verify, forgot, reset, index (the account page)
+site/admin/              index, signups, waitlist, messages, regs, settings, setup
+site/contact.php         message capture   ·   site/cron.php   the scheduled check
+site/static/ui.css       one stylesheet, the same tokens as the home page
+```
+
+**All data lives above `public_html`** — `specline.sqlite`, the setup key, the optional
+`specline-config.php`, and the waiting list CSV that was already there. Hostinger redeploys the
+repository into the web root on every push, so anything kept inside it is destroyed. `DATA_DIR`
+resolves to the directory above the repository and can be overridden with `SPECLINE_DATA_DIR`
+for local testing. SQLite by default; put a `mysql` key in the config file to use MySQL instead.
+
+- **No default administrator.** `admin/setup.php` writes a random key to a file above the web
+  root; whoever can read that file over SFTP can claim the owner role once, and the page then
+  closes itself. There is no hard-coded password anywhere.
+- **Security.** `password_hash`/`password_verify`, per-session CSRF tokens checked with
+  `hash_equals`, sliding-window throttles on login (8 per address and 20 per IP per 15 minutes),
+  signup, contact and password reset, session id regenerated on login, cookies `HttpOnly` +
+  `SameSite=Lax` + `Secure` over HTTPS, tokens stored only as SHA-256 hashes, and a CSP.
+  Sign-in, sign-up and reset all answer identically whether or not an address exists, so none of
+  them can be used to test whether someone has an account. `site/app/` is denied by `.htaccess`
+  **and** by a guard inside the files, so a server that ignores `.htaccess` still cannot fetch
+  the configuration.
+- **`DirectoryIndex` must list `index.php`.** Both `.htaccess` files set it explicitly, and
+  `/account/` and `/admin/` are 403 without it.
+- **Messages are not a mailbox.** The contact form stores to the database and emails the studio
+  with the sender on Reply-To. There is still deliberately no mailbox on specline.co.uk, so mail
+  sent directly to an address there is not collected. The dashboard says so on its face.
+
+**The regulations watch does not edit the library, and must not be made to.** It fetches each
+Approved Document's gov.uk publication page once a day, fingerprints the set of attachment
+addresses plus the page's latest update date, and raises a reviewable event when that moves. It
+then lists the clauses in each project type that name the document, so the review has a
+checklist and the decision has an audit trail. It stops there **because of non-negotiable 1**:
+gov.uk can tell you a PDF was replaced, it cannot tell you that a limiting value moved from 0.18
+to 0.16, and a program that inferred the new wording would be inventing figures for documents
+that go to building control. The machine notices; a person writes the clause in `data/`.
+
+Two honest limits, both stated on the page: the citation count is a **floor**, because a clause
+can be governed by a document without naming it; and car park smoke clearance, fan ratings and
+anything else in a volume the library does not hold stays a NOTE to obtain, never a stated
+figure. The check also runs opportunistically when the dashboard is opened and a day has passed,
+so it works before any cron job exists; Settings generates a token-protected URL and a CLI
+command for a real scheduled task.
+
+Still not built: billing, and per-practice separation of job data — the specification tool is
+still the single Claude artifact. Accounts are the seam for moving it behind a login, which is
+the next build.
 
 ## Commercial model
 

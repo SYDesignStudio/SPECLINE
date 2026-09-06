@@ -12,7 +12,8 @@
 # everything else. If you change the deployment target, change this too.
 
 Options -Indexes
-DirectoryIndex index.html
+# index.php as well as index.html: /account/ and /admin/ are PHP applications.
+DirectoryIndex index.html index.php
 
 RewriteEngine On
 

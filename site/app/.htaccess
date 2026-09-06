@@ -1,0 +1,2 @@
+# site/app holds PHP includes and nothing that should ever answer an HTTP request.
+Require all denied

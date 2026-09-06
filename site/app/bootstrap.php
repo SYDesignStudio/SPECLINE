@@ -1,0 +1,327 @@
+<?php
+/* Specline accounts and administration — shared bootstrap.
+ *
+ * Every page under account/, admin/, contact.php and cron.php starts with
+ *     require __DIR__ . '/../app/bootstrap.php';
+ * and gets: configuration, the database (with its schema), the session, CSRF tokens,
+ * rate limiting, mail, the page layout and the guards.
+ *
+ * WHERE THE DATA LIVES. Hostinger deploys the repository into public_html on every push,
+ * so nothing inside the web root survives a deployment. The database, the optional config
+ * file and the setup key therefore live in the domain directory ABOVE public_html — the
+ * same place the waiting list CSV has always been written. Nothing there is web-served.
+ *
+ * WHAT THIS IS NOT. There is no billing here and no access to the specification tool.
+ * An account is the practice's identity and its place in the queue for the first release.
+ * Nothing on these pages certifies, approves or guarantees anything about a building.
+ */
+
+declare(strict_types=1);
+
+/* Nothing in app/ is a page. site/app/.htaccess denies it at the web server, and this
+   is the same rule in the file itself, so a server that ignores .htaccess still cannot
+   fetch the configuration by asking for it directly. */
+if (PHP_SAPI !== 'cli' && realpath((string)($_SERVER['SCRIPT_FILENAME'] ?? '')) === realpath(__FILE__)) {
+    http_response_code(404); exit("Not found\n");
+}
+
+/* ---------- paths ---------- */
+define('SITE_ROOT', dirname(__DIR__));                       // .../site
+define('REPO_ROOT', dirname(SITE_ROOT));                     // the repository = public_html
+define('DATA_DIR',  getenv('SPECLINE_DATA_DIR') ?: dirname(REPO_ROOT));   // above public_html
+define('DB_FILE',   DATA_DIR . '/specline.sqlite');
+define('CONFIG_FILE', DATA_DIR . '/specline-config.php');
+define('SETUP_KEY_FILE', DATA_DIR . '/specline-setup-key.txt');
+define('WAITLIST_CSV', DATA_DIR . '/specline-waitlist.csv');
+
+/* ---------- configuration (optional file above the web root) ----------
+ * <?php return ['notify_to' => 'x@y', 'base_url' => 'https://specline.co.uk', 'mysql' => [...]];
+ */
+$CFG = [
+    'notify_to' => 'info@sydesignstudio.co.uk',
+    'base_url'  => 'https://specline.co.uk',
+    'mysql'     => null,                          // ['dsn'=>..., 'user'=>..., 'pass'=>...] if SQLite is unavailable
+    'session_hours' => 24 * 14,
+];
+if (is_readable(CONFIG_FILE)) {
+    $override = include CONFIG_FILE;
+    if (is_array($override)) $CFG = array_merge($CFG, $override);
+}
+if (PHP_SAPI === 'cli-server' || (isset($_SERVER['HTTP_HOST']) && str_starts_with($_SERVER['HTTP_HOST'], 'localhost'))) {
+    $CFG['base_url'] = 'http://' . ($_SERVER['HTTP_HOST'] ?? 'localhost');
+}
+function cfg(string $k, $default = null) { global $CFG; return $CFG[$k] ?? $default; }
+
+/* ---------- errors: never on screen ---------- */
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+error_reporting(E_ALL);
+date_default_timezone_set('UTC');
+
+/* ---------- headers ---------- */
+if (PHP_SAPI !== 'cli') {
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: DENY');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    header("Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'");
+    header('Cache-Control: no-store');
+}
+
+/* ---------- database ---------- */
+function db(): PDO {
+    static $pdo = null;
+    if ($pdo) return $pdo;
+    $mysql = cfg('mysql');
+    if (is_array($mysql) && !empty($mysql['dsn'])) {
+        $pdo = new PDO($mysql['dsn'], $mysql['user'] ?? '', $mysql['pass'] ?? '', [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
+        $GLOBALS['DB_DRIVER'] = 'mysql';
+    } else {
+        if (!in_array('sqlite', PDO::getAvailableDrivers(), true)) {
+            throw new RuntimeException('Neither SQLite nor a MySQL configuration is available.');
+        }
+        $new = !file_exists(DB_FILE);
+        $pdo = new PDO('sqlite:' . DB_FILE, null, null, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
+        if ($new) @chmod(DB_FILE, 0600);
+        $pdo->exec('PRAGMA journal_mode=WAL');
+        $pdo->exec('PRAGMA foreign_keys=ON');
+        $pdo->exec('PRAGMA busy_timeout=5000');
+        $GLOBALS['DB_DRIVER'] = 'sqlite';
+    }
+    migrate($pdo);
+    return $pdo;
+}
+function db_driver(): string { db(); return $GLOBALS['DB_DRIVER'] ?? '?'; }
+
+function migrate(PDO $pdo): void {
+    $ai = ($GLOBALS['DB_DRIVER'] ?? 'sqlite') === 'mysql' ? 'INTEGER PRIMARY KEY AUTO_INCREMENT' : 'INTEGER PRIMARY KEY AUTOINCREMENT';
+    $stmts = [
+     "CREATE TABLE IF NOT EXISTS settings (k VARCHAR(64) PRIMARY KEY, v TEXT NOT NULL)",
+     "CREATE TABLE IF NOT EXISTS practices (id $ai, name VARCHAR(150) NOT NULL, address TEXT NOT NULL DEFAULT '',
+        designer VARCHAR(120) NOT NULL DEFAULT '', phone VARCHAR(40) NOT NULL DEFAULT '', plan VARCHAR(20) NOT NULL DEFAULT 'undecided',
+        seats INTEGER NOT NULL DEFAULT 1, created_at VARCHAR(32) NOT NULL)",
+     "CREATE TABLE IF NOT EXISTS users (id $ai, practice_id INTEGER NOT NULL, email VARCHAR(254) NOT NULL UNIQUE,
+        name VARCHAR(120) NOT NULL, pass_hash VARCHAR(255) NOT NULL, role VARCHAR(20) NOT NULL DEFAULT 'member',
+        verified_at VARCHAR(32), created_at VARCHAR(32) NOT NULL, last_login_at VARCHAR(32), login_count INTEGER NOT NULL DEFAULT 0,
+        source VARCHAR(20) NOT NULL DEFAULT 'site')",
+     "CREATE TABLE IF NOT EXISTS tokens (id $ai, user_id INTEGER NOT NULL, kind VARCHAR(20) NOT NULL, hash VARCHAR(64) NOT NULL UNIQUE,
+        expires_at VARCHAR(32) NOT NULL, used_at VARCHAR(32))",
+     "CREATE TABLE IF NOT EXISTS throttle (k VARCHAR(80) PRIMARY KEY, hits TEXT NOT NULL)",
+     "CREATE TABLE IF NOT EXISTS waitlist (id $ai, at VARCHAR(32) NOT NULL, email VARCHAR(254) NOT NULL, name VARCHAR(120) NOT NULL DEFAULT '',
+        practice VARCHAR(150) NOT NULL DEFAULT '', ip VARCHAR(64) NOT NULL DEFAULT '', UNIQUE (at, email))",
+     "CREATE TABLE IF NOT EXISTS messages (id $ai, at VARCHAR(32) NOT NULL, name VARCHAR(120) NOT NULL DEFAULT '', email VARCHAR(254) NOT NULL,
+        practice VARCHAR(150) NOT NULL DEFAULT '', subject VARCHAR(200) NOT NULL DEFAULT '', body TEXT NOT NULL, ip VARCHAR(64) NOT NULL DEFAULT '',
+        user_id INTEGER, status VARCHAR(20) NOT NULL DEFAULT 'new', note TEXT NOT NULL DEFAULT '')",
+     "CREATE TABLE IF NOT EXISTS regdocs (id $ai, code VARCHAR(16) NOT NULL UNIQUE, title VARCHAR(200) NOT NULL, page_url VARCHAR(400) NOT NULL,
+        held VARCHAR(200) NOT NULL DEFAULT '', cites VARCHAR(200) NOT NULL DEFAULT '', last_checked VARCHAR(32), last_changed VARCHAR(32),
+        fingerprint VARCHAR(64), files TEXT, page_updated VARCHAR(32), latest_note TEXT, status VARCHAR(20) NOT NULL DEFAULT 'unchecked', error TEXT)",
+     "CREATE TABLE IF NOT EXISTS regevents (id $ai, doc_id INTEGER NOT NULL, at VARCHAR(32) NOT NULL, summary TEXT NOT NULL,
+        before_files TEXT, after_files TEXT, reviewed_at VARCHAR(32), reviewed_by VARCHAR(120), outcome TEXT)",
+     "CREATE TABLE IF NOT EXISTS audit (id $ai, at VARCHAR(32) NOT NULL, who VARCHAR(254) NOT NULL DEFAULT '', what VARCHAR(80) NOT NULL, detail TEXT NOT NULL DEFAULT '')",
+    ];
+    foreach ($stmts as $s) $pdo->exec($s);
+}
+
+function q(string $sql, array $args = []): PDOStatement {
+    $st = db()->prepare($sql); $st->execute($args); return $st;
+}
+function row(string $sql, array $args = []): ?array { $r = q($sql, $args)->fetch(); return $r === false ? null : $r; }
+function rows(string $sql, array $args = []): array { return q($sql, $args)->fetchAll(); }
+function val(string $sql, array $args = []) { $r = q($sql, $args)->fetch(PDO::FETCH_NUM); return $r === false ? null : $r[0]; }
+
+function setting(string $k, ?string $default = null): ?string {
+    $v = val('SELECT v FROM settings WHERE k = ?', [$k]);
+    return $v === null ? $default : (string)$v;
+}
+function set_setting(string $k, string $v): void {
+    if (db_driver() === 'mysql') q('INSERT INTO settings (k, v) VALUES (?, ?) ON DUPLICATE KEY UPDATE v = VALUES(v)', [$k, $v]);
+    else q('INSERT INTO settings (k, v) VALUES (?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v', [$k, $v]);
+}
+function now(): string { return gmdate('c'); }
+function audit(string $what, string $detail = ''): void {
+    q('INSERT INTO audit (at, who, what, detail) VALUES (?, ?, ?, ?)', [now(), current_user()['email'] ?? '', $what, $detail]);
+}
+
+/* ---------- session ---------- */
+function session_start_secure(): void {
+    if (session_status() === PHP_SESSION_ACTIVE) return;
+    $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+    session_name('specline');
+    session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'secure' => $secure, 'httponly' => true, 'samesite' => 'Lax']);
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.gc_maxlifetime', (string)(cfg('session_hours') * 3600));
+    session_start();
+    if (!empty($_SESSION['uid'])) {
+        $idle = time() - (int)($_SESSION['seen'] ?? 0);
+        if ($idle > cfg('session_hours') * 3600) { session_unset(); session_destroy(); session_start(); }
+    }
+    $_SESSION['seen'] = time();
+}
+
+function current_user(): ?array {
+    static $u = false;
+    if ($u !== false) return $u;
+    if (PHP_SAPI === 'cli') return $u = null;
+    session_start_secure();
+    if (empty($_SESSION['uid'])) return $u = null;
+    $u = row('SELECT u.*, p.name AS practice_name, p.plan, p.seats FROM users u JOIN practices p ON p.id = u.practice_id WHERE u.id = ?', [(int)$_SESSION['uid']]);
+    return $u;
+}
+function login_user(array $user): void {
+    session_start_secure();
+    session_regenerate_id(true);
+    $_SESSION['uid'] = (int)$user['id'];
+    $_SESSION['seen'] = time();
+    q('UPDATE users SET last_login_at = ?, login_count = login_count + 1 WHERE id = ?', [now(), (int)$user['id']]);
+}
+function logout_user(): void {
+    session_start_secure();
+    $_SESSION = [];
+    if (ini_get('session.use_cookies')) {
+        $p = session_get_cookie_params();
+        setcookie(session_name(), '', ['expires' => time() - 42000, 'path' => $p['path'], 'secure' => $p['secure'], 'httponly' => true, 'samesite' => 'Lax']);
+    }
+    session_destroy();
+}
+function require_login(): array {
+    $u = current_user();
+    if (!$u) { header('Location: /account/login.php?next=' . rawurlencode($_SERVER['REQUEST_URI'] ?? '/account/')); exit; }
+    return $u;
+}
+function require_admin(): array {
+    $u = require_login();
+    if ($u['role'] !== 'owner' || empty($u['verified_at'])) { http_response_code(403); page_start('Not available'); echo '<div class="sheet"><h1>Not available</h1><p>This area is for the Specline administrator.</p><p><a href="/account/">Back to your account</a></p></div>'; page_end(); exit; }
+    return $u;
+}
+function admin_exists(): bool { return (int)val("SELECT COUNT(*) FROM users WHERE role = 'owner'") > 0; }
+
+/* ---------- CSRF ---------- */
+function csrf_token(): string {
+    session_start_secure();
+    if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(32));
+    return $_SESSION['csrf'];
+}
+function csrf_field(): string { return '<input type="hidden" name="csrf" value="' . e(csrf_token()) . '">'; }
+function csrf_check(): void {
+    $sent = (string)($_POST['csrf'] ?? '');
+    if ($sent === '' || !hash_equals(csrf_token(), $sent)) { http_response_code(400); exit('The form has expired. Go back and try again.'); }
+}
+function is_post(): bool { return ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST'; }
+
+/* ---------- rate limiting: a sliding window per key ---------- */
+function throttle(string $key, int $max, int $windowSeconds): bool {
+    $k = hash('sha256', $key);
+    $now = time();
+    $r = row('SELECT hits FROM throttle WHERE k = ?', [$k]);
+    $hits = array_values(array_filter(array_map('intval', $r ? explode(',', $r['hits']) : []), fn($t) => $now - $t < $windowSeconds));
+    if (count($hits) >= $max) return false;
+    $hits[] = $now;
+    $csv = implode(',', $hits);
+    if ($r) q('UPDATE throttle SET hits = ? WHERE k = ?', [$csv, $k]);
+    else q('INSERT INTO throttle (k, hits) VALUES (?, ?)', [$k, $csv]);
+    return true;
+}
+function client_ip(): string { return (string)($_SERVER['REMOTE_ADDR'] ?? ''); }
+
+/* ---------- tokens (verification, password reset): stored hashed ---------- */
+function issue_token(int $userId, string $kind, int $ttlSeconds): string {
+    $raw = bin2hex(random_bytes(32));
+    q('DELETE FROM tokens WHERE user_id = ? AND kind = ?', [$userId, $kind]);
+    q('INSERT INTO tokens (user_id, kind, hash, expires_at) VALUES (?, ?, ?, ?)', [$userId, $kind, hash('sha256', $raw), gmdate('c', time() + $ttlSeconds)]);
+    return $raw;
+}
+function consume_token(string $raw, string $kind): ?array {
+    if (!preg_match('/^[0-9a-f]{64}$/', $raw)) return null;
+    $t = row('SELECT * FROM tokens WHERE hash = ? AND kind = ? AND used_at IS NULL', [hash('sha256', $raw), $kind]);
+    if (!$t || strtotime($t['expires_at']) < time()) return null;
+    q('UPDATE tokens SET used_at = ? WHERE id = ?', [now(), (int)$t['id']]);
+    return row('SELECT * FROM users WHERE id = ?', [(int)$t['user_id']]);
+}
+
+/* ---------- mail: plain text, no From header (see waitlist.php for why) ---------- */
+function send_mail(string $to, string $subject, string $body, ?string $replyTo = null): bool {
+    if (preg_match('/[\r\n]/', $to . $subject . (string)$replyTo)) return false;
+    $headers = "Content-Type: text/plain; charset=utf-8\r\nX-Mailer: Specline";
+    if ($replyTo && filter_var($replyTo, FILTER_VALIDATE_EMAIL)) $headers .= "\r\nReply-To: " . $replyTo;
+    if (PHP_SAPI === 'cli-server') { @file_put_contents(DATA_DIR . '/specline-mail.log', "TO: $to\nSUBJECT: $subject\n$body\n----\n", FILE_APPEND); return true; }
+    return @mail($to, $subject, $body, $headers);
+}
+function notify_studio(string $subject, string $body, ?string $replyTo = null): void { send_mail(cfg('notify_to'), $subject, $body, $replyTo); }
+
+/* ---------- validation helpers ---------- */
+function e(?string $s): string { return htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
+function clean(string $k, int $max = 200): string {
+    $v = trim((string)($_POST[$k] ?? ''));
+    $v = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $v) ?? '';
+    return mb_substr($v, 0, $max);
+}
+function valid_email(string $s): bool { return $s !== '' && strlen($s) <= 254 && filter_var($s, FILTER_VALIDATE_EMAIL) !== false && !preg_match('/[\r\n]/', $s); }
+function password_problem(string $p, string $email): ?string {
+    if (strlen($p) < 12) return 'Use at least 12 characters. A short sentence works well.';
+    if (strlen($p) > 200) return 'That is longer than 200 characters.';
+    if (strcasecmp($p, $email) === 0) return 'Your password cannot be your email address.';
+    if (preg_match('/^(.)\1+$/', $p) || in_array(strtolower($p), ['password1234', 'specline2026', '123456789012'], true)) return 'That password is too easy to guess.';
+    return null;
+}
+function ago(?string $iso): string {
+    if (!$iso) return '—';
+    $d = time() - strtotime($iso);
+    if ($d < 60) return 'just now';
+    if ($d < 3600) return intdiv($d, 60) . ' min ago';
+    if ($d < 86400) return intdiv($d, 3600) . ' h ago';
+    if ($d < 86400 * 30) return intdiv($d, 86400) . ' d ago';
+    return gmdate('j M Y', strtotime($iso));
+}
+function fmt_when(?string $iso): string { return $iso ? gmdate('j M Y, H:i', strtotime($iso)) . ' UTC' : '—'; }
+function redirect(string $to): never { header('Location: ' . $to); exit; }
+
+/* ---------- layout ---------- */
+function lockup(string $href = '/'): string {
+    return '<a class="lockup" href="' . e($href) . '" aria-label="Specline"><svg viewBox="0 0 6.7 28" aria-hidden="true"><path d="M5.7 1H1V27H5.7" fill="none" stroke="var(--bracket)" stroke-width="2"/></svg><b aria-hidden="true">Specline</b><svg viewBox="0 0 6.7 28" aria-hidden="true"><path d="M1 1H5.7V27H1" fill="none" stroke="var(--bracket)" stroke-width="2"/></svg></a>';
+}
+function page_start(string $title, array $o = []): void {
+    $u = current_user();
+    echo '<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">';
+    echo '<title>' . e($title) . ' · Specline</title><meta name="robots" content="noindex,nofollow">';
+    echo '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 32 32\'%3E%3Crect width=\'32\' height=\'32\' rx=\'6\' fill=\'%230E6E85\'/%3E%3Cpath d=\'M13.5 7.5H8V24.5H13.5M18.5 7.5H24V24.5H18.5\' fill=\'none\' stroke=\'%23FBFAF8\' stroke-width=\'3\'/%3E%3C/svg%3E">';
+    echo '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
+    echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">';
+    echo '<link rel="stylesheet" href="/static/ui.css"></head><body class="' . e($o['body'] ?? '') . '">';
+    if (!empty($o['admin'])) {
+        $here = basename($_SERVER['SCRIPT_NAME'] ?? '');
+        $nav = [['index.php', 'Overview'], ['signups.php', 'Sign-ups'], ['waitlist.php', 'Waiting list'], ['messages.php', 'Messages'], ['regs.php', 'Regulations watch'], ['settings.php', 'Settings']];
+        echo '<div class="admin"><aside class="rail">' . lockup('/admin/') . '<p class="railtag">Administration</p><nav aria-label="Administration">';
+        foreach ($nav as [$f, $label]) {
+            $n = $f === 'messages.php' ? (int)val("SELECT COUNT(*) FROM messages WHERE status = 'new'") : ($f === 'regs.php' ? (int)val("SELECT COUNT(*) FROM regdocs WHERE status = 'changed'") : 0);
+            echo '<a href="/admin/' . $f . '"' . ($here === $f ? ' aria-current="page"' : '') . '>' . e($label) . ($n ? ' <span class="count">' . $n . '</span>' : '') . '</a>';
+        }
+        echo '</nav><div class="railfoot"><span>' . e($u['name'] ?? '') . '</span><a href="/account/">Account</a><a href="/account/logout.php">Sign out</a></div></aside><main class="main">';
+    } else {
+        echo '<header class="top">' . lockup() . '<nav aria-label="Account">';
+        if ($u) echo '<a href="/account/">' . e($u['name']) . '</a>' . ($u['role'] === 'owner' ? '<a href="/admin/">Administration</a>' : '') . '<a href="/account/logout.php">Sign out</a>';
+        else echo '<a href="/account/login.php">Sign in</a><a class="btn btn-primary btn-sm" href="/account/signup.php">Create an account</a>';
+        echo '</nav></header><main class="wrap">';
+    }
+}
+function page_end(array $o = []): void {
+    if (!empty($o['admin'])) echo '</main></div>';
+    else echo '</main><footer class="foot"><p>Specline drafts the specification. The named designer remains responsible for its suitability, and compliance of the work is determined by the building control body. Nothing here is a certificate, an approval or a plan check.</p><p><a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="/contact.php">Contact</a> · SY Design Studio Ltd</p></footer>';
+    echo '</body></html>';
+}
+function flash(?string $set = null, string $kind = 'ok'): ?array {
+    session_start_secure();
+    if ($set !== null) { $_SESSION['flash'] = [$kind, $set]; return null; }
+    $f = $_SESSION['flash'] ?? null; unset($_SESSION['flash']); return $f;
+}
+function show_flash(): void {
+    if ($f = flash()) echo '<p class="notice notice-' . e($f[0]) . '" role="status">' . e($f[1]) . '</p>';
+}
+function field(string $name, string $label, string $type = 'text', array $a = []): string {
+    $id = 'f_' . $name;
+    $attrs = '';
+    foreach ($a as $k => $v) { if ($v === true) $attrs .= ' ' . $k; elseif ($v !== false && $v !== null) $attrs .= ' ' . $k . '="' . e((string)$v) . '"'; }
+    $val = $type === 'password' ? '' : ' value="' . e((string)($_POST[$name] ?? ($a['value'] ?? ''))) . '"';
+    if ($type === 'textarea') return '<div class="field"><label for="' . $id . '">' . e($label) . '</label><textarea id="' . $id . '" name="' . $name . '"' . $attrs . '>' . e((string)($_POST[$name] ?? ($a['value'] ?? ''))) . '</textarea></div>';
+    return '<div class="field"><label for="' . $id . '">' . e($label) . '</label><input id="' . $id . '" type="' . $type . '" name="' . $name . '"' . $val . $attrs . '></div>';
+}

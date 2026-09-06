@@ -93,6 +93,17 @@ if (flock($fh, LOCK_EX)) {
 fclose($fh);
 @chmod(STORE, 0600);
 
+/* Mirror it into the database so the admin dashboard can show the list beside the accounts.
+ * The CSV above stays the record of truth: if the database is unavailable the signup is
+ * already safe on disk, so a failure here must not reach the person filling the form. */
+try {
+    require_once __DIR__ . '/app/bootstrap.php';
+    q('INSERT INTO waitlist (at, email, name, practice, ip) VALUES (?, ?, ?, ?, ?)',
+      [gmdate('c'), mb_strtolower($email), $name, $practice, $ip]);
+} catch (Throwable $t) {
+    error_log('specline waitlist: database mirror failed: ' . $t->getMessage());
+}
+
 /* Notify the studio. A failure here must not lose the signup, which is already stored.
  *
  * No From header is set, deliberately. A From of no-reply@specline.co.uk would need a real
