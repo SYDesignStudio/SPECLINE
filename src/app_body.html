@@ -1,11 +1,15 @@
 <header class="topbar">
-  <button class="brand" id="brandHome" title="Jobs"><svg id="brandLogo" width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="0.5" y="0.5" width="25" height="25" rx="5" fill="var(--accent)"/><g stroke="var(--on-accent)" stroke-width="1.5" stroke-linecap="square" fill="none"><path d="M6 13 h14"/><path d="M8 9 L5 17"/><path d="M21 9 L18 17"/></g></svg><span class="bt"><b>Specline</b><small>Building Regulations</small></span></button>
+  <button class="brand" id="brandHome" title="Jobs">
+    <span class="lockup" role="img" aria-label="Specline"><svg viewBox="0 0 6.2 26" aria-hidden="true"><path d="M5.3 0.9H0.9V25.1H5.3" fill="none" stroke="var(--bracket)" stroke-width="1.8" stroke-linejoin="miter"/></svg><b aria-hidden="true">Specline</b><svg viewBox="0 0 6.2 26" aria-hidden="true"><path d="M0.9 0.9H5.3V25.1H0.9" fill="none" stroke="var(--bracket)" stroke-width="1.8" stroke-linejoin="miter"/></svg></span>
+    <small>Building Regulations</small>
+  </button>
   <nav class="tabs" id="tabs" aria-label="Sections">
     <button data-r="home">Jobs</button>
     <button data-r="job">Workspace</button>
     <button data-r="spec">Specification</button>
     <button data-r="calc">U-value working</button>
     <button data-r="standards">Practice standards</button>
+    <button data-r="practice">Practice</button>
   </nav>
   <div class="spacer"></div>
   <span class="savestate" id="savestate" hidden><i></i><span id="savetext">Saved</span></span>
@@ -62,3 +66,5 @@
 <main id="calcpage" class="page" hidden></main>
 
 <main id="stdpage" class="page" hidden></main>
+
+<main id="practicepage" class="page" hidden></main>

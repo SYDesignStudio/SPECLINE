@@ -51,7 +51,7 @@ src/
   configurator2.js      floor / basement / roof configurators (UI)
   ucalc.js              UC: materials with verified conductivities + wall calculations
   ucalc2.js             floors (BS EN ISO 13370), heated basements, three roof types
-  logos.js              LOGO, LOGO_DARK, LOGO_PDF as data URIs
+  logos.js              SPECLINE_ICON (app chrome, favicons) and PRACTICE_SEED_LOGO (this installation)
   vendor/jspdf.local.js local jsPDF, used only by dist/preview.html for offline tests
 docgen/               Word + PDF generation (python-docx, LibreOffice for the PDF step)
   spec_from_data.py     the generator: one .docx + .pdf per type, straight from dist/specdata.js
@@ -187,10 +187,17 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
 - The **layer bar** (`layerBar()` in `app_js.js`) draws a build-up's layers to scale from the
   calculator's `layers` array. It is the app's signature: on the desk, in every configurator, on
   each calculated build-up card, on the working page. Colours come from `swatchFor()` by material.
-- Design: warm paper ground, Newsreader for headings, Geist for text, Geist Mono for figures.
-  Graphite for actions; the studio orange only for the built thing (references, targets, the bar).
-  The logo from `src/logos.js` sits on a white plate in dark mode (`--logo-plate`).
-  `LOGO_DARK` is a screenshot strip with UI baked in — do not use it.
+- **Practice profile** (`P` in `app_js.js`, route `practice`): name, named designer, address,
+  email, phone, logo as a data URI with its pixel size, plan (`solo` | `practice` | `payg`) and a
+  list of users. Seeded from `PRACTICE_SEED` (this installation), kept in localStorage under
+  `specline-practice` and in db doc `practice/profile`. The preview cover, the PDF cover, the
+  running footer and the responsibility statement all read from `P`. `coverNotice()` builds the
+  two-paragraph "ISSUED FOR BUILDING CONTROL APPROVAL" block in the practice's voice; the same
+  `resp` paragraph shows on the Review and issue step before the PDF is produced. Seats are shown
+  against the plan limit and not enforced.
+- The chrome lockup is brackets as inline SVG and the wordmark as text (`.lockup`), per the
+  identity sheet. Archivo 700 for the wordmark only; `--brand-ink` / `--bracket` carry its colours
+  in both themes. `src/logos.js` holds the Specline icon data URIs and the practice seed logo.
 - Test selectors that must survive a restyle: `.tile[data-k]`, `button.step` (`.st`, `.sc`),
   `#stepJob`, `.crumb`, `#fields input[data-k]`, `#typename`, `#stage .card` (`.tag`, `.more`,
   `.rm`), `#paper .sched`, `#btnPdf`, `#btnPrev`, `#btnType`, `.viewer`, `.cfgcard`, `.uval`,
@@ -214,6 +221,10 @@ Roughly in order:
 - Embed a font in the PDF export if the documents are to go to unknown recipients. The `²`/`³`
   characters *are* in the file; some viewers substitute a font that lacks the glyph because the
   standard PDF fonts are referenced rather than embedded. Costs roughly 300 KB per file.
+
+- Wire the waiting list on `site/index.html` to a form endpoint. It is a `mailto:` link today,
+  and the sign-in button opens a "not yet" panel that asks for nothing. Set the real domain on the
+  canonical and Open Graph tags before the page goes live.
 
 **Two figures deliberately left unconfirmed** (recorded in `reference/review-notes/`): the 60-minute
 fire resistance for a basement more than 10 m deep or with more than one basement storey, and the
@@ -246,6 +257,37 @@ bug.
   `:root[data-theme="dark"]`. Never style a component inside a theme block. The A4 preview stays
   true white in both themes — it is paper, not chrome.
 - **Status.** Never colour alone. The figure goes in the label: "Meets 0.18", not a green tick.
+
+## Commercial model
+
+**Subscription only. Never a one-time licence.** The Approved Documents change: L1 and F1 2026
+editions come into force on 24 March 2027, and there will be more. A perpetual licence would
+commit us to maintaining a regulatory library forever for a single payment. Recurring revenue is
+what matches a product whose value is being current.
+
+| Tier | Price, ex VAT | What it covers |
+|---|---|---|
+| Solo | £39/month or £390/year | 1 user, all 8 project types, unlimited specifications |
+| Practice | £89/month or £890/year | up to 5 users, shared job library, the practice's own added clauses |
+| Per spec | £25 per issued spec | no subscription |
+
+Annual is ten months' money. Founding-member pricing is locked for life for the first 30
+subscribers.
+
+Rules, because they constrain the build:
+
+- **White-labelling is in every tier, including Per spec.** A specification a practice cannot put
+  its own name on is not a product. Gate seats and custom clauses, never the practice's own
+  identity on its own document.
+- **Three per-spec purchases must cost more than one month of Solo** (3 × £25 = £75 > £39), so the
+  cheap option pushes upward rather than replacing the subscription. Re-check this whenever a
+  price moves.
+- **Do not build payment processing yet.** Build the seams only: the practice profile, the plan
+  field, the seat count shown against its limit. Billing comes after a solicitor has reviewed
+  `docs/TERMS-DRAFT.md`.
+- **The software drafts; building control approves.** Nothing in the app, the documents or the
+  marketing may say or imply that Specline certifies, approves or guarantees compliance. The named
+  designer remains responsible for the specification's suitability on the job.
 
 ## Regulatory horizon
 

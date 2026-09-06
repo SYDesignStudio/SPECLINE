@@ -1,4 +1,37 @@
-const PRACTICE = {name:"SY Design Studio Ltd", addr:"49 Durham Avenue, Hounslow, TW5 0HG", email:"info@sydesignstudio.co.uk"};
+/* ---------------- practice profile ----------------
+   One record per installation. Seeded with this installation's practice, edited in Practice
+   settings, kept in localStorage and, in the artifact, in db doc practice/profile.
+   The generated specification takes its logo, cover, running header and responsibility statement
+   from THIS, never from a compiled-in asset. Specline's own mark never appears on a document. */
+const PLANS = {
+  solo:     {n:"Solo",     seats:1, price:"£39/month or £390/year"},
+  practice: {n:"Practice", seats:5, price:"£89/month or £890/year"},
+  payg:     {n:"Per spec", seats:1, price:"£25 per issued specification"}
+};
+const PRACTICE_SEED = {name:"SY Design Studio Ltd", designer:"Salman Yousaf", addr:"49 Durham Avenue, Hounslow, TW5 0HG",
+  email:"info@sydesignstudio.co.uk", phone:"", logo:PRACTICE_SEED_LOGO, logoW:PRACTICE_SEED_LOGO_W, logoH:PRACTICE_SEED_LOGO_H,
+  plan:"solo", users:["Salman Yousaf"]};
+let P = {...PRACTICE_SEED};
+const PRACTICE_KEY="specline-practice";
+function loadPractice(){ try{ const j=JSON.parse(localStorage.getItem(PRACTICE_KEY)||"null"); if(j&&j.name) P={...PRACTICE_SEED,...j}; }catch(e){} }
+let practiceTimer=null;
+function savePractice(){ try{ localStorage.setItem(PRACTICE_KEY,JSON.stringify(P)); }catch(e){}
+  clearTimeout(practiceTimer); practiceTimer=setTimeout(async()=>{ if(!db) return;
+    try{ await db.doc("practice/profile").set({...P,updated:Date.now()}); }catch(e){ console.error(e); } },600); }
+async function loadPracticeRemote(){ if(!db) return;
+  try{ const snap=await db.doc("practice/profile").get();
+    if(snap&&snap.exists){ const j=snap.data(); if(j&&j.name){ P={...PRACTICE_SEED,...j};
+      try{ localStorage.setItem(PRACTICE_KEY,JSON.stringify(P)); }catch(e){}
+      if(S.type) renderPaper(); if(S.route==="practice") renderPractice(); } }
+  }catch(e){ console.error(e); } }
+/* The cover notice, in the practice's voice. The software drafts; building control approves. */
+function coverNotice(){
+  const who = P.designer ? `${P.designer} of ${P.name}` : P.name;
+  return {
+    lead:`To be read with the ${P.name} drawing pack, the structural engineer's design and calculations, and any specialist sub-contractor design. All work to comply with the Building Regulations 2010 (as amended) and the Approved Documents current at the date of issue.`,
+    resp:`${who} is the named designer and remains responsible for the suitability of this specification for this project. Every clause and table reference is to be confirmed against the Approved Documents in force at the date of submission. Compliance of the work is determined by the building control body; this document is the designer's specification of the work, not an approval of it.`
+  };
+}
 const GROUPS = {SW:"Separating walls", SF:"Separating floors", EW:"External walls", IW:"Internal walls", GF:"Ground floors", IF:"Floors", RF:"Roofs", BW:"Basement walls", BF:"Basement floors"};
 const GORDER = ["SW","SF","EW","IW","GF","IF","RF","BW","BF"];
 
@@ -151,7 +184,7 @@ function typeTiles(){
 }
 
 /* ---------------- routing ---------------- */
-const ROUTES=["home","job","spec","calc","standards"];
+const ROUTES=["home","job","spec","calc","standards","practice"];
 function go(route){
   if(["job","spec","calc"].includes(route) && !S.type){ route="home"; }
   S.route=route;
@@ -161,6 +194,7 @@ function go(route){
   el("specpage").hidden = route!=="spec";
   el("calcpage").hidden = route!=="calc";
   el("stdpage").hidden = route!=="standards";
+  el("practicepage").hidden = route!=="practice";
   el("tabs").querySelectorAll("button").forEach(b=>{
     b.classList.toggle("cur",b.dataset.r===route);
     b.disabled = ["job","spec","calc"].includes(b.dataset.r) && !S.type;
@@ -173,6 +207,7 @@ function go(route){
   if(route==="spec") { renderPaper(); renderSpecNav(); }
   if(route==="calc") renderCalcPage();
   if(route==="standards") renderStandards();
+  if(route==="practice") renderPractice();
   window.scrollTo(0,0);
   try{ localStorage.setItem("syds-route",route); }catch(e){}
 }
@@ -383,6 +418,8 @@ function renderReview(){
       <h2>Ready to issue ${esc(S.data.rev||"P01")}?</h2>
       <p class="lede">Check the summary, then download the PDF. Issuing records this revision in the job's history and moves the working revision on.</p>
     </div>
+    <div class="notice"><p class="eyebrow">Before you issue</p><p>${esc(coverNotice().resp)}</p>
+      <p class="srcnote">This prints on the cover, with the practice and designer from <a href="#" id="toPractice">Practice settings</a>.</p></div>
     <div class="review">
       <div class="xcard"><span class="eyebrow">PDF</span><b>Download ${esc(S.data.rev||"P01")}</b><p>The branded specification with the U-value working as its own section. Nothing is recorded.</p><button class="btn" id="finish">Download PDF</button></div>
       <div class="xcard"><span class="eyebrow">Issue</span><b>Issue ${esc(S.data.rev||"P01")}</b><p>Downloads the PDF, records the issue against this job and sets the working revision to ${esc(nextRev(S.data.rev))}.</p><button class="btn btn-accent" id="issue">Issue ${esc(S.data.rev||"P01")}</button></div>
@@ -393,6 +430,7 @@ function renderReview(){
   el("finish").onclick=makePdf;
   el("issue").onclick=issue;
   el("readSpec").onclick=()=>go("spec");
+  el("toPractice").onclick=e=>{ e.preventDefault(); go("practice"); };
   el("prev").onclick=()=>setStep(cats().length-1);
 }
 function nextRev(rev){ const m=/^([A-Za-z]*)(\d+)$/.exec(rev||"P01"); if(!m) return "P02";
@@ -412,8 +450,9 @@ function renderPaper(){
   if(!S.type) return;
   const r=refs(), sel=orderedSel(), d=S.data;
   const today=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
-  let h=`<img class="plogo" src="${LOGO}" alt="SY Design Studio">
-    <p class="paddr">${esc(PRACTICE.addr)} &nbsp;·&nbsp; ${esc(PRACTICE.email)}</p>
+  const nt=coverNotice();
+  let h=`<img class="plogo" src="${P.logo}" alt="${esc(P.name)}">
+    <p class="paddr">${esc(P.addr)}${P.email?" &nbsp;·&nbsp; "+esc(P.email):""}${P.phone?" &nbsp;·&nbsp; "+esc(P.phone):""}</p>
     <h1 class="ptitle">BUILDING REGULATIONS<span class="o">SPECIFICATION</span></h1>
     <p class="psub">${esc(spec().name)} — ${esc(spec().region)}</p>
     <table class="meta">
@@ -422,14 +461,11 @@ function renderPaper(){
       <tr><td>Client</td><td>${esc(d.client||"—")}</td></tr>
       <tr><td>Job number</td><td>${esc(d.job||"—")}</td></tr>
       <tr><td>Local authority</td><td>${esc(d.la||"—")}</td></tr>
-      <tr><td>Prepared by</td><td>Salman Yousaf, ${esc(PRACTICE.name)}</td></tr>
+      <tr><td>Prepared by</td><td>${esc(P.designer?P.designer+", ":"")}${esc(P.name)}</td></tr>
       <tr><td>Date</td><td>${today}</td></tr>
       <tr><td>Revision</td><td>${esc(d.rev||"P01")}</td></tr>
     </table>
-    <div class="flag"><b>ISSUED FOR BUILDING CONTROL APPROVAL.</b> To be read with the SY Design Studio Ltd
-      drawing pack, the structural engineer's design and calculations, and any specialist sub-contractor design.
-      All work to comply with the Building Regulations 2010 (as amended) and the Approved Documents current at
-      the date of issue.</div>
+    <div class="flag"><b>ISSUED FOR BUILDING CONTROL APPROVAL.</b> ${esc(nt.lead)}<p class="fl2">${esc(nt.resp)}</p></div>
     <div class="sec" id="s-sched"><i>1.0</i>Construction build-up schedule</div>`;
   if(!sel.length) h+=`<p class="empty">No build-ups selected yet.</p>`;
   else {
@@ -506,6 +542,61 @@ function renderStandards(){
     <p class="lede" style="max-width:72ch">Approved Documents L1 and F1, 2026 editions, were published on 24 March 2026 and come into force on 24 March 2027, with transitional relief for new dwellings commenced before 24 March 2028. Every specification carries the flag. The Part L and Part F content will need a full pass against the new editions during 2027.</p></div>`;
 }
 
+function renderPractice(){
+  const plan=PLANS[P.plan]||PLANS.solo, used=(P.users||[]).filter(Boolean).length;
+  const seatLine=(u,pl)=>`<b>${u} of ${pl.seats}</b> seat${pl.seats>1?"s":""} in use${u>pl.seats?`. Over the ${esc(pl.n)} limit; nothing is enforced yet.`:"."}`;
+  el("practicepage").innerHTML=`<div class="pagehead"><div><p class="eyebrow">Practice settings</p><h1>${esc(P.name||"Your practice")}</h1>
+      <p class="lede">Everything here prints on the specification: the logo and address on the cover, the name in the running footer, the named designer in the responsibility statement. Specline's own mark never appears on a document.</p></div></div>
+    <div class="pgrid">
+      <div class="card"><p class="grouplabel" style="margin-top:0">Identity on the document</p>
+        <div class="fields">
+          <label>Practice name<input data-p="name" value="${esc(P.name)}"><small>Cover page and footer.</small></label>
+          <label>Named designer<input data-p="designer" value="${esc(P.designer||"")}"><small>Prepared by, and the responsibility statement.</small></label>
+          <label class="wide">Address<input data-p="addr" value="${esc(P.addr)}"><small>Under the logo on the cover.</small></label>
+          <label>Email<input data-p="email" value="${esc(P.email||"")}"><small>Cover and footer.</small></label>
+          <label>Phone<input data-p="phone" value="${esc(P.phone||"")}"><small>Cover, if given.</small></label>
+        </div></div>
+      <div class="card"><p class="grouplabel" style="margin-top:0">Logo</p>
+        <div class="logobox"><img src="${P.logo}" alt="${esc(P.name)} logo"></div>
+        <div class="cfgfoot"><span class="srcnote">PNG or JPEG up to 3 MB. Fitted to the cover at its own proportions.</span>
+          <label class="btn">Replace logo<input type="file" id="logoFile" accept="image/png,image/jpeg" hidden></label></div>
+        ${P.logo!==PRACTICE_SEED_LOGO?`<p style="margin:12px 0 0"><button class="btn btn-quiet" id="logoReset">Use this installation's default logo</button></p>`:""}</div>
+      <div class="card"><p class="grouplabel" style="margin-top:0">Plan and seats</p>
+        <div class="fields"><label class="wide">Plan<select data-p="plan">${Object.entries(PLANS).map(([k,v])=>`<option value="${k}" ${P.plan===k?"selected":""}>${esc(v.n)} — ${esc(v.price)}</option>`).join("")}</select><small>Billing is not connected yet. The plan sets the seat limit shown below.</small></label></div>
+        <p class="seats">${seatLine(used,plan)}</p>
+        <label class="cf">Users, one per line<textarea data-p="users" rows="4">${esc((P.users||[]).join("\n"))}</textarea></label>
+        <p class="srcnote" style="margin-top:10px">Every plan carries the practice's own identity on its own documents. Seats and added clauses are what a plan gates.</p></div>
+    </div>
+    <div class="navbar"><span class="srcnote">Changes save as you type.</span><span class="spacer"></span><button class="btn btn-primary" id="practiceDone">Back to jobs</button></div>`;
+  el("practicepage").querySelectorAll("[data-p]").forEach(inp=>{
+    const h=()=>{ const k=inp.dataset.p; P[k]= k==="users" ? inp.value.split("\n").map(x=>x.trim()).filter(Boolean) : inp.value;
+      savePractice(); if(S.type) renderPaper();
+      if(k==="users"||k==="plan") el("practicepage").querySelector(".seats").innerHTML=seatLine((P.users||[]).length, PLANS[P.plan]||PLANS.solo); };
+    inp.oninput=h; inp.onchange=h;
+  });
+  el("logoFile").onchange=e=>readLogo(e.target.files[0]);
+  const lr=el("logoReset"); if(lr) lr.onclick=()=>{ P.logo=PRACTICE_SEED_LOGO; P.logoW=PRACTICE_SEED_LOGO_W; P.logoH=PRACTICE_SEED_LOGO_H; savePractice(); renderPractice(); if(S.type) renderPaper(); };
+  el("practiceDone").onclick=()=>go("home");
+}
+function readLogo(file){
+  if(!file) return;
+  if(file.size>3*1024*1024){ toast("That file is over 3 MB. Export a smaller PNG or JPEG."); return; }
+  const rd=new FileReader();
+  rd.onload=()=>{ const img=new Image();
+    img.onload=()=>{
+      const max=800, sc=Math.min(1,max/Math.max(img.width,img.height));
+      const c=document.createElement("canvas"); c.width=Math.max(1,Math.round(img.width*sc)); c.height=Math.max(1,Math.round(img.height*sc));
+      const ctx=c.getContext("2d"), jpeg=/jpe?g$/i.test(file.type);
+      if(jpeg){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,c.width,c.height); }
+      ctx.drawImage(img,0,0,c.width,c.height);
+      P.logo=jpeg?c.toDataURL("image/jpeg",.9):c.toDataURL("image/png"); P.logoW=c.width; P.logoH=c.height;
+      savePractice(); renderPractice(); if(S.type) renderPaper(); toast("Logo updated");
+    };
+    img.onerror=()=>toast("Could not read that image");
+    img.src=rd.result; };
+  rd.readAsDataURL(file);
+}
+
 function renderAll(){
   if(!S.type){ go("home"); return; }
   el("typename").textContent = spec().name;
@@ -537,7 +628,7 @@ function buildPdf(){
   let y=0,page=1;
   const foot=()=>{ doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.line(L,286,210-R,286);
     doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
-    doc.text(PRACTICE.name+"  ·  "+PRACTICE.email,L,290);
+    doc.text(safe(P.name+(P.email?"  ·  "+P.email:"")),L,290);
     doc.text("Page "+page,210-R,290,{align:"right"}); };
   const head=()=>{ doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
     const left=safe(spec().name+" — Building Regulations Specification"+(d.address?"  ·  "+d.address:""));
@@ -550,9 +641,12 @@ function buildPdf(){
     doc.setFont("helvetica",style);doc.setFontSize(size);doc.setTextColor(...color);
     doc.splitTextToSize(safe(t),W).forEach(ln=>{ need(5);doc.text(ln,L,y);y+=size*0.42+1.1; }); y+=gap; };
 
-  try{ doc.addImage(LOGO_PDF,"JPEG",L,20,29,32.5); }catch(e){}
+  /* the practice's logo, fitted to a 34 x 30 mm box at its own proportions */
+  try{ const fmt=/^data:image\/png/i.test(P.logo)?"PNG":"JPEG"; const bw=34,bh=30; let w=bw,hh=bh;
+    if(P.logoW&&P.logoH){ const ar=P.logoW/P.logoH; if(ar>=bw/bh){ w=bw; hh=bw/ar; } else { hh=bh; w=bh*ar; } }
+    doc.addImage(P.logo,fmt,L,20,w,hh); }catch(e){ console.error(e); }
   doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(...MUTED);
-  doc.text(PRACTICE.addr+"  ·  "+PRACTICE.email,L,58.5);
+  doc.text(safe(P.addr+(P.email?"  ·  "+P.email:"")+(P.phone?"  ·  "+P.phone:"")),L,58.5);
   doc.setDrawColor(...ORANGE);doc.setLineWidth(1.1);doc.line(L,61.5,210-R,61.5);
   doc.setFont("helvetica","bold");doc.setFontSize(28);doc.setTextColor(...DARK);
   doc.text("BUILDING REGULATIONS",L,78);
@@ -561,7 +655,7 @@ function buildPdf(){
   doc.text(safe((spec().name+" — "+spec().region).toUpperCase()),L,100);
   const rows=[["Project",d.project],["Site address",d.address],["Client",d.client],["Job number",d.job],
     ["Local authority",d.la],["Application","Full Plans Application"],
-    ["Prepared by","Salman Yousaf, "+PRACTICE.name],["Date",today],["Revision",d.rev||"P01"]];
+    ["Prepared by",(P.designer?P.designer+", ":"")+P.name],["Date",today],["Revision",d.rev||"P01"]];
   y=114;
   rows.forEach(([k,v])=>{
     doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.setFillColor(251,250,248);
@@ -573,9 +667,7 @@ function buildPdf(){
   doc.setDrawColor(...ORANGE);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
   doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(...ORANGE);
   doc.text("ISSUED FOR BUILDING CONTROL APPROVAL",L+6,y+1); y+=7;
-  para("To be read with the SY Design Studio Ltd drawing pack, the structural engineer's design and calculations, "+
-       "and any specialist sub-contractor design. All work to comply with the Building Regulations 2010 (as "+
-       "amended) and the Approved Documents current at the date of issue.",8,2,MUTED);
+  { const nt=coverNotice(); para(nt.lead,8,1.6,MUTED); para(nt.resp,8,2,MUTED); }
   const hist=S.history||[];
   if(hist.length){ y+=6;
     doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...MUTED);doc.text("ISSUE HISTORY",L,y);y+=5;
@@ -778,14 +870,13 @@ el("themeBtn").onclick=()=>{
   try{ localStorage.setItem("syds-theme",root.dataset.theme); }catch(e){}
 };
 try{ const t=localStorage.getItem("syds-theme"); if(t) document.documentElement.dataset.theme=t; }catch(e){}
-/* chrome carries the Specline mark (app_body.html). LOGO is the practice mark
-   and belongs only on the generated document. */
 
+loadPractice();
 jobsCache=Object.values(localJobs());
 if(restore()){ renderAll(); setSaveState("",db?"Saved":"Kept in this browser"); } else { go("home"); }
 (async()=>{
   if(!window.claude||!claude.use) return;
   try{ downloads=await claude.use("downloads"); }catch(e){}
   try{ db=await claude.use("db"); }catch(e){}
-  if(db) loadJobs();
+  if(db){ loadJobs(); loadPracticeRemote(); }
 })();

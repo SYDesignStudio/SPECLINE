@@ -35,7 +35,7 @@ def cover(d, meta, logo=None):
             ("Job Number",    meta.get('job','')),
             ("Local Authority", meta.get('la','')),
             ("Application",   meta.get('application','Full Plans / Building Notice')),
-            ("Prepared By",   meta.get('author','Salman Yousaf, SY Design Studio Ltd')),
+            ("Prepared By",   meta.get('author', f"{PRACTICE.get('designer','')}, {PRACTICE['name']}".strip(', '))),
             ("Date",          meta.get('date','')),
             ("Revision",      meta.get('rev','P01'))]
     t = d.add_table(rows=len(rows), cols=2); t.style = 'Table Grid'
@@ -61,10 +61,19 @@ def cover(d, meta, logo=None):
     r = p.add_run("ISSUED FOR BUILDING CONTROL APPROVAL")
     r.font.size = Pt(10); r.font.bold = True; r.font.color.rgb = ORANGE
     p = d.add_paragraph()
-    r = p.add_run("This specification is to be read in conjunction with the SY Design Studio Ltd drawing "
+    r = p.add_run(f"This specification is to be read in conjunction with the {PRACTICE['name']} drawing "
                   "pack listed overleaf, the structural engineer's design and calculations, and any "
                   "specialist sub-contractor design. All work to comply with the Building Regulations "
                   "2010 (as amended) and the relevant Approved Documents current at the date of issue.")
+    r.font.size = Pt(8.5); r.font.color.rgb = MID
+    # The responsibility statement, in the practice's voice. The software drafts; building control approves.
+    who = f"{PRACTICE['designer']} of {PRACTICE['name']}" if PRACTICE.get('designer') else PRACTICE['name']
+    p = d.add_paragraph(); p.paragraph_format.space_before = Pt(4)
+    r = p.add_run(f"{who} is the named designer and remains responsible for the suitability of this "
+                  "specification for this project. Every clause and table reference is to be confirmed "
+                  "against the Approved Documents in force at the date of submission. Compliance of the "
+                  "work is determined by the building control body; this document is the designer's "
+                  "specification of the work, not an approval of it.")
     r.font.size = Pt(8.5); r.font.color.rgb = MID
 
     d.add_page_break()

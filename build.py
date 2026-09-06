@@ -64,7 +64,7 @@ def assemble():
     cfg2 = rd(os.path.join(SRC, "configurator2.js"))
     app  = rd(os.path.join(SRC, "app_js.js"))
     logos = rd(os.path.join(SRC, "logos.js"))
-    assert logos.count("const LOGO") == 3, "src/logos.js must declare LOGO, LOGO_DARK and LOGO_PDF"
+    assert "const SPECLINE_ICON" in logos and "const PRACTICE_SEED_LOGO" in logos, "src/logos.js must declare SPECLINE_ICON and PRACTICE_SEED_LOGO"
 
     marker = "/* ---------------- type chooser ---------------- */"
     assert marker in app, "anchor comment missing from src/app_js.js"
