@@ -199,6 +199,24 @@ section.tight{padding:64px 0}
 .founder .pill{flex:none}
 .vat{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin:12px 0 0}
 
+/* waiting list */
+.join{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-card);padding:24px;display:flex;flex-direction:column;gap:14px}
+.join label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:500;color:var(--ink-2)}
+.join label .req{position:absolute;left:-9999px}
+.join input[type=text],.join input[type=email]{border:1px solid var(--rule);background:var(--paper);border-radius:var(--r-ctl);padding:11px 12px;font:inherit;font-size:15px;color:var(--ink);width:100%}
+.join input:focus{border-color:var(--petrol);outline:none;background:var(--surface)}
+.join input[aria-invalid="true"]{border-color:var(--hold)}
+.join .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:520px){.join .pair{grid-template-columns:1fr}}
+.join .check{flex-direction:row;align-items:flex-start;gap:10px;font-weight:400;font-size:14px;line-height:1.5}
+.join .check input{margin:3px 0 0;accent-color:var(--petrol);width:16px;height:16px;flex:none}
+.join .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.join button{justify-content:center;width:100%}
+.join button:disabled{opacity:.5;cursor:not-allowed}
+.jmsg{margin:0;font-size:14.5px;padding:11px 13px;border-radius:var(--r-ctl);border:1px solid var(--rule)}
+.jmsg.ok{color:var(--pass);background:var(--pass-soft);border-color:transparent}
+.jmsg.bad{color:var(--hold);background:var(--hold-soft);border-color:transparent}
+
 /* faq */
 .faq{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0 40px}
 .faq dt{font-weight:600;padding:18px 0 4px;border-top:1px solid var(--rule-soft)}
@@ -237,7 +255,7 @@ footer .links span{color:var(--ink-3)}
     </nav>
     <span class="spacer"></span>
     <button class="btn btn-quiet" id="signin">Sign in</button>
-    <a class="btn btn-primary" href="mailto:info@sydesignstudio.co.uk?subject=Specline%20waiting%20list&body=Practice%3A%0AName%3A%0AWhat%20we%20mostly%20do%3A%20">Join the waiting list</a>
+    <a class="btn btn-primary" href="#join">Join the waiting list</a>
   </div>
 </header>
 
@@ -249,7 +267,7 @@ footer .links span{color:var(--ink-3)}
       <h1>The specification, written to the Approved Documents. <em>Issued under your name.</em></h1>
       <p class="lede">Specline drafts Building Regulations specifications for extensions, lofts, conversions and new build, with the U-value working attached. You check it, put your practice's name on it, and issue it to building control.</p>
       <div class="actions">
-        <a class="btn btn-primary" href="mailto:info@sydesignstudio.co.uk?subject=Specline%20waiting%20list&body=Practice%3A%0AName%3A%0AWhat%20we%20mostly%20do%3A%20">Join the waiting list</a>
+        <a class="btn btn-primary" href="#join">Join the waiting list</a>
         <a class="btn" href="#what">See what you issue</a>
       </div>
       <p class="note">Not open for sign-up yet. Founding-member pricing for the first 30 practices.</p>
@@ -360,6 +378,30 @@ footer .links span{color:var(--ink-3)}
   </div>
 </section>
 
+<section id="join">
+  <div class="wrap two">
+    <div>
+      <p class="eyebrow">Waiting list</p>
+      <h2>Be told when it opens</h2>
+      <p class="lede">Specline is not open for sign-up yet. Leave your email and you will hear first, with founding-member pricing held for the first 30 practices.</p>
+      <p style="color:var(--ink-2);font-size:15px">We will only email you about Specline, we will not pass your address to anyone, and every message has a one-click way off the list. What we keep and for how long is set out in the <a href="/privacy.html">privacy notice</a>.</p>
+    </div>
+    <form class="join" id="joinForm" method="post" action="/waitlist.php" novalidate>
+      <label>Email address<span class="req">required</span>
+        <input type="email" name="email" id="jEmail" autocomplete="email" required placeholder="you@practice.co.uk"></label>
+      <div class="pair">
+        <label>Your name<input type="text" name="name" autocomplete="name" placeholder="Optional"></label>
+        <label>Practice<input type="text" name="practice" autocomplete="organization" placeholder="Optional"></label>
+      </div>
+      <p class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></p>
+      <label class="check"><input type="checkbox" name="consent" value="yes" id="jConsent" required>
+        <span>Yes, email me when Specline opens. I can ask to be removed at any time.</span></label>
+      <button class="btn btn-primary" type="submit" id="jSubmit">Join the waiting list</button>
+      <p class="jmsg" id="jMsg" role="status" aria-live="polite" hidden></p>
+    </form>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
     <p class="eyebrow">Questions</p>
@@ -383,7 +425,7 @@ footer .links span{color:var(--ink-3)}
       <p>49 Durham Avenue, Hounslow TW5 0HG · <a href="mailto:info@sydesignstudio.co.uk">info@sydesignstudio.co.uk</a></p>
       <p>© 2026 SY Design Studio Ltd. All rights reserved.</p>
     </div>
-    <div class="links"><span>Terms · coming with launch</span><span>Privacy · coming with launch</span></div>
+    <div class="links"><a href="/terms.html">Terms of supply</a><a href="/privacy.html">Privacy notice</a></div>
   </div>
 </footer>
 
@@ -394,7 +436,7 @@ footer .links span{color:var(--ink-3)}
     <h2 id="signinTitle">Sign-in opens with the first release</h2>
     <p>There are no subscriber accounts yet, so there is nothing here to sign into, and nothing on this page will ask you for a password until there is.</p>
     <div class="field">Email and password · not yet</div>
-    <a class="btn btn-primary" href="mailto:info@sydesignstudio.co.uk?subject=Specline%20waiting%20list&body=Practice%3A%0AName%3A%0AWhat%20we%20mostly%20do%3A%20">Join the waiting list instead</a>
+    <a class="btn btn-primary" href="#join" id="signinJoin">Join the waiting list instead</a>
   </div>
 </div>
 
@@ -414,11 +456,35 @@ footer .links span{color:var(--ink-3)}
     if(k<1) requestAnimationFrame(step); else done();
   })(performance.now());
 })();
+/* Waiting list: submit without leaving the page, and say plainly what happened. */
+(function(){
+  const f=document.getElementById('joinForm'), msg=document.getElementById('jMsg'),
+        btn=document.getElementById('jSubmit'), email=document.getElementById('jEmail'),
+        consent=document.getElementById('jConsent');
+  const say=(text,ok)=>{ msg.hidden=false; msg.className='jmsg '+(ok?'ok':'bad'); msg.textContent=text; };
+  f.addEventListener('submit', async e=>{
+    e.preventDefault();
+    email.setAttribute('aria-invalid','false');
+    if(!email.value.trim() || !email.checkValidity()){ email.setAttribute('aria-invalid','true'); email.focus(); return say('Please enter a valid email address.',false); }
+    if(!consent.checked){ consent.focus(); return say('Please tick the box so we know we may email you.',false); }
+    btn.disabled=true; const was=btn.textContent; btn.textContent='Adding you…';
+    try{
+      const r=await fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}});
+      let d={}; try{ d=await r.json(); }catch(_){}
+      if(r.ok && d.ok){ say(d.message||'Thank you. You are on the list.',true); f.reset(); btn.textContent='On the list'; return; }
+      say(d.message||'That did not go through. Please email info@sydesignstudio.co.uk and we will add you.',false);
+    }catch(_){
+      say('We could not reach the server. Please email info@sydesignstudio.co.uk and we will add you.',false);
+    }
+    btn.disabled=false; btn.textContent=was;
+  });
+})();
 const dlg=document.getElementById('signinDlg');
 document.getElementById('signin').onclick=()=>{ dlg.hidden=false; document.getElementById('closeSignin').focus(); };
 document.getElementById('closeSignin').onclick=()=>{ dlg.hidden=true; };
 dlg.addEventListener('click',e=>{ if(e.target===dlg) dlg.hidden=true; });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') dlg.hidden=true; });
+document.getElementById('signinJoin').onclick=()=>{ dlg.hidden=true; };
 </script>
 </body>
 </html>

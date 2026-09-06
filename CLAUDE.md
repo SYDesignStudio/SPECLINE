@@ -222,9 +222,15 @@ Roughly in order:
   characters *are* in the file; some viewers substitute a font that lacks the glyph because the
   standard PDF fonts are referenced rather than embedded. Costs roughly 300 KB per file.
 
-- Wire the waiting list on `site/index.html` to a form endpoint. It is a `mailto:` link today,
-  and the sign-in button opens a "not yet" panel that asks for nothing. Set the real domain on the
-  canonical and Open Graph tags before the page goes live.
+- **Accounts and billing.** Neither exists. The app has no sign-in, no sessions and no separation
+  of one practice's data from another: today the Claude artifact and the owner's Claude login are
+  the whole of it, and the artifact's `user` capability is not available on this account, so
+  per-viewer identity cannot be done inside the artifact either. A real product needs a hosted
+  application with its own authentication, per-practice data separation and a payment processor.
+  That is a build, not a patch, and it is gated on the solicitor review above.
+- Reissue the SSL certificate for `specline.co.uk` to cover `www` as well. The handshake fails on
+  `www` today, so the redirect in `.htaccess` never gets a chance to run.
+- Delete the leftover `site/` folder from `public_html`; it serves a duplicate of the home page.
 
 **Two figures deliberately left unconfirmed** (recorded in `reference/review-notes/`): the 60-minute
 fire resistance for a basement more than 10 m deep or with more than one basement storey, and the
@@ -270,6 +276,16 @@ brief with the pricing and the founding-member strategy, `reference/FACTS.md`, a
 whole repo was uploaded to `public_html` by mistake: the home page answered at `/site/index.html`,
 the domain root returned 403 to every visitor, and all of the above were readable over HTTPS.
 `.git` was blocked by the host, so the history was not exposed.
+
+The site is four files: `index.html`, `terms.html`, `privacy.html` and `waitlist.php`, plus
+`.htaccess`. The waiting list posts to `waitlist.php`, which validates, rate-limits by IP, and
+appends to `../specline-waitlist.csv` — **one directory above `public_html`, never web-served** —
+then emails the studio. Read the list by downloading that CSV over SFTP or File Manager.
+`NOTIFY_FROM` in the script must be a real mailbox on the domain or the notification will be
+dropped by the receiving server; the signup is stored either way.
+
+Terms and privacy are published and **drafted in-house, not reviewed by a solicitor**. Both say so
+on the page. `docs/TERMS-DRAFT.md` is the brief they were written from, kept for the solicitor.
 
 `site/.htaccess` is defence in depth, not the fix: it disables directory listing, refuses dotfiles
 and source extensions, 404s the repo directories, folds `www` into the apex and forces HTTPS.

@@ -1,7 +1,12 @@
 # Specline — subscription terms
 
-**UNREVIEWED DRAFT. NOT FOR PUBLICATION. DO NOT SHOW TO A CUSTOMER, LINK FROM THE WEBSITE, OR
-ATTACH TO ANY SALE. A SOLICITOR MUST REVIEW AND REWRITE THIS BEFORE ANY PAYMENT IS TAKEN.**
+**SUPERSEDED, 6 SEPTEMBER 2026. THIS FILE IS THE BRIEF, NOT THE TERMS.** The operative terms
+drafted from it are `site/terms.html`, published at https://specline.co.uk/terms.html, with
+`site/privacy.html` alongside. Keep this file as the record of what each clause was meant to
+achieve, and give it to the solicitor together with the published wording.
+
+**NEITHER PUBLISHED DOCUMENT HAS BEEN REVIEWED BY A SOLICITOR. THAT REVIEW MUST HAPPEN BEFORE THE
+FIRST PAID SUBSCRIPTION IS TAKEN.** Both pages say so on their face.
 
 This file sets out the headings the terms will need and the intent behind each. It is a brief for
 the solicitor, not a legal document. Nothing below is finished wording and nothing below has been

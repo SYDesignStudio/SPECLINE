@@ -11,6 +11,12 @@
 Options -Indexes
 DirectoryIndex index.html
 
+# The waiting list CSV and its rate-limit files live one level ABOVE this directory,
+# so they are never web-served. This is belt and braces in case anything is moved.
+<FilesMatch "^specline-waitlist\.csv$">
+  Require all denied
+</FilesMatch>
+
 # Never serve source, config, documentation or version control, wherever it sits.
 <FilesMatch "(^\.|\.(md|py|pyc|lock|yml|yaml|toml|ini|log|bak|sql|env|gitignore|gitattributes)$)">
   Require all denied
