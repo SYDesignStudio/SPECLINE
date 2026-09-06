@@ -421,13 +421,14 @@ function renderReview(){
     <div class="notice"><p class="eyebrow">Before you issue</p><p>${esc(coverNotice().resp)}</p>
       <p class="srcnote">This prints on the cover, with the practice and designer from <a href="#" id="toPractice">Practice settings</a>.</p></div>
     <div class="review">
-      <div class="xcard"><span class="eyebrow">PDF</span><b>Download ${esc(S.data.rev||"P01")}</b><p>The branded specification with the U-value working as its own section. Nothing is recorded.</p><button class="btn" id="finish">Download PDF</button></div>
+      <div class="xcard"><span class="eyebrow">Download</span><b>${esc(S.data.rev||"P01")}, unrecorded</b><p>The branded specification with the U-value working as its own section. Word is editable; the PDF is what you send. Nothing is recorded against the job.</p><div class="xrow"><button class="btn" id="finish">PDF</button><button class="btn" id="finishDocx">Word</button></div></div>
       <div class="xcard"><span class="eyebrow">Issue</span><b>Issue ${esc(S.data.rev||"P01")}</b><p>Downloads the PDF, records the issue against this job and sets the working revision to ${esc(nextRev(S.data.rev))}.</p><button class="btn btn-accent" id="issue">Issue ${esc(S.data.rev||"P01")}</button></div>
       <div class="xcard"><span class="eyebrow">Read</span><b>Specification</b><p>Read the whole document as it will print before you send it.</p><button class="btn" id="readSpec">Open specification</button></div>
     </div>
     <div class="rows">${rows.map(([l,v,f])=>`<div class="row"><span class="rl">${esc(l)}</span><span class="rv">${v}</span><span class="rf ${f[0]}">${esc(f[1])}</span></div>`).join("")}</div>
     <div class="navbar"><button class="btn" id="prev">← Back</button><span class="prog"><span style="width:100%"></span></span></div>`;
   el("finish").onclick=makePdf;
+  el("finishDocx").onclick=makeDocx;
   el("issue").onclick=issue;
   el("readSpec").onclick=()=>go("spec");
   el("toPractice").onclick=e=>{ e.preventDefault(); go("practice"); };
@@ -761,31 +762,194 @@ function buildPdf(){
   return doc;
 }
 
+/* ---------------- Word export ----------------
+   Same content and order as the PDF, written straight to .docx by src/docx.js.
+   The practice profile supplies the logo, the cover and the running header, exactly
+   as it does for the PDF: Specline's own mark never appears on a document. */
+const ORANGE_HEX = "B5640A", DARK_HEX = "23262A", MUTED_HEX = "6E7477", RULE_HEX = "D9DCDD", WELL_HEX = "FBFAF8";
+
+function buildDocx(){
+  const D = DOCX, d = S.data, r = refs(), sel = orderedSel();
+  const today = new Date().toLocaleDateString("en-GB", {day:"numeric", month:"long", year:"numeric"});
+  const nt = coverNotice();
+  const out = [];
+
+  /* ---- cover ---- */
+  const img = D.dataUriToImage(P.logo);
+  if(img){
+    /* fit inside 34 x 30 mm at the logo's own proportions, as the PDF does */
+    const bw = 34, bh = 30; let w = bw, h = bh;
+    if(P.logoW && P.logoH){ const ar = P.logoW / P.logoH;
+      if(ar >= bw/bh){ w = bw; h = bw/ar; } else { h = bh; w = bh*ar; } }
+    out.push(D.image("rIdLogo", w * D.EMU_PER_MM, h * D.EMU_PER_MM, P.name + " logo"));
+  }
+  out.push(D.para(D.run(P.addr + (P.email ? "  ·  " + P.email : "") + (P.phone ? "  ·  " + P.phone : ""),
+    {sz:16, color:MUTED_HEX}), {after:40, border:{side:"bottom", sz:12, color:ORANGE_HEX}}));
+
+  out.push(D.para(D.run("BUILDING REGULATIONS", {b:true, sz:56, color:DARK_HEX}), {before:360, after:0}));
+  out.push(D.para(D.run("SPECIFICATION", {b:true, sz:56, color:ORANGE_HEX}), {after:80}));
+  out.push(D.para(D.run((spec().name + " — " + spec().region).toUpperCase(), {b:true, sz:22, color:MUTED_HEX}), {after:400}));
+
+  const rows = [["Project", d.project], ["Site address", d.address], ["Client", d.client],
+    ["Job number", d.job], ["Local authority", d.la], ["Application", "Full Plans Application"],
+    ["Prepared by", (P.designer ? P.designer + ", " : "") + P.name], ["Date", today], ["Revision", d.rev || "P01"]];
+  out.push(D.table(rows.map(([k,v]) => [
+    {text:k, w:2600, b:true, sz:18, shade:WELL_HEX},
+    {text:v || "—", w:6760, sz:18}
+  ])));
+
+  out.push(D.para(D.run("ISSUED FOR BUILDING CONTROL APPROVAL", {b:true, sz:20, color:ORANGE_HEX}),
+    {before:360, after:60}));
+  out.push(D.para(D.run(nt.lead, {sz:17, color:MUTED_HEX}), {after:80}));
+  out.push(D.para(D.run(nt.resp, {sz:17, color:MUTED_HEX}), {after:80}));
+
+  const hist = S.history || [];
+  if(hist.length){
+    out.push(D.para(D.run("ISSUE HISTORY", {b:true, sz:16, color:MUTED_HEX}), {before:240, after:60}));
+    hist.forEach(h => out.push(D.para(
+      [D.run(h.rev + "   ", {b:true, sz:17}), D.run("Issued " + fmtDate(h.at) + " · " + h.n + " build-ups, " + h.m + " notes", {sz:17, color:MUTED_HEX})],
+      {after:40})));
+  }
+  out.push(D.pageBreak());
+
+  /* ---- helpers matching the PDF's furniture ---- */
+  const secHead = (num, txt) => {
+    out.push(D.para([D.run(num + "   ", {b:true, sz:26, color:ORANGE_HEX}),
+                     D.run(txt.toUpperCase(), {b:true, sz:26, color:DARK_HEX})],
+      {before:320, after:60, keepNext:true, border:{side:"bottom", sz:10, color:ORANGE_HEX}}));
+  };
+  const grpLabel = t => out.push(D.para(D.run(t.toUpperCase(), {b:true, sz:16, color:MUTED_HEX}),
+    {before:240, after:60, keepNext:true}));
+  const entry = (tag, title) => out.push(D.para(
+    (tag ? [D.run(tag + "   ", {b:true, sz:19, color:ORANGE_HEX})] : []).concat(
+      [D.run(title.toUpperCase(), {b:true, sz:19, color:DARK_HEX})]),
+    {before:200, after:60, keepNext:true, border:{side:"bottom", sz:4, color:RULE_HEX}}));
+  const body = t => out.push(D.para(D.run(t, t.startsWith("NOTE") ? {sz:16, color:MUTED_HEX} : {sz:18, color:DARK_HEX}),
+    {after:100, ind:t.startsWith("NOTE") ? 220 : 0}));
+
+  /* ---- 1.0 schedule ---- */
+  secHead("1.0", "Construction build-up schedule");
+  if(sel.length){
+    const head = [{text:"REF", w:900, b:true, sz:15, color:MUTED_HEX, shade:WELL_HEX},
+                  {text:"BUILD-UP", w:6000, b:true, sz:15, color:MUTED_HEX, shade:WELL_HEX},
+                  {text:"STANDARD", w:2460, b:true, sz:15, color:MUTED_HEX, shade:WELL_HEX}];
+    const trs = sel.map(i => { const b = allBU()[i];
+      return [{text:r[i], w:900, b:true, sz:17, color:ORANGE_HEX},
+              {text:b.t, w:6000, sz:17},
+              {text:b.u || "—", w:2460, sz:17}]; });
+    out.push(D.table([head].concat(trs)));
+  } else {
+    out.push(D.para(D.run("No build-ups selected.", {sz:18, color:MUTED_HEX, i:true})));
+  }
+
+  /* ---- 2.0 Part A ---- */
+  if(sel.length){
+    secHead("2.0", "Part A — Construction build-ups");
+    let lg = null;
+    sel.forEach(i => { const b = allBU()[i];
+      if(b.g !== lg){ lg = b.g; grpLabel(GROUPS[b.g] || b.g); }
+      entry(r[i], b.t);
+      if(b.tgt) out.push(D.para(D.run(b.tgt, {b:true, sz:18, color:ORANGE_HEX}), {after:80}));
+      b.p.forEach(body);
+    });
+  }
+
+  /* ---- 3.0 Part B ---- */
+  const ns = noteSections();
+  if(ns.size){
+    secHead("3.0", "Part B — General specification notes");
+    let sub = 0;
+    ns.forEach((items, sname) => { sub++; grpLabel("3." + sub + "   " + sname);
+      items.forEach(it => { entry("", it.t); it.p.forEach(body); }); });
+  }
+
+  /* ---- 4.0 U-value working ---- */
+  const calcs = calcsOnJob();
+  if(calcs.length){
+    secHead("4.0", "U-value calculations");
+    out.push(D.para(D.run("Calculated to BS EN ISO 6946 using the combined method for mortar-bridged blockwork and the Annex F corrections for air gaps and wall ties. Indicative: the manufacturer's certified calculation is to be obtained before submission.",
+      {sz:17, color:MUTED_HEX}), {after:140}));
+    calcs.forEach(({i,b}) => {
+      entry(r[i], b.t);
+      const res = b.calc.result;
+      const head = [{text:"LAYER", w:6000, b:true, sz:15, color:MUTED_HEX, shade:WELL_HEX},
+                    {text:"MM", w:1200, b:true, sz:15, color:MUTED_HEX, shade:WELL_HEX, align:"right"},
+                    {text:"R  m²K/W", w:2160, b:true, sz:15, color:MUTED_HEX, shade:WELL_HEX, align:"right"}];
+      const trs = res.layers.map(l => [
+        {text:l.n, w:6000, sz:16},
+        {text:l.d != null ? String(l.d) : "—", w:1200, sz:16, align:"right"},
+        {text:l.R.toFixed(3), w:2160, sz:16, align:"right"}]);
+      const steps = [];
+      if(res.steps){
+        res.steps.forEach(([a,v], k) => steps.push([
+          {text:a, w:6000, sz:16, b:k === res.steps.length-1},
+          {text:"", w:1200, sz:16},
+          {text:v, w:2160, sz:16, align:"right", b:k === res.steps.length-1}]));
+      } else {
+        const line = (a, v, bold) => steps.push([
+          {text:a, w:6000, sz:16, b:bold}, {text:"", w:1200, sz:16},
+          {text:v, w:2160, sz:16, align:"right", b:bold}]);
+        line("RT upper / lower limit", res.RT_upper.toFixed(3) + " / " + res.RT_lower.toFixed(3));
+        line("RT (mean)", res.RT.toFixed(3), true);
+        line("U0 = 1 / RT", res.U0.toFixed(3), true);
+        if(res.dUg) line("ΔUg  air gaps (Annex F)", "+" + res.dUg.toFixed(3));
+        if(res.dUf) line("ΔUf  fasteners (Annex F)", "+" + res.dUf.toFixed(3));
+        line("U", res.U.toFixed(3) + "  →  " + res.U.toFixed(2) + " W/m²K", true);
+      }
+      out.push(D.table([head].concat(trs, steps)));
+      out.push(D.para(D.run("Sources: " + res.src.join(" · "), {sz:15, color:MUTED_HEX}), {before:60, after:140}));
+    });
+  }
+
+  /* ---- closing flag ---- */
+  out.push(D.para(D.run("VERIFY BEFORE ISSUE", {b:true, sz:18, color:ORANGE_HEX}), {before:320, after:60}));
+  out.push(D.para(D.run("Approved Documents L1 and F1, 2026 editions, come into force on 24 March 2027. Work with a full plans application submitted before that date remains under the current standards provided work commences before 24 March 2028. Confirm all clause and table references against the edition in force at the date of submission.",
+    {sz:16, color:MUTED_HEX}), {after:0}));
+
+  return D.build({
+    body: out.join(""),
+    header: {left: spec().name + " — Building Regulations Specification" + (d.address ? "  ·  " + d.address : ""),
+             right: (d.job ? "Job " + d.job : "") + "  |  Rev " + (d.rev || "P01")},
+    footer: {left: P.name + (P.email ? "  ·  " + P.email : "")},
+    image: img
+  });
+}
+
 /* ---------------- actions ---------------- */
 let downloads=null, db=null;
 function toast(m){ const t=document.createElement("div");t.className="toast";t.textContent=m;
   document.body.appendChild(t);setTimeout(()=>t.remove(),3400); }
 
-async function makePdf(){
-  const btns=[el("btnPdf"),el("btnPdf2"),el("finish"),el("issue")].filter(Boolean);
-  btns.forEach(b=>{b.disabled=true;b.dataset.l=b.textContent;b.textContent="Building the PDF…";});
+function specFilename(ext){
+  return `${(S.data.job||"spec").replace(/[^\w-]/g,"")}_${spec().name.replace(/\s+/g,"_")}_Spec_${S.data.rev||"P01"}.${ext}`;
+}
+async function deliver(blob, filename, label){
+  if(downloads){
+    try{ await downloads.save({filename,data:blob}); toast(label+" saved"); return true; }
+    catch(e){ toast(e&&e.code==="declined" ? "Download declined" : "Could not save the "+label); return false; }
+  }
+  const u=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=u; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u),4000);
+  toast(label+" downloaded"); return true;
+}
+/* fmt: "pdf" | "docx" */
+async function makeDoc(fmt){
+  const label = fmt==="docx" ? "Word file" : "PDF";
+  const btns=[el("btnPdf"),el("btnPdf2"),el("btnDocx"),el("btnDocx2"),el("finish"),el("finishDocx"),el("issue")].filter(Boolean);
+  btns.forEach(b=>{b.disabled=true;b.dataset.l=b.textContent;});
+  const active=[el("btnPdf"),el("btnPdf2"),el("btnDocx"),el("btnDocx2"),el("finish"),el("finishDocx"),el("issue")].filter(Boolean);
+  active.forEach(b=>{ if((fmt==="docx") === /Word/.test(b.dataset.l||"")) b.textContent="Building the "+label+"…"; });
   let ok=false;
   try{
-    const blob=buildPdf().output("blob");
-    const fn=`${(S.data.job||"spec").replace(/[^\w-]/g,"")}_${spec().name.replace(/\s+/g,"_")}_Spec_${S.data.rev||"P01"}.pdf`;
-    if(downloads){
-      try{ await downloads.save({filename:fn,data:blob}); toast("PDF saved"); ok=true; }
-      catch(e){ toast(e&&e.code==="declined"?"Download declined":"Could not save the PDF"); }
-    } else {
-      const u=URL.createObjectURL(blob), a=document.createElement("a");
-      a.href=u; a.download=fn; document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(()=>URL.revokeObjectURL(u),4000);
-      toast("PDF downloaded"); ok=true;
-    }
-  }catch(e){ toast("Something went wrong building the PDF"); console.error(e); }
+    const blob = fmt==="docx" ? buildDocx() : buildPdf().output("blob");
+    ok = await deliver(blob, specFilename(fmt), label);
+  }catch(e){ toast("Something went wrong building the "+label); console.error(e); }
   btns.forEach(b=>{b.disabled=false;b.textContent=b.dataset.l;});
   return ok;
 }
+const makePdf  = () => makeDoc("pdf");
+const makeDocx = () => makeDoc("docx");
 
 /* ---------------- jobs: draft, store, list ---------------- */
 function uid(){ return "j"+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
@@ -855,6 +1019,8 @@ async function deleteJob(id){
 /* ---------------- header and chrome ---------------- */
 el("btnPdf").onclick=makePdf;
 el("btnPdf2").onclick=makePdf;
+el("btnDocx").onclick=makeDocx;
+el("btnDocx2").onclick=makeDocx;
 el("btnNew").onclick=()=>showChooser("new");
 el("btnType").onclick=()=>showChooser("change");
 el("closeChooser").onclick=()=>{ el("chooser").hidden=true; el("tiles").innerHTML=""; };

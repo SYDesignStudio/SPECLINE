@@ -12,7 +12,7 @@ name and address — never Specline's. Built and used in house at SY Design Stud
 |---|---|
 | Library | `data/` — 113 construction build-ups, 325 general notes |
 | App | a single self-contained HTML page, published as a Claude artifact |
-| Documents | branded Word + PDF, one per project type, from the same library |
+| Documents | branded Word + PDF from the app, and one master pair per project type from the library |
 
 ## Quick start
 
@@ -21,7 +21,7 @@ pip install -r requirements.txt
 playwright install chromium
 
 python build.py            # merge the library and assemble the app
-python build.py --all      # ... plus the 141 tests and all 16 documents
+python build.py --all      # ... plus the 167 tests and all 16 documents
 ```
 
 Then open `dist/preview.html` in a browser.
@@ -39,7 +39,7 @@ that must not be broken. Read that before making changes.
 - `data/` the library. The single source of truth; everything else is generated from it.
 - `src/` the app. No build step, no npm dependencies.
 - `docgen/` Word and PDF generation.
-- `tests/` six Playwright suites.
+- `tests/` seven Playwright suites, 167 assertions.
 - `reference/FACTS.md` every figure verified against the Approved Documents, with the date.
 - `dist/`, `output/` build output — not committed.
 

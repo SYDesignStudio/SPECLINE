@@ -51,13 +51,14 @@ src/
   configurator2.js      floor / basement / roof configurators (UI)
   ucalc.js              UC: materials with verified conductivities + wall calculations
   ucalc2.js             floors (BS EN ISO 13370), heated basements, three roof types
+  docx.js               DOCX: a dependency-free .docx writer (ZIP + OOXML), used by the app
   logos.js              SPECLINE_ICON (app chrome, favicons) and PRACTICE_SEED_LOGO (this installation)
   vendor/jspdf.local.js local jsPDF, used only by dist/preview.html for offline tests
 docgen/               Word + PDF generation (python-docx, LibreOffice for the PDF step)
   spec_from_data.py     the generator: one .docx + .pdf per type, straight from dist/specdata.js
   brand.py, build_spec.py   cover page, headers, house typography
   plancheck_report.py, dedupe_report.py   the two QA reports already issued
-tests/                six Playwright suites, 141 assertions
+tests/                seven Playwright suites, 167 assertions
 reference/            FACTS.md (verified figures) and the per-type review notes
 dist/                 build output — git-ignored
 output/               generated .docx/.pdf — git-ignored
@@ -187,6 +188,14 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
 - The **layer bar** (`layerBar()` in `app_js.js`) draws a build-up's layers to scale from the
   calculator's `layers` array. It is the app's signature: on the desk, in every configurator, on
   each calculated build-up card, on the working page. Colours come from `swatchFor()` by material.
+- **Word export.** `src/docx.js` writes a `.docx` directly: a ZIP of OOXML parts, stored rather
+  than deflated, with no npm package and no CDN script, so it works offline in the tests.
+  `buildDocx()` in `app_js.js` mirrors `buildPdf()` section for section, including the practice
+  logo as an embedded image, the cover table, the schedule, Part A, Part B and the U-value
+  working. `makeDoc(fmt)` is the single download path for both formats. Word keeps the `²` and `—`
+  characters that the PDF has to map through `safe()`, so the Word file is the better one to edit.
+  `tests/test7.py` opens the result with python-docx, the same library the practice generator uses,
+  so a file Word would reject fails the build.
 - **Practice profile** (`P` in `app_js.js`, route `practice`): name, named designer, address,
   email, phone, logo as a data URI with its pixel size, plan (`solo` | `practice` | `payg`) and a
   list of users. Seeded from `PRACTICE_SEED` (this installation), kept in localStorage under
@@ -211,8 +220,6 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
 
 Roughly in order:
 
-- Word export from the app. Word files are still generated on the practice PC by
-  `python build.py --docs`; the app offers PDF only and says so.
 - Parametric timber frame walls, dormer cheeks and internal linings — these are still fixed
   build-ups while cavity walls, floors, basements and roofs are configurable.
 - Wales as a second region (different Part L/F targets and a separate notional dwelling).

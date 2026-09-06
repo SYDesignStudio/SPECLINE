@@ -63,6 +63,8 @@ def assemble():
     cfg  = rd(os.path.join(SRC, "configurator.js"))
     cfg2 = rd(os.path.join(SRC, "configurator2.js"))
     app  = rd(os.path.join(SRC, "app_js.js"))
+    dcx   = rd(os.path.join(SRC, "docx.js")).replace(
+        'if (typeof module !== "undefined") module.exports = DOCX;', "")
     logos = rd(os.path.join(SRC, "logos.js"))
     assert "const SPECLINE_ICON" in logos and "const PRACTICE_SEED_LOGO" in logos, "src/logos.js must declare SPECLINE_ICON and PRACTICE_SEED_LOGO"
 
@@ -70,7 +72,7 @@ def assemble():
     assert marker in app, "anchor comment missing from src/app_js.js"
     app = app.replace(marker, cfg + "\n" + cfg2 + "\n" + marker, 1)
 
-    js = "\n".join([spec, uc, uc2, logos, app])
+    js = "\n".join([spec, uc, uc2, dcx, logos, app])
     html = (head + "\n" + body +
             '\n<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>\n'
             '<script>\n' + js + '\n</script>\n')
@@ -118,7 +120,7 @@ def check():
 
 def test():
     fails = 0
-    for n in range(1, 7):
+    for n in range(1, 8):
         t = os.path.join(ROOT, "tests", "test%d.py" % n)
         r = subprocess.run([sys.executable, t], capture_output=True, text=True, cwd=ROOT)
         passes = r.stdout.count('"r": "PASS"')
