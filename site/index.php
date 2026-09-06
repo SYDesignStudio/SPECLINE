@@ -3,8 +3,10 @@
    before-launch lock in Settings rather than needing an edit at launch. Everything else
    on it is static. */
 require __DIR__ . '/app/bootstrap.php';
-/* This one is public and cacheable, unlike the account pages bootstrap.php assumes. */
-header('Cache-Control: public, max-age=900');
+/* This one is public and cacheable, unlike the account pages bootstrap.php assumes. Kept to a
+   minute on purpose: the sign-up button follows the before-launch lock, and a switch whose job
+   is to shut the door now must not sit behind a quarter of an hour of stale cache. */
+header('Cache-Control: public, max-age=60');
 ?><!doctype html>
 <html lang="en-GB">
 <head>
