@@ -30,6 +30,19 @@
 - Flats: separating floors/walls REI 60 (REI 30 where ≤5 m top storey / 2-storey house conversions may be 30 in some cases — state accurately); flat entrance doors FD30S; fire-fighting: B4(1) applies to >11 m in conversions (Regulation 6 MCU: Q1 and S2 apply to flat conversions, O1 does not).
 - Regulation 38 fire safety information for buildings with flats/new dwellings that are non-single-dwelling.
 
+## AD A Section 2E — foundation fallback (used by the FD configurator, 06/09/2026)
+These are the rules the foundation configurator checks against. Every one of them was already
+stated in the library's own foundation notes (extension, garage, garagebld) citing Approved
+Document A Section 2E; they are recorded here because a calculator now depends on them.
+- Strip: thickness not less than the projection of the foundation beyond each face of the wall, and in no case less than 150 mm. Projection each side = (width − wall thickness) ÷ 2.
+- Width: from AD A **Table 10** for the wall load and the subsoil, or the engineer's design. **Table 10 values are NOT held in this repo and are NOT verified** — the width is always an input and every generated FD entry carries a NOTE to confirm it.
+- Trench fill: not less than 450 mm wide.
+- Depth: not less than 750 mm below finished ground level generally, not less than 1000 mm in shrinkable clay. Internal loadbearing walls not less than 600 mm deep.
+- Steps: step height not to exceed the foundation thickness; the higher foundation overlaps the lower by the greatest of twice the step, the thickness, and 300 mm (1 m for trench fill).
+- Trees within influencing distance: depth follows **NHBC Chapter 4.2** and the engineer's recommendation, with heave precautions where trees have been or are to be removed. Not computed.
+- Soft clay, made ground, fill or variable ground: the Section 2E fallback does not apply — raft or piled to the engineer's design, after ground investigation. Raft reinforcement lapped 450 mm, 40 mm cover.
+- Sulfates: BS 8500 design chemical class from the **ground investigation report**, never derived from the soil description. Concrete to BS EN 206 and BS 8500.
+
 ## AD C / other
 - Cavity fill 225 mm below DPC; DPC ≥150 mm above ground; oversite 100 mm concrete or 50 mm on DPM; BS 5250 50 mm void above rafter insulation under non-breathable underlay; suspended floor void ventilation 1500 mm²/m or 500 mm²/m².
 - PD 6697 wall ties 900×450 (2.5/m²), 300 mm vertical centres within 225 mm of jambs.

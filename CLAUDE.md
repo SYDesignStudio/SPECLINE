@@ -49,6 +49,7 @@ src/
   app_js.js             the app: routing, jobs desk, workspace, job store, preview, jsPDF export
   configurator.js       cavity wall U-value configurator (UI)
   configurator2.js      floor / basement / roof configurators (UI)
+  configurator3.js      foundation configurator (UI) — checks, not a calculation
   ucalc.js              UC: materials with verified conductivities + wall calculations
   ucalc2.js             floors (BS EN ISO 13370), heated basements, three roof types
   docx.js               DOCX: a dependency-free .docx writer (ZIP + OOXML), used by the app
@@ -58,7 +59,7 @@ docgen/               Word + PDF generation (python-docx, LibreOffice for the PD
   spec_from_data.py     the generator: one .docx + .pdf per type, straight from dist/specdata.js
   brand.py, build_spec.py   cover page, headers, house typography
   plancheck_report.py, dedupe_report.py   the two QA reports already issued
-tests/                seven Playwright suites, 167 assertions
+tests/                seven Playwright suites, 173 assertions
 reference/            FACTS.md (verified figures) and the per-type review notes
 dist/                 build output — git-ignored
 output/               generated .docx/.pdf — git-ignored
@@ -107,7 +108,8 @@ SPECS.<type> = {
   there are no lookup tables. The build check enforces it.
 - **`g` is the reference group** for build-ups: `EW` external wall, `IW` internal wall, `GF` ground
   floor, `IF` intermediate floor, `RF` roof, `SW` separating wall, `SF` separating floor,
-  `BW` basement wall, `BF` basement floor. References are **per job, sequential in selection order**
+  `BW` basement wall, `BF` basement floor, `FD` foundation. `FD` is first in `GORDER`, so
+  foundations head the schedule. References are **per job, sequential in selection order**
   (EW1, EW2 …) — they are not fixed library codes, so never hard-code a reference in prose.
 - A paragraph beginning `"NOTE — "` prints in grey as an instruction to the designer, not to the
   builder. Use it for genuine "check this on this job" prompts, never to defer a figure that is
@@ -196,6 +198,15 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
   characters that the PDF has to map through `safe()`, so the Word file is the better one to edit.
   `tests/test7.py` opens the result with python-docx, the same library the practice generator uses,
   so a file Word would reject fails the build.
+- **Foundations** (`src/configurator3.js`, group `FD`): the only element that used to produce prose
+  and no numbered entry. It does **not** calculate — a foundation width comes from Approved
+  Document A Table 10 or the engineer, and **those values are deliberately not held here**. It
+  checks a proposed foundation against Section 2E (projection vs thickness, the 150 mm floor,
+  trench fill width, step overlap, depth by subsoil) and shows the working. Raft and piled produce
+  an engineer's-design entry with no dimensional check. Every generated entry carries a NOTE to
+  confirm the width against Table 10, and a failing check becomes a NOTE on the entry rather than
+  being silently dropped. The schedule's Standard column carries the summary ("600 × 225, 1000
+  deep") in place of a U-value. Figures are in `reference/FACTS.md`.
 - **Practice profile** (`P` in `app_js.js`, route `practice`): name, named designer, address,
   email, phone, logo as a data URI with its pixel size, plan (`solo` | `practice` | `payg`) and a
   list of users. Seeded from `PRACTICE_SEED` (this installation), kept in localStorage under

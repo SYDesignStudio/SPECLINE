@@ -49,4 +49,28 @@ with sync_playwright() as p:
     pg.locator('button.step:has-text("External Walls")').click(); pg.wait_for_timeout(300)
     pg.select_option('select[data-cf="gapLevel"]',"0"); pg.wait_for_timeout(250)
     ok("X3 wall configurator unaffected", pg.inner_text(".uval b").strip()=="0.17")
+
+    # ---- foundations: the configurator appears, and the projection rule bites ----
+    pg.locator('button.step:has-text("Foundations")').first.click(); pg.wait_for_timeout(300)
+    ok("FD1 foundation configurator present under Foundations",
+       pg.locator("#addFound").count()==1 and "foundation" in pg.inner_text(".cfgcard h3").lower(),
+       pg.inner_text(".cfgcard h3") if pg.locator(".cfgcard h3").count() else "none")
+    ok("FD1 wall configurator absent here", pg.locator("#addWall").count()==0)
+
+    # 600 wide on a 300 wall gives a 150 projection; a 100 thickness must fail
+    pg.select_option('select[data-cf="type"]',"strip"); pg.wait_for_timeout(150)
+    pg.select_option('select[data-cf="wall"]',"300"); pg.wait_for_timeout(150)
+    pg.select_option('select[data-cf="width"]',"600"); pg.wait_for_timeout(150)
+    res = pg.evaluate("(()=>{const c={...cfgFD(),wall:300,width:600,thickness:100};"
+                      "const r=foundationResult(c);"
+                      "return {proj:r.proj, ok:r.ok, failed:r.checks.filter(x=>!x.pass).map(x=>x.n)};})()")
+    ok("FD2 projection is 150 on a 600 foundation and a 300 wall", res["proj"]==150, str(res["proj"]))
+    ok("FD2 a 100 thickness fails the projection rule", res["ok"] is False, str(res))
+    ok("FD2 the failing check names the projection",
+       any("projection" in n.lower() for n in res["failed"]), "; ".join(res["failed"]))
+    # and 225 passes the same geometry
+    okres = pg.evaluate("foundationResult({...cfgFD(),wall:300,width:600,thickness:225,depth:1000,"
+                        "ground:'clay_firm',trees:'none',profile:'level',type:'strip'}).ok")
+    ok("FD3 a 225 thickness passes the same geometry", okres is True, str(okres))
+
     print(json.dumps([{"r":a,"t":b,"x":c} for a,b,c in R])); print("PAGE ERRORS:",errs[:4]); b.close()

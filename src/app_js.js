@@ -32,8 +32,9 @@ function coverNotice(){
     resp:`${who} is the named designer and remains responsible for the suitability of this specification for this project. Every clause and table reference is to be confirmed against the Approved Documents in force at the date of submission. Compliance of the work is determined by the building control body; this document is the designer's specification of the work, not an approval of it.`
   };
 }
-const GROUPS = {SW:"Separating walls", SF:"Separating floors", EW:"External walls", IW:"Internal walls", GF:"Ground floors", IF:"Floors", RF:"Roofs", BW:"Basement walls", BF:"Basement floors"};
-const GORDER = ["SW","SF","EW","IW","GF","IF","RF","BW","BF"];
+const GROUPS = {FD:"Foundations", SW:"Separating walls", SF:"Separating floors", EW:"External walls", IW:"Internal walls", GF:"Ground floors", IF:"Floors", RF:"Roofs", BW:"Basement walls", BF:"Basement floors"};
+/* FD first: foundations are built first, so they head the schedule. */
+const GORDER = ["FD","SW","SF","EW","IW","GF","IF","RF","BW","BF"];
 
 /* every project type in the library */
 const TYPES = [
@@ -79,6 +80,7 @@ const buCat = b => {
   if(b.cat==="__wall__")  return cats().find(isWallCat)||cats()[0];
   if(b.cat==="__floor__") return cats().find(isFloorCat)||cats()[0];
   if(b.cat==="__roof__")  return cats().find(isRoofCat)||cats()[0];
+  if(b.cat==="__foundation__") return cats().find(isFoundationCat)||cats()[0];
   return b.c; };
 const ntCat = n => n.c;
 const fmtDate = t => new Date(t).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
@@ -99,7 +101,7 @@ function catTotal(cat){ const {bus,nts}=catItems(cat); return bus.length+nts.len
 function defaults(){
   S.sel=[]; S.notes={}; S.step=-1; S.open={}; S.custom=[]; S.cfg=null; S.cfgF=null; S.cfgR=null; S.visited={};
   spec().notes.forEach((n,i)=>S.notes[i]=true);
-  ["SW","SF","EW","GF","RF","IF","BW","BF"].forEach(g=>{ const i=spec().buildups.findIndex(b=>b.g===g); if(i>=0) S.sel.push(i); });
+  ["FD","SW","SF","EW","GF","RF","IF","BW","BF"].forEach(g=>{ const i=spec().buildups.findIndex(b=>b.g===g); if(i>=0) S.sel.push(i); });
   S.sel.sort((a,b)=>a-b);
 }
 function refs(){
@@ -312,6 +314,7 @@ function renderStage(){
   if(isWallCat(cat)) h += renderConfigurator();
   if(isFloorCat(cat)) h += renderFloorConfigurator(cat);
   if(isRoofCat(cat)) h += renderRoofConfigurator();
+  if(isFoundationCat(cat)) h += renderFoundationConfigurator();
   if(bus.length){
     h += `<p class="grouplabel">Construction build-ups</p>`;
     h += bus.map(({b,i})=>{
@@ -359,7 +362,7 @@ function renderStage(){
     else S.notes[i]=inp.checked;
     renderStage(); renderSteps(); renderPaper(); save();
   });
-  bindConfigurator(); bindConfigurator2();
+  bindConfigurator3(); bindConfigurator(); bindConfigurator2();
   el("stage").querySelectorAll(".rm").forEach(b=>b.onclick=(e)=>{
     e.preventDefault(); const i=+b.dataset.rm, base=spec().buildups.length, ci=i-base;
     if(ci<0) return; S.custom.splice(ci,1);

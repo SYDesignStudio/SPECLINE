@@ -62,6 +62,7 @@ def assemble():
     uc2  = rd(os.path.join(SRC, "ucalc2.js"))
     cfg  = rd(os.path.join(SRC, "configurator.js"))
     cfg2 = rd(os.path.join(SRC, "configurator2.js"))
+    cfg3 = rd(os.path.join(SRC, "configurator3.js"))
     app  = rd(os.path.join(SRC, "app_js.js"))
     dcx   = rd(os.path.join(SRC, "docx.js")).replace(
         'if (typeof module !== "undefined") module.exports = DOCX;', "")
@@ -70,7 +71,7 @@ def assemble():
 
     marker = "/* ---------------- type chooser ---------------- */"
     assert marker in app, "anchor comment missing from src/app_js.js"
-    app = app.replace(marker, cfg + "\n" + cfg2 + "\n" + marker, 1)
+    app = app.replace(marker, cfg + "\n" + cfg2 + "\n" + cfg3 + "\n" + marker, 1)
 
     js = "\n".join([spec, uc, uc2, dcx, logos, app])
     html = (head + "\n" + body +
