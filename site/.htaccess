@@ -1,43 +1,20 @@
-# Specline — public web root.
+# Specline — the public site.
 #
-# This file belongs in the document root that serves specline.co.uk, alongside
-# index.html. Upload the CONTENTS of site/ to public_html — never the repository
-# itself. The repository holds the clause library, the practice brief and the
-# unreviewed draft terms, none of which belong on a public web server.
+# Hostinger deploys the repository into public_html, so the REPOSITORY ROOT is the
+# web root and this directory is served at the domain root by the rules in the root
+# .htaccess. That file handles the canonical host, HTTPS, and shutting the rest of
+# the repository off. This file covers only what is local to the site.
 #
-# Everything below is defence in depth. It does not make it safe to upload the
-# repository; it only limits the damage if something is uploaded by mistake.
+# Nothing here is uploaded by hand. A manual upload is wiped by the next deployment.
 
 Options -Indexes
 DirectoryIndex index.html
 
-# The waiting list CSV and its rate-limit files live one level ABOVE this directory,
-# so they are never web-served. This is belt and braces in case anything is moved.
+# The waiting list writes ../specline-waitlist.csv, one directory above this one and
+# therefore never web-served. This is only for the case where it is moved by mistake.
 <FilesMatch "^specline-waitlist\.csv$">
   Require all denied
 </FilesMatch>
-
-# Never serve source, config, documentation or version control, wherever it sits.
-<FilesMatch "(^\.|\.(md|py|pyc|lock|yml|yaml|toml|ini|log|bak|sql|env|gitignore|gitattributes)$)">
-  Require all denied
-</FilesMatch>
-RedirectMatch 404 ^/(\.git|\.github|data|src|docgen|tests|reference|docs|dist|output|node_modules)(/|$)
-
-# Canonical host: one URL for search, www folded into the apex.
-RewriteEngine On
-RewriteCond %{HTTP_HOST} ^www\.specline\.co\.uk$ [NC]
-RewriteRule ^(.*)$ https://specline.co.uk/$1 [R=301,L]
-
-# Force HTTPS.
-RewriteCond %{HTTPS} !=on
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
-
-<IfModule mod_headers.c>
-  Header always set X-Content-Type-Options "nosniff"
-  Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-</IfModule>
 
 <IfModule mod_expires.c>
   ExpiresActive On

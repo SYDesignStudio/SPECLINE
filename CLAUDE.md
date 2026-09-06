@@ -296,9 +296,17 @@ whole repo was uploaded to `public_html` by mistake: the home page answered at `
 the domain root returned 403 to every visitor, and all of the above were readable over HTTPS.
 `.git` was blocked by the host, so the history was not exposed.
 
+**Hostinger deploys this repository into `public_html` on every push to `main`, so the repository
+root IS the web root.** Nothing is ever uploaded by hand — a manual upload is wiped by the next
+deployment, which is exactly what happened on 6 September 2026. The root `.htaccess` is what makes
+a code repository safe to serve: it rewrites everything into `site/`, so `/` is the home page and
+`/CLAUDE.md`, `/data/…`, `/reference/FACTS.md` and `/docs/TERMS-DRAFT.md` all 404. **If that file
+is removed or the deployment target changes, the whole repository goes public again.**
+
 The site is four files: `index.html`, `terms.html`, `privacy.html` and `waitlist.php`, plus
 `.htaccess`. The waiting list posts to `waitlist.php`, which validates, rate-limits by IP, and
-appends to `../specline-waitlist.csv` — **one directory above `public_html`, never web-served** —
+appends to `../../specline-waitlist.csv` — the domain directory **above `public_html`**, which is
+never web-served and which a deployment never touches, so the list survives every push —
 then emails the studio. Read the list by downloading that CSV over SFTP or File Manager.
 `NOTIFY_FROM` in the script must be a real mailbox on the domain or the notification will be
 dropped by the receiving server; the signup is stored either way.

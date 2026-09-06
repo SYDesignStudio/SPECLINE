@@ -2,8 +2,12 @@
 /* Specline waiting list.
  *
  * Accepts a POST from the form on the home page, records it, and notifies the studio.
- * There is no database: the list is a CSV written OUTSIDE the web root, one directory
- * above public_html, so it cannot be fetched over HTTP.
+ * There is no database: the list is a CSV written OUTSIDE the web root.
+ *
+ * This file sits at public_html/site/, because Hostinger deploys the repository into
+ * public_html. Two levels up is the domain directory ABOVE public_html, which the web
+ * server never serves and a deployment never touches — so the list survives every push
+ * and cannot be fetched over HTTP.
  *
  * Deliberately narrow: it only ever emails a fixed address, so it cannot be used as a
  * relay, and it stores only what the privacy notice says it stores.
@@ -13,8 +17,8 @@ declare(strict_types=1);
 
 const NOTIFY_TO   = 'info@sydesignstudio.co.uk';
 const NOTIFY_FROM = 'no-reply@specline.co.uk';   // must be a real mailbox on this domain
-const STORE       = __DIR__ . '/../specline-waitlist.csv';
-const RATE_DIR    = __DIR__ . '/../specline-ratelimit';
+const STORE       = __DIR__ . '/../../specline-waitlist.csv';
+const RATE_DIR    = __DIR__ . '/../../specline-ratelimit';
 const RATE_MAX    = 5;      // submissions per IP
 const RATE_WINDOW = 3600;   // per hour
 

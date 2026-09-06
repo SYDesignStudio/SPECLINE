@@ -1,0 +1,49 @@
+# Specline — repository root.
+#
+# Hostinger deploys this repository into public_html on every push to main, so the
+# REPOSITORY ROOT IS THE WEB ROOT. That is why nothing may be uploaded by hand: the
+# next deployment overwrites it. Everything the web server needs lives in the repo.
+#
+# A code repository is not a website. Without this file the whole of it is served:
+# CLAUDE.md with the pricing, reference/FACTS.md, the clause library in data/, and
+# docs/TERMS-DRAFT.md, which says on its own first line that it must not be published.
+#
+# So: the public site is site/, and this file serves it at the domain root and 404s
+# everything else. If you change the deployment target, change this too.
+
+Options -Indexes
+DirectoryIndex index.html
+
+RewriteEngine On
+
+# --- canonical host: www folded into the apex, and HTTPS enforced ---
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# --- site/ is an implementation detail: send visitors to the canonical address ---
+# REDIRECT_STATUS is empty only on a real external request, so the internal rewrite
+# below cannot trigger this and loop.
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^site/(.*)$ /$1 [R=301,L]
+
+# --- everything is served from site/ ---
+# The negative lookahead is the loop guard: once rewritten the URI starts with site/
+# and no longer matches. Anything with no counterpart in site/ 404s, which is what
+# closes the repository off — /CLAUDE.md becomes site/CLAUDE.md and does not exist.
+RewriteRule ^(?!site/)(.*)$ site/$1 [L]
+
+# --- belt and braces, in case the rules above are ever loosened ---
+RedirectMatch 404 ^/(\.git|\.github|data|src|docgen|tests|reference|docs|dist|output|node_modules)(/|$)
+<FilesMatch "(^\.|\.(md|py|pyc|lock|yml|yaml|toml|ini|log|bak|sql|env)$)">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
