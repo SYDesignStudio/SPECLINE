@@ -29,6 +29,35 @@ if (is_post()) {
             redirect('/account/');
         }
     }
+    if ($action === 'email') {
+        /* A credential change, so it needs the current password as well as the session, and
+           it only ever SENDS a link — the address moves in email.php when that link is
+           opened, which is what proves the person asking can read the new mailbox. */
+        $cur = (string)($_POST['current_email_pw'] ?? '');
+        $new = mb_strtolower(clean('new_email', 254));
+        if (!password_verify($cur, $u['pass_hash'])) $errors[] = 'The password is not right, so the address has not been changed.';
+        elseif (!valid_email($new)) $errors[] = 'That new address does not look right.';
+        elseif ($new === mb_strtolower((string)$u['email'])) $errors[] = 'That is already your sign-in address.';
+        elseif (row('SELECT id FROM users WHERE email = ?', [$new])) $errors[] = 'That address already has a Specline account.';
+        elseif (!throttle('email-change:' . $u['id'], 5, 3600)) $errors[] = 'Too many attempts in the last hour. Try again later.';
+        else {
+            $tok = issue_token((int)$u['id'], 'email', 3600, $new);
+            send_mail($new, 'Confirm your new Specline sign-in address',
+                "Hello {$u['name']},
+
+You asked to change the sign-in address on your Specline account to this one. Confirm it here:
+
+"
+              . cfg('base_url') . "/account/email.php?t={$tok}
+
+The link works for one hour and once only. Until you open it, "
+              . $u['email'] . " stays your sign-in address, so nothing is lost if this message goes astray.
+");
+            audit('email-change-requested', $u['email'] . ' -> ' . $new);
+            flash('Check ' . $new . ' for a link to confirm the change. Until you open it, ' . $u['email'] . ' still signs you in.');
+            redirect('/account/');
+        }
+    }
     if ($action === 'password') {
         $cur = (string)($_POST['current'] ?? ''); $new = (string)($_POST['password'] ?? '');
         if (!password_verify($cur, $u['pass_hash'])) $errors[] = 'The current password is not right.';
@@ -94,6 +123,18 @@ page_start('Your account');
       <?= field('seats', 'Seats you expect to need', 'number', ['min' => 1, 'max' => 50, 'value' => (string)$practice['seats']]) ?>
     </div>
     <div class="actions"><button class="btn btn-primary" type="submit">Save details</button></div>
+  </form>
+
+  <hr>
+  <h2>Change your sign-in address</h2>
+  <p class="small muted" style="margin:6px 0 18px">This is the address you sign in with, not the one printed on your specifications — that is the practice contact above. We send a link to the new address and it only changes when you open it, so a mistyped address cannot lock you out.</p>
+  <form class="stack" method="post" action="/account/" novalidate>
+    <?= csrf_field() ?><input type="hidden" name="action" value="email">
+    <div class="row2">
+      <?= field('new_email', 'New sign-in address', 'email', ['maxlength' => 254, 'autocomplete' => 'off']) ?>
+      <div class="field"><label for="f_current_email_pw">Your password</label><input id="f_current_email_pw" type="password" name="current_email_pw" autocomplete="current-password"></div>
+    </div>
+    <div class="actions"><button class="btn" type="submit">Send the confirmation link</button><span class="small muted">Currently <span class="mono"><?= e($u['email']) ?></span></span></div>
   </form>
 
   <hr>

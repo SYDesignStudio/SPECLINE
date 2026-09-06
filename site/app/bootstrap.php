@@ -103,7 +103,7 @@ function db(): PDO {
     }
     return $pdo;
 }
-const SCHEMA_VERSION = 4;
+const SCHEMA_VERSION = 5;
 function db_driver(): string { db(); return $GLOBALS['DB_DRIVER'] ?? '?'; }
 
 function migrate(PDO $pdo): void {
@@ -121,7 +121,7 @@ function migrate(PDO $pdo): void {
         verified_at VARCHAR(32), created_at VARCHAR(32) NOT NULL, last_login_at VARCHAR(32), login_count INTEGER NOT NULL DEFAULT 0,
         source VARCHAR(20) NOT NULL DEFAULT 'site')",
      "CREATE TABLE IF NOT EXISTS tokens (id $ai, user_id INTEGER NOT NULL, kind VARCHAR(20) NOT NULL, hash VARCHAR(64) NOT NULL UNIQUE,
-        expires_at VARCHAR(32) NOT NULL, used_at VARCHAR(32))",
+        expires_at VARCHAR(32) NOT NULL, used_at VARCHAR(32), payload TEXT NOT NULL DEFAULT '')",
      "CREATE TABLE IF NOT EXISTS throttle (k VARCHAR(80) PRIMARY KEY, hits TEXT NOT NULL)",
      "CREATE TABLE IF NOT EXISTS waitlist (id $ai, at VARCHAR(32) NOT NULL, email VARCHAR(254) NOT NULL, name VARCHAR(120) NOT NULL DEFAULT '',
         practice VARCHAR(150) NOT NULL DEFAULT '', ip VARCHAR(64) NOT NULL DEFAULT '', UNIQUE (at, email))",
@@ -152,7 +152,8 @@ function migrate(PDO $pdo): void {
     /* CREATE TABLE IF NOT EXISTS does nothing to a table that already exists, so a column
        added after a database was built needs its own step. Ask for the column and add it
        only if the query fails; that works the same on SQLite and MySQL. */
-    foreach ([['practices', 'contact_email', "VARCHAR(254) NOT NULL DEFAULT ''"]] as [$table, $col, $type]) {
+    foreach ([['practices', 'contact_email', "VARCHAR(254) NOT NULL DEFAULT ''"],
+              ['tokens',    'payload',       "TEXT NOT NULL DEFAULT ''"]] as [$table, $col, $type]) {
         try { $pdo->query("SELECT $col FROM $table LIMIT 1"); }
         catch (Throwable $t) { try { $pdo->exec("ALTER TABLE $table ADD COLUMN $col $type"); } catch (Throwable $t2) {} }
     }
@@ -303,17 +304,24 @@ function throttle(string $key, int $max, int $windowSeconds): bool {
 function client_ip(): string { return (string)($_SERVER['REMOTE_ADDR'] ?? ''); }
 
 /* ---------- tokens (verification, password reset): stored hashed ---------- */
-function issue_token(int $userId, string $kind, int $ttlSeconds): string {
+/* `payload` carries whatever the token is for — today, the new address a change of sign-in
+   is waiting on. It is deliberately NOT applied when the token is issued: the address only
+   moves when the link sent to it is opened, which is what proves the person asking can read
+   the new mailbox. */
+function issue_token(int $userId, string $kind, int $ttlSeconds, string $payload = ''): string {
     $raw = bin2hex(random_bytes(32));
     q('DELETE FROM tokens WHERE user_id = ? AND kind = ?', [$userId, $kind]);
-    q('INSERT INTO tokens (user_id, kind, hash, expires_at) VALUES (?, ?, ?, ?)', [$userId, $kind, hash('sha256', $raw), gmdate('c', time() + $ttlSeconds)]);
+    q('INSERT INTO tokens (user_id, kind, hash, expires_at, payload) VALUES (?, ?, ?, ?, ?)',
+      [$userId, $kind, hash('sha256', $raw), gmdate('c', time() + $ttlSeconds), $payload]);
     return $raw;
 }
-function consume_token(string $raw, string $kind): ?array {
+function consume_token(string $raw, string $kind, ?string &$payload = null): ?array {
+    $payload = null;
     if (!preg_match('/^[0-9a-f]{64}$/', $raw)) return null;
     $t = row('SELECT * FROM tokens WHERE hash = ? AND kind = ? AND used_at IS NULL', [hash('sha256', $raw), $kind]);
     if (!$t || strtotime($t['expires_at']) < time()) return null;
     q('UPDATE tokens SET used_at = ? WHERE id = ?', [now(), (int)$t['id']]);
+    $payload = (string)($t['payload'] ?? '');
     return row('SELECT * FROM users WHERE id = ?', [(int)$t['user_id']]);
 }
 
