@@ -16,6 +16,12 @@
 - Purge: 1/20 floor area (opens ≥30°), 1/10 (15–30°); door undercut 10 mm (7600 mm² for 760 door).
 - Commissioning results to BCB within 5 days. Cooker hoods 650–750 mm above hob.
 
+## AD F Volume 2 (2021) — car parks (read from the published PDF, 06/09/2026)
+- **Para 1.38, the primary route** for below-ground, enclosed and multi-storey car parks: design the rate and install the equipment to limit carbon monoxide to a maximum **30 ppm averaged over 8 hours** and a maximum peak of **90 ppm over 15 minutes** at positions such as ramps and exits.
+- **Para 1.39, the alternative.** Natural: openings at **each** parking level with a minimum aggregate equivalent area of **1/20 of the floor area at that level**, at least **25 per cent of that aggregate on each of two opposing walls**. Mechanical, either — permanent natural openings of minimum equivalent area **1/40** of the floor area plus a system of **at least 3 ach**; or, **for a basement car park**, a system of **at least 6 ach**. In both mechanical cases, **at least 10 ach locally at exits and ramps where cars queue** inside the building.
+- The library said 2.5 per cent with half on each of two opposite sides. That is **half** the required opening area; corrected 06/09/2026.
+- Para 1.38 NOTE: ventilation of car parks **to manage the risk of fire** is in Approved Document B, not here. The 10 ach above is queueing pollution, not smoke clearance — do not restate it as such.
+
 ## Reg 16 (as amended Oct 2023)
 - Notice of intention: at least 2 clear days before start.
 - Commencement notice within 5 days of Reg 46A commencement (new building / horizontal extension: sub-structure incl. ground floor structure complete; other work: 15% complete).
@@ -29,6 +35,8 @@
 - Boundary: unprotected areas within 1 m ≤1 m² & 4 m apart; roof BROOF(t4) within 6 m; Section 11 table values 5.6/12/18/24/30 m² at 1–5 m.
 - Flats: separating floors/walls REI 60 (REI 30 where ≤5 m top storey / 2-storey house conversions may be 30 in some cases — state accurately); flat entrance doors FD30S; fire-fighting: B4(1) applies to >11 m in conversions (Regulation 6 MCU: Q1 and S2 apply to flat conversions, O1 does not).
 - Regulation 38 fire safety information for buildings with flats/new dwellings that are non-single-dwelling.
+- **Table B2 minimum periods of fire resistance, dwellinghouse row (read from the published PDF, 06/09/2026).** Basement storey: lowest basement up to 10 m deep = **30 min**; more than 10 m deep = **not applicable** — note 4 puts a house with a 10 m deep basement outside the scope of the dwellinghouse guidance, so the guidance for buildings other than dwellings is used instead. Ground or upper storey including the floor over: top floor up to 5 m = 30 min; up to 11 m = 60 min, reduced by note 5 to **30 min for a three-storey dwellinghouse**; above 11 m = not applicable. Footnote `*`: for the floor over a basement, or over the **topmost** basement where there is more than one, take the **higher** of the basement-storey period and the ground-or-upper-storey period. Footnote `†`: compartment walls separating buildings go to a minimum of 60 min. There is no "more than one basement storey → 60 minutes" rule; the library claimed one until 06/09/2026.
+- Car park fire and smoke ventilation is **Section 11 of AD B Volume 2**, which is not held here. Do not state a smoke-clearance fan rating, duration or secondary supply from this library.
 
 ## AD A Section 2E — foundation fallback (used by the FD configurator, 06/09/2026)
 These are the rules the foundation configurator checks against. Every one of them was already

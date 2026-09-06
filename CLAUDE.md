@@ -122,9 +122,14 @@ SPECS.<type> = {
 
 ## House style for the written clauses
 
-- A CAPS heading, then a target line (`To achieve minimum U-value of 0.18 W/m²K (actual U-value
+- A CAPS heading, then a target line (`To achieve a maximum U-value of 0.18 W/m²K (actual U-value
   achieved 0.17 W/m²K)`), then flowing descriptive prose that specifies the construction layer by
-  layer. **Not** numbered legal clauses.
+  layer. **Not** numbered legal clauses. A U-value limit is a **maximum** — the element may not be
+  worse than the figure. The library said "minimum" on 21 target lines until 6 September 2026, which
+  read as the opposite of what Part L requires; all 51 target lines now say maximum.
+- **Temperatures use the degree symbol** (`60°C`, not "60 degrees Celsius"). `°` is in the WinAnsi
+  set the PDF export uses, so it needs no mapping. Standardised across the library on
+  6 September 2026.
 - Named products with alternatives (`Celcon Solar, Thermalite Turbo or equivalent`), standards cited
   inline, practical installation notes at the end.
 - British English. Professional, confident, concise — never robotic.
@@ -277,11 +282,31 @@ Roughly in order:
   `www` today, so the redirect in `.htaccess` never gets a chance to run.
 - Delete the leftover `site/` folder from `public_html`; it serves a duplicate of the home page.
 
-**Two figures deliberately left unconfirmed** (recorded in `reference/review-notes/`): the 60-minute
-fire resistance for a basement more than 10 m deep or with more than one basement storey, and the
-car park ventilation percentages in New Build Flats. Both are conservative as written. Confirm
-against the Approved Document before the first job of either kind rather than changing them on an
-assumption.
+**The two figures left unconfirmed are now confirmed, and both were wrong.** Checked on
+6 September 2026 against the published Approved Documents, downloaded and read directly rather than
+searched. Both corrected the same day:
+
+- **Basement fire resistance.** The library said the floor over the basement goes to 60 minutes
+  where the basement is more than 10 m deep or the house has more than one basement storey. Neither
+  trigger exists. **Table B2** of AD B Volume 1 gives a dwellinghouse basement storey 30 minutes and
+  marks depths over 10 m *not applicable*, because note 4 puts a house with a 10 m basement outside
+  the scope of the dwellinghouse guidance altogether. More than one basement storey is covered by
+  footnote `*`: the floor over the **topmost** basement takes the higher of the basement-storey
+  period and the ground-or-upper-storey period. The clause now states all three of those.
+- **Car park ventilation.** The library said openings of 2.5 per cent of the floor area, half at
+  each of two opposite sides. **AD F Volume 2 paragraph 1.39** says a minimum aggregate equivalent
+  area of **1/20** — 5 per cent, double what we specified — with 25 per cent of that aggregate on
+  each of two opposing walls. Paragraph 1.38's carbon monoxide limits (30 ppm over 8 hours, 90 ppm
+  over 15 minutes) are the primary route and were missing entirely. The mechanical figures were
+  also misattributed: AD F's ten air changes are for exits and ramps where cars queue, not for smoke
+  clearance. Smoke clearance, the 300 °C fan rating and the secondary supply are in **Section 11 of
+  AD B Volume 2, which this library does not hold** — that part is now a NOTE to obtain before
+  issue rather than a stated figure.
+
+The lesson is worth keeping: "conservative as written" was assumed for both and was true for
+neither. The basement clause over-specified, and the car park clause specified **half** the opening
+area the Approved Document requires. An unconfirmed figure is not safe merely because it sounds
+cautious — confirm it or flag it, and never split the difference.
 
 ## Brand — Specline
 

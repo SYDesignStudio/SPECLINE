@@ -47,3 +47,19 @@ Build-ups: read all ten. U-values, targets and cross-references (BW1/BW2/BF1) ar
 
 - https://www.gov.uk/government/publications/fire-safety-approved-document-b — to locate the current AD B Vol 1 PDF.
 - https://assets.publishing.service.gov.uk/media/67d2bb074702aacd2251cb94/Approved_Document_B_volume_1_Dwellings_2019_edition_incorporating_2020_2022_and_2025_amendments_collated_with_2026_and_2029_amendments.pdf — the fetch returned only the first 38 pages (Sections 1–3); confirmed para 2.16 (basement habitable room: emergency escape window/external door, or protected stairway to a final exit) and that cavities are in Section 5 of this edition. Appendices B and C (Tables B4 and C1) were not reachable; a direct download was refused by the egress proxy (403).
+
+## (vi) Resolved 6 September 2026 — the fire resistance figure, confirmed and corrected
+
+Approved Document B Volume 1 was downloaded in full and **Table B2** read directly (it is B2 in this
+edition, not B4 as (iii) guessed). The suspicion in (iii) was right, and the wording was not merely
+conservative — it stated two rules that do not exist.
+
+| Claim in the library | What Table B2 says |
+|---|---|
+| 60 minutes where the basement is more than 10 m deep | **Not applicable.** Note 4: a dwellinghouse with a 10 m deep basement is outside the scope of the dwellinghouse guidance, so the guidance for buildings other than dwellings applies instead. There is no 60-minute figure to give. |
+| 60 minutes where the house has more than one basement storey | No such trigger. Footnote `*` instead: the floor over the **topmost** basement takes the **higher** of the basement-storey period and the ground-or-upper-storey period. |
+| 30 minutes (REI 30) otherwise | Correct — 30 min for a dwellinghouse basement storey where the lowest basement is up to 10 m deep. |
+
+The clause in "Smoke Detection and Fire Resistance" now states the 30-minute base, the footnote `*`
+rule for more than one basement storey, and the out-of-scope position for a basement over 10 m deep.
+Figures recorded in `reference/FACTS.md` under AD B Volume 1.

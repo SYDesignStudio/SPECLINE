@@ -53,3 +53,23 @@ Would building control approve the specification as now printed? Yes, as a full-
 - gov.uk publication page and PDF, Approved Document B Volume 1: Dwellings, 2019 edition incorporating 2020, 2022 and 2025 amendments (assets.publishing.service.gov.uk/media/67d2bb074702aacd2251cb94/…pdf) — para 1.1 (Grade D2 LD3 minimum), Table 3.1 (7.5 m / 30 m), paras 3.50–3.52 (1.5 m² corridor vent / 1.5 m² smoke shaft / 1 m² stair-head vent), amendment summaries (sprinklers, secure information boxes and wayfinding >11 m; evacuation alert >18 m).
 - gov.uk PDF, Approved Document O (assets.publishing.service.gov.uk/media/6218c5aad3bf7f4f0b29b624/ADO.pdf) — Table 3.1 (guarding 1.1 m where the level change is 1.1 m or more; AD K below 600 mm), 650 mm handle reach, g-value 0.4 / LT 0.7 / 50° cut-off; Tables 1.1/1.2 confirmed to be per-orientation.
 - FACTS.md for all Part L, F, G, E, K, C, H, M figures used.
+
+## Resolved 6 September 2026 — car park ventilation, confirmed and corrected
+
+Approved Document F Volume 2 was downloaded and paragraphs 1.38 to 1.40 read directly. The library's
+figure was **half** the required opening area, and the rest of the sentence was misattributed.
+
+| Claim in the library | What AD F Volume 2 says |
+|---|---|
+| Openings of not less than 2.5 per cent of the floor area | Para 1.39a: minimum aggregate equivalent area of **1/20** of the floor area **at each parking level** — 5 per cent. |
+| Half at each of two opposite sides | Para 1.39a: not less than **25 per cent** of the aggregate equivalent area on each of two opposing walls. |
+| Six air changes per hour for pollution control | Para 1.39b: **3 ach** with permanent openings of 1/40 of the floor area, **or 6 ach for a basement car park**. Six is right only for the basement case. |
+| Ten air changes per hour for smoke clearance | Para 1.39b: ten is the **local** rate at **exits and ramps where cars queue**. It is pollution control, not smoke clearance. |
+| Fans rated 300 °C for 60 minutes, secondary supply | Not in AD F. Para 1.38's NOTE sends fire ventilation to Approved Document B. |
+| (absent) | Para 1.38, the **primary** route: 30 ppm carbon monoxide averaged over 8 hours, 90 ppm peak over 15 minutes. The library omitted it entirely. |
+
+Also corrected: item 9 above changed the reference to "AD B Volume 2 Section 18 (car parks)". Note 7
+to Table B2 of AD B Volume 1 gives it as **Section 11** of Volume 2. That volume is not held in this
+library, so the smoke clearance provisions, the fan rating and the secondary supply are now a NOTE
+on the entry telling the designer to obtain them, rather than figures stated on our authority.
+Figures recorded in `reference/FACTS.md` under AD F Volume 2.
