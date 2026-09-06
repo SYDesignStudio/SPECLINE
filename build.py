@@ -66,6 +66,7 @@ def assemble():
     cfg3 = rd(os.path.join(SRC, "configurator3.js"))
     cfg4 = rd(os.path.join(SRC, "configurator4.js"))
     app  = rd(os.path.join(SRC, "app_js.js"))
+    srv  = rd(os.path.join(SRC, "serverstore.js"))
     dcx   = rd(os.path.join(SRC, "docx.js")).replace(
         'if (typeof module !== "undefined") module.exports = DOCX;', "")
     logos = rd(os.path.join(SRC, "logos.js"))
@@ -75,7 +76,7 @@ def assemble():
     assert marker in app, "anchor comment missing from src/app_js.js"
     app = app.replace(marker, cfg + "\n" + cfg2 + "\n" + cfg3 + "\n" + cfg4 + "\n" + marker, 1)
 
-    js = "\n".join([spec, uc, uc2, uc3, dcx, logos, app])
+    js = "\n".join([spec, uc, uc2, uc3, dcx, logos, srv, app])
     html = (head + "\n" + body +
             '\n<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>\n'
             '<script>\n' + js + '\n</script>\n')
@@ -88,6 +89,33 @@ def assemble():
        '<meta name="viewport" content="width=device-width,initial-scale=1"></head><body>'
        + local + '</body></html>')
     print("assembled dist/syds-spec-builder.html (%d bytes) and dist/preview.html" % len(html))
+    hosted()
+
+
+def hosted():
+    """The same app, for serving from specline.co.uk behind the practice login.
+
+    It goes to site/app/, which .htaccess denies to the web, so the only way to it is through
+    site/app.php after that file has checked the session. It is a generated file that IS
+    committed, unlike dist/, because Hostinger deploys the repository and only what is
+    committed reaches the server. Never edit it by hand; run build.py.
+
+    jsPDF is served from /static/jspdf.js rather than a CDN, so the app pulls nothing from a
+    third party, and the browser can cache it instead of re-reading it inside every page load.
+    """
+    html = rd(os.path.join(DIST, "syds-spec-builder.html")).replace(
+        "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js", "/static/jspdf.js")
+    page = ('<!doctype html><html lang="en-GB"><head><meta charset="utf-8">'
+            '<meta name="viewport" content="width=device-width,initial-scale=1">'
+            '<meta name="robots" content="noindex,nofollow">\n'
+            '<!-- SPECLINE_BOOTSTRAP -->\n'
+            '</head><body>\n' + html + '</body></html>\n')
+    wr(os.path.join(ROOT, "site", "app", "spec.html"), page)
+    vendor = rd(os.path.join(SRC, "vendor", "jspdf.local.js"))
+    wr(os.path.join(ROOT, "site", "static", "jspdf.js"), vendor)
+    assert "<!-- SPECLINE_BOOTSTRAP -->" in page, "app.php needs that marker to inject the session"
+    print("assembled site/app/spec.html (%d bytes) + site/static/jspdf.js (%d bytes)"
+          % (len(page), len(vendor)))
 
 
 def check():

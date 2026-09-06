@@ -34,8 +34,9 @@ if (is_post()) {
         else { q('UPDATE users SET pass_hash = ? WHERE id = ?', [password_hash($new, PASSWORD_DEFAULT), (int)$u['id']]); audit('password-changed', $u['email']); flash('Password changed.'); redirect('/account/'); }
     }
 }
-$appUrl = setting('app_url', '');
 $opening = setting('opening_note', 'Specline opens to founding members first. You will be emailed when your account can open the application.');
+$canOpen = app_access($u);
+$jobCount = (int)val('SELECT COUNT(*) FROM jobs WHERE practice_id = ?', [(int)$practice['id']]);
 page_start('Your account');
 ?>
 <div class="sheet">
@@ -52,9 +53,13 @@ page_start('Your account');
   <?php endif; ?>
 
   <div class="status-line">
-    <span class="pill pill-petrol">Founding member queue</span>
-    <?php if ($appUrl && !empty($u['verified_at'])): ?><a class="btn btn-primary btn-sm" href="<?= e($appUrl) ?>">Open Specline</a>
-    <?php else: ?><span class="small muted"><?= e($opening) ?></span><?php endif; ?>
+    <?php if ($canOpen): ?>
+      <a class="btn btn-primary" href="/app.php">Open the specification tool</a>
+      <span class="small muted"><?= $jobCount ? 'Your practice has ' . $jobCount . ' saved job' . ($jobCount === 1 ? '' : 's') . '. They are stored here, not in the browser.' : 'Nothing saved yet. Jobs you start are stored against your practice.' ?></span>
+    <?php else: ?>
+      <span class="pill pill-petrol">Founding member queue</span>
+      <span class="small muted"><?= empty($u['verified_at']) ? 'Verify your email address and the tool opens on this page.' : e($opening) ?></span>
+    <?php endif; ?>
   </div>
 
   <dl class="defs">

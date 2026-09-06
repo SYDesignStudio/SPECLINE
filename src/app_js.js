@@ -992,7 +992,9 @@ async function persist(){
   const k=jobsCache.findIndex(x=>x.id===j.id); if(k>=0) jobsCache[k]=j; else jobsCache.push(j);
   if(db){
     try{ await db.doc("jobs/"+j.id).set(j); setSaveState("","Saved · "+(j.data.job?"job "+j.data.job:"unnumbered")); }
-    catch(e){ setSaveState("err","Kept in this browser only"); console.error(e); }
+    catch(e){ setSaveState("err", window.SPECLINE_SIGNED_OUT
+        ? "Signed out — the job is safe in this browser. Sign in again to save it to the practice."
+        : "Kept in this browser only"); console.error(e); }
   } else setSaveState("","Kept in this browser");
   if(S.route==="home") renderHome();
 }
@@ -1046,6 +1048,28 @@ loadPractice();
 jobsCache=Object.values(localJobs());
 if(restore()){ renderAll(); setSaveState("",db?"Saved":"Kept in this browser"); } else { go("home"); }
 (async()=>{
+  /* Hosted on specline.co.uk behind the practice login: site/app.php injects SPECLINE, and
+     the store is the practice's own on the server. The browser's own download does the
+     saving, so no downloads capability is needed. */
+  if(window.SPECLINE && window.SPECLINE.api){
+    db = serverStore(window.SPECLINE);
+    if(window.SPECLINE.practice) P = {...P, ...window.SPECLINE.practice};
+    /* Hosted behind the practice login, so give the header a way back out of the tool. */
+    const nb = el("btnNew");
+    if(nb && nb.parentNode && window.SPECLINE.account){
+      const who = document.createElement("a");
+      who.className = "btn btn-quiet"; who.href = window.SPECLINE.account;
+      who.textContent = (window.SPECLINE.user && window.SPECLINE.user.name) || "Account";
+      who.title = "Your Specline account";
+      const out = document.createElement("a");
+      out.className = "btn btn-quiet"; out.href = window.SPECLINE.signout || "/account/logout.php";
+      out.textContent = "Sign out";
+      nb.parentNode.insertBefore(who, nb); nb.parentNode.insertBefore(out, nb);
+    }
+    await loadJobs(); await loadPracticeRemote();
+    setSaveState("", S.type ? "Saved to your practice" : "");
+    return;
+  }
   if(!window.claude||!claude.use) return;
   try{ downloads=await claude.use("downloads"); }catch(e){}
   try{ db=await claude.use("db"); }catch(e){}

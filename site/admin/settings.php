@@ -6,9 +6,12 @@ if (is_post()) {
     csrf_check();
     $a = (string)($_POST['action'] ?? '');
     if ($a === 'general') {
-        $url = clean('app_url', 400);
-        if ($url !== '' && !preg_match('#^https://#', $url)) flash('The application address has to start with https://', 'err');
-        else { set_setting('app_url', $url); set_setting('opening_note', clean('opening_note', 400)); flash('Saved. Verified account holders will see the link on their account page.'); }
+        $mode = in_array($_POST['app_open'] ?? '', ['closed', 'admin', 'verified'], true) ? $_POST['app_open'] : 'admin';
+        set_setting('app_open', $mode);
+        set_setting('opening_note', clean('opening_note', 400));
+        flash('Saved. ' . ['closed' => 'The tool is closed to everyone, including you.',
+                           'admin' => 'Only your own account can open the tool.',
+                           'verified' => 'Every account with a verified email address can now open the tool.'][$mode]);
     } elseif ($a === 'cron') {
         set_setting('cron_token', bin2hex(random_bytes(24)));
         flash('A new cron key has been generated. Update the scheduled task with the new address.');
@@ -20,7 +23,7 @@ $token = setting('cron_token', '');
 $cronUrl = $token ? cfg('base_url') . '/cron.php?k=' . $token : '';
 $counts = ['users' => (int)val('SELECT COUNT(*) FROM users'), 'practices' => (int)val('SELECT COUNT(*) FROM practices'),
            'messages' => (int)val('SELECT COUNT(*) FROM messages'), 'waitlist' => (int)val('SELECT COUNT(*) FROM waitlist'),
-           'events' => (int)val('SELECT COUNT(*) FROM regevents')];
+           'events' => (int)val('SELECT COUNT(*) FROM regevents'), 'jobs' => (int)val('SELECT COUNT(*) FROM jobs')];
 $audit = rows('SELECT * FROM audit ORDER BY at DESC LIMIT 40');
 
 page_start('Settings', ['admin' => true]);
@@ -29,12 +32,20 @@ page_start('Settings', ['admin' => true]);
 <?php show_flash(); ?>
 
 <section>
-  <h2>What account holders see</h2>
+  <h2>Who can open the specification tool</h2>
+  <p class="small muted" style="max-width:74ch;margin-bottom:14px">The tool is served from <code>/app.php</code>, which checks the session before it reads a byte of the app. This is the switch that decides who gets past it. It starts shut on purpose: deploying the tool must not, by itself, hand it to everyone who has ever signed up.</p>
+  <?php $mode = app_open_mode(); $verified = (int)val('SELECT COUNT(*) FROM users WHERE verified_at IS NOT NULL'); ?>
   <form class="stack" method="post" style="max-width:640px"><?= csrf_field() ?><input type="hidden" name="action" value="general">
-    <?= field('app_url', 'Address of the application', 'url', ['maxlength' => 400, 'value' => setting('app_url', ''), 'placeholder' => 'https://…']) ?>
-    <p class="small muted" style="margin-top:-12px">Leave blank while Specline is closed. Once set, verified account holders get an <em>Open Specline</em> button on their account page.</p>
-    <?= field('opening_note', 'What to say while it is closed', 'text', ['maxlength' => 400, 'value' => setting('opening_note', 'Specline opens to founding members first. You will be emailed when your account can open the application.')]) ?>
-    <div class="actions"><button class="btn btn-primary" type="submit">Save</button></div>
+    <div class="field"><label for="f_app_open">Open to</label>
+      <select id="f_app_open" name="app_open">
+        <?php foreach (['admin' => 'Only me — the administrator account', 'verified' => 'Every account with a verified email address (' . $verified . ' today)', 'closed' => 'Nobody, including me'] as $k => $v)
+            echo '<option value="' . $k . '"' . ($mode === $k ? ' selected' : '') . '>' . e($v) . '</option>'; ?>
+      </select>
+      <span class="hint">Jobs already saved are never affected by this. Closing the tool hides it; it deletes nothing.</span>
+    </div>
+    <?= field('opening_note', 'What an account without access is told', 'text', ['maxlength' => 400, 'value' => setting('opening_note', 'Specline opens to founding members first. You will be emailed when your account can open the application.')]) ?>
+    <div class="actions"><button class="btn btn-primary" type="submit">Save</button>
+      <?php if (app_access($me)): ?><a class="btn" href="/app.php">Open the tool</a><?php endif; ?></div>
   </form>
 </section>
 
@@ -62,7 +73,7 @@ page_start('Settings', ['admin' => true]);
     <dt>Waiting list</dt><dd class="mono small"><?= e(WAITLIST_CSV) ?></dd>
     <dt>Configuration</dt><dd class="mono small"><?= e(CONFIG_FILE) ?> <?= is_readable(CONFIG_FILE) ? '<span class="pill pill-pass">in use</span>' : '<span class="pill">not present, defaults in use</span>' ?></dd>
     <dt>Notifications to</dt><dd class="mono small"><?= e(cfg('notify_to')) ?></dd>
-    <dt>Holding</dt><dd class="small"><?= $counts['users'] ?> users · <?= $counts['practices'] ?> practices · <?= $counts['waitlist'] ?> waiting list · <?= $counts['messages'] ?> messages · <?= $counts['events'] ?> regulation changes</dd>
+    <dt>Holding</dt><dd class="small"><?= $counts['users'] ?> users · <?= $counts['practices'] ?> practices · <?= $counts['jobs'] ?> saved jobs · <?= $counts['waitlist'] ?> waiting list · <?= $counts['messages'] ?> messages · <?= $counts['events'] ?> regulation changes</dd>
   </dl>
   <p class="small muted" style="max-width:70ch;margin-top:14px">All of it sits above <code>public_html</code>, where the web server cannot serve it and a deployment cannot overwrite it. That is deliberate: Hostinger redeploys this repository into the web root on every push, so anything kept inside it would be lost.</p>
 </section>
@@ -77,6 +88,6 @@ page_start('Settings', ['admin' => true]);
 
 <section>
   <h2>Not built yet</h2>
-  <p class="small muted" style="max-width:70ch">There is no billing here and no card is taken anywhere. There is also no separation of one practice's job data from another's, because the specification tool still runs as a single Claude artifact rather than a hosted application. Accounts, this dashboard and the regulations watch are the seams for that; the tool itself moving behind these accounts is the next build.</p>
+  <p class="small muted" style="max-width:70ch">There is no billing here and no card is taken anywhere. Everything else is in place: the specification tool is served from <code>/app.php</code> behind these accounts, and every job is stored against the practice on the session, so one practice's work is separated from another's. What remains before a subscription can be sold is a payment processor and a solicitor's look at the terms.</p>
 </section>
 <?php page_end(['admin' => true]);

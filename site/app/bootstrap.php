@@ -119,6 +119,14 @@ function migrate(PDO $pdo): void {
      "CREATE TABLE IF NOT EXISTS regevents (id $ai, doc_id INTEGER NOT NULL, at VARCHAR(32) NOT NULL, summary TEXT NOT NULL,
         before_files TEXT, after_files TEXT, reviewed_at VARCHAR(32), reviewed_by VARCHAR(120), outcome TEXT)",
      "CREATE TABLE IF NOT EXISTS audit (id $ai, at VARCHAR(32) NOT NULL, who VARCHAR(254) NOT NULL DEFAULT '', what VARCHAR(80) NOT NULL, detail TEXT NOT NULL DEFAULT '')",
+     /* One row per specification job. `payload` is the app's own snapshot, stored whole so the
+        app stays the authority on its shape; the columns beside it exist only so this side can
+        list and count jobs without parsing it. practice_id is what separates one practice's
+        work from another's, and it is always taken from the session, never from the client. */
+     "CREATE TABLE IF NOT EXISTS jobs (id VARCHAR(48) PRIMARY KEY, practice_id INTEGER NOT NULL, user_id INTEGER,
+        type VARCHAR(24) NOT NULL DEFAULT '', job_no VARCHAR(80) NOT NULL DEFAULT '', title VARCHAR(240) NOT NULL DEFAULT '',
+        rev VARCHAR(12) NOT NULL DEFAULT '', payload TEXT NOT NULL, created_at VARCHAR(32) NOT NULL, updated_at VARCHAR(32) NOT NULL)",
+     "CREATE TABLE IF NOT EXISTS practice_profile (practice_id INTEGER PRIMARY KEY, payload TEXT NOT NULL, updated_at VARCHAR(32) NOT NULL)",
      "CREATE TABLE IF NOT EXISTS proposals (id $ai, doc_id INTEGER NOT NULL, event_id INTEGER, kind VARCHAR(20) NOT NULL,
         type_name VARCHAR(80) NOT NULL DEFAULT '', clause_title VARCHAR(300) NOT NULL DEFAULT '', file_rel VARCHAR(120) NOT NULL DEFAULT '',
         find_text TEXT NOT NULL, replace_text TEXT NOT NULL DEFAULT '', evidence TEXT NOT NULL DEFAULT '', figures TEXT,
@@ -199,6 +207,27 @@ function require_admin(): array {
     return $u;
 }
 function admin_exists(): bool { return (int)val("SELECT COUNT(*) FROM users WHERE role = 'owner'") > 0; }
+
+/* ---------- who may open the specification tool ----------
+ * Deliberately shut by default. Deploying the tool must not, by itself, hand it to everyone
+ * who has ever signed up: the administrator opens it when the practice is ready to be let in.
+ *   admin     only the owner (the default, and what a fresh install gets)
+ *   verified  any account whose email address is verified
+ *   closed    nobody, including the owner
+ */
+function app_open_mode(): string {
+    $m = setting('app_open', 'admin');
+    return in_array($m, ['admin', 'verified', 'closed'], true) ? $m : 'admin';
+}
+function app_access(?array $u = null): bool {
+    $u = $u ?? current_user();
+    if (!$u) return false;
+    return match (app_open_mode()) {
+        'verified' => !empty($u['verified_at']),
+        'admin'    => $u['role'] === 'owner',
+        default    => false,
+    };
+}
 
 /* ---------- CSRF ---------- */
 function csrf_token(): string {

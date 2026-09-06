@@ -28,6 +28,8 @@ $f = [
   'waitlist'   => $n('SELECT COUNT(DISTINCT email) FROM waitlist'),
   'messages'   => $n("SELECT COUNT(*) FROM messages WHERE status = 'new'"),
   'seats'      => $n('SELECT COALESCE(SUM(seats),0) FROM practices'),
+  'jobs'       => $n('SELECT COUNT(*) FROM jobs'),
+  'jobs_w'     => $n('SELECT COUNT(*) FROM jobs WHERE updated_at >= ?', [$week]),
   'changed'    => $n("SELECT COUNT(*) FROM regdocs WHERE status = 'changed'"),
   'errors'     => $n("SELECT COUNT(*) FROM regdocs WHERE status = 'error'"),
 ];
@@ -47,6 +49,7 @@ page_start('Overview', ['admin' => true]);
 <div class="figures">
   <div class="figure"><b><?= $f['accounts'] ?></b><small>Accounts</small><span class="sub"><?= $f['accounts_w'] ?> this week · <?= $f['verified'] ?> verified</span></div>
   <div class="figure"><b><?= $f['seats'] ?></b><small>Seats expected</small><span class="sub"><?= e(implode(' · ', array_map(fn($p) => $p['plan'] . ' ' . (int)$p['c'], $plans))) ?></span></div>
+  <div class="figure"><b><?= $f['jobs'] ?></b><small>Saved jobs</small><span class="sub"><?= $f['jobs_w'] ?> touched this week · tool <?= e(['admin'=>'open to you','verified'=>'open to verified','closed'=>'closed'][app_open_mode()]) ?></span></div>
   <div class="figure"><b><?= $f['waitlist'] ?></b><small>Waiting list</small><span class="sub">distinct addresses</span></div>
   <div class="figure"><b><?= $f['messages'] ?></b><small>Unread messages</small><span class="sub"><a href="/admin/messages.php">open</a></span></div>
   <div class="figure"><b><?= $f['changed'] ?></b><small>Documents changed</small><span class="sub"><?= $lastRun ? 'checked ' . e(ago($lastRun)) : 'never checked' ?><?= $f['errors'] ? ' · ' . $f['errors'] . ' unreadable' : '' ?></span></div>

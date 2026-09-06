@@ -272,11 +272,10 @@ Roughly in order:
   characters *are* in the file; some viewers substitute a font that lacks the glyph because the
   standard PDF fonts are referenced rather than embedded. Costs roughly 300 KB per file.
 
-- **Billing, and moving the tool behind the login.** Accounts, the admin dashboard and the
-  regulations watch were built on 6 September 2026 (see "Accounts, administration and the
-  regulations watch" above). What is still missing is a payment processor and per-practice
-  separation of job data, because the specification tool itself is still the single Claude
-  artifact rather than a hosted application. That is the next build.
+- **Billing.** Accounts, the admin dashboard, the regulations watch and the tool behind the
+  login were all built on 6 September 2026 (see "Accounts, administration and the regulations
+  watch" above). Jobs are now stored per practice on the server. What is left before a
+  subscription can be sold is a payment processor and a solicitor's look at the terms.
 - Reissue the SSL certificate for `specline.co.uk` to cover `www` as well. The handshake fails on
   `www` today, so the redirect in `.htaccess` never gets a chance to run.
 - Delete the leftover `site/` folder from `public_html`; it serves a duplicate of the home page.
@@ -458,9 +457,37 @@ two already saying 2026 are skipped. Watch the year regex — it is `(?<![0-9])(
 not `\b…\b`, because the year in `ADL1_2026.pdf` follows an underscore, which is a word
 character, so `\b` never matches and every new-edition file is missed.
 
-Still not built: billing, and per-practice separation of job data — the specification tool is
-still the single Claude artifact. Accounts are the seam for moving it behind a login, which is
-the next build.
+### The specification tool behind the login
+
+Built 6 September 2026. `/app.php` is the gate and the only way to the tool: it checks the
+session, then reads `site/app/spec.html`, so an unauthenticated request never receives a byte of
+the app. That file is denied to the web by `site/app/.htaccess`.
+
+- **`site/app/spec.html` is generated AND committed**, unlike everything in `dist/`. Hostinger
+  deploys the repository, so only what is committed reaches the server. `build.py` writes it on
+  every run, along with `site/static/jspdf.js` (copied from `src/vendor/`, so the app pulls
+  nothing from a CDN). Never edit either by hand.
+- **`src/serverstore.js`** provides the same tiny interface the artifact's `db` capability gave
+  — `doc(path).get/set/delete` and `collection("jobs").limit(n).get()` — over `/api.php`. That is
+  why **not one line of the app's own save, load or delete logic changed**. It activates only
+  when `window.SPECLINE` is present, which `app.php` injects; opened any other way the app falls
+  back to localStorage exactly as before, which is what keeps the Playwright suites working
+  against `dist/preview.html`.
+- **`/api.php` scopes every row by the practice on the session, never by an id from the client.**
+  A job id does arrive from the browser, but only ever inside a `WHERE` that also pins
+  `practice_id`. Verified by test: a second practice reading, listing, overwriting and deleting
+  another's job gets null, an empty list, a refusal, and no effect. This is the per-practice
+  separation the artifact could never have, because it had no idea who was looking at it.
+- **Access is shut by default** (`app_open` = `admin`; also `verified` or `closed`), set in
+  Settings. Deploying the tool must not by itself hand it to everyone who has signed up. Closing
+  it hides the tool and deletes nothing.
+- Tables: `jobs` (the app's own snapshot in `payload`, with type, job number, title and revision
+  beside it purely so this side can list and count) and `practice_profile`. Saving the profile
+  also writes name, designer, address and phone back to `practices`, so the account page and the
+  specification cover cannot drift apart.
+
+Still not built: billing. A payment processor and a solicitor's look at
+`docs/TERMS-DRAFT.md` are what stand between this and selling a subscription.
 
 ## Commercial model
 
