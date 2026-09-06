@@ -258,6 +258,22 @@ bug.
   true white in both themes — it is paper, not chrome.
 - **Status.** Never colour alone. The figure goes in the label: "Meets 0.18", not a green tick.
 
+## Deployment — specline.co.uk
+
+The marketing site is `site/`. **Upload the CONTENTS of `site/` to `public_html`, never the
+repository.** The document root must hold `index.html` and `.htaccess` and nothing else from this
+repo.
+
+The repository must never sit in a public web root. It carries the clause library (`data/`), this
+brief with the pricing and the founding-member strategy, `reference/FACTS.md`, and
+`docs/TERMS-DRAFT.md`, whose own first line says it must not be published. On 6 September 2026 the
+whole repo was uploaded to `public_html` by mistake: the home page answered at `/site/index.html`,
+the domain root returned 403 to every visitor, and all of the above were readable over HTTPS.
+`.git` was blocked by the host, so the history was not exposed.
+
+`site/.htaccess` is defence in depth, not the fix: it disables directory listing, refuses dotfiles
+and source extensions, 404s the repo directories, folds `www` into the apex and forces HTTPS.
+
 ## Commercial model
 
 **Subscription only. Never a one-time licence.** The Approved Documents change: L1 and F1 2026
