@@ -33,7 +33,7 @@ header('Cache-Control: public, max-age=60');
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
- {"@type":"Organization","@id":"https://specline.co.uk/#org","name":"Specline","legalName":"SY Design Studio Ltd","url":"https://specline.co.uk/","email":"info@sydesignstudio.co.uk",
+ {"@type":"Organization","@id":"https://specline.co.uk/#org","name":"Specline","legalName":"SY Design Studio Ltd","url":"https://specline.co.uk/","email":"info@specline.co.uk",
   "address":{"@type":"PostalAddress","streetAddress":"49 Durham Avenue","addressLocality":"Hounslow","postalCode":"TW5 0HG","addressCountry":"GB"}},
  {"@type":"SoftwareApplication","name":"Specline","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://specline.co.uk/",
   "description":"Drafts Building Regulations specifications for building control across eight residential project types in England, written to the Approved Documents, with U-value calculations to BS EN ISO 6946 and BS EN ISO 13370 attached.",
@@ -435,7 +435,7 @@ footer .links span{color:var(--ink-3)}
   <div class="wrap">
     <div>
       <p><b>Specline</b> is a trading name of SY Design Studio Ltd.</p>
-      <p>49 Durham Avenue, Hounslow TW5 0HG · <a href="mailto:info@sydesignstudio.co.uk">info@sydesignstudio.co.uk</a></p>
+      <p>49 Durham Avenue, Hounslow TW5 0HG · <a href="mailto:info@specline.co.uk">info@specline.co.uk</a></p>
       <p>© 2026 SY Design Studio Ltd. All rights reserved.</p>
     </div>
     <div class="links"><a href="/terms.html">Terms of supply</a><a href="/privacy.html">Privacy notice</a></div>
@@ -474,9 +474,9 @@ footer .links span{color:var(--ink-3)}
       const r=await fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}});
       let d={}; try{ d=await r.json(); }catch(_){}
       if(r.ok && d.ok){ say(d.message||'Thank you. You are on the list.',true); f.reset(); btn.textContent='On the list'; return; }
-      say(d.message||'That did not go through. Please email info@sydesignstudio.co.uk and we will add you.',false);
+      say(d.message||'That did not go through. Please email info@specline.co.uk and we will add you.',false);
     }catch(_){
-      say('We could not reach the server. Please email info@sydesignstudio.co.uk and we will add you.',false);
+      say('We could not reach the server. Please email info@specline.co.uk and we will add you.',false);
     }
     btn.disabled=false; btn.textContent=was;
   });

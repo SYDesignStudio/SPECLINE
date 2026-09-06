@@ -9,7 +9,7 @@ const PLANS = {
   payg:     {n:"Per spec", seats:1, price:"£25 per issued specification"}
 };
 const PRACTICE_SEED = {name:"SY Design Studio Ltd", designer:"Salman Yousaf", addr:"49 Durham Avenue, Hounslow, TW5 0HG",
-  email:"info@sydesignstudio.co.uk", phone:"", logo:PRACTICE_SEED_LOGO, logoW:PRACTICE_SEED_LOGO_W, logoH:PRACTICE_SEED_LOGO_H,
+  email:"info@specline.co.uk", phone:"", logo:PRACTICE_SEED_LOGO, logoW:PRACTICE_SEED_LOGO_W, logoH:PRACTICE_SEED_LOGO_H,
   plan:"solo", users:["Salman Yousaf"]};
 let P = {...PRACTICE_SEED};
 const PRACTICE_KEY="specline-practice";
@@ -236,7 +236,7 @@ function renderHome(){
   el("home").innerHTML=`
     <section class="desk">
       <div>
-        <p class="eyebrow">SY Design Studio · Building regulations · England</p>
+        <p class="eyebrow">${esc(P.name || "Your practice")} · Building regulations · England</p>
         <h1>${head}</h1>
         <p class="lede">${esc(sub)}</p>
         <div class="actions"><button class="btn btn-primary btn-lg" id="homeNew">Start a new job</button>

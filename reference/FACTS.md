@@ -28,7 +28,7 @@
 - Completion notice within 5 days of completion, with client, principal designer and principal contractor details and compliance statements.
 
 ## AD B Volume 1 (2019 + 2020/2022 amendments)
-- Alarms: minimum Grade D2 Category LD3 to BS 5839-6; SY Design Studio standard is Grade D1 Category LD2 house-wide (mains, tamper-proof standby), heat alarm in kitchen, interlinked, CO alarm to BS EN 50291 where combustion appliance.
+- Alarms: minimum Grade D2 Category LD3 to BS 5839-6; the practice standard adopted here is Grade D1 Category LD2 house-wide (mains, tamper-proof standby), heat alarm in kitchen, interlinked, CO alarm to BS EN 50291 where combustion appliance.
 - Escape window: openable area ≥0.33 m², ≥450 mm × 450 mm, bottom of openable area ≤1100 mm above floor (not below 800 mm unless guarded); rooms ≤4.5 m above ground.
 - Loft (3-storey house): protected stair to final exit or two escape routes, FD30 doors (self-closers not required in a dwellinghouse but FD30S adopted); alternatives sprinklers etc.
 - Fire doors: use "FD30S doorset" (E 30 Sa) wording; garage separation REI 30, 100 mm step or fall.

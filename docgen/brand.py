@@ -17,7 +17,7 @@ PRACTICE = {
     "name":    "SY Design Studio Ltd",
     "designer":"Salman Yousaf",
     "addr":    "49 Durham Avenue, Hounslow, TW5 0HG",
-    "email":   "info@sydesignstudio.co.uk",
+    "email":   "info@specline.co.uk",
     "web":     "www.sydesignstudio.co.uk",
 }
 

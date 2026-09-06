@@ -29,7 +29,7 @@ page_start('Messages', ['admin' => true]);
   </div>
 </header>
 <?php show_flash(); ?>
-<p class="small muted" style="margin-bottom:20px">This shows messages people send through the site. It is not a mailbox: there is deliberately no mailbox on specline.co.uk, so email sent directly to an address there is not collected here.</p>
+<p class="small muted" style="margin-bottom:20px">This shows messages people send through the contact form, and emails a copy to <span class="mono">info@specline.co.uk</span> with the sender on Reply-To. It is not an inbox: mail sent straight to that address is read in the mailbox, not here.</p>
 <?php if (!$list): ?>
   <p class="empty"><?= $show === 'open' ? 'Nothing open. Every message has been dealt with.' : 'No messages yet. The contact form writes here.' ?></p>
 <?php else: foreach ($list as $m): ?>

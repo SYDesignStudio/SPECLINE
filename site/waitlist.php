@@ -15,7 +15,8 @@
 
 declare(strict_types=1);
 
-const NOTIFY_TO   = 'info@sydesignstudio.co.uk';
+const NOTIFY_TO   = 'info@specline.co.uk';
+const MAIL_FROM   = 'info@specline.co.uk';   // a real mailbox, so mail is sent from it
 const STORE       = __DIR__ . '/../../specline-waitlist.csv';
 const RATE_DIR    = __DIR__ . '/../../specline-ratelimit';
 const RATE_MAX    = 5;      // submissions per IP
@@ -82,7 +83,7 @@ $new = !file_exists(STORE);
 $fh  = @fopen(STORE, 'a');
 if ($fh === false) {
     error_log('specline waitlist: cannot open ' . STORE);
-    out(500, 'Something went wrong at our end. Please email info@sydesignstudio.co.uk instead.');
+    out(500, 'Something went wrong at our end. Please email info@specline.co.uk instead.');
 }
 if (flock($fh, LOCK_EX)) {
     if ($new) fputcsv($fh, ['timestamp_utc', 'email', 'name', 'practice', 'consent', 'ip']);
@@ -104,14 +105,13 @@ try {
     error_log('specline waitlist: database mirror failed: ' . $t->getMessage());
 }
 
-/* Notify the studio. A failure here must not lose the signup, which is already stored.
+/* Notify Specline. A failure here must not lose the signup, which is already stored.
  *
- * No From header is set, deliberately. A From of no-reply@specline.co.uk would need a real
- * mailbox on the domain, and mail claiming to come from an address that does not exist is
- * commonly dropped by the receiving server. Left alone, the MTA sets the sender to the
- * hosting account's own address, which its SPF record already covers, so the message is
- * accepted. Reply-To carries the signup's address, so replying to the notification reaches
- * the person who signed up. */
+ * Sent FROM the real mailbox, with -f setting the envelope sender too so bounces return to it
+ * and SPF is checked against an address that exists. Before 6 September 2026 no From header was
+ * set at all, because there was no mailbox on the domain and mail claiming to come from an
+ * address that does not exist is commonly dropped. Reply-To still carries the signup's own
+ * address, so replying to the notification reaches the person who signed up. */
 $body = "New Specline waiting list signup\n\n"
       . "Email:    {$email}\n"
       . "Name:     " . ($name !== '' ? $name : '—') . "\n"
@@ -122,7 +122,8 @@ $body = "New Specline waiting list signup\n\n"
     NOTIFY_TO,
     'Specline waiting list: ' . $email,
     $body,
-    "Reply-To: " . $email . "\r\nContent-Type: text/plain; charset=utf-8"
+    "From: Specline <" . MAIL_FROM . ">\r\nReply-To: " . $email . "\r\nContent-Type: text/plain; charset=utf-8",
+    '-f' . MAIL_FROM
 );
 
 out(200, 'Thank you. You are on the list and we will be in touch when Specline opens.', true);

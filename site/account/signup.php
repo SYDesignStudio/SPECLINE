@@ -56,7 +56,7 @@ if (is_post()) {
               [$pid, $email, $name, password_hash($pass, PASSWORD_DEFAULT), 'member', now(), 'site']);
             $uid = (int)$pdo->lastInsertId();
             $pdo->commit();
-        } catch (Throwable $t) { $pdo->rollBack(); error_log('signup: ' . $t->getMessage()); $errors[] = 'Something went wrong at our end. Please try again, or email info@sydesignstudio.co.uk.'; }
+        } catch (Throwable $t) { $pdo->rollBack(); error_log('signup: ' . $t->getMessage()); $errors[] = 'Something went wrong at our end. Please try again, or email info@specline.co.uk.'; }
     }
     if (!$errors) {
         $tok = issue_token($uid, 'verify', 86400);

@@ -62,7 +62,7 @@ text in `data/` as much as to the code — reproducing those clauses in another 
 drawing or product is not permitted. See [LICENSE](LICENSE) for the full terms.
 
 Specline is intended to be licensed commercially to other practices. Enquiries:
-info@sydesignstudio.co.uk
+info@specline.co.uk
 
 The specification text is written for a competent designer who stays responsible for its
 suitability on the job. Check every figure against the Approved Document in force at the date of

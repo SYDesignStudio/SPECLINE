@@ -11,7 +11,7 @@ if (is_post()) {
         if ($name === '') $errors[] = 'Enter your name.';
         if (!valid_email($email)) $errors[] = 'That email address does not look right.';
         if (mb_strlen($body) < 10) $errors[] = 'Write a little more so we can help.';
-        if (!$errors && !throttle('contact:' . client_ip(), 5, 3600)) $errors[] = 'Several messages have been sent from this connection in the last hour. Try again later, or email info@sydesignstudio.co.uk.';
+        if (!$errors && !throttle('contact:' . client_ip(), 5, 3600)) $errors[] = 'Several messages have been sent from this connection in the last hour. Try again later, or email info@specline.co.uk.';
         if (!$errors) {
             q('INSERT INTO messages (at, name, email, practice, subject, body, ip, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
               [now(), $name, $email, $practice, $subject, $body, client_ip(), $u ? (int)$u['id'] : null]);
@@ -41,7 +41,7 @@ page_start('Contact');
       <?= field('subject', 'Subject', 'text', ['maxlength' => 200]) ?>
       <?= field('body', 'Message', 'textarea', ['required' => true, 'maxlength' => 5000]) ?>
       <div style="position:absolute;left:-9999px" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
-      <div class="actions"><button class="btn btn-primary" type="submit">Send message</button><span class="small muted">Or email <a href="mailto:info@sydesignstudio.co.uk">info@sydesignstudio.co.uk</a></span></div>
+      <div class="actions"><button class="btn btn-primary" type="submit">Send message</button><span class="small muted">Or email <a href="mailto:info@specline.co.uk">info@specline.co.uk</a></span></div>
     </form>
   <?php endif; ?>
 </div>

@@ -356,11 +356,8 @@ The site is four files: `index.html`, `terms.html`, `privacy.html` and `waitlist
 `.htaccess`. The waiting list posts to `waitlist.php`, which validates, rate-limits by IP, and
 appends to `../../specline-waitlist.csv` — the domain directory **above `public_html`**, which is
 never web-served and which a deployment never touches, so the list survives every push —
-then emails the studio. Read the list by downloading that CSV over SFTP or File Manager.
-The notification sets no From header on purpose: an address that has no mailbox behind it is
-commonly dropped by the receiving server, so the MTA's own sender is used, which SPF already
-covers. Reply-To is the signup's address. **No mailbox is needed on specline.co.uk**, and the
-signup is stored whether or not the mail is delivered.
+then emails Specline. Read the list by downloading that CSV over SFTP or File Manager.
+Reply-To is the signup's address. The signup is stored whether or not the mail is delivered.
 
 Terms and privacy are published and **drafted in-house, not reviewed by a solicitor**. Both say so
 on the page. `docs/TERMS-DRAFT.md` is the brief they were written from, kept for the solicitor.
@@ -403,9 +400,9 @@ for local testing. SQLite by default; put a `mysql` key in the config file to us
   the configuration.
 - **`DirectoryIndex` must list `index.php`.** Both `.htaccess` files set it explicitly, and
   `/account/` and `/admin/` are 403 without it.
-- **Messages are not a mailbox.** The contact form stores to the database and emails the studio
-  with the sender on Reply-To. There is still deliberately no mailbox on specline.co.uk, so mail
-  sent directly to an address there is not collected. The dashboard says so on its face.
+- **Messages are not an inbox.** The contact form stores to the database and emails
+  info@specline.co.uk with the sender on Reply-To. Mail sent *directly* to the mailbox is read in
+  the mailbox, not here; this page only holds what came through the form. The dashboard says so.
 
 **The regulations watch does not edit the library, and must not be made to.** It fetches each
 Approved Document's gov.uk publication page once a day, fingerprints the set of attachment
@@ -498,6 +495,38 @@ the app. That file is denied to the web by `site/app/.htaccess`.
 
 Still not built: billing. A payment processor and a solicitor's look at
 `docs/TERMS-DRAFT.md` are what stand between this and selling a subscription.
+
+## Mail — info@specline.co.uk
+
+A real mailbox exists on the domain since 6 September 2026, and everything the site sends now
+comes **from** it, with `-f` setting the envelope sender as well as the header so bounces return
+to it and SPF is checked against an address that exists. `mail_from()` in `bootstrap.php` and
+`MAIL_FROM` in `waitlist.php` are the two places; the config file above `public_html` can
+override the first with a `mail_from` key.
+
+Before that date no From header was set anywhere, deliberately: there was no mailbox, and mail
+claiming to come from an address that does not exist is commonly dropped. That is why account
+**verification emails were unreliable**, which mattered because verification is what lets a new
+practice in. If verification mail starts bouncing again, check SPF and DKIM for specline.co.uk
+before changing anything in the code.
+
+**The clause library must never name a company.** It named SY Design Studio Ltd in thirteen
+places until 6 September 2026 — "adopted as SY Design Studio Ltd's standard", "read in
+conjunction with the SY Design Studio Ltd drawing pack" — and that text prints on *every*
+subscribing practice's specification, so another practice's document told building control to
+refer to a company with no involvement in the job. It is now practice-neutral wording ("this
+practice's standard", "the drawing pack issued with this specification", "the designer"), **not**
+"Specline": Specline is the software, not the designer, and `tests/test7.py` asserts that the
+word never appears on a generated document. The practice's own name is already on the cover, the
+running footer and the responsibility statement, so naming it inside a clause was redundant too.
+
+Two things that legitimately still say SY Design Studio Ltd, and must:
+- **The legal entity** in the terms, the privacy notice and the site footer. It is the data
+  controller and the contracting party, and a company must disclose its registered name on its
+  website. "Specline" is a trading name, not a legal person.
+- **The practice profile** — `PRACTICE_SEED`, `docgen/brand.py`, and the practice row in the
+  database. That is *the subscribing practice*, and it is what building control reads on the
+  cover. Putting "Specline" there would be the bug the commercial rule exists to prevent.
 
 ## Commercial model
 

@@ -38,7 +38,7 @@ define('WAITLIST_CSV', DATA_DIR . '/specline-waitlist.csv');
  * <?php return ['notify_to' => 'x@y', 'base_url' => 'https://specline.co.uk', 'mysql' => [...]];
  */
 $CFG = [
-    'notify_to' => 'info@sydesignstudio.co.uk',
+    'notify_to' => 'info@specline.co.uk',
     'base_url'  => 'https://specline.co.uk',
     'mysql'     => null,                          // ['dsn'=>..., 'user'=>..., 'pass'=>...] if SQLite is unavailable
     'session_hours' => 24 * 14,
@@ -306,13 +306,26 @@ function consume_token(string $raw, string $kind): ?array {
     return row('SELECT * FROM users WHERE id = ?', [(int)$t['user_id']]);
 }
 
-/* ---------- mail: plain text, no From header (see waitlist.php for why) ---------- */
+/* ---------- mail ----------
+ * A real mailbox now exists at info@specline.co.uk, so mail is sent FROM it. Until 6 September
+ * 2026 no From header was set at all, deliberately: there was no mailbox on the domain, and
+ * mail claiming to come from an address that does not exist is commonly dropped. That cost us
+ * the account verification emails, which is what gates a new practice getting in.
+ *
+ * This only works while the domain's SPF record authorises the host that sends it. The mailbox
+ * is on the same hosting, so it does, but if verification mail starts bouncing check SPF and
+ * DKIM for specline.co.uk before changing anything here.
+ */
+function mail_from(): string { return (string)cfg('mail_from', cfg('notify_to')); }
 function send_mail(string $to, string $subject, string $body, ?string $replyTo = null): bool {
     if (preg_match('/[\r\n]/', $to . $subject . (string)$replyTo)) return false;
-    $headers = "Content-Type: text/plain; charset=utf-8\r\nX-Mailer: Specline";
+    $from = mail_from();
+    $headers = "From: Specline <" . $from . ">\r\nContent-Type: text/plain; charset=utf-8\r\nX-Mailer: Specline";
     if ($replyTo && filter_var($replyTo, FILTER_VALIDATE_EMAIL)) $headers .= "\r\nReply-To: " . $replyTo;
     if (PHP_SAPI === 'cli-server') { @file_put_contents(DATA_DIR . '/specline-mail.log', "TO: $to\nSUBJECT: $subject\n$body\n----\n", FILE_APPEND); return true; }
-    return @mail($to, $subject, $body, $headers);
+    /* -f sets the envelope sender as well as the header, so bounces come back to the mailbox
+       and SPF is checked against an address that exists. */
+    return @mail($to, $subject, $body, $headers, '-f' . $from);
 }
 function notify_studio(string $subject, string $body, ?string $replyTo = null): void { send_mail(cfg('notify_to'), $subject, $body, $replyTo); }
 
@@ -379,7 +392,7 @@ function page_start(string $title, array $o = []): void {
 }
 function page_end(array $o = []): void {
     if (!empty($o['admin'])) echo '</main></div>';
-    else echo '</main><footer class="foot"><p>Specline drafts the specification. The named designer remains responsible for its suitability, and compliance of the work is determined by the building control body. Nothing here is a certificate, an approval or a plan check.</p><p><a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="/contact.php">Contact</a> · SY Design Studio Ltd</p></footer>';
+    else echo '</main><footer class="foot"><p>Specline drafts the specification. The named designer remains responsible for its suitability, and compliance of the work is determined by the building control body. Nothing here is a certificate, an approval or a plan check.</p><p><a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="/contact.php">Contact</a> · Specline, a trading name of SY Design Studio Ltd</p></footer>';
     echo '</body></html>';
 }
 function flash(?string $set = null, string $kind = 'ok'): ?array {
