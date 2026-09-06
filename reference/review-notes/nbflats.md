@@ -73,3 +73,21 @@ to Table B2 of AD B Volume 1 gives it as **Section 11** of Volume 2. That volume
 library, so the smoke clearance provisions, the fan rating and the secondary supply are now a NOTE
 on the entry telling the designer to obtain them, rather than figures stated on our authority.
 Figures recorded in `reference/FACTS.md` under AD F Volume 2.
+
+## 6 September 2026 — FD20 doors respecified as FD30S
+
+Item 10 above put the FD30S doorset wording on the **flat entrance** door but left the doors from
+habitable rooms onto the protected entrance hall specified as FD20, in three places: the internal
+partition build-up, the maisonette stair note and the merged "Escape Within the Flat and Flat
+Entrance Doors" note. The same clause in the **flat conversion** type carried the same FD20
+specification. All four now read as the practice standard:
+
+> FD30S fire doorsets (E 30 Sa, with intumescent strips and cold smoke seals) fitted with a
+> self-closing device, adopted as the practice standard in place of the E 20 (FD20) minimum in
+> Approved Document B Volume 1.
+
+The remaining FD20 and E 20 references across the library are correct and were deliberately left:
+they state the Approved Document minimum that the FD30S standard exceeds, explain that E 20 is the
+modern equivalent of the old FD20 designation, or set the realistic target for **upgrading an
+existing** solid panelled door in place under AD B paragraph 2.21 (hollow-core doors are replaced
+with FD30S doorsets rather than upgraded). No type specifies an FD20 door for new work.
