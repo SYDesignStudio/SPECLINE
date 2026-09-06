@@ -17,11 +17,13 @@ if (is_post()) {
     }
     if ($action === 'profile') {
         $name = clean('practice', 150); $designer = clean('designer', 120); $address = clean('address', 400); $phone = clean('phone', 40);
+        $contact = mb_strtolower(clean('contact_email', 254));
         $plan = in_array($_POST['plan'] ?? '', ['solo', 'practice', 'payg', 'undecided'], true) ? $_POST['plan'] : 'undecided';
         $seats = max(1, min(50, (int)($_POST['seats'] ?? 1)));
         if ($name === '') $errors[] = 'The practice needs a name; it is what goes on the specification.';
+        if ($contact !== '' && !valid_email($contact)) $errors[] = 'That contact email address does not look right.';
         if (!$errors) {
-            q('UPDATE practices SET name = ?, designer = ?, address = ?, phone = ?, plan = ?, seats = ? WHERE id = ?', [$name, $designer, $address, $phone, $plan, $seats, (int)$practice['id']]);
+            q('UPDATE practices SET name = ?, designer = ?, address = ?, phone = ?, plan = ?, seats = ?, contact_email = ? WHERE id = ?', [$name, $designer, $address, $phone, $plan, $seats, $contact, (int)$practice['id']]);
             audit('profile', $u['email']);
             flash('Practice details saved.');
             redirect('/account/');
@@ -78,6 +80,11 @@ page_start('Your account');
     <div class="row2">
       <?= field('designer', 'Named designer', 'text', ['maxlength' => 120, 'value' => $practice['designer']]) ?>
       <?= field('phone', 'Phone', 'text', ['maxlength' => 40, 'value' => $practice['phone']]) ?>
+    </div>
+    <div class="field">
+      <label for="f_contact_email">Contact email on the specification</label>
+      <input id="f_contact_email" type="email" name="contact_email" maxlength="254" value="<?= e($practice['contact_email'] ?? '') ?>" placeholder="<?= e($u['email']) ?>">
+      <span class="hint">What a building control officer reads on the cover and replies to. Separate from your sign-in address, so a second person in the practice does not change it. Left blank, your sign-in address is used.</span>
     </div>
     <?= field('address', 'Address', 'textarea', ['maxlength' => 400, 'value' => $practice['address'], 'style' => 'min-height:80px']) ?>
     <div class="row2">

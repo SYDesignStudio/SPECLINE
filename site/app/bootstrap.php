@@ -103,16 +103,19 @@ function db(): PDO {
     }
     return $pdo;
 }
-const SCHEMA_VERSION = 3;
+const SCHEMA_VERSION = 4;
 function db_driver(): string { db(); return $GLOBALS['DB_DRIVER'] ?? '?'; }
 
 function migrate(PDO $pdo): void {
     $ai = ($GLOBALS['DB_DRIVER'] ?? 'sqlite') === 'mysql' ? 'INTEGER PRIMARY KEY AUTO_INCREMENT' : 'INTEGER PRIMARY KEY AUTOINCREMENT';
     $stmts = [
      "CREATE TABLE IF NOT EXISTS settings (k VARCHAR(64) PRIMARY KEY, v TEXT NOT NULL)",
+     /* contact_email is the address printed on the specification, and it belongs to the
+        practice, not to whoever happens to be signed in. Taking it from the user's login
+        meant a second person in the same practice changed the cover of every document. */
      "CREATE TABLE IF NOT EXISTS practices (id $ai, name VARCHAR(150) NOT NULL, address TEXT NOT NULL DEFAULT '',
         designer VARCHAR(120) NOT NULL DEFAULT '', phone VARCHAR(40) NOT NULL DEFAULT '', plan VARCHAR(20) NOT NULL DEFAULT 'undecided',
-        seats INTEGER NOT NULL DEFAULT 1, created_at VARCHAR(32) NOT NULL)",
+        seats INTEGER NOT NULL DEFAULT 1, contact_email VARCHAR(254) NOT NULL DEFAULT '', created_at VARCHAR(32) NOT NULL)",
      "CREATE TABLE IF NOT EXISTS users (id $ai, practice_id INTEGER NOT NULL, email VARCHAR(254) NOT NULL UNIQUE,
         name VARCHAR(120) NOT NULL, pass_hash VARCHAR(255) NOT NULL, role VARCHAR(20) NOT NULL DEFAULT 'member',
         verified_at VARCHAR(32), created_at VARCHAR(32) NOT NULL, last_login_at VARCHAR(32), login_count INTEGER NOT NULL DEFAULT 0,
@@ -145,6 +148,14 @@ function migrate(PDO $pdo): void {
         status VARCHAR(20) NOT NULL DEFAULT 'draft', created_at VARCHAR(32) NOT NULL, decided_at VARCHAR(32), decided_by VARCHAR(120), note TEXT NOT NULL DEFAULT '')",
     ];
     foreach ($stmts as $s) $pdo->exec($s);
+
+    /* CREATE TABLE IF NOT EXISTS does nothing to a table that already exists, so a column
+       added after a database was built needs its own step. Ask for the column and add it
+       only if the query fails; that works the same on SQLite and MySQL. */
+    foreach ([['practices', 'contact_email', "VARCHAR(254) NOT NULL DEFAULT ''"]] as [$table, $col, $type]) {
+        try { $pdo->query("SELECT $col FROM $table LIMIT 1"); }
+        catch (Throwable $t) { try { $pdo->exec("ALTER TABLE $table ADD COLUMN $col $type"); } catch (Throwable $t2) {} }
+    }
 }
 
 function q(string $sql, array $args = []): PDOStatement {

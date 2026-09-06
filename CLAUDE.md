@@ -489,7 +489,14 @@ the app. That file is denied to the web by `site/app/.htaccess`.
   Settings. Deploying the tool must not by itself hand it to everyone who has signed up. Closing
   it hides the tool and deletes nothing.
 - Tables: `jobs` (the app's own snapshot in `payload`, with type, job number, title and revision
-  beside it purely so this side can list and count) and `practice_profile`. Saving the profile
+  beside it purely so this side can list and count) and `practice_profile`.
+  `practices.contact_email` is the address printed on the specification and it belongs to the
+  **practice**, not to whoever is signed in — it was taken from the user's login until
+  6 September 2026, which meant a second person in the same practice changed the cover of every
+  document. Blank falls back to the login.
+  **`CREATE TABLE IF NOT EXISTS` does nothing to a table that already exists**, so a column added
+  later needs the ALTER step at the end of `migrate()` and a bump of `SCHEMA_VERSION`, or it
+  silently never appears on a database that is already built. Saving the profile
   also writes name, designer, address and phone back to `practices`, so the account page and the
   specification cover cannot drift apart.
 

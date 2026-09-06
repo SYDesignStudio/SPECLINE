@@ -43,7 +43,10 @@ $profile  = [
     'name'     => (string)$practice['name'],
     'designer' => (string)$practice['designer'],
     'addr'     => (string)$practice['address'],
-    'email'    => (string)$u['email'],
+    /* The practice's own contact address, not the signed-in user's login. It is what a
+       building control officer reads on the cover and replies to. Falls back to the login
+       only until the practice has set one. */
+    'email'    => (string)($practice['contact_email'] ?: $u['email']),
     'phone'    => (string)$practice['phone'],
     'plan'     => (string)$practice['plan'],
     'seats'    => (int)$practice['seats'],

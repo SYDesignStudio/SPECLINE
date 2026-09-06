@@ -107,9 +107,11 @@ case 'doc.set': {
             q('INSERT INTO practice_profile (practice_id, payload, updated_at) VALUES (?, ?, ?)', [$pid, $payload, now()]);
         /* Keep the account page and the specification cover telling the same story. */
         $name = mb_substr(trim((string)($data['name'] ?? '')), 0, 150);
-        if ($name !== '') q('UPDATE practices SET name = ?, designer = ?, address = ?, phone = ? WHERE id = ?',
+        $contact = mb_strtolower(trim((string)($data['email'] ?? '')));
+        if (!valid_email($contact)) $contact = '';
+        if ($name !== '') q('UPDATE practices SET name = ?, designer = ?, address = ?, phone = ?, contact_email = ? WHERE id = ?',
             [$name, mb_substr((string)($data['designer'] ?? ''), 0, 120), mb_substr((string)($data['addr'] ?? ''), 0, 400),
-             mb_substr((string)($data['phone'] ?? ''), 0, 40), $pid]);
+             mb_substr((string)($data['phone'] ?? ''), 0, 40), $contact, $pid]);
         out(200, ['ok' => true]);
     }
     fail(400, 'Unknown path.');
