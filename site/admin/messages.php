@@ -22,7 +22,7 @@ $counts = ['new' => (int)val("SELECT COUNT(*) FROM messages WHERE status = 'new'
 page_start('Messages', ['admin' => true]);
 ?>
 <header>
-  <div><h1>Messages</h1><p>Sent through the contact form on the site. Each one is emailed to the studio as well, with the sender on Reply-To, so replying by email reaches the person. This page is the record and the state.</p></div>
+  <div><h1>Messages</h1><p>Sent through the contact form on the site. Each one is emailed to Specline as well, with the sender on Reply-To, so replying by email reaches the person. This page is the record and the state.</p></div>
   <div class="headact">
     <a class="btn btn-sm<?= $show === 'open' ? ' btn-primary' : '' ?>" href="/admin/messages.php?show=open">Open (<?= $counts['new'] ?> new)</a>
     <a class="btn btn-sm<?= $show === 'all' ? ' btn-primary' : '' ?>" href="/admin/messages.php?show=all">All (<?= $counts['all'] ?>)</a>

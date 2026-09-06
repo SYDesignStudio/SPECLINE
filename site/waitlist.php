@@ -1,7 +1,7 @@
 <?php
 /* Specline waiting list.
  *
- * Accepts a POST from the form on the home page, records it, and notifies the studio.
+ * Accepts a POST from the form on the home page, records it, and notifies Specline.
  * There is no database: the list is a CSV written OUTSIDE the web root.
  *
  * This file sits at public_html/site/, because Hostinger deploys the repository into

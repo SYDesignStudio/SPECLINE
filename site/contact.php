@@ -26,7 +26,7 @@ page_start('Contact');
 <div class="sheet">
   <h1>Contact Specline</h1>
   <?php if ($sent): ?>
-    <p class="lede">Thank you. Your message is with the studio and we reply by email, usually within a working day.</p>
+    <p class="lede">Thank you. Your message is with Specline and we reply by email, usually within a working day.</p>
     <p><a href="/">Back to the home page</a></p>
   <?php else: ?>
     <p class="lede">Questions about the product, the library, the pricing, or a clause you think is wrong. That last one is the message we most want.</p>
