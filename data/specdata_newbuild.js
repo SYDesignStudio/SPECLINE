@@ -1,6 +1,26 @@
 SPECS.newbuild = { name:"New Build", region:"England",
  cats:["Planning","General Notes","Site Preparation & Contaminants","Structure","Foundations","Ground Floors","External Walls","Separating Walls","Internal Walls","Intermediate Floors","Roofs","Additional Notes for Walls & Roofs","Staircases & Guarding","Means of Escape & Fire Regs","Sound Insulation (Part E)","Windows, Doors & Glazing","Ventilation","Overheating (Part O)","Condensation (C2)","Drainage","Water & Sanitary (Part G)","Services","Access (Part M)","Security (Part Q)","EV Charging & Broadband (Parts S & R)","Conservation of Fuel & Power","Extra Notes & External Works","Renewable Energy"],
  buildups:[
+  {g:"FD", c:"Foundations", t:"Trench Fill Foundation", u:"Wall + 300 wide, 1000 deep",
+   tgt:"To Approved Document A Section 2E and BS 8004:2015 (+A1:2020) — width from Table 10 for the load and subsoil, or the structural engineer's design",
+   p:[
+    "Mass concrete trench fill foundation not less than 750mm thick, of a width not less than the thickness of the wall plus 300mm and in no case less than 450mm, taken to not less than 1000mm below finished ground level and cast against undisturbed ground in a trench excavated to the full width. Concrete to BS EN 206:2013 (+A2:2021) and BS 8500-2.",
+    "Foundations supporting internal loadbearing walls to be taken to not less than 600mm below finished ground level. Foundations are to be taken below the invert of any adjacent drain and are not to undermine it. Sulfate-resisting cement, or the BS 8500 design chemical class given by the ground investigation, to be used where the ground or the groundwater requires it.",
+    "Where the ground falls the foundation is to be stepped. No step is to exceed the thickness of the foundation, and the higher foundation is to overlap the lower by not less than twice the height of the step, the thickness of the foundation, or 300mm, whichever is the greater — not less than 1m where the foundation is trench fill. Masonry below ground to be stepped to suit.",
+    "All work in accordance with Requirement A1/2 of the Building Regulations 2010 (as amended) and BS 8004:2015 (+A1:2020) Code of Practice for Foundations. The depth and the size of the foundation are to be approved on site by the Building Control Officer to suit the conditions found in the excavation.",
+    "NOTE — The width is to be confirmed against Table 10 of Approved Document A for the wall load and the subsoil, or against the structural engineer's design. Where the wall is thin, the wall thickness plus 300mm can fall below the 450mm minimum for trench fill; the 450mm governs.",
+    "NOTE — Where adverse soil conditions, a change of soil type, made ground, soft spots or major tree roots are found in the excavation, work is to stop, building control is to be notified and the structural engineer's advice obtained before any concrete is placed."
+   ]},
+  {g:"FD", c:"Foundations", t:"Strip Foundation", u:"Wall + 300 × 225, 1000 deep",
+   tgt:"To Approved Document A Table 10 and Section 2E — thickness not less than the projection each side and not less than 225mm",
+   p:[
+    "Concrete strip foundation with the width taken from Table 10 of Approved Document A for the wall load and the subsoil, not less than the thickness of the wall plus 300mm, and the thickness of the concrete not less than the projection of the foundation beyond each face of the wall and in no case less than 225mm. Concrete to BS EN 206:2013 (+A2:2021) and BS 8500-2, cast on undisturbed ground and taken to not less than 1000mm below finished ground level.",
+    "Foundations supporting internal loadbearing walls to be taken to not less than 600mm below finished ground level. Foundations are to be taken below the invert of any adjacent drain and are not to undermine it. Sulfate-resisting cement, or the BS 8500 design chemical class given by the ground investigation, to be used where the ground or the groundwater requires it.",
+    "Where the ground falls the foundation is to be stepped. No step is to exceed the thickness of the foundation, and the higher foundation is to overlap the lower by not less than twice the height of the step, the thickness of the foundation, or 300mm, whichever is the greater — not less than 1m where the foundation is trench fill. Masonry below ground to be stepped to suit.",
+    "All work in accordance with Requirement A1/2 of the Building Regulations 2010 (as amended) and BS 8004:2015 (+A1:2020) Code of Practice for Foundations. The depth and the size of the foundation are to be approved on site by the Building Control Officer to suit the conditions found in the excavation.",
+    "NOTE — The width is to be confirmed against Table 10 for the wall load and the subsoil, or against the structural engineer's design.",
+    "NOTE — Where adverse soil conditions, a change of soil type, made ground, soft spots or major tree roots are found in the excavation, work is to stop, building control is to be notified and the structural engineer's advice obtained before any concrete is placed."
+   ]},
   {g:"EW", c:"External Walls", t:"Full Fill Cavity Wall", u:"0.16 W/m²K",
    tgt:"To achieve a U-value of 0.18 W/m²K or better, being the notional dwelling value in Approved Document L Volume 1 Table 1.1, with the final target set by the SAP assessment",
    p:[

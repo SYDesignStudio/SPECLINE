@@ -167,7 +167,7 @@ function fdSpecText(c,r){
 
   if(!r.calc){
     const kind = c.type === "raft" ? "reinforced concrete raft" : "piled";
-    p.push(`FOUNDATIONS — ${kind.toUpperCase()} TO THE ENGINEER'S DESIGN`);
+    /* no CAPS heading paragraph here: the entry title is already rendered as the heading */
     p.push(`A ${kind} foundation to the structural engineer's design and calculations, submitted to building control before the affected work commences, on ${ground.n.toLowerCase()} confirmed by ground investigation. ${c.type === "raft" ? "Edge beams under all loadbearing walls, reinforcement lapped not less than 450 mm with 40 mm cover, laid on a compressible blinding and a damp proof membrane." : "Pile type, depth, spacing and the ground beam arrangement to the engineer's design, with the piling contractor's records provided to building control."} All ${concTxt} to BS EN 206 and BS 8500.`);
     p.push(sulTxt);
     p.push("All excavations to be inspected and approved by the Building Control Officer before concrete is placed. No service is to be built into or cast through the foundation without the engineer's written approval. To be read with the Foundations note in Part B.");
@@ -176,7 +176,6 @@ function fdSpecText(c,r){
     const desc = c.type === "trench"
       ? `mass concrete trench fill ${c.width} mm wide`
       : `strip foundation ${c.width} mm wide and ${c.thickness} mm thick`;
-    p.push(`FOUNDATIONS — ${type.n.toUpperCase()}${c.profile === "stepped" ? ", STEPPED" : ""}`);
     p.push(`${desc.charAt(0).toUpperCase()+desc.slice(1)} in ${concTxt} to BS EN 206 and BS 8500, taken to not less than ${c.depth} mm below finished ground level, beneath a ${c.wall} mm wall, on ${ground.n.toLowerCase()}. The projection beyond each face of the wall is ${r.proj.toFixed(0)} mm and the thickness is not less than that projection and in no case less than 150 mm, in accordance with Approved Document A Section 2E.`);
     if(c.profile === "stepped"){
       p.push(`Where the ground falls the foundation is stepped, each step not exceeding ${c.thickness} mm — the thickness of the foundation — with the higher foundation overlapping the lower by not less than ${r.overlap} mm, and the masonry below ground stepped to suit.`);

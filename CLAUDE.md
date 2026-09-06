@@ -198,8 +198,9 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
   characters that the PDF has to map through `safe()`, so the Word file is the better one to edit.
   `tests/test7.py` opens the result with python-docx, the same library the practice generator uses,
   so a file Word would reject fails the build.
-- **Foundations** (`src/configurator3.js`, group `FD`): the only element that used to produce prose
-  and no numbered entry. It does **not** calculate — a foundation width comes from Approved
+- **Foundations** (`src/configurator3.js`, group `FD`): 11 library build-ups (trench fill and strip in
+  the five types with a foundations category, plus a raft for a single-storey extension), and a
+  configurator for a bespoke one. It does **not** calculate — a foundation width comes from Approved
   Document A Table 10 or the engineer, and **those values are deliberately not held here**. It
   checks a proposed foundation against Section 2E (projection vs thickness, the 150 mm floor,
   trench fill width, step overlap, depth by subsoil) and shows the working. Raft and piled produce

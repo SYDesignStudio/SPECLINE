@@ -10,7 +10,7 @@ name and address — never Specline's. Built and used in house at SY Design Stud
 
 | | |
 |---|---|
-| Library | `data/` — 113 construction build-ups, 325 general notes |
+| Library | `data/` — 124 construction build-ups, 325 general notes |
 | App | a single self-contained HTML page, published as a Claude artifact |
 | Documents | branded Word + PDF from the app, and one master pair per project type from the library |
 
