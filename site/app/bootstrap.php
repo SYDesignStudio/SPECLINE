@@ -119,6 +119,10 @@ function migrate(PDO $pdo): void {
      "CREATE TABLE IF NOT EXISTS regevents (id $ai, doc_id INTEGER NOT NULL, at VARCHAR(32) NOT NULL, summary TEXT NOT NULL,
         before_files TEXT, after_files TEXT, reviewed_at VARCHAR(32), reviewed_by VARCHAR(120), outcome TEXT)",
      "CREATE TABLE IF NOT EXISTS audit (id $ai, at VARCHAR(32) NOT NULL, who VARCHAR(254) NOT NULL DEFAULT '', what VARCHAR(80) NOT NULL, detail TEXT NOT NULL DEFAULT '')",
+     "CREATE TABLE IF NOT EXISTS proposals (id $ai, doc_id INTEGER NOT NULL, event_id INTEGER, kind VARCHAR(20) NOT NULL,
+        type_name VARCHAR(80) NOT NULL DEFAULT '', clause_title VARCHAR(300) NOT NULL DEFAULT '', file_rel VARCHAR(120) NOT NULL DEFAULT '',
+        find_text TEXT NOT NULL, replace_text TEXT NOT NULL DEFAULT '', evidence TEXT NOT NULL DEFAULT '', figures TEXT,
+        status VARCHAR(20) NOT NULL DEFAULT 'draft', created_at VARCHAR(32) NOT NULL, decided_at VARCHAR(32), decided_by VARCHAR(120), note TEXT NOT NULL DEFAULT '')",
     ];
     foreach ($stmts as $s) $pdo->exec($s);
 }
@@ -290,10 +294,15 @@ function page_start(string $title, array $o = []): void {
     echo '<link rel="stylesheet" href="/static/ui.css"></head><body class="' . e($o['body'] ?? '') . '">';
     if (!empty($o['admin'])) {
         $here = basename($_SERVER['SCRIPT_NAME'] ?? '');
-        $nav = [['index.php', 'Overview'], ['signups.php', 'Sign-ups'], ['waitlist.php', 'Waiting list'], ['messages.php', 'Messages'], ['regs.php', 'Regulations watch'], ['settings.php', 'Settings']];
+        $nav = [['index.php', 'Overview'], ['signups.php', 'Sign-ups'], ['waitlist.php', 'Waiting list'], ['messages.php', 'Messages'], ['regs.php', 'Regulations watch'], ['proposals.php', 'Proposed edits'], ['settings.php', 'Settings']];
         echo '<div class="admin"><aside class="rail">' . lockup('/admin/') . '<p class="railtag">Administration</p><nav aria-label="Administration">';
         foreach ($nav as [$f, $label]) {
-            $n = $f === 'messages.php' ? (int)val("SELECT COUNT(*) FROM messages WHERE status = 'new'") : ($f === 'regs.php' ? (int)val("SELECT COUNT(*) FROM regdocs WHERE status = 'changed'") : 0);
+            $n = match ($f) {
+                'messages.php'  => (int)val("SELECT COUNT(*) FROM messages WHERE status = 'new'"),
+                'regs.php'      => (int)val("SELECT COUNT(*) FROM regdocs WHERE status = 'changed'"),
+                'proposals.php' => (int)val("SELECT COUNT(*) FROM proposals WHERE status = 'draft'"),
+                default         => 0,
+            };
             echo '<a href="/admin/' . $f . '"' . ($here === $f ? ' aria-current="page"' : '') . '>' . e($label) . ($n ? ' <span class="count">' . $n . '</span>' : '') . '</a>';
         }
         echo '</nav><div class="railfoot"><span>' . e($u['name'] ?? '') . '</span><a href="/account/">Account</a><a href="/account/logout.php">Sign out</a></div></aside><main class="main">';

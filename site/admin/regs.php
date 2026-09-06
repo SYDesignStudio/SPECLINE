@@ -67,6 +67,7 @@ page_start('Regulations watch', ['admin' => true]);
           <?php endforeach; ?></div>
         </details>
       <?php endif; ?>
+      <div><a href="/admin/proposals.php">Draft the edits that follow from this</a></div>
       <form method="post" class="inline"><?= csrf_field() ?><input type="hidden" name="action" value="resolve"><input type="hidden" name="ev" value="<?= (int)$ev['id'] ?>">
         <input type="text" name="outcome" placeholder="what you decided, e.g. amendment affects Part L only, no wording change" maxlength="1000" style="min-width:min(420px,60vw)" aria-label="What you decided">
         <button class="btn btn-sm btn-primary" type="submit">Record the decision</button></form>

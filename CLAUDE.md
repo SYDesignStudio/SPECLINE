@@ -424,6 +424,40 @@ figure. The check also runs opportunistically when the dashboard is opened and a
 so it works before any cron job exists; Settings generates a token-protected URL and a CLI
 command for a real scheduled task.
 
+### Proposed edits (`site/app/proposals.php`, `admin/proposals.php`)
+
+Drafts the library changes that follow from a document moving, for a person to accept or refuse.
+Three rules define it, and all three are load-bearing.
+
+1. **It drafts only what it can ground in something it has actually read.** Today that is the
+   edition a clause names: gov.uk's attachment titles carry the year, so if a clause says
+   "Approved Document L Volume 1, 2021 edition" and the page now attaches `ADL1_2026.pdf`, the
+   replacement is four digits and the evidence is the attachment title, quoted on the proposal.
+   Where the library itself records a commencement date, that sentence is quoted too — the
+   drafted AD L edits carry "Approved Documents L1 and F1, 2026 editions, come into force on
+   24 March 2027" and say not to approve until then. **Published is not in force.**
+2. **It never drafts a figure.** A U-value, fire period, ventilation rate or percentage can only
+   be changed by reading the amendment, and it cannot read the amendment. That is not laziness:
+   the Approved Documents are PDFs whose text sits behind subsetted font encodings, and this was
+   tested — PHP inflates the content streams fine (350 of 359 on AD O) and gets custom font codes
+   out, not words, so decoding needs a real font-CMap parser. Inferring a figure from a filename
+   or a change note would breach non-negotiable 1. Clauses stating figures are listed for reading
+   instead, with their figures extracted so the reviewer knows what to check, and no wording
+   proposed.
+3. **Approving does not write to `data/`.** The server holds a deployed copy that the next push
+   overwrites, so an edit made there would vanish without reaching git, the structural check or
+   the 185 assertions. Approved proposals export as an **assert-based Python script** — the same
+   shape as the edit scripts already used in this repo — run in the working copy, then
+   `build.py --test`, then commit. The generated script checks every replacement **before it
+   writes anything**, so a proposal drafted against a clause that has since changed stops the
+   whole run rather than half-applying it.
+
+Measured on the current library: 1207 clauses parse, all attributed to a project type and a
+clause title; six clauses name an edition, of which the four saying 2021 draft correctly and the
+two already saying 2026 are skipped. Watch the year regex — it is `(?<![0-9])(?:19|20)\d{2}` and
+not `\b…\b`, because the year in `ADL1_2026.pdf` follows an underscore, which is a word
+character, so `\b` never matches and every new-edition file is missed.
+
 Still not built: billing, and per-practice separation of job data — the specification tool is
 still the single Claude artifact. Accounts are the seam for moving it behind a login, which is
 the next build.

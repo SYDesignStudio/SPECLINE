@@ -167,6 +167,20 @@ section>h2{margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--r
 .review h4{margin:0 0 4px;font-size:13px;break-after:avoid}
 .review ul{margin:0 0 14px;padding-left:18px;break-inside:avoid}
 @media (max-width:760px){.review{columns:1}.cites{grid-template-columns:repeat(4,1fr)}}
+/* a drafted edit: the two states of the clause, stacked so the eye can run down them */
+.prop{border:1px solid var(--rule-soft);border-radius:var(--r-card);background:var(--surface);padding:16px 18px;display:grid;gap:12px;margin-bottom:14px}
+.prop>header{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline}
+.prop .change{display:grid;gap:6px;border-left:3px solid var(--rule);padding-left:14px}
+.prop .change p{font-size:13.5px;line-height:1.55}
+.prop .was{color:var(--ink-3)}
+.prop .now{color:var(--ink)}
+.prop .was .tag,.prop .now .tag{display:inline-block;min-width:64px;margin-right:6px}
+.prop .now .tag{color:var(--pass)}
+.prop code{background:var(--well);padding:1px 5px;border-radius:2px;font-size:12.5px}
+/* the one thing that moved, marked on both lines so the eye lands on it */
+.prop mark{background:none;padding:0 2px;border-radius:2px;font-family:var(--mono);font-size:12.5px}
+.prop mark.cut{background:var(--fail-soft);color:var(--fail);text-decoration:line-through}
+.prop mark.add{background:var(--pass-soft);color:var(--pass);font-weight:500}
 .msg{border:1px solid var(--rule-soft);border-radius:var(--r-card);background:var(--surface);padding:16px 18px;display:grid;gap:10px;margin-bottom:12px}
 .msg.new{border-color:var(--petrol)}
 .msg header{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline}
