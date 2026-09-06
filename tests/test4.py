@@ -10,18 +10,28 @@ with sync_playwright() as p:
     pg=c.new_page(); errs=[]; pg.on("pageerror",lambda e:errs.append(str(e)))
     pg.goto(URL); pg.wait_for_timeout(800); pg.click('.tile[data-k="extension"]'); pg.wait_for_timeout(500)
     pg.locator('button.step:has-text("External Walls")').click(); pg.wait_for_timeout(300)
-    ok("C1 configurator present in External Walls", pg.locator(".cfgcard").count()==1)
+    # External Walls carries two configurators: a cavity wall and a framed wall. Their selects are
+    # namespaced (data-cf="cavity" vs data-cf="fr_*") so neither suite can pick up the other's.
+    ok("C1 configurator present in External Walls", pg.locator("#addWall").count()==1)
+    ok("C1 the framed wall configurator sits alongside it",
+       pg.locator("#addFrame").count()==1 and pg.locator(".cfgcard").count()==2,
+       str(pg.locator(".cfgcard").count()))
+    ok("C1 the two do not share select names",
+       pg.locator('select[data-cf="insulation"]').count()==1 and pg.locator('select[data-cf="fr_insulation"]').count()==1,
+       f'cavity {pg.locator(chr(39)+"select[data-cf=" + chr(34) + "insulation" + chr(34) + "]"+chr(39)).count()}')
     ok("C1 wall configurator absent in Roofs", (pg.locator('button.step:has-text("Roofs")').click(), pg.wait_for_timeout(200), pg.locator("#addWall").count()==0)[2])
     pg.locator('button.step:has-text("External Walls")').click(); pg.wait_for_timeout(300)
-    u=pg.inner_text(".uval b").strip()
+    # scoped to the cavity card: a framed wall configurator renders alongside it
+    CAV = ".cfgcard:has(#addWall) "
+    u=pg.inner_text(CAV+".uval b").strip()
     ok("C2 default (90 K106 / 0.15 block, level 1) reads 0.18", u=="0.18", u)
-    ok("C2 default status = pass at 0.18 limit", pg.locator(".uval.ok").count()==1)
+    ok("C2 default status = pass at 0.18 limit", pg.locator(CAV+".uval.ok").count()==1)
     # change gap level to 0 -> 0.17
     pg.select_option('select[data-cf="gapLevel"]',"0"); pg.wait_for_timeout(250)
-    u0=pg.inner_text(".uval b").strip(); ok("C3 level 0 -> 0.17 (matches Kingspan)", u0=="0.17", u0)
+    u0=pg.inner_text(CAV+".uval b").strip(); ok("C3 level 0 -> 0.17 (matches Kingspan)", u0=="0.17", u0)
     # switch to Dritherm 37 -> fails limit
     pg.select_option('select[data-cf="insulation"]',"dt37"); pg.wait_for_timeout(250)
-    ok("C4 Dritherm 37 @100mm fails 0.18", pg.locator(".uval.bad").count()==1, pg.inner_text(".uval b"))
+    ok("C4 Dritherm 37 @100mm fails 0.18", pg.locator(CAV+".uval.bad").count()==1, pg.inner_text(CAV+".uval b"))
     # thickness options follow product
     ths=[o.get_attribute("value") for o in pg.locator('select[data-cf="thickness"] option').all()]
     ok("C4 thickness list follows product", ths==["50","65","75","85","100","125","150"], str(ths))

@@ -84,13 +84,15 @@ function wallSpecText(c,r){
   };
 }
 function bindConfigurator(){
-  const card=document.querySelector(".cfgcard"); if(!card) return;
+  /* scope to THIS card: other configurators may render alongside on the same category */
+  const add=el("addWall"); if(!add) return;
+  const card=add.closest(".cfgcard"); if(!card) return;
   card.querySelectorAll("select[data-cf]").forEach(s=>s.onchange=()=>{
     const k=s.dataset.cf; let v=s.value;
     if(["cavity","thickness","gapLevel"].includes(k)) v=+v; if(k==="limit") v=parseFloat(v);
     cfg()[k]=v; renderStage(); save();
   });
-  const add=el("addWall"); if(add) add.onclick=()=>{
+  add.onclick=()=>{
     const c=cfg(); const r=UC.wall(c);
     S.custom=S.custom||[]; S.custom.push(wallSpecText(c,r));
     const idx=allBU().length-1; S.sel.push(idx);

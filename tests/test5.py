@@ -73,4 +73,44 @@ with sync_playwright() as p:
                         "ground:'clay_firm',trees:'none',profile:'level',type:'strip'}).ok")
     ok("FD3 a 225 thickness passes the same geometry", okres is True, str(okres))
 
+    # ---- framed walls: the configurator, and stud bridging biting on a dormer cheek ----
+    pg.goto(URL); pg.wait_for_timeout(500)
+    pg.evaluate("try{localStorage.clear()}catch(e){}"); pg.goto(URL); pg.wait_for_timeout(700)
+    pg.click('.tile[data-k="loft"]'); pg.wait_for_timeout(600)
+    pg.locator('button.step:has-text("Dormer Construction (Walls)")').first.click(); pg.wait_for_timeout(400)
+    ok("FR1 framed wall configurator present on a dormer cheek category",
+       pg.locator("#addFrame").count()==1 and "framed wall" in pg.inner_text(".cfgcard h3").lower(),
+       pg.inner_text(".cfgcard h3") if pg.locator(".cfgcard h3").count() else "none")
+    ok("FR1 it defaults to a dormer cheek at 400mm centres",
+       pg.evaluate("cfgFR().use")=="cheek" and pg.evaluate("cfgFR().spacing")==400,
+       str(pg.evaluate("[cfgFR().use, cfgFR().spacing]")))
+
+    # 140mm K112 between 38x140 studs: the stated library figure is 0.18, but the studs bridge
+    fr = pg.evaluate("""(()=>{const b={insulation:'k112',thickness:140,studWidth:38,studDepth:140,
+        sheathing:'ply18',lining:'none',void:0,gapLevel:1};
+        const at=(o)=>UC.frame({...b,...o});
+        return {c400:at({spacing:400}).U, c600:at({spacing:600}).U,
+                lined:at({spacing:400,lining:'k118_375'}).U,
+                nogap:at({spacing:400,gapLevel:0}).U,
+                f400:at({spacing:400}).f};})()""")
+    ok("FR2 timber fraction is 9.5% at 400mm centres", abs(fr["f400"]-0.095)<0.001, str(fr["f400"]))
+    ok("FR2 the cheek as the library states it does NOT meet 0.18", fr["c400"] > 0.18,
+       f"{fr['c400']:.3f}")
+    ok("FR2 the library figure is reproduced only without the air-gap correction",
+       abs(fr["nogap"]-0.185) < 0.005, f"{fr['nogap']:.3f}")
+    ok("FR3 a 37.5mm K118 lining brings it back inside 0.18", fr["lined"] <= 0.18, f"{fr['lined']:.3f}")
+    ok("FR3 600mm centres alone is not enough", fr["c600"] > 0.18, f"{fr['c600']:.3f}")
+
+    # the cladding is outside a ventilated cavity, so it must not change the U-value
+    same = pg.evaluate("""(()=>{const b={insulation:'k112',thickness:140,studWidth:38,studDepth:140,
+        spacing:600,sheathing:'osb9',lining:'none',void:0,gapLevel:1};
+        return [UC.frame({...b,outer:'brick'}).U, UC.frame({...b,outer:'timber'}).U];})()""")
+    ok("FR4 the external finish does not change the U-value", abs(same[0]-same[1]) < 1e-9, str(same))
+
+    pg.click("#addFrame"); pg.wait_for_timeout(500)
+    ok("FR5 the framed wall is added and numbered EW",
+       "EW1" in pg.inner_text("#paper .sched"), pg.inner_text("#paper .sched").replace("\n"," ")[:90])
+    ok("FR5 the entry carries the timber-fraction note",
+       "Noggins, head and sole plates" in pg.inner_text("#paper"))
+
     print(json.dumps([{"r":a,"t":b,"x":c} for a,b,c in R])); print("PAGE ERRORS:",errs[:4]); b.close()

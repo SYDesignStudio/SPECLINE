@@ -50,6 +50,8 @@ src/
   configurator.js       cavity wall U-value configurator (UI)
   configurator2.js      floor / basement / roof configurators (UI)
   configurator3.js      foundation configurator (UI) — checks, not a calculation
+  configurator4.js      framed wall configurator (UI) — timber frame, dormer cheeks
+  ucalc3.js             UC.frame: studded walls, combined method for stud bridging
   ucalc.js              UC: materials with verified conductivities + wall calculations
   ucalc2.js             floors (BS EN ISO 13370), heated basements, three roof types
   docx.js               DOCX: a dependency-free .docx writer (ZIP + OOXML), used by the app
@@ -59,7 +61,7 @@ docgen/               Word + PDF generation (python-docx, LibreOffice for the PD
   spec_from_data.py     the generator: one .docx + .pdf per type, straight from dist/specdata.js
   brand.py, build_spec.py   cover page, headers, house typography
   plancheck_report.py, dedupe_report.py   the two QA reports already issued
-tests/                seven Playwright suites, 173 assertions
+tests/                seven Playwright suites, 185 assertions
 reference/            FACTS.md (verified figures) and the per-type review notes
 dist/                 build output — git-ignored
 output/               generated .docx/.pdf — git-ignored
@@ -156,6 +158,25 @@ Two things this repo has been caught out by before, both now covered by tests:
   rafters. A build-up that looks right can be a long way off — 100 mm K107 between 47 × 150 rafters
   plus 37.5 mm K118 achieves 0.20, not the 0.15 once claimed. Never state a rafter-level U-value
   without running it through the calculator.
+- **Stud bridging does the same thing to a framed wall.** `UC.frame()` in `src/ucalc3.js` runs
+  timber frame panels and dormer cheeks through the combined method, and it found three library
+  figures stated **without the Annex F air-gap correction** (6 September 2026, unresolved):
+
+  | Build-up | Library states | With the level 1 correction |
+  |---|---|---|
+  | Dormer Cheek (and the rendered and clad variants) | 0.18 | **0.20 — fails the 0.18 target** |
+  | Hip to Gable — Timber Frame Gable on Existing Wall | 0.18 | **0.20 — fails** |
+  | Infill to Garage Door Opening — Timber Frame | 0.14 | 0.16 — still inside 0.18 |
+
+  All three are 140mm K112 between 38 × 140 studs at 400mm centres. At level 0, no gaps at all,
+  the stated figures are right; at level 1, the app's default and the realistic assumption for
+  rigid boards cut between studs, the first two do not comply. Routes back to 0.18 for the cheek:
+  a 37.5mm K118 lining gives 0.16, a 25mm K118 lining gives 0.18, 184mm studs give 0.16. Widening
+  to 600mm centres alone is not enough (0.181). **Salman to decide** whether to restate the
+  figures, justify level 0, or change the build-ups.
+- The cladding on a framed wall sits outside a ventilated cavity, so BS EN ISO 6946 §6.9.3
+  requires it and the cavity to be disregarded with the external surface resistance taken as still
+  air. The outer finish therefore changes the prose and the boundary check, not the U-value.
 - Conductivities were verified against manufacturer and BBA data on 5 September 2026 and are
   recorded in `reference/FACTS.md`. Celotex is now branded **SOPRATHERM** (Soprema); Xtratherm is
   now **Unilin**. Re-verify before changing any `k` value.
@@ -219,6 +240,11 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
 - The chrome lockup is brackets as inline SVG and the wordmark as text (`.lockup`), per the
   identity sheet. Archivo 700 for the wordmark only; `--brand-ink` / `--bracket` carry its colours
   in both themes. `src/logos.js` holds the Specline icon data URIs and the practice seed logo.
+- **Two configurators can share a category.** External Walls carries the cavity wall and the
+  framed wall. Their selects are namespaced — `data-cf="cavity"` against `data-cf="fr_*"` — and
+  each binder scopes itself to the card holding its own Add button. Do not reintroduce a bare
+  `document.querySelector(".cfgcard")`; test4 scopes its chip assertions with
+  `.cfgcard:has(#addWall)`.
 - Test selectors that must survive a restyle: `.tile[data-k]`, `button.step` (`.st`, `.sc`),
   `#stepJob`, `.crumb`, `#fields input[data-k]`, `#typename`, `#stage .card` (`.tag`, `.more`,
   `.rm`), `#paper .sched`, `#btnPdf`, `#btnPrev`, `#btnType`, `.viewer`, `.cfgcard`, `.uval`,

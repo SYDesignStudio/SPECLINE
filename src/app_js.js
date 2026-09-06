@@ -81,6 +81,7 @@ const buCat = b => {
   if(b.cat==="__floor__") return cats().find(isFloorCat)||cats()[0];
   if(b.cat==="__roof__")  return cats().find(isRoofCat)||cats()[0];
   if(b.cat==="__foundation__") return cats().find(isFoundationCat)||cats()[0];
+  if(b.cat==="__frame__")      return cats().find(isFrameCat)||cats()[0];
   return b.c; };
 const ntCat = n => n.c;
 const fmtDate = t => new Date(t).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
@@ -315,6 +316,7 @@ function renderStage(){
   if(isFloorCat(cat)) h += renderFloorConfigurator(cat);
   if(isRoofCat(cat)) h += renderRoofConfigurator();
   if(isFoundationCat(cat)) h += renderFoundationConfigurator();
+  if(isFrameCat(cat)) h += renderFrameConfigurator(cat);
   if(bus.length){
     h += `<p class="grouplabel">Construction build-ups</p>`;
     h += bus.map(({b,i})=>{
@@ -362,7 +364,7 @@ function renderStage(){
     else S.notes[i]=inp.checked;
     renderStage(); renderSteps(); renderPaper(); save();
   });
-  bindConfigurator3(); bindConfigurator(); bindConfigurator2();
+  bindConfigurator3(); bindConfigurator4(); bindConfigurator(); bindConfigurator2();
   el("stage").querySelectorAll(".rm").forEach(b=>b.onclick=(e)=>{
     e.preventDefault(); const i=+b.dataset.rm, base=spec().buildups.length, ci=i-base;
     if(ci<0) return; S.custom.splice(ci,1);
