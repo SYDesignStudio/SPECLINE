@@ -159,21 +159,21 @@ Two things this repo has been caught out by before, both now covered by tests:
   plus 37.5 mm K118 achieves 0.20, not the 0.15 once claimed. Never state a rafter-level U-value
   without running it through the calculator.
 - **Stud bridging does the same thing to a framed wall.** `UC.frame()` in `src/ucalc3.js` runs
-  timber frame panels and dormer cheeks through the combined method, and it found three library
-  figures stated **without the Annex F air-gap correction** (6 September 2026, unresolved):
+  timber frame panels and dormer cheeks through the combined method. On 6 September 2026 it found
+  seven library figures stated **without the Annex F air-gap correction**, all of them 140mm K112
+  between 38 × 140 studs at 400mm centres. **Corrected the same day.** What changed:
 
-  | Build-up | Library states | With the level 1 correction |
-  |---|---|---|
-  | Dormer Cheek (and the rendered and clad variants) | 0.18 | **0.20 — fails the 0.18 target** |
-  | Hip to Gable — Timber Frame Gable on Existing Wall | 0.18 | **0.20 — fails** |
-  | Infill to Garage Door Opening — Timber Frame | 0.14 | 0.16 — still inside 0.18 |
+  | Build-up | Was | Now | Change made |
+  |---|---|---|---|
+  | Dormer Cheek, and the rendered and clad variants | 0.18 | 0.16 | 37.5mm K118 lining specified; as written it was 0.20 and failed |
+  | Hip to Gable — Timber Frame Gable | 0.18 | 0.16 | 37.5mm K118 lining specified; as written it was 0.21 and failed |
+  | Infill to Garage Door Opening — Timber Frame | 0.14 | 0.16 | figure only; the construction already met 0.18 |
+  | Timber Frame External Wall (new build) | 0.14 | 0.16 | figure, and the service-void alternative removed — at 0.20 it failed |
+  | Timber Frame External Wall (new build flats) | 0.14 | 0.16 | as above |
 
-  All three are 140mm K112 between 38 × 140 studs at 400mm centres. At level 0, no gaps at all,
-  the stated figures are right; at level 1, the app's default and the realistic assumption for
-  rigid boards cut between studs, the first two do not comply. Routes back to 0.18 for the cheek:
-  a 37.5mm K118 lining gives 0.16, a 25mm K118 lining gives 0.18, 184mm studs give 0.16. Widening
-  to 600mm centres alone is not enough (0.181). **Salman to decide** whether to restate the
-  figures, justify level 0, or change the build-ups.
+  The lesson is the same one the rafters taught: at air-gap level 0 every original figure was
+  right, so this was an assumption rather than an arithmetic error. **Never state a framed-wall
+  U-value without running it through `UC.frame()`.**
 - The cladding on a framed wall sits outside a ventilated cavity, so BS EN ISO 6946 §6.9.3
   requires it and the cavity to be disregarded with the external surface resistance taken as still
   air. The outer finish therefore changes the prose and the boundary check, not the U-value.
