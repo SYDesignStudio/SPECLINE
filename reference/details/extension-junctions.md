@@ -12,9 +12,17 @@ the wall, the roof edge, and the join to the existing house — the three a buil
 actually marks up on a single-storey rear extension.
 
 **Conventions for all three**
-- 1:5 at A4 portrait. 1:10 only where the detail will not fit.
+- **1:10 at A4 landscape**, and the sheets measure it. The three details are 1920 to 2120mm
+  wide, which at 1:5 would need 384 to 424mm of paper — wider than A4 in either orientation, so
+  the earlier 1:5 label could not have been true on any sheet. A drawing that states a scale it
+  does not hold is worse than one that states none, because someone will scale off it.
 - Status default **For Building Control Approval**, not For Construction.
-- Hatch key on every sheet. Dimensions in millimetres. "Do not scale from this drawing."
+- Hatch key on every sheet, showing the real hatch rather than a flat colour. Dimensions in
+  millimetres. "Do not scale from this drawing."
+- **Materials are drawn as they are cut, not as they are seen.** Brickwork in section shows bed
+  joints at 75mm centres and no perpends; blockwork shows bed joints at 225mm. A staggered bond
+  pattern is an elevation and has no place on a section. Coursing is set out from the damp proof
+  course, as it is on site, so a bed joint lands exactly on the DPC.
 - Show the build-up reference (EW1, GF1, RF1) against each element so the detail ties to the
   schedule and the drawings cross-refer.
 - Anything to the structural engineer's design is drawn indicatively and labelled as such — the

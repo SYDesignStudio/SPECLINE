@@ -84,6 +84,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   font-size:11.5px;color:var(--ink3)}
 .key span{display:inline-flex;align-items:center;gap:6px}
 .key i{width:15px;height:11px;border:1px solid var(--d-thin);display:inline-block}
+.key svg{width:19px;height:13px;border:1px solid var(--d-thin);display:inline-block;
+  vertical-align:middle;background:#fff}
 
 footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
   font-family:var(--mono);font-size:11.5px;color:var(--ink3);
@@ -94,8 +96,12 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
   .wrap{max-width:none;padding:0}
   .intro,.tog,footer{display:none}
   .sheet{border:0;margin:0;background:#fff}
-  .sheet-body{grid-template-columns:minmax(0,1fr) 62mm}
-  @page{size:A4 portrait;margin:12mm}
+  .sheet-body{grid-template-columns:auto 58mm}
+  .dwg{padding:3mm 2mm;overflow:visible}
+  /* The scale on the title block has to be the scale on the paper. --pw is the viewBox
+     width at 1:10, so the drawing measures true and can be scaled off with a rule. */
+  .dwg svg{width:var(--pw);max-width:none;height:auto}
+  @page{size:A4 landscape;margin:9mm}
 }
 .tog{position:fixed;top:12px;right:12px;z-index:9;font-family:var(--cond);font-size:10.5px;
   font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);
@@ -109,50 +115,111 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
 
 <!-- shared hatch definitions, in real-world millimetres -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <pattern id="brick" width="112.5" height="75" patternUnits="userSpaceOnUse">
-    <rect width="112.5" height="75" fill="#fff"/>
-    <path d="M0 0h112.5M0 75h112.5" stroke="#9AA4AC" stroke-width="1.6"/>
-    <path d="M0 0v75M56.25 37.5v37.5" stroke="#9AA4AC" stroke-width="1.6"/>
+  <!-- ============================================================================
+       Materials as they appear CUT IN SECTION, not in elevation. Every pattern is in
+       real millimetres (1 user unit = 1mm), so the coursing is true: brick at 75mm
+       centres is 65mm of brick and a 10mm bed joint, blockwork at 225mm is 215 and 10.
+
+       The y offsets are deliberate. The damp proof course in D-201 sits at y=350, and
+       masonry is set out from the DPC on site, so the tiles are phased to put a bed
+       joint exactly there — brick 350 = 50 + 4x75, block 350 = 125 + 1x225. Without
+       that the courses land arbitrarily and the detail looks drawn rather than set out.
+       ============================================================================ -->
+
+  <!-- Facing brickwork, 102.5mm leaf. Bed joints only: the cut is through the wall, so
+       perpends are not seen. -->
+  <pattern id="brick" width="112.5" height="75" y="50" patternUnits="userSpaceOnUse">
+    <rect width="112.5" height="75" fill="#E7D8CB"/>
+    <rect width="112.5" height="10" fill="#D9D2C8"/>
+    <path d="M0 0h112.5M0 10h112.5" stroke="#A08D7D" stroke-width="1.3"/>
   </pattern>
-  <pattern id="block" width="225" height="112.5" patternUnits="userSpaceOnUse">
-    <rect width="225" height="112.5" fill="#fff"/>
-    <path d="M0 0h225M0 112.5h225" stroke="#9AA4AC" stroke-width="1.6"/>
-    <path d="M0 0v112.5M112.5 56.25v56.25" stroke="#9AA4AC" stroke-width="1.6"/>
+
+  <!-- Aircrete blockwork inner leaf, 100mm. 215mm block, 10mm bed joint. -->
+  <pattern id="block" width="225" height="225" y="125" patternUnits="userSpaceOnUse">
+    <rect width="225" height="225" fill="#EFEFEC"/>
+    <rect width="225" height="10" fill="#DFDFD9"/>
+    <path d="M0 0h225M0 10h225" stroke="#9AA093" stroke-width="1.3"/>
+    <circle cx="46" cy="70" r="2.2" fill="#C4C9BE"/><circle cx="150" cy="52" r="1.9" fill="#C4C9BE"/>
+    <circle cx="92" cy="128" r="2.4" fill="#C4C9BE"/><circle cx="186" cy="150" r="2" fill="#C4C9BE"/>
+    <circle cx="36" cy="186" r="2.1" fill="#C4C9BE"/><circle cx="130" cy="196" r="1.8" fill="#C4C9BE"/>
   </pattern>
-  <pattern id="dense" width="112.5" height="112.5" patternUnits="userSpaceOnUse">
-    <rect width="112.5" height="112.5" fill="#F3F1EC"/>
-    <path d="M0 0h112.5M0 112.5h112.5" stroke="#9AA4AC" stroke-width="1.6"/>
-    <path d="M0 0v112.5" stroke="#9AA4AC" stroke-width="1.6"/>
+
+  <!-- Dense concrete blockwork below the DPC. Same coursing, heavier and closed. -->
+  <pattern id="dense" width="225" height="225" y="125" patternUnits="userSpaceOnUse">
+    <rect width="225" height="225" fill="#DDDCD6"/>
+    <rect width="225" height="10" fill="#CBCAC3"/>
+    <path d="M0 0h225M0 10h225" stroke="#8A8F86" stroke-width="1.3"/>
+    <path d="M0 60 L225 60" stroke="#CFCEC7" stroke-width="1"/>
+    <circle cx="60" cy="96" r="3" fill="#C0BFB7"/><circle cx="160" cy="80" r="2.4" fill="#C0BFB7"/>
+    <circle cx="110" cy="150" r="3.2" fill="#C0BFB7"/><circle cx="196" cy="176" r="2.6" fill="#C0BFB7"/>
+    <circle cx="40" cy="190" r="2.6" fill="#C0BFB7"/>
   </pattern>
-  <pattern id="ins" width="26" height="26" patternUnits="userSpaceOnUse">
-    <rect width="26" height="26" fill="#F2E4C4"/>
-    <path d="M-6 6 L6 -6 M0 26 L26 0 M20 32 L32 20" stroke="#C9A94E" stroke-width="1.5"/>
+
+  <!-- Rigid insulation board (PIR). Cross-hatched, so it reads as board and never as quilt. -->
+  <pattern id="ins" width="30" height="30" patternUnits="userSpaceOnUse">
+    <rect width="30" height="30" fill="#FAF0D8"/>
+    <path d="M0 30 L30 0 M-6 6 L6 -6 M24 36 L36 24 M0 0 L30 30 M-6 24 L6 36 M24 -6 L36 6"
+          stroke="#D5B45B" stroke-width="1.15"/>
   </pattern>
-  <pattern id="conc" width="40" height="40" patternUnits="userSpaceOnUse">
-    <rect width="40" height="40" fill="#EFEEEB"/>
-    <circle cx="8" cy="11" r="2.2" fill="#9AA4AC"/><circle cx="27" cy="6" r="1.7" fill="#9AA4AC"/>
-    <circle cx="33" cy="26" r="2.4" fill="#9AA4AC"/><circle cx="15" cy="31" r="1.8" fill="#9AA4AC"/>
-    <path d="M20 16 l5 6 -10 0 z" fill="#9AA4AC"/>
+
+  <!-- Mineral wool: looped fibre, deliberately unlike the board above. Cavity barriers,
+       cavity closers and any quilt. -->
+  <pattern id="wool" width="64" height="26" patternUnits="userSpaceOnUse">
+    <rect width="64" height="26" fill="#F4EAE8"/>
+    <path d="M0 18 q8 -16 16 0 t16 0 t16 0 t16 0" fill="none" stroke="#B58E86" stroke-width="1.4"/>
+    <path d="M0 8 q8 -16 16 0 t16 0 t16 0 t16 0" fill="none" stroke="#CDAAA3" stroke-width="1.1"/>
   </pattern>
-  <pattern id="lean" width="34" height="34" patternUnits="userSpaceOnUse">
-    <rect width="34" height="34" fill="#E9E7E2"/>
-    <circle cx="9" cy="9" r="2.6" fill="#9AA4AC"/><circle cx="25" cy="20" r="2.2" fill="#9AA4AC"/>
-    <circle cx="16" cy="28" r="1.9" fill="#9AA4AC"/>
+
+  <!-- Sawn softwood cut across the grain: wall plates, joists, firrings, fascia. -->
+  <pattern id="timber" width="90" height="90" patternUnits="userSpaceOnUse">
+    <rect width="90" height="90" fill="#EFE1C8"/>
+    <path d="M-10 78 q45 -30 100 0 M-10 58 q45 -30 100 0 M-10 38 q45 -30 100 0 M-10 18 q45 -30 100 0"
+          fill="none" stroke="#C8A874" stroke-width="1.2"/>
   </pattern>
-  <pattern id="hard" width="46" height="46" patternUnits="userSpaceOnUse">
-    <rect width="46" height="46" fill="#EDEBE6"/>
-    <path d="M4 14 l9 -6 6 8 -8 6 z M27 6 l10 3 -3 9 -9 -4 z M12 33 l9 -4 5 8 -9 4 z M33 28 l8 5 -5 8 -7 -6 z"
-      fill="none" stroke="#9AA4AC" stroke-width="1.5"/>
+
+  <!-- In-situ concrete: aggregate and fines. -->
+  <pattern id="conc" width="44" height="44" patternUnits="userSpaceOnUse">
+    <rect width="44" height="44" fill="#E9E8E4"/>
+    <path d="M20 14 l7 9 -14 0 z M33 30 l6 7 -11 1 z" fill="#B9BDBF"/>
+    <circle cx="9" cy="12" r="2.4" fill="#B9BDBF"/><circle cx="30" cy="7" r="1.8" fill="#B9BDBF"/>
+    <circle cx="7" cy="33" r="2" fill="#B9BDBF"/><circle cx="40" cy="18" r="1.6" fill="#B9BDBF"/>
+    <circle cx="21" cy="38" r="1.7" fill="#B9BDBF"/>
   </pattern>
-  <pattern id="screed" width="22" height="22" patternUnits="userSpaceOnUse">
-    <rect width="22" height="22" fill="#F5F4F1"/>
-    <circle cx="5" cy="6" r="1.1" fill="#9AA4AC"/><circle cx="16" cy="14" r="1.1" fill="#9AA4AC"/>
-    <circle cx="10" cy="19" r="1" fill="#9AA4AC"/>
+
+  <!-- Lean mix cavity fill: coarser and looser than structural concrete. -->
+  <pattern id="lean" width="38" height="38" patternUnits="userSpaceOnUse">
+    <rect width="38" height="38" fill="#E2E0DA"/>
+    <circle cx="10" cy="10" r="3" fill="#B4B7B2"/><circle cx="27" cy="21" r="2.5" fill="#B4B7B2"/>
+    <circle cx="17" cy="31" r="2.2" fill="#B4B7B2"/><circle cx="33" cy="6" r="1.9" fill="#B4B7B2"/>
   </pattern>
+
+  <!-- Sand and cement screed: fine, even. -->
+  <pattern id="screed" width="20" height="20" patternUnits="userSpaceOnUse">
+    <rect width="20" height="20" fill="#F2F1EE"/>
+    <circle cx="4" cy="5" r="1" fill="#AFB3B5"/><circle cx="14" cy="12" r="1" fill="#AFB3B5"/>
+    <circle cx="9" cy="17" r=".9" fill="#AFB3B5"/><circle cx="17" cy="3" r=".8" fill="#AFB3B5"/>
+  </pattern>
+
+  <!-- Compacted hardcore: angular broken stone. -->
+  <pattern id="hard" width="60" height="60" patternUnits="userSpaceOnUse">
+    <rect width="60" height="60" fill="#E6E4DE"/>
+    <path d="M5 16 l11 -8 8 10 -10 8 z M31 5 l13 4 -4 11 -11 -5 z M14 40 l11 -5 7 10 -11 6 z
+             M40 34 l11 6 -6 11 -10 -8 z M50 12 l8 6 -5 7 -6 -6 z"
+          fill="#D4D1C9" stroke="#A9A79F" stroke-width="1.2"/>
+  </pattern>
+
+  <!-- Undisturbed subsoil. -->
   <pattern id="earth" width="30" height="30" patternUnits="userSpaceOnUse">
-    <rect width="30" height="30" fill="#F1EFEA"/>
-    <path d="M0 30 L30 0 M-8 8 L8 -8 M22 38 L38 22" stroke="#C3C9CE" stroke-width="1.4"/>
+    <rect width="30" height="30" fill="#EFEDE7"/>
+    <path d="M0 30 L30 0 M-8 8 L8 -8 M22 38 L38 22" stroke="#BFC4C6" stroke-width="1.3"/>
   </pattern>
+
+  <!-- Plasterboard and skim. -->
+  <pattern id="pboard" width="30" height="30" patternUnits="userSpaceOnUse">
+    <rect width="30" height="30" fill="#F7F6F3"/>
+    <circle cx="8" cy="9" r=".9" fill="#C9CBC8"/><circle cx="22" cy="20" r=".9" fill="#C9CBC8"/>
+  </pattern>
+
   <marker id="tick" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
     <path d="M2 10 L10 2" stroke="#5C6871" stroke-width="1.6"/>
   </marker>
@@ -180,11 +247,11 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
   <div class="sheet-head">
     <span class="sheet-ref">D-201</span>
     <h2>External wall to ground floor and damp proof course</h2>
-    <span class="sc">Vertical section · 1:5 @ A4</span>
+    <span class="sc">Vertical section · 1:10 @ A4 landscape</span>
   </div>
   <div class="sheet-body">
     <div class="dwg">
-      <svg viewBox="-560 -120 1920 1230" width="600" role="img"
+      <svg viewBox="-560 -120 1920 1230" width="600" style="--pw:192mm" role="img"
            aria-label="Vertical section through the cavity wall at ground level showing foundation, damp proof course, slab and damp proof membrane">
         <g stroke-linecap="square">
           <rect x="0" y="500" width="200" height="500" fill="url(#earth)"/>
@@ -197,8 +264,8 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
           <rect x="200" y="-40" width="103" height="390" fill="url(#brick)" stroke="#10191F" stroke-width="2.4"/>
           <rect x="403" y="-40" width="100" height="390" fill="url(#block)" stroke="#10191F" stroke-width="2.4"/>
           <rect x="313" y="-40" width="90" height="390" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
-          <rect x="503" y="-40" width="10" height="390" fill="#EFEEEB" stroke="#5C6871" stroke-width="1.2"/>
-          <rect x="513" y="-40" width="12.5" height="390" fill="#fff" stroke="#10191F" stroke-width="2"/>
+          <rect x="503" y="-40" width="10" height="390" fill="#F2F1ED" stroke="#5C6871" stroke-width="1.2"/>
+          <rect x="513" y="-40" width="12.5" height="390" fill="url(#pboard)" stroke="#10191F" stroke-width="2"/>
           <rect x="503" y="515" width="397" height="100" fill="url(#conc)" stroke="#10191F" stroke-width="2.4"/>
           <rect x="503" y="615" width="397" height="50" fill="#F1EFEA" stroke="#5C6871" stroke-width="1.2"/>
           <rect x="528" y="415" width="372" height="100" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
@@ -281,16 +348,22 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
     </div>
   </div>
   <div class="key">
-    <span><i style="background:#F2E4C4"></i> Insulation</span>
-    <span><i style="background:#EFEEEB"></i> Concrete</span>
-    <span><i style="background:#EDEBE6"></i> Hardcore</span>
-    <span><i style="background:#E9E7E2"></i> Lean mix</span>
+    <span><svg viewBox="0 20 130 89" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#brick)"/></svg> Facing brick</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#block)"/></svg> Aircrete block</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#dense)"/></svg> Dense block</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#ins)"/></svg> Rigid board</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#wool)"/></svg> Mineral wool</span>
+    <span><svg viewBox="0 0 100 68" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#timber)"/></svg> Sawn timber</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#conc)"/></svg> Concrete</span>
+    <span><svg viewBox="0 0 50 34" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#screed)"/></svg> Screed</span>
+    <span><svg viewBox="0 0 90 62" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#hard)"/></svg> Hardcore</span>
+    <span><svg viewBox="0 0 60 41" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#earth)"/></svg> Subsoil</span>
     <span><i style="background:#B3352B;border-color:#B3352B"></i> DPC / DPM</span>
-    <span><i style="background:#F1EFEA"></i> Ground</span>
+    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control / air barrier</span>
   </div>
   <dl class="tblock">
     <div><dt>Drawing no</dt><dd>[XX-XXX]-D-201</dd></div>
-    <div><dt>Scale</dt><dd>1:5 @ A4</dd></div>
+    <div><dt>Scale</dt><dd>1:10 @ A4L</dd></div>
     <div><dt>Status</dt><dd>For BC approval</dd></div>
     <div><dt>Rev</dt><dd>P01</dd></div>
   </dl>
@@ -301,27 +374,27 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
   <div class="sheet-head">
     <span class="sheet-ref">D-202</span>
     <h2>Warm deck flat roof at the eaves</h2>
-    <span class="sc">Vertical section · 1:5 @ A4</span>
+    <span class="sc">Vertical section · 1:10 @ A4 landscape</span>
   </div>
   <div class="sheet-body">
     <div class="dwg">
-      <svg viewBox="-600 -270 2020 1030" width="600" role="img"
+      <svg viewBox="-600 -270 2020 1030" width="600" style="--pw:202mm" role="img"
            aria-label="Vertical section through the eaves of a warm deck flat roof showing insulation continuity and the cavity barrier at the head of the cavity">
         <g stroke-linecap="square">
           <!-- wall below -->
           <rect x="200" y="-38" width="103" height="738" fill="url(#brick)" stroke="#10191F" stroke-width="2.4"/>
           <rect x="403" y="190" width="100" height="510" fill="url(#block)" stroke="#10191F" stroke-width="2.4"/>
           <rect x="313" y="20" width="90" height="680" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
-          <rect x="503" y="190" width="10" height="510" fill="#EFEEEB" stroke="#5C6871" stroke-width="1.2"/>
-          <rect x="513" y="190" width="12.5" height="510" fill="#fff" stroke="#10191F" stroke-width="2"/>
+          <rect x="503" y="190" width="10" height="510" fill="#F2F1ED" stroke="#5C6871" stroke-width="1.2"/>
+          <rect x="513" y="190" width="12.5" height="510" fill="url(#pboard)" stroke="#10191F" stroke-width="2"/>
           <!-- cavity barrier at the very head of the cavity -->
-          <rect x="303" y="-38" width="100" height="58" fill="#E4D3D0" stroke="#B3352B" stroke-width="2.2"/>
+          <rect x="303" y="-38" width="100" height="58" fill="url(#wool)" stroke="#B3352B" stroke-width="2.2"/>
           <!-- wall plate and joists -->
-          <rect x="403" y="150" width="100" height="40" fill="#EDE7DC" stroke="#10191F" stroke-width="2"/>
-          <rect x="403" y="0" width="497" height="150" fill="#EDE7DC" stroke="#10191F" stroke-width="2"/>
+          <rect x="403" y="150" width="100" height="40" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="403" y="0" width="497" height="150" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
           <!-- firrings + deck + VCL -->
-          <rect x="130" y="-20" width="770" height="20" fill="#E3DED3" stroke="#10191F" stroke-width="1.6"/>
-          <rect x="130" y="-38" width="770" height="18" fill="#E3DED3" stroke="#10191F" stroke-width="2"/>
+          <rect x="130" y="-20" width="770" height="20" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <rect x="130" y="-38" width="770" height="18" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
           <path d="M130 -38 h770" stroke="#0E6E85" stroke-width="3.2" fill="none"/>
           <!-- insulation, two layers break bonded -->
           <rect x="130" y="-113" width="770" height="75" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
@@ -331,8 +404,8 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
           <path d="M900 -188 L130 -188 L104 -176 L104 -96" fill="none" stroke="#10191F" stroke-width="3.8"/>
           <path d="M104 -96 L70 -96 L70 -56" fill="none" stroke="#10191F" stroke-width="2.6"/>
           <!-- fascia, soffit, gutter -->
-          <rect x="108" y="-80" width="22" height="190" fill="#EDE7DC" stroke="#10191F" stroke-width="2"/>
-          <rect x="130" y="90" width="70" height="20" fill="#EDE7DC" stroke="#10191F" stroke-width="1.8"/>
+          <rect x="108" y="-80" width="22" height="190" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="130" y="90" width="70" height="20" fill="url(#timber)" stroke="#10191F" stroke-width="1.8"/>
           <path d="M-10 -30 a56 56 0 0 0 56 56 h62 v-96 h-62" fill="#F1EFEA" stroke="#10191F" stroke-width="2.4"/>
           <!-- break line at the right -->
           <path d="M900 -188 v338" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12" fill="none"/>
@@ -400,15 +473,22 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
     </div>
   </div>
   <div class="key">
-    <span><i style="background:#F2E4C4"></i> Insulation</span>
-    <span><i style="background:#EDE7DC"></i> Timber</span>
-    <span><i style="background:#E4D3D0;border-color:#B3352B"></i> Cavity barrier</span>
-    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control layer</span>
-    <span><i style="background:#10191F;border-color:#10191F"></i> Waterproofing</span>
+    <span><svg viewBox="0 20 130 89" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#brick)"/></svg> Facing brick</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#block)"/></svg> Aircrete block</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#dense)"/></svg> Dense block</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#ins)"/></svg> Rigid board</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#wool)"/></svg> Mineral wool</span>
+    <span><svg viewBox="0 0 100 68" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#timber)"/></svg> Sawn timber</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#conc)"/></svg> Concrete</span>
+    <span><svg viewBox="0 0 50 34" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#screed)"/></svg> Screed</span>
+    <span><svg viewBox="0 0 90 62" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#hard)"/></svg> Hardcore</span>
+    <span><svg viewBox="0 0 60 41" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#earth)"/></svg> Subsoil</span>
+    <span><i style="background:#B3352B;border-color:#B3352B"></i> DPC / DPM</span>
+    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control / air barrier</span>
   </div>
   <dl class="tblock">
     <div><dt>Drawing no</dt><dd>[XX-XXX]-D-202</dd></div>
-    <div><dt>Scale</dt><dd>1:5 @ A4</dd></div>
+    <div><dt>Scale</dt><dd>1:10 @ A4L</dd></div>
     <div><dt>Status</dt><dd>For BC approval</dd></div>
     <div><dt>Rev</dt><dd>P01</dd></div>
   </dl>
@@ -419,11 +499,11 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
   <div class="sheet-head">
     <span class="sheet-ref">D-203</span>
     <h2>Flat roof abutment to the existing dwelling</h2>
-    <span class="sc">Vertical section · 1:5 @ A4</span>
+    <span class="sc">Vertical section · 1:10 @ A4 landscape</span>
   </div>
   <div class="sheet-body">
     <div class="dwg">
-      <svg viewBox="-600 -580 2120 1400" width="600" role="img"
+      <svg viewBox="-600 -580 2120 1400" width="600" style="--pw:212mm" role="img"
            aria-label="Vertical section through the abutment of a new warm deck flat roof against the existing house wall, showing the cavity tray with stop end, cover flashing and insulation continuity">
         <g stroke-linecap="square">
           <!-- existing cavity wall -->
@@ -431,8 +511,8 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
           <rect x="723" y="-500" width="75" height="1240" fill="#fff" stroke="#10191F" stroke-width="1.4"/>
           <rect x="798" y="-500" width="103" height="1240" fill="url(#block)" stroke="#10191F" stroke-width="2.4"/>
           <!-- new roof -->
-          <rect x="-40" y="128" width="660" height="150" fill="#EDE7DC" stroke="#10191F" stroke-width="2"/>
-          <rect x="-40" y="110" width="660" height="18" fill="#E3DED3" stroke="#10191F" stroke-width="2"/>
+          <rect x="-40" y="128" width="660" height="150" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="-40" y="110" width="660" height="18" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
           <path d="M-40 110 h660" stroke="#0E6E85" stroke-width="3.2" fill="none"/>
           <rect x="-40" y="35" width="660" height="75" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
           <rect x="-40" y="-40" width="660" height="75" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
@@ -510,15 +590,22 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
     </div>
   </div>
   <div class="key">
-    <span><i style="background:#F2E4C4"></i> Insulation</span>
-    <span><i style="background:#EDE7DC"></i> Timber</span>
-    <span><i style="background:#B3352B;border-color:#B3352B"></i> Cavity tray / DPC</span>
-    <span><i style="background:#10191F;border-color:#10191F"></i> Lead / waterproofing</span>
-    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control layer</span>
+    <span><svg viewBox="0 20 130 89" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#brick)"/></svg> Facing brick</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#block)"/></svg> Aircrete block</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#dense)"/></svg> Dense block</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#ins)"/></svg> Rigid board</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#wool)"/></svg> Mineral wool</span>
+    <span><svg viewBox="0 0 100 68" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#timber)"/></svg> Sawn timber</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#conc)"/></svg> Concrete</span>
+    <span><svg viewBox="0 0 50 34" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#screed)"/></svg> Screed</span>
+    <span><svg viewBox="0 0 90 62" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#hard)"/></svg> Hardcore</span>
+    <span><svg viewBox="0 0 60 41" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#earth)"/></svg> Subsoil</span>
+    <span><i style="background:#B3352B;border-color:#B3352B"></i> DPC / DPM</span>
+    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control / air barrier</span>
   </div>
   <dl class="tblock">
     <div><dt>Drawing no</dt><dd>[XX-XXX]-D-203</dd></div>
-    <div><dt>Scale</dt><dd>1:5 @ A4</dd></div>
+    <div><dt>Scale</dt><dd>1:10 @ A4L</dd></div>
     <div><dt>Status</dt><dd>For BC approval</dd></div>
     <div><dt>Rev</dt><dd>P01</dd></div>
   </dl>
