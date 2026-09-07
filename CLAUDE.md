@@ -215,6 +215,31 @@ and silently never matched: sand blinding was hatched as the membrane it protect
 the answer was just wrong. If a hatch looks wrong, check for control characters in the pattern
 before anything else.
 
+### Issue sheets — `docgen/sheet_buildups.py`
+
+`python docgen/sheet_buildups.py [type] [group]` writes an A4 sheet per build-up to
+`output/sheets/<type>/<REF>_<title>.pdf`, printed from HTML through Playwright. 109 sheets.
+**This is the PDF to issue**; `dxf_buildups.py` is the CAD half and its check print is now
+opt-in behind `--pdf`.
+
+Each sheet carries the section with its annotations on the left, thermal performance and the
+full specification on the right, the scale note, and a title block. Four things make it work:
+
+- **Every annotation is quoted from the clause**, taken as the fragment starting at that
+  layer's own thickness, so the drawing cannot drift from the specification. Matching whole
+  sentences instead put the same opening sentence against every layer, because the opening
+  sentence describes the whole build-up.
+- **Walls are drawn upright and fill the column**; floors and roofs are wide and flat, so they
+  get a section across the top with a **numbered key beneath**, which is how a flat build-up is
+  normally read. Forcing a flat section into an upright column left it stranded in white space.
+- **Wall ties are drawn only where the clause specifies them**, at the centres it gives, with
+  the fall to the outer leaf it requires. A tie drawn level, or falling inwards, teaches the
+  wrong thing.
+- **Long clauses are set smaller, not cut off.** The size steps on a cost that counts
+  paragraphs as well as characters, because paragraph spacing is what actually fills the
+  column — the longest clause in the library is only 2149 characters, so a threshold set on
+  characters alone never fired and the last line vanished behind the footer.
+
 ### DXF — `docgen/dxf_buildups.py`
 
 `python docgen/dxf_buildups.py [type] [group]` draws every build-up as a layered section and

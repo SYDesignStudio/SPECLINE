@@ -337,7 +337,9 @@ def to_pdf(path_dxf, path_pdf):
 
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    want_pdf = "--no-pdf" not in sys.argv
+    # The issue PDF now comes from docgen/sheet_buildups.py, which lays out a proper A4
+    # sheet. This one is only a check print of the CAD geometry, so it is opt-in.
+    want_pdf = "--pdf" in sys.argv
     if not os.path.exists(SRC):
         sys.exit("run python docgen/detail_schedule.py first")
     data = json.load(open(SRC, encoding="utf-8"))
