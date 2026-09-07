@@ -215,6 +215,32 @@ and silently never matched: sand blinding was hatched as the membrane it protect
 the answer was just wrong. If a hatch looks wrong, check for control characters in the pattern
 before anything else.
 
+### DXF — `docgen/dxf_buildups.py`
+
+`python docgen/dxf_buildups.py [type] [group]` draws every build-up as a layered section and
+writes `output/dxf/<type>/<GROUP>_<title>.dxf` with a `.pdf` beside it to look at. 109 of the
+124 build-ups draw; the rest are skipped and say why — foundations are not a layer stack, and
+four clauses state no thicknesses. `output/` is git-ignored, so regenerate rather than commit.
+
+- **Model space is 1:1 in millimetres.** Scale lives on the paper space viewport, set to 1:10,
+  matching the drawn sheets. Never scale the geometry: the point of a DXF is that someone can
+  dimension off it and get the real number.
+- **One layer per material**, `S-MAT-<hatch>`, plus `S-CUT`, `S-DIM`, `S-TEXT`, `S-LEAD`,
+  `S-BREAK`, `S-TITLE`. Lineweight is on the layer, so the whole drawing can be re-penned by
+  editing layers.
+- **Masonry is drawn with real bed joints** at real centres — brick 75, blockwork 225 — not a
+  hatch pattern, and with no fill. A solid fill becomes a black bar the moment the set is
+  printed in monochrome, which is how building control usually prints it.
+- **Dimensions are geometry, not DIMENSION entities.** These regenerate from the library, so
+  nobody edits them by hand, and an associative dimension renders as bare extension lines in
+  every viewer that does not implement dimension blocks in full — including the check print.
+- **All text goes through `ascii_()`.** The library is written with `²`, `—` and `·`, and CAD's
+  standard SHX fonts have none of them; unconverted they land on the drawing as empty boxes.
+
+It draws build-ups, not junctions. A junction is a decision about how insulation, the damp
+proof course and the fire separation resolve where two build-ups meet — see
+`reference/details/detail-register.md` for which are worth drawing and which are drawn.
+
 ## Publishing
 
 The app is published as a Claude artifact at
