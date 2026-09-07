@@ -52,7 +52,9 @@ def bu(d, ref, title, uval):
 def gn(d, title):
     p=d.add_paragraph(); p.paragraph_format.space_before=Pt(13); p.paragraph_format.space_after=Pt(2)
     p.paragraph_format.keep_with_next=True
-    r=p.add_run("* "); r.font.size=Pt(10.5); r.font.bold=True; r.font.color.rgb=ACCENT
+    # A bullet, not an asterisk. An asterisk against a heading reads as a footnote reference, and
+    # there are no footnotes in this document; the same bullet is already used in the QA reports.
+    r=p.add_run("•  "); r.font.size=Pt(10.5); r.font.bold=True; r.font.color.rgb=ACCENT
     r=p.add_run(title.upper()); r.font.size=Pt(10); r.font.bold=True; r.font.color.rgb=DARK
 def tgt(d,t):
     p=d.add_paragraph(); p.paragraph_format.space_after=Pt(4); p.paragraph_format.keep_with_next=True
