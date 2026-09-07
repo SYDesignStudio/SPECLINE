@@ -230,6 +230,33 @@ def courses(x0, y0, x1, y1, pitch, vertical_stack):
     return out
 
 
+def ins_pattern(pid, t, across):
+    """A lobe chain sized to the layer it fills.
+
+    A fixed tile put two cramped columns of lobes across a 90mm board and a single squashed one
+    across a 25mm upstand. Sizing the tile to the thickness gives one clean chain whatever the
+    board is, which is how the symbol is drawn by hand. `across` is True for a band that runs
+    horizontally — a floor or a roof — and False for an upright wall.
+    """
+    t = max(float(t), 8.0)
+    w, h = (t * 0.62, t) if across else (t, t * 0.62)
+    return ('<defs><pattern id="%s" width="%.2f" height="%.2f" patternUnits="userSpaceOnUse">'
+            '<rect width="%.2f" height="%.2f" fill="#FBF2D8"/>'
+            '<ellipse cx="%.2f" cy="%.2f" rx="%.2f" ry="%.2f" fill="none" stroke="#D3AE59" '
+            'stroke-width="%.2f"/></pattern></defs>'
+            % (pid, w, h, w, h, w / 2, h / 2, max(w / 2 - 1.5, 1.5), max(h / 2 - 1.5, 1.5),
+               max(1.6, t * 0.03)))
+
+
+def layer_fill(parts, i, mat, t, across):
+    """The fill for one band, adding a sized pattern where the material needs one."""
+    if mat == "ins":
+        pid = "ins%d%s" % (i, "h" if across else "v")
+        parts.append(ins_pattern(pid, t, across))
+        return "url(#%s)" % pid
+    return FILL.get(mat, "#FFF")
+
+
 def wall_svg(rec, sents):
     layers = rec["layers"]
     total = sum(l["t"] for l in layers)
@@ -239,11 +266,11 @@ def wall_svg(rec, sents):
 
     # the layers
     pos = 0.0
-    for l in layers:
+    for i, l in enumerate(layers):
         t = float(l["t"])
         mat = l["hatch"] or "void"
         parts.append('<rect x="%.1f" y="0" width="%.1f" height="%.1f" fill="%s" stroke="#1B1B1B" stroke-width="2.6"/>'
-                     % (pos, t, H_, FILL.get(mat, "#FFF")))
+                     % (pos, t, H_, layer_fill(parts, i, mat, t, False)))
         if mat in COURSE:
             parts += courses(pos, 0, pos + t, H_, COURSE[mat], False)
         pos += t
@@ -331,12 +358,12 @@ def floor_svg(rec, sents):
 
     pos = 0.0
     tops = []
-    for l in layers:                      # first layer at the bottom, as the clause reads
+    for i, l in enumerate(layers):        # first layer at the bottom, as the clause reads
         t = float(l["t"])
         y = total - pos - t
         mat = l["hatch"] or "void"
         parts.append('<rect x="0" y="%.1f" width="%.1f" height="%.1f" fill="%s" stroke="#1B1B1B" stroke-width="2.6"/>'
-                     % (y, W, t, FILL.get(mat, "#FFF")))
+                     % (y, W, t, layer_fill(parts, i, mat, t, True)))
         tops.append(y + t / 2)
         pos += t
     for x in (0, W):

@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-07T21:19:50+00:00",
+ "generated": "2026-09-07T21:41:45+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [
@@ -2529,10 +2529,10 @@
      "standard": "0.16 W/m²K",
      "layers": [
       {
-       "t": 12.5,
-       "material": "plasterboard",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard with a vapour control layer where none exists"
+       "t": 200,
+       "material": "laid cross-wise over the joists",
+       "hatch": "timber",
+       "read_from": "200mm laid cross-wise over the joists"
       },
       {
        "t": 100,
@@ -2541,10 +2541,10 @@
        "read_from": "100mm mineral wool quilt of 0"
       },
       {
-       "t": 200,
-       "material": "laid cross-wise over the joists",
-       "hatch": "timber",
-       "read_from": "200mm laid cross-wise over the joists"
+       "t": 12.5,
+       "material": "plasterboard",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard with a vapour control layer where none exists"
       }
      ],
      "total_mm": 312.5,
@@ -2552,7 +2552,8 @@
       "not treated as a layer: 'ventilation path at the eaves with proprietary eaves ven'",
       "not a layer — 10mm reads as a spacing, a level or working: 'gap along two opposite eaves'",
       "not a layer — 25mm is the alternative to the figure before it: 'where the pitch is below 15 degrees'",
-      "not a layer — 400mm follows the working in its sentence: 'centres and meets the renovation standard with n'"
+      "not a layer — 400mm follows the working in its sentence: 'centres and meets the renovation standard with n'",
+      "layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out"
      ],
      "verified_table": null,
      "clause": [
@@ -3278,10 +3279,10 @@
      "standard": "0.11 W/m²K",
      "layers": [
       {
-       "t": 12.5,
-       "material": "plasterboard",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard with a vapour control layer"
+       "t": 5,
+       "material": "continuous gap",
+       "hatch": "void",
+       "read_from": "5mm continuous gap where the underlay is not vapour permeable"
       },
       {
        "t": 100,
@@ -3290,10 +3291,10 @@
        "read_from": "100mm mineral wool quilt of 0"
       },
       {
-       "t": 5,
-       "material": "continuous gap",
-       "hatch": "void",
-       "read_from": "5mm continuous gap where the underlay is not vapour permeable"
+       "t": 12.5,
+       "material": "plasterboard",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard with a vapour control layer"
       }
      ],
      "total_mm": 117.5,
@@ -3303,7 +3304,8 @@
       "not a layer — 10mm reads as a spacing, a level or working: 'gap at the eaves on two opposite sides with 25mm pro'",
       "not treated as a layer: 'proprietary eaves vent'",
       "not a layer — 400mm follows the working in its sentence: 'centres'",
-      "not a layer — 300mm follows the working in its sentence: 'total calculates at 0'"
+      "not a layer — 300mm follows the working in its sentence: 'total calculates at 0'",
+      "layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out"
      ],
      "verified_table": null,
      "clause": [
@@ -3948,10 +3950,10 @@
      "standard": "0.11 W/m²K",
      "layers": [
       {
-       "t": 12.5,
-       "material": "plasterboard",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard with a vapour control layer"
+       "t": 10,
+       "material": "continuous gap",
+       "hatch": "void",
+       "read_from": "10mm continuous gap at two opposite eaves with eaves ventilators and insulat"
       },
       {
        "t": 100,
@@ -3960,16 +3962,17 @@
        "read_from": "100mm mineral wool of 0"
       },
       {
-       "t": 10,
-       "material": "continuous gap",
-       "hatch": "void",
-       "read_from": "10mm continuous gap at two opposite eaves with eaves ventilators and insulat"
+       "t": 12.5,
+       "material": "plasterboard",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard with a vapour control layer"
       }
      ],
      "total_mm": 122.5,
      "extraction_notes": [
       "not treated as a layer: 'laid over'",
-      "not a layer — 400mm follows the working in its sentence: 'centres'"
+      "not a layer — 400mm follows the working in its sentence: 'centres'",
+      "layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out"
      ],
      "verified_table": null,
      "clause": [
@@ -4121,10 +4124,10 @@
      "standard": "REI 30",
      "layers": [
       {
-       "t": 12.5,
-       "material": "plasterboard",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard"
+       "t": 100,
+       "material": "concrete slab gives the fire resistance without a ceiling",
+       "hatch": "conc",
+       "read_from": "100mm concrete slab gives the fire resistance without a ceiling"
       },
       {
        "t": 100,
@@ -4133,15 +4136,16 @@
        "read_from": "100mm mineral wool of not less than 10 kg/m³ laid between the joists"
       },
       {
-       "t": 100,
-       "material": "concrete slab gives the fire resistance without a ceiling",
-       "hatch": "conc",
-       "read_from": "100mm concrete slab gives the fire resistance without a ceiling"
+       "t": 12.5,
+       "material": "plasterboard",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard"
       }
      ],
      "total_mm": 212.5,
      "extraction_notes": [
-      "not a layer — 15mm is the alternative to the figure before it: 'Type F fire-resisting board'"
+      "not a layer — 15mm is the alternative to the figure before it: 'Type F fire-resisting board'",
+      "layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out"
      ],
      "verified_table": null,
      "clause": [

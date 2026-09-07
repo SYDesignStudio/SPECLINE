@@ -54,6 +54,11 @@ Document A Section 2E; they are recorded here because a calculator now depends o
 ## AD C / other
 - Cavity fill 225 mm below DPC; DPC ≥150 mm above ground; oversite 100 mm concrete or 50 mm on DPM; BS 5250 50 mm void above rafter insulation under non-breathable underlay; suspended floor void ventilation 1500 mm²/m or 500 mm²/m².
 - PD 6697 wall ties 900×450 (2.5/m²), 300 mm vertical centres within 225 mm of jambs.
+  **The library specifies 225 mm at jambs, not 300 — deliberately, and it is not an error.**
+  Closer centres mean more ties, so the clause exceeds the standard in the same way the FD30S
+  doorset and the Grade D1 LD2 alarm do. Checked 7 September 2026 after a third-party detail was
+  found to use 225 as well. Do not "correct" the clause to 300 without deciding to relax the
+  practice standard; do not read this line as licence to state 225 as the PD 6697 figure.
 - AD H drain cover 600 (gardens) / 900 (drives); drainage field 15 m from building, 10 m watercourse, 50 m well.
 - AD M Table 1.1 corridor widths (door 750 → 1200; 775 → 1050; 800 → 900); M4(3) storage 1.5/2.0/2.5/3.0 m².
 - AD E: separating wall 45 dB DnT,w+Ctr (new build) / 43 dB (conversions); floors 45/43 dB airborne, 62/64 dB LnT,w impact; internal walls/floors 40 dB Rw.

@@ -238,6 +238,27 @@ def _rescue(window, layers, notes, context="", outer=None):
                   re.sub(r"\s+", " ", window[im.end():im.end() + 90]), layers, notes)
 
 
+# The ceiling finish of a roof is on the INSIDE. Clauses are written in whichever order reads
+# best — "roof covering on battens over an underlay, on 47 x 150 rafters" runs outside in, while
+# "12.5mm plasterboard, 100mm quilt between the joists" runs inside out — and the extractor keeps
+# the clause's order, so four roofs came out with the ceiling as the outermost band. Nothing in
+# the drawing said so, and a roof drawn inside-out is the same class of mistake as a wall with
+# its plasterboard on the weather side. Reversing the list orders what the clause already states
+# and invents nothing; it is recorded in extraction_notes so it can be checked.
+INSIDE_FACE = ("pboard",)
+
+
+def face_order(group, layers, notes):
+    if group not in ("RF", "SF", "IF") or len(layers) < 2:
+        return layers
+    first, last = (layers[0].get("hatch") or ""), (layers[-1].get("hatch") or "")
+    if first in INSIDE_FACE and last not in INSIDE_FACE:
+        notes.append("layers reversed so the ceiling finish reads as the inside face — the clause "
+                     "states this build-up from the inside out")
+        return list(reversed(layers))
+    return layers
+
+
 def layers_from(text, state=None):
     """Pull '103mm facing brick outer leaf' style layers out of a clause.
 
@@ -379,6 +400,8 @@ def layers_from(text, state=None):
     # A cavity restated anywhere later in the clause is not a second cavity, whichever pass read
     # it. "a 150mm cavity with 100mm K108 ... and a 50mm clear residual cavity maintained" had
     # been drawn as 350mm of cavity in a 365mm wall.
+    #
+    # (Layer ORDER is settled by the caller, which knows the group — see face_order().)
     keep = []
     for L in layers:
         split = L.pop("_split", False)
@@ -447,6 +470,7 @@ def build():
                         continue
                     seen.add(k)
                     layers.append(l)
+            layers = face_order(b["g"], layers, notes)
             got, tgt = uvals(b)
             unmatched += sum(1 for l in layers if l["hatch"] is None)
             rec = {"group": b["g"], "group_name": GROUPS.get(b["g"], b["g"]),

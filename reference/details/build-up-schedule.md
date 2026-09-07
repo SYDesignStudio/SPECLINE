@@ -2188,15 +2188,16 @@ This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered with 150
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | plasterboard | **12.5** | `pboard` |
+| 1 | laid cross-wise over the joists | **200** | `timber` |
 | 2 | mineral wool quilt | **100** | `wool` |
-| 3 | laid cross-wise over the joists | **200** | `timber` |
+| 3 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **312.5** | |
 
 - ⚠ not treated as a layer: 'ventilation path at the eaves with proprietary eaves ven'
 - ⚠ not a layer — 10mm reads as a spacing, a level or working: 'gap along two opposite eaves'
 - ⚠ not a layer — 25mm is the alternative to the figure before it: 'where the pitch is below 15 degrees'
 - ⚠ not a layer — 400mm follows the working in its sentence: 'centres and meets the renovation standard with n'
+- ⚠ layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out
 
 <details><summary>Clause</summary>
 
@@ -2753,9 +2754,9 @@ This build-up calculates at 0.11 W/m²K to BS EN ISO 6946 at 400mm rafter centre
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | plasterboard | **12.5** | `pboard` |
+| 1 | continuous gap | **5** | `void` |
 | 2 | mineral wool quilt | **100** | `wool` |
-| 3 | continuous gap | **5** | `void` |
+| 3 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **117.5** | |
 
 - ⚠ not treated as a layer: 'laid cross-wise over'
@@ -2764,6 +2765,7 @@ This build-up calculates at 0.11 W/m²K to BS EN ISO 6946 at 400mm rafter centre
 - ⚠ not treated as a layer: 'proprietary eaves vent'
 - ⚠ not a layer — 400mm follows the working in its sentence: 'centres'
 - ⚠ not a layer — 300mm follows the working in its sentence: 'total calculates at 0'
+- ⚠ layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out
 
 <details><summary>Clause</summary>
 
@@ -3262,13 +3264,14 @@ Floor within a two-storey flat of 47mm x 220mm C24 solid joists or metal web joi
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | plasterboard | **12.5** | `pboard` |
+| 1 | continuous gap | **10** | `void` |
 | 2 | mineral wool | **100** | `wool` |
-| 3 | continuous gap | **10** | `void` |
+| 3 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **122.5** | |
 
 - ⚠ not treated as a layer: 'laid over'
 - ⚠ not a layer — 400mm follows the working in its sentence: 'centres'
+- ⚠ layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out
 
 <details><summary>Clause</summary>
 
@@ -3401,12 +3404,13 @@ Internal partitions in the basement of 70mm metal C studs or 89mm x 38mm treated
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | plasterboard | **12.5** | `pboard` |
+| 1 | concrete slab gives the fire resistance without a ceiling | **100** | `conc` |
 | 2 | mineral wool | **100** | `wool` |
-| 3 | concrete slab gives the fire resistance without a ceiling | **100** | `conc` |
+| 3 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **212.5** | |
 
 - ⚠ not a layer — 15mm is the alternative to the figure before it: 'Type F fire-resisting board'
+- ⚠ layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out
 
 <details><summary>Clause</summary>
 
@@ -4009,4 +4013,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T21:19:50+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T21:41:45+00:00*
