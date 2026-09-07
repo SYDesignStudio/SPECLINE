@@ -102,11 +102,45 @@ the floor DPM.
 
 ## Drawing conventions for the detail library
 
-- **1:5** at A4 portrait; 1:10 only where the detail will not fit.
+- **1:10 at A4 landscape**, and the sheet must measure it. These details are 1900 to 2100mm
+  wide, which at 1:5 would need 380 to 420mm of paper — wider than A4 either way round.
 - Draw in real millimetres. Cut edges heaviest, then component outlines, then hatching, then
   leaders and dimension lines lightest.
 - Hatch key on every sheet. Dimensions in millimetres. "Do not scale from this drawing."
 - Put the build-up reference (EW1, GF1, RF1) against each element so the detail ties to the
   schedule.
 - Status **For Building Control Approval**. Never "For Construction" on a library detail.
+- **Materials are drawn as they are cut.** Brick in section shows bed joints at 75 centres and
+  no perpends; blockwork at 225. A staggered bond is an elevation and does not belong on a
+  section. Coursing is set out from the DPC, as on site.
 - Every dimension on a sheet must appear in this schedule. If it does not, it has been invented.
+
+---
+
+## Window openings — the figures for D-204, D-205 and D-206
+
+The wall is EW1 throughout, so the leaf thicknesses above apply unchanged. These are the extra
+figures the three window sheets carry, and the clause each comes from.
+
+| Figure | Value | Where it comes from |
+|---|---|---|
+| Lintel end bearing | not less than **150** on whole blocks or bricks, never cut pieces | Lintels, Beams and Fire Protection |
+| Lintel size | **not dimensioned** — from the manufacturer's tables for the span and load, full design to Building Control before installation | Lintels |
+| Lintel type | proprietary steel to **BS EN 845-2** with a thermal break where it crosses the cavity, or precast prestressed concrete | Lintels |
+| Masonry overhang of the lintel toe | not more than **25** | Lintels |
+| Lintel toe | projects beyond the frame head | Lintels |
+| Cavity tray upstand | not less than **150**, with stop ends | Movement Joints, Wall Ties, Cavity Trays and DPCs |
+| Weep holes | not fewer than **two per tray**, at not more than **900** centres | as above |
+| Separate tray | required over any external lintel with no built-in tray | Lintels |
+| Cavity closer | proprietary insulated, to jambs, heads **and** cills; insulation held against its full length with no gaps | Cavity Closers and Reveals |
+| Frame lap over the closer | **30 to 50** for windows, **50** for doors | Cavity Closers and Reveals |
+| Vertical DPC | at every reveal and abutment where the cavity is closed | Movement Joints etc. |
+| Ties at an unbonded jamb | **225** vertical centres within **225** of the reveal, falling to the outer leaf | EW1 above |
+| Whole-window U-value | not exceeding **1.4 W/m²K**, or Window Energy Rating Band **B** | Windows and External Doors |
+| Safety glazing | critical locations: within **800** of floor level, within **1500** in doors and in side panels within **300** of a door | Safety Glazing and Guarding |
+| Guarding at a cill | required where the cill is below **800** above finished floor and the external drop exceeds **600** | Safety Glazing and Guarding |
+| Escape window | openable area not less than **0.33 m²** and not less than **450 × 450**, bottom of the openable area not more than **1100** above floor and not less than **800** unless guarded | Means of Escape |
+
+**Not drawn on these sheets, on purpose.** The lintel depth, the frame section and the sub-cill
+profile are all products. Drawing a size for them would put a figure on a building control
+document that nobody has verified, so they are shown indicatively and labelled as such.

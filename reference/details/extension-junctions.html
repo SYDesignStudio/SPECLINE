@@ -233,8 +233,8 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
 <div class="intro">
   <div class="eyebrow">Specline · detail library</div>
   <h1>Extension junction details</h1>
-  <p>The first three construction details for a single-storey rear extension: the bottom of the
-  wall, the roof edge, and the join to the existing house. Every dimension is taken from a clause
+  <p>Six construction details for a single-storey rear extension: the bottom of the wall, the
+  roof edge, the join to the existing house, and the window head, jamb and cill. Every dimension is taken from a clause
   already verified in the specification library, so the drawings and the specification agree.
   Where a detail and a clause ever disagree, the clause is right and the drawing is wrong.</p>
   <p><strong>These are library details, not project details.</strong> Status is For Building Control
@@ -611,8 +611,373 @@ footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
   </dl>
 </section>
 
+<!-- ============================================================ D-204 -->
+<section class="sheet">
+  <div class="sheet-head">
+    <span class="sheet-ref">D-204</span>
+    <h2>Window head — insulated lintel and cavity tray</h2>
+    <span class="sc">Vertical section · 1:10 @ A4 landscape</span>
+  </div>
+  <div class="sheet-body">
+    <div class="dwg">
+      <svg viewBox="-580 -200 2000 950" width="600" style="--pw:200mm" role="img"
+           aria-label="Vertical section through a window head showing the insulated cavity wall lintel, the cavity tray with its 150 upstand and weep holes, the insulated cavity closer and the window frame lapping it">
+        <g stroke-linecap="square">
+          <!-- masonry above, bearing on the lintel -->
+          <rect x="200" y="-140" width="103" height="516" fill="url(#brick)" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="403" y="-140" width="100" height="470" fill="url(#block)" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="313" y="-140" width="90" height="470" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="503" y="-140" width="10" height="562" fill="#F2F1ED" stroke="#5C6871" stroke-width="1.2"/>
+          <rect x="513" y="-140" width="12.5" height="562" fill="url(#pboard)" stroke="#10191F" stroke-width="2"/>
+          <!-- open perpend forming a weep hole, first course above the tray -->
+          <rect x="236" y="301" width="16" height="75" fill="#FFFFFF" stroke="#10191F" stroke-width="1.4"/>
+
+          <!-- insulated cavity wall lintel, INDICATIVE — size from the manufacturer's tables -->
+          <path d="M192 390 L192 376 L306 376 L306 330 L503 330 L503 344 L320 344 L320 390 Z"
+                fill="#DDE1E3" stroke="#10191F" stroke-width="2.6"/>
+          <rect x="320" y="344" width="183" height="32" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.4"/>
+
+          <!-- cavity tray over the lintel: 150 upstand, stop ends -->
+          <path d="M196 376 L306 376 L306 330 L403 330 L403 180" fill="none"
+                stroke="#B3352B" stroke-width="3.6"/>
+
+          <!-- insulated cavity closer, then the frame lapping it -->
+          <rect x="303" y="390" width="100" height="45" fill="url(#ins)" stroke="#0E6E85" stroke-width="2.2"/>
+          <rect x="403" y="422" width="110" height="12.5" fill="url(#pboard)" stroke="#10191F" stroke-width="1.8"/>
+          <rect x="353" y="435" width="172" height="62" fill="#F1EFEA" stroke="#10191F" stroke-width="2.4"/>
+          <path d="M353 466 h172" stroke="#5C6871" stroke-width="1.2" fill="none"/>
+          <!-- sealant and the continuous air seal behind it -->
+          <path d="M403 435 v-45" stroke="#0E6E85" stroke-width="2.6" fill="none"/>
+
+          <!-- double glazed unit below -->
+          <rect x="426" y="497" width="52" height="20" fill="#E7ECEE" stroke="#10191F" stroke-width="1.6"/>
+          <path d="M432 517 v170 M472 517 v170" stroke="#10191F" stroke-width="2"/>
+          <path d="M432 517 h40" stroke="#5C6871" stroke-width="1.2"/>
+          <path d="M300 690 h420" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12" fill="none"/>
+
+          <!-- dimensions -->
+          <g stroke="#5C6871" stroke-width="1.3" fill="none" marker-start="url(#tick)" marker-end="url(#tick)">
+            <path d="M470 180 v150"/><path d="M353 530 h50"/><path d="M303 585 h100"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="24" fill="#10191F">
+            <text x="486" y="262">150</text>
+            <text x="378" y="556" text-anchor="middle">30-50</text>
+            <text x="353" y="611" text-anchor="middle">100</text>
+          </g>
+
+          <!-- leaders -->
+          <g stroke="#10191F" stroke-width="1.3" fill="none" marker-start="url(#dot)">
+            <path d="M251 120 L900 60"/>
+            <path d="M358 120 L900 130"/>
+            <path d="M244 338 L60 300 L-140 300"/>
+            <path d="M350 353 L60 380 L-140 380"/>
+            <path d="M403 255 L900 230"/>
+            <path d="M353 412 L900 330"/>
+            <path d="M340 456 L60 470 L-140 470"/>
+            <path d="M452 507 L900 430"/>
+            <path d="M198 383 L60 560 L-140 560"/>
+          </g>
+          <g font-family="IBM Plex Sans, sans-serif" font-size="23" fill="#10191F">
+            <text x="915" y="66">103 facing brick over — EW1</text>
+            <text x="915" y="136">90 K106 full fill, held tight</text>
+            <text x="915" y="164" fill="#3C4A54">to the closer with no gaps</text>
+            <text x="915" y="236">Cavity tray, 150 upstand,</text>
+            <text x="915" y="264" fill="#3C4A54">stop ends, over the lintel</text>
+            <text x="915" y="336">Insulated cavity closer —</text>
+            <text x="915" y="364" fill="#3C4A54">head, jamb and cill alike</text>
+            <text x="915" y="436">Whole-window U-value not</text>
+            <text x="915" y="464" fill="#3C4A54">exceeding 1.4 W/m²K, or</text>
+            <text x="915" y="492" fill="#3C4A54">Window Energy Rating B</text>
+            <text x="-150" y="292" text-anchor="end">Weep holes in the perpend,</text>
+            <text x="-150" y="320" text-anchor="end" fill="#3C4A54">two per opening minimum,</text>
+            <text x="-150" y="348" text-anchor="end" fill="#3C4A54">at not more than 900 centres</text>
+            <text x="-150" y="386" text-anchor="end">Insulated cavity wall lintel to</text>
+            <text x="-150" y="414" text-anchor="end" fill="#3C4A54">BS EN 845-2, thermal break</text>
+            <text x="-150" y="442" text-anchor="end" fill="#3C4A54">across the cavity. Indicative —</text>
+            <text x="-150" y="470" text-anchor="end" fill="#3C4A54">size from the maker's tables</text>
+            <text x="-150" y="512" text-anchor="end">Frame laps the closer 30 to 50</text>
+            <text x="-150" y="566" text-anchor="end">Toe projects beyond the frame</text>
+            <text x="-150" y="594" text-anchor="end" fill="#3C4A54">head; masonry not to overhang</text>
+            <text x="-150" y="622" text-anchor="end" fill="#3C4A54">the toe by more than 25</text>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="21" fill="#0E6E85">
+            <text x="196" y="-158">EW1</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="side">
+      <h3>What this sheet is for</h3>
+      <p>It substantiates the head thermal bridge and the two things a plan checker looks for over any opening: a cavity tray that catches what the cavity sheds, and insulation carried through the head so the cavity closer, not the lintel, is the thermal path.</p>
+      <h3>Sequence</h3>
+      <p>Lintel bedded on whole blocks or bricks with not less than 150 end bearing. Cavity tray laid over it with stop ends before the masonry goes on. Weep holes formed in the perpends of the first course above the tray. Closer fixed, insulation cut tight to it, then the frame.</p>
+      <div class="check">
+        <h3>Critical check</h3>
+        <p>The cavity insulation, the closer and the frame have to form one unbroken line. A gap at any of the three, and the lintel becomes the thermal path across the whole opening.</p><p>The lintel is drawn indicatively. Its size comes from the manufacturer's tables for the span and the load, and the maker's full design is to be submitted before installation.</p>
+      </div>
+    </div>
+  </div>
+  <div class="key">
+    <span><svg viewBox="0 20 130 89" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#brick)"/></svg> Facing brick</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#block)"/></svg> Aircrete block</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#dense)"/></svg> Dense block</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#ins)"/></svg> Rigid board</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#wool)"/></svg> Mineral wool</span>
+    <span><svg viewBox="0 0 100 68" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#timber)"/></svg> Sawn timber</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#conc)"/></svg> Concrete</span>
+    <span><svg viewBox="0 0 50 34" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#screed)"/></svg> Screed</span>
+    <span><svg viewBox="0 0 90 62" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#hard)"/></svg> Hardcore</span>
+    <span><svg viewBox="0 0 60 41" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#earth)"/></svg> Subsoil</span>
+    <span><i style="background:#B3352B;border-color:#B3352B"></i> DPC / DPM</span>
+    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control / air barrier</span>
+  </div>
+  <dl class="tblock">
+    <div><dt>Drawing no</dt><dd>[XX-XXX]-D-204</dd></div>
+    <div><dt>Scale</dt><dd>1:10 @ A4L</dd></div>
+    <div><dt>Status</dt><dd>For BC approval</dd></div>
+    <div><dt>Rev</dt><dd>P01</dd></div>
+  </dl>
+</section>
+
+<!-- ============================================================ D-205 -->
+<section class="sheet">
+  <div class="sheet-head">
+    <span class="sheet-ref">D-205</span>
+    <h2>Window jamb — cavity closer and vertical damp proof course</h2>
+    <span class="sc">Horizontal section · 1:10 @ A4 landscape</span>
+  </div>
+  <div class="sheet-body">
+    <div class="dwg">
+      <svg viewBox="-580 60 2000 800" width="600" style="--pw:200mm" role="img"
+           aria-label="Horizontal section through a window jamb showing the outer leaf returned to form the reveal, the insulated cavity closer, the vertical damp proof course and the frame lapping the closer">
+        <g stroke-linecap="square">
+          <!-- horizontal section: external at the top, room below, opening to the right -->
+          <rect x="-60" y="200" width="660" height="103" fill="url(#brick)" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="-60" y="403" width="620" height="100" fill="url(#block)" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="-60" y="313" width="620" height="90" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="-60" y="503" width="620" height="10" fill="#F2F1ED" stroke="#5C6871" stroke-width="1.2"/>
+          <rect x="-60" y="513" width="620" height="12.5" fill="url(#pboard)" stroke="#10191F" stroke-width="2"/>
+          <!-- board returns into the reveal -->
+          <rect x="560" y="420" width="12.5" height="105" fill="url(#pboard)" stroke="#10191F" stroke-width="2"/>
+
+          <!-- insulated cavity closer shutting the cavity at the reveal, with the vertical DPC -->
+          <rect x="560" y="303" width="40" height="100" fill="url(#ins)" stroke="#0E6E85" stroke-width="2.2"/>
+          <path d="M600 297 L600 409" stroke="#B3352B" stroke-width="3.6" fill="none"/>
+
+          <!-- outer leaf returns to form the reveal -->
+          <path d="M600 200 v103" stroke="#10191F" stroke-width="2.4" fill="none"/>
+
+          <!-- wall tie at the reveal: 225 vertical centres within 225 of the jamb, falling out -->
+          <path d="M420 330 L300 318" stroke="#10191F" stroke-width="2.6" fill="none"/>
+
+          <!-- window frame, lapping the closer -->
+          <rect x="560" y="420" width="86" height="86" fill="#F1EFEA" stroke="#10191F" stroke-width="2.4"/>
+          <path d="M594 420 v86" stroke="#5C6871" stroke-width="1.2" fill="none"/>
+          <rect x="646" y="443" width="20" height="40" fill="#E7ECEE" stroke="#10191F" stroke-width="1.6"/>
+          <path d="M666 449 h300 M666 477 h300" stroke="#10191F" stroke-width="2"/>
+          <path d="M900 300 v420" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12" fill="none"/>
+
+          <!-- dimensions -->
+          <g stroke="#5C6871" stroke-width="1.3" fill="none" marker-start="url(#tick)" marker-end="url(#tick)">
+            <path d="M560 690 h40"/><path d="M700 303 v100"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="24" fill="#10191F">
+            <text x="580" y="716" text-anchor="middle">30-50</text>
+            <text x="716" y="362">100</text>
+          </g>
+
+          <!-- leaders -->
+          <g stroke="#10191F" stroke-width="1.3" fill="none" marker-start="url(#dot)">
+            <path d="M300 251 L200 120 L-140 120"/>
+            <path d="M360 358 L200 190 L-140 190"/>
+            <path d="M580 353 L980 250"/>
+            <path d="M600 353 L980 340"/>
+            <path d="M566 466 L980 430"/>
+            <path d="M360 324 L200 630 L-140 630"/>
+            <path d="M566 519 L200 700 L-140 700"/>
+          </g>
+          <g font-family="IBM Plex Sans, sans-serif" font-size="23" fill="#10191F">
+            <text x="-150" y="112" text-anchor="end">103 facing brick, returned</text>
+            <text x="-150" y="140" text-anchor="end" fill="#3C4A54">to form the reveal — EW1</text>
+            <text x="-150" y="182" text-anchor="end">90 K106 full fill, carried right</text>
+            <text x="-150" y="210" text-anchor="end" fill="#3C4A54">up to the closer with no gaps</text>
+            <text x="-150" y="622" text-anchor="end">Ties at 225 vertical centres</text>
+            <text x="-150" y="650" text-anchor="end" fill="#3C4A54">within 225 of the reveal,</text>
+            <text x="-150" y="678" text-anchor="end" fill="#3C4A54">set with a fall to the outer leaf</text>
+            <text x="-150" y="722" text-anchor="end">Plasterboard returned into</text>
+            <text x="-150" y="750" text-anchor="end" fill="#3C4A54">the reveal to the frame</text>
+            <text x="995" y="256">Proprietary insulated cavity</text>
+            <text x="995" y="284" fill="#3C4A54">closer, full length of the jamb</text>
+            <text x="995" y="346">Vertical damp proof course at</text>
+            <text x="995" y="374" fill="#3C4A54">every reveal where the cavity</text>
+            <text x="995" y="402" fill="#3C4A54">is closed</text>
+            <text x="995" y="436">Frame laps the closer by 30 to</text>
+            <text x="995" y="464" fill="#3C4A54">50 for windows, 50 for doors</text>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="21" fill="#0E6E85">
+            <text x="-56" y="180">EW1</text>
+          </g>
+          <g font-family="IBM Plex Sans Condensed, sans-serif" font-size="21" fill="#6B7A85"
+             letter-spacing="1.6">
+            <text x="-56" y="168" opacity="0">.</text>
+            <text x="120" y="272">EXTERNAL</text>
+            <text x="120" y="566">INTERNAL</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="side">
+      <h3>What this sheet is for</h3>
+      <p>It substantiates the reveal thermal bridge and the moisture path. Where the cavity is closed, the two leaves are bridged, so both the insulation and the damp proof course have to be continuous around the return.</p>
+      <h3>Sequence</h3>
+      <p>Outer leaf returned into the reveal. Cavity closer fixed the full height of the jamb, insulation cut tight against it. Vertical damp proof course at the reveal. Extra ties at 225 vertical centres within 225 of the unbonded jamb. Frame fixed, lapping the closer.</p>
+      <div class="check">
+        <h3>Critical check</h3>
+        <p>This is the one of the three most often got wrong on site, because the closer is fitted after the insulation and a 20mm gap behind it is invisible once the frame is in.</p><p>The jamb is unbonded masonry: without the extra ties at 225 centres the reveal has no restraint.</p>
+      </div>
+    </div>
+  </div>
+  <div class="key">
+    <span><svg viewBox="0 20 130 89" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#brick)"/></svg> Facing brick</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#block)"/></svg> Aircrete block</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#dense)"/></svg> Dense block</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#ins)"/></svg> Rigid board</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#wool)"/></svg> Mineral wool</span>
+    <span><svg viewBox="0 0 100 68" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#timber)"/></svg> Sawn timber</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#conc)"/></svg> Concrete</span>
+    <span><svg viewBox="0 0 50 34" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#screed)"/></svg> Screed</span>
+    <span><svg viewBox="0 0 90 62" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#hard)"/></svg> Hardcore</span>
+    <span><svg viewBox="0 0 60 41" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#earth)"/></svg> Subsoil</span>
+    <span><i style="background:#B3352B;border-color:#B3352B"></i> DPC / DPM</span>
+    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control / air barrier</span>
+  </div>
+  <dl class="tblock">
+    <div><dt>Drawing no</dt><dd>[XX-XXX]-D-205</dd></div>
+    <div><dt>Scale</dt><dd>1:10 @ A4L</dd></div>
+    <div><dt>Status</dt><dd>For BC approval</dd></div>
+    <div><dt>Rev</dt><dd>P01</dd></div>
+  </dl>
+</section>
+
+<!-- ============================================================ D-206 -->
+<section class="sheet">
+  <div class="sheet-head">
+    <span class="sheet-ref">D-206</span>
+    <h2>Window cill — sub-cill, damp proof course and closer</h2>
+    <span class="sc">Vertical section · 1:10 @ A4 landscape</span>
+  </div>
+  <div class="sheet-body">
+    <div class="dwg">
+      <svg viewBox="-580 -300 2000 1140" width="600" style="--pw:200mm" role="img"
+           aria-label="Vertical section through a window cill showing the sub-cill laid to fall with a throat, the damp proof course beneath it, the insulated cavity closer and the internal cill board">
+        <g stroke-linecap="square">
+          <!-- glazing and frame above -->
+          <path d="M432 -220 v150 M472 -220 v150" stroke="#10191F" stroke-width="2"/>
+          <rect x="426" y="-70" width="52" height="20" fill="#E7ECEE" stroke="#10191F" stroke-width="1.6"/>
+          <rect x="353" y="-50" width="172" height="70" fill="#F1EFEA" stroke="#10191F" stroke-width="2.4"/>
+          <path d="M353 -14 h172" stroke="#5C6871" stroke-width="1.2" fill="none"/>
+          <path d="M300 -240 h420" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12" fill="none"/>
+
+          <!-- sub-cill, laid to fall, throated, projecting past the face -->
+          <path d="M168 20 L560 20 L560 92 L168 92 L168 78 L188 78 Z"
+                fill="url(#conc)" stroke="#10191F" stroke-width="2.6"/>
+          <rect x="196" y="70" width="14" height="14" fill="#FFFFFF" stroke="#10191F" stroke-width="1.4"/>
+
+          <!-- DPC under the cill, lapped down over the outer leaf -->
+          <path d="M188 96 L560 96" fill="none" stroke="#B3352B" stroke-width="3.6"/>
+
+          <!-- insulated cavity closer at the cill -->
+          <rect x="303" y="96" width="100" height="44" fill="url(#ins)" stroke="#0E6E85" stroke-width="2.2"/>
+          <path d="M403 96 v-76" stroke="#0E6E85" stroke-width="2.6" fill="none"/>
+
+          <!-- masonry below -->
+          <rect x="200" y="96" width="103" height="620" fill="url(#brick)" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="403" y="140" width="100" height="576" fill="url(#block)" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="313" y="140" width="90" height="576" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="503" y="140" width="10" height="576" fill="#F2F1ED" stroke="#5C6871" stroke-width="1.2"/>
+          <rect x="513" y="140" width="12.5" height="576" fill="url(#pboard)" stroke="#10191F" stroke-width="2"/>
+          <!-- internal cill board returning to the frame -->
+          <rect x="403" y="120" width="122" height="20" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <path d="M300 716 h420" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12" fill="none"/>
+
+          <!-- dimensions -->
+          <g stroke="#5C6871" stroke-width="1.3" fill="none" marker-start="url(#tick)" marker-end="url(#tick)">
+            <path d="M303 200 h100"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="24" fill="#10191F">
+            <text x="353" y="232" text-anchor="middle">100</text>
+          </g>
+
+          <!-- leaders -->
+          <g stroke="#10191F" stroke-width="1.3" fill="none" marker-start="url(#dot)">
+            <path d="M452 -120 L900 -180"/>
+            <path d="M300 56 L120 -120 L-140 -120"/>
+            <path d="M203 77 L120 -40 L-140 -40"/>
+            <path d="M330 96 L120 40 L-140 40"/>
+            <path d="M353 118 L900 20"/>
+            <path d="M460 130 L900 120"/>
+            <path d="M358 300 L900 300"/>
+          </g>
+          <g font-family="IBM Plex Sans, sans-serif" font-size="23" fill="#10191F">
+            <text x="915" y="-174">Safety glazing to every critical</text>
+            <text x="915" y="-146" fill="#3C4A54">location: within 800 of floor</text>
+            <text x="915" y="-118" fill="#3C4A54">level, and 1500 in doors and</text>
+            <text x="915" y="-90" fill="#3C4A54">side panels within 300 of one</text>
+            <text x="915" y="26">Insulated cavity closer at the</text>
+            <text x="915" y="54" fill="#3C4A54">cill as at head and jamb</text>
+            <text x="915" y="126">Internal cill board returned</text>
+            <text x="915" y="154" fill="#3C4A54">to the frame</text>
+            <text x="915" y="306">90 K106 full fill carried up to</text>
+            <text x="915" y="334" fill="#3C4A54">the underside of the closer</text>
+            <text x="-150" y="-128" text-anchor="end">Sub-cill laid to fall, projecting</text>
+            <text x="-150" y="-100" text-anchor="end" fill="#3C4A54">past the face of the brickwork</text>
+            <text x="-150" y="-48" text-anchor="end">Throat, to throw water clear</text>
+            <text x="-150" y="-20" text-anchor="end" fill="#3C4A54">of the wall below</text>
+            <text x="-150" y="32" text-anchor="end">Damp proof course under the</text>
+            <text x="-150" y="60" text-anchor="end" fill="#3C4A54">cill, lapped over the outer leaf,</text>
+            <text x="-150" y="88" text-anchor="end" fill="#3C4A54">stop ends at each jamb</text>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="21" fill="#0E6E85">
+            <text x="196" y="760">EW1</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="side">
+      <h3>What this sheet is for</h3>
+      <p>It substantiates the cill thermal bridge and shows water being thrown clear of the wall. The cill is also where the guarding and safety glazing rules bite, because it fixes how far the opening sits above the floor.</p>
+      <h3>Sequence</h3>
+      <p>Closer fixed and the insulation cut tight to it. Damp proof course laid across, lapped down over the outer leaf with stop ends at each jamb. Sub-cill bedded to fall with the throat clear. Frame set on the cill, sealed. Internal cill board last.</p>
+      <div class="check">
+        <h3>Critical check</h3>
+        <p>Where the cill is less than 800 above finished floor level and the drop outside exceeds 600, guarding or an opening restrictor is required by Approved Document K.</p><p>Where the window is an escape window, the openable area is not less than 0.33 m² and not less than 450 by 450, with the bottom of the openable area not more than 1100 above the floor and not less than 800 unless guarded.</p>
+      </div>
+    </div>
+  </div>
+  <div class="key">
+    <span><svg viewBox="0 20 130 89" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#brick)"/></svg> Facing brick</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#block)"/></svg> Aircrete block</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#dense)"/></svg> Dense block</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#ins)"/></svg> Rigid board</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#wool)"/></svg> Mineral wool</span>
+    <span><svg viewBox="0 0 100 68" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#timber)"/></svg> Sawn timber</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#conc)"/></svg> Concrete</span>
+    <span><svg viewBox="0 0 50 34" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#screed)"/></svg> Screed</span>
+    <span><svg viewBox="0 0 90 62" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#hard)"/></svg> Hardcore</span>
+    <span><svg viewBox="0 0 60 41" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#earth)"/></svg> Subsoil</span>
+    <span><i style="background:#B3352B;border-color:#B3352B"></i> DPC / DPM</span>
+    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control / air barrier</span>
+  </div>
+  <dl class="tblock">
+    <div><dt>Drawing no</dt><dd>[XX-XXX]-D-206</dd></div>
+    <div><dt>Scale</dt><dd>1:10 @ A4L</dd></div>
+    <div><dt>Status</dt><dd>For BC approval</dd></div>
+    <div><dt>Rev</dt><dd>P01</dd></div>
+  </dl>
+</section>
+
 <footer>
-  <span>Specline detail library · D-201 to D-203 · P01</span>
+  <span>Specline detail library · D-201 to D-206 · P01</span>
   <span>Dimensions in millimetres. Do not scale from these drawings.</span>
 </footer>
 </div>

@@ -1,6 +1,6 @@
-# Construction details — House Extension, first three junctions
+# Construction details — House Extension
 
-Drawing specification for the first three details in the library. Written from the Approved
+Drawing specification for the six details in the library. Written from the Approved
 Documents and from clauses already verified in `data/specdata_core.js`, so the drawings and the
 specification agree. Every figure below appears in the specification already; where a detail and a
 clause disagree, the clause is right and the drawing is wrong.
@@ -135,12 +135,80 @@ the existing as directed by the structural engineer.
 
 ---
 
-## After these three
+---
 
-Build the window trio next — **head with an insulated lintel and its separate tray, jamb with a
-cavity closer, and cill** — because unlike these three it is reusable across all eight project
-types with only the build-up changing. Then eaves at a pitched roof, and the party wall junction.
+## D-204 — Window head, insulated lintel and cavity tray
+
+**Substantiates:** the head thermal bridge, and the two things a plan checker looks for over any
+opening — a cavity tray that catches what the cavity sheds, and insulation carried through so the
+closer, not the lintel, is the thermal path.
+
+**Section cuts** vertically through the head of a window in the cavity wall, from four courses
+above the lintel down to the top of the glazing.
+
+**From the top down**
+
+| Component | Dimension / spec | Annotate |
+|---|---|---|
+| Masonry over | EW1 unchanged: 103 brick, 10 residual, 90 K106, 100 block | Bearing on the lintel |
+| Cavity tray | 150 upstand against the inner leaf, stop ends both jambs | Laid before the masonry over |
+| Weep holes | open perpends in the first course above the tray, two per opening minimum, at not more than 900 centres | Draw one open perpend |
+| Lintel | proprietary insulated cavity lintel to BS EN 845-2, thermal break across the cavity | **Indicative — no size.** Manufacturer's tables for span and load; 150 minimum end bearing on whole units |
+| Cavity closer | proprietary insulated, full length of the head | Insulation cut tight to it |
+| Frame | laps the closer by 30 to 50 | Sealed both faces |
+| Glazing | whole-window U-value not exceeding 1.4 W/m²K, or WER Band B | |
+
+## D-205 — Window jamb, cavity closer and vertical damp proof course
+
+**Substantiates:** the reveal thermal bridge and the moisture path. Where the cavity is closed the
+two leaves are bridged, so both the insulation and the damp proof course have to turn the corner.
+
+**Section cuts** horizontally through the jamb — a plan, not a vertical section. External at the
+top of the sheet, room below, opening to the right.
+
+**Across the wall**
+
+| Component | Dimension / spec | Annotate |
+|---|---|---|
+| Outer leaf | 103, returned into the reveal | |
+| Insulation | 90 K106 carried right up to the closer | No gap behind the closer |
+| Cavity closer | proprietary insulated, full height of the jamb | |
+| Vertical DPC | at the reveal, where the cavity is closed | |
+| Wall ties | 225 vertical centres within 225 of the unbonded jamb, falling to the outer leaf | Draw the fall |
+| Frame | laps the closer by 30 to 50, or 50 for a door | |
+| Lining | plasterboard returned into the reveal to the frame | |
+
+## D-206 — Window cill, sub-cill, damp proof course and closer
+
+**Substantiates:** the cill thermal bridge, and water thrown clear of the wall below. The cill is
+also where guarding and safety glazing bite, because it fixes how far the opening sits above the
+floor.
+
+**Section cuts** vertically through the cill, from the bottom of the glazing to five courses below.
+
+**From the top down**
+
+| Component | Dimension / spec | Annotate |
+|---|---|---|
+| Frame cill | set on the sub-cill and sealed | |
+| Sub-cill | laid to fall, projecting past the face of the brickwork, throated | **Indicative profile** — it is a product |
+| DPC | under the cill, lapped down over the outer leaf, stop ends at each jamb | |
+| Cavity closer | proprietary insulated, full length of the cill | Insulation cut tight to it |
+| Masonry below | EW1 unchanged | |
+| Internal cill board | returned to the frame | |
+
+**Two rules this sheet carries in its notes, not its dimensions.** Guarding or an opening
+restrictor to Approved Document K where the cill is below 800 above finished floor level and the
+drop outside exceeds 600. And, where the window is an escape window, an openable area of not less
+than 0.33 m² and not less than 450 by 450, with the bottom of the openable area not more than 1100
+above the floor and not less than 800 unless guarded.
+
+## After these six
+
+The window trio is now drawn as D-204 to D-206, and unlike the first three it is reusable across
+all eight project types with only the build-up changing. Next: **eaves at a pitched roof**, then
+the **party wall junction**.
 
 Do not draw thirty details before one has been through a building control submission. Issue these
-three on a live job first; if they come back unmarked the format works, and if they are marked up
+six on a live job first; if they come back unmarked the format works, and if they are marked up
 the lesson costs three drawings rather than thirty.
