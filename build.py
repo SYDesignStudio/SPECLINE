@@ -70,7 +70,16 @@ def assemble():
     dcx   = rd(os.path.join(SRC, "docx.js")).replace(
         'if (typeof module !== "undefined") module.exports = DOCX;', "")
     logos = rd(os.path.join(SRC, "logos.js"))
-    assert "const SPECLINE_ICON" in logos and "const PRACTICE_SEED_LOGO" in logos, "src/logos.js must declare SPECLINE_ICON and PRACTICE_SEED_LOGO"
+    assert "const SPECLINE_ICON" in logos, "src/logos.js must declare SPECLINE_ICON"
+    # The built app is what every subscribing practice runs, and site/app/spec.html is committed
+    # and deployed. No practice may be compiled into it: a document carries the practice USING
+    # the tool. See the practice profile note at the top of src/app_js.js.
+    for src_name, text in (("logos.js", logos), ("app_js.js", app),
+                           ("app_head.html", head), ("app_body.html", body)):
+        for firm in ("SY Design Studio", "Salman", "sydesignstudio", "Durham Avenue"):
+            assert firm not in text, \
+                "src/%s names a practice (%r). A generated document carries the SUBSCRIBING " \
+                "practice's identity, never the vendor's — read the profile instead." % (src_name, firm)
 
     marker = "/* ---------------- type chooser ---------------- */"
     assert marker in app, "anchor comment missing from src/app_js.js"

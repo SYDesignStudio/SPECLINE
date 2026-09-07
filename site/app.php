@@ -35,8 +35,13 @@ if (!app_access($u)) {
     exit;
 }
 
-/* The practice as the app knows it: the profile the tool last saved, over the account details,
-   over the app's own defaults. Everything the cover page prints comes from here. */
+/* The practice as the app knows it: the profile the tool last saved, over the account details.
+   Everything the cover page prints comes from here — the name, the address, the logo, the accent
+   colour and the named designer in the responsibility statement.
+   THERE IS NO THIRD FALLBACK, and that is the point. The app used to carry SY Design Studio Ltd
+   compiled in as the seed profile, logo included, so any practice that had not filled the profile
+   in issued specifications under the vendor's name. Now an unset field prints [Practice name] and
+   asks to be filled: a blank cover gets corrected before issue, another firm's name might not. */
 $practice = row('SELECT * FROM practices WHERE id = ?', [(int)$u['practice_id']]);
 $stored   = row('SELECT payload FROM practice_profile WHERE practice_id = ?', [(int)$u['practice_id']]);
 $profile  = [

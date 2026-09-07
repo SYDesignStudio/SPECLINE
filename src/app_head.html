@@ -252,6 +252,7 @@ h1,h2,h3{font-family:var(--disp);font-weight:400;letter-spacing:-.015em;margin:0
 .fields label.wide{grid-column:1/-1}
 .fields input{border:1px solid var(--line2);background:var(--paper);border-radius:var(--r-input);padding:9px 11px;font-size:14px;color:var(--ink)}
 .fields input:focus{border-color:var(--accent);outline:none;background:var(--surface)}
+.fields input[type=color]{width:76px;height:38px;padding:3px;cursor:pointer}
 .fields small{font-family:var(--mono);font-size:10px;color:var(--ink3);font-weight:400;letter-spacing:.02em}
 .hist{margin-top:22px}
 .hist table{border-collapse:collapse;width:100%;font-size:13px}
@@ -284,9 +285,16 @@ h1,h2,h3{font-family:var(--disp);font-weight:400;letter-spacing:-.015em;margin:0
 
 /* ---------- preview paper ---------- */
 .viewer{padding:22px 26px 60px;border-left:1px solid var(--line);min-width:0;position:sticky;top:107px;max-height:calc(100vh - 107px);overflow:auto}
+/* The paper's accent is the PRACTICE'S, set inline on #paper from the profile by renderPaper().
+   These are the neutral defaults a document takes when the practice has not chosen a colour —
+   they were the vendor's own brand orange until 7 September 2026, which put one practice's
+   colour on every other practice's specification. */
 .paper{background:#FFFFFF;color:#23262A;border:1px solid var(--line);border-radius:var(--r-input);padding:34px 36px 44px;box-shadow:var(--shadow);
-  --pmuted:#6C7278;--prule:#DED9D1;--psoft:#FBEEDC;--pacc:#E8850C;--pacc-ink:#B5640A}
+  --pmuted:#6C7278;--prule:#DED9D1;--psoft:#EFF0F0;--pacc:#3E4244;--pacc-ink:#303335}
 .plogo{height:64px;width:auto;margin:0 0 4px;display:block}
+/* No logo: the practice's own name set as a wordmark. A cover has to carry something. */
+.pmark{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0 0 6px;color:#23262A}
+.pmark span{color:var(--pacc)}
 .paddr{font-size:10px;color:var(--pmuted);margin:3px 0 0;padding-bottom:10px;border-bottom:2.5px solid var(--pacc)}
 .ptitle{font-family:var(--sans);font-size:23px;font-weight:600;line-height:1.06;margin:20px 0 0;letter-spacing:-.02em}
 .ptitle .o{color:var(--pacc);display:block}

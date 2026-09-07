@@ -24,7 +24,8 @@ Read these before changing anything. They are the rules the project is built on,
    pastes in looks like it came from a commercial library, flag it rather than committing it.
 3. **The brand stays here.** Do not upload the logo, practice details, or any generated document to
    a third-party website, and do not generate deliverables through another site's export engine.
-   `src/logos.js` and `docgen/sy_logo.png` are local assets.
+   `docgen/sy_logo.png` is a local asset. `src/logos.js` carries the Specline mark only — the
+   practice logo is never compiled into the app; see "The practice on a generated document".
 4. **`data/` is the single source of truth.** The app, the Word files and the PDFs are all generated
    from it. Never edit a generated file in `dist/` or `output/` — the next build overwrites it.
 5. **Challenge the brief.** Salman wants mistakes pointed out, better solutions suggested, and
@@ -55,7 +56,7 @@ src/
   ucalc.js              UC: materials with verified conductivities + wall calculations
   ucalc2.js             floors (BS EN ISO 13370), heated basements, three roof types
   docx.js               DOCX: a dependency-free .docx writer (ZIP + OOXML), used by the app
-  logos.js              SPECLINE_ICON (app chrome, favicons) and PRACTICE_SEED_LOGO (this installation)
+  logos.js              SPECLINE_ICON (app chrome, favicons). No practice logo — build.py enforces it
   vendor/jspdf.local.js local jsPDF, used only by dist/preview.html for offline tests
 docgen/               Word + PDF generation (python-docx, LibreOffice for the PDF step)
   spec_from_data.py     the generator: one .docx + .pdf per type, straight from dist/specdata.js
@@ -63,7 +64,7 @@ docgen/               Word + PDF generation (python-docx, LibreOffice for the PD
   brand_inhouse.py      SY Design Studio's own profile; reached only by asking for it
   brand.py, build_spec.py   cover page, headers, house typography
   plancheck_report.py, dedupe_report.py   the two QA reports already issued
-tests/                seven Playwright suites, 185 assertions
+tests/                seven Playwright suites, 192 assertions
 reference/            FACTS.md (verified figures) and the per-type review notes
 dist/                 build output — git-ignored
 output/               generated .docx/.pdf — git-ignored
@@ -73,7 +74,7 @@ output/               generated .docx/.pdf — git-ignored
 
 ```bash
 python build.py                 # merge + assemble + structural check   (seconds)
-python build.py --test          # ... and run all 141 Playwright assertions   (~4 min)
+python build.py --test          # ... and run all 192 Playwright assertions   (~4 min)
 python build.py --docs          # ... and regenerate all 16 Word/PDF files
 python build.py --docs loft     # regenerate one type only
 python build.py --all           # everything
@@ -227,6 +228,38 @@ reason nothing here defaults to a real firm: a blank cover gets corrected before
 company's name might not. Check a change to any generator by running it against a made-up profile
 and grepping the output for "SY Design", "Salman" and "Specline" — all three must be absent.
 
+### The same rule inside the app — `src/app_js.js`, `src/logos.js`, `site/app.php`
+
+The app had the identical fault one layer along, and worse, because the built app is *deployed*:
+`site/app/spec.html` is committed and served to every signed-in practice. Fixed 7 September 2026.
+
+- **`PRACTICE_SEED` carried SY Design Studio Ltd** — name, designer, address — and
+  `PRACTICE_SEED_LOGO` in `src/logos.js` carried the logo itself as a data URI. Any subscriber who
+  had not yet filled in the Practice page issued a specification under the vendor's name with the
+  vendor's logo on the cover, and `savePractice()` then wrote that logo into *their* stored
+  profile. It is now `PRACTICE_BLANK` — empty — and `logos.js` holds the Specline mark only.
+- **The document accent was `#E8850C` / `B5640A`**, the vendor's brand orange, on the cover rule,
+  the SPECIFICATION heading, every section rule, every build-up reference and every NOTE bar.
+  It is now `accHex()`, read from the practice's own `accent` (a colour field on the Practice
+  page), defaulting to the same neutral `3E4244` as `docgen/practice.py`. `accInk()` darkens it
+  for text and `accSoft()` tints it for the notice panel; `applyAccent()` pushes all three onto
+  `#paper`, whose `.paper` rule holds only the neutral defaults.
+- **No logo is not an error state.** The cover sets the practice's own name as a wordmark instead
+  — in the preview (`.pmark`), the PDF and the .docx. Before this, the fallback was the vendor's
+  compiled-in mark, so the failure was silent and looked deliberate.
+- **`site/app.php` is the only source of a practice on the hosted side.** It builds the profile
+  from the `practices` row with the stored profile over it, and injects it as `window.SPECLINE`
+  `.practice`; the app makes that `PRACTICE_BASE`, the thing a saved profile is merged onto. A
+  saved profile wins where it has a value; with nothing saved the account's own details stand
+  alone. There is no third fallback, by design.
+- **`build.py` fails the build** if "SY Design Studio", "Salman", "sydesignstudio" or
+  "Durham Avenue" appears in `logos.js`, `app_js.js`, `app_head.html` or `app_body.html` — comments
+  included, because comments ship inside the built HTML. Write "the vendor's own practice" instead.
+- **`tests/test7.py` sets its own practice** (`Marchmont Ridley Architects`, accent `#1F5C7A`) and
+  asserts it reaches the cover, that the darkened accent reaches the XML, that no fixed brand
+  colour does, and that none of the forbidden names — Specline included — appears anywhere in the
+  document. Never assert a real firm's name in a test: it goes green on precisely this bug.
+
 ## Detail schedules — `docgen/detail_schedule.py`
 
 `python docgen/detail_schedule.py` writes three files into `reference/details/` from `data/`:
@@ -368,15 +401,18 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
   deep") in place of a U-value. Figures are in `reference/FACTS.md`.
 - **Practice profile** (`P` in `app_js.js`, route `practice`): name, named designer, address,
   email, phone, logo as a data URI with its pixel size, plan (`solo` | `practice` | `payg`) and a
-  list of users. Seeded from `PRACTICE_SEED` (this installation), kept in localStorage under
+  list of users, and the practice's own accent colour. **Nothing is seeded from a compiled-in
+  practice**: `PRACTICE_BLANK` is empty, `PRACTICE_BASE` is the signed-in account's practice
+  injected by `app.php`, and a saved profile is merged over that — kept in localStorage under
   `specline-practice` and in db doc `practice/profile`. The preview cover, the PDF cover, the
-  running footer and the responsibility statement all read from `P`. `coverNotice()` builds the
+  running footer and the responsibility statement all read from `P`, through `pName()` so an
+  unfilled cover reads `[Practice name]`. `coverNotice()` builds the
   two-paragraph "ISSUED FOR BUILDING CONTROL APPROVAL" block in the practice's voice; the same
   `resp` paragraph shows on the Review and issue step before the PDF is produced. Seats are shown
   against the plan limit and not enforced.
 - The chrome lockup is brackets as inline SVG and the wordmark as text (`.lockup`), per the
   identity sheet. Archivo 700 for the wordmark only; `--brand-ink` / `--bracket` carry its colours
-  in both themes. `src/logos.js` holds the Specline icon data URIs and the practice seed logo.
+  in both themes. `src/logos.js` holds the Specline icon data URIs and nothing else.
 - **Two configurators can share a category.** External Walls carries the cavity wall and the
   framed wall. Their selects are namespaced — `data-cf="cavity"` against `data-cf="fr_*"` — and
   each binder scopes itself to the card holding its own Add button. Do not reintroduce a bare
@@ -574,7 +610,7 @@ Three rules define it, and all three are load-bearing.
    proposed.
 3. **Approving does not write to `data/`.** The server holds a deployed copy that the next push
    overwrites, so an edit made there would vanish without reaching git, the structural check or
-   the 185 assertions. Approved proposals export as an **assert-based Python script** — the same
+   the 192 assertions. Approved proposals export as an **assert-based Python script** — the same
    shape as the edit scripts already used in this repo — run in the working copy, then
    `build.py --test`, then commit. The generated script checks every replacement **before it
    writes anything**, so a proposal drafted against a clause that has since changed stops the
@@ -663,8 +699,8 @@ Two things that legitimately still say SY Design Studio Ltd, and must:
 - **The legal entity** in the terms, the privacy notice and the site footer. It is the data
   controller and the contracting party, and a company must disclose its registered name on its
   website. "Specline" is a trading name, not a legal person.
-- **The practice profile** — `PRACTICE_SEED`, `specline-practice.json`, `docgen/brand_inhouse.py`
-  and the practice row in the database. That is *the subscribing practice*, and it is what
+- **The practice profile** — `specline-practice.json`, `docgen/brand_inhouse.py` and the practice
+  row in the database. That is *the subscribing practice*, and it is what
   building control reads on the cover. Putting "Specline" there would be the bug the commercial
   rule exists to prevent. Note where those live: none of them is inside a generator.
 

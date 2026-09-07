@@ -8,10 +8,17 @@ from playwright.sync_api import sync_playwright
 import json, os, zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-import sys as _sys
-_sys.path.insert(0, os.path.join(ROOT, "docgen"))
-import practice as _pr
-PRACTICE_NAME = _pr.load()["name"]
+
+# The practice this test signs the document as. It is set on the page, not read from a profile
+# and not compiled into the app: the app must hard-code no practice at all, so the only way a
+# name can reach the cover is by being supplied. A test that asserted a real firm would go green
+# on exactly the white-label bug it is here to catch.
+TEST_PRACTICE = "Marchmont Ridley Architects"
+TEST_DESIGNER = "R Ridley"
+TEST_LOGO = ("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJ"
+             "AAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==")
+# Never on a generated document: the vendor's practice, or the software's own name.
+FORBIDDEN = ["SY Design Studio", "Salman", "sydesignstudio", "Durham Avenue", "Specline"]
 URL = "file://" + os.path.join(ROOT, "dist", "preview.html").replace("\\", "/")
 DL = os.path.join(ROOT, "dist", "dl")
 os.makedirs(DL, exist_ok=True)
@@ -30,6 +37,15 @@ with sync_playwright() as p:
     # a full extension job, everything selected, so every section is exercised
     pg.click('.tile[data-k="extension"]'); pg.wait_for_timeout(600)
     ok("W1 Word button present", pg.locator("#btnDocx").count() == 1)
+    # The practice profile starts blank — nothing is compiled in — so give it one, the way a
+    # subscriber fills it in on the Practice page.
+    ok("W0 the app carries no practice of its own",
+       pg.evaluate("PRACTICE_BLANK.name === '' && PRACTICE_BLANK.logo === '' && pName()")
+       == "[Practice name]", str(pg.evaluate("[PRACTICE_BLANK.name, PRACTICE_BLANK.logo]")))
+    pg.evaluate("""([n, d, l]) => { P.name=n; P.designer=d; P.addr='7 Fenwick Row, Leeds LS1 4AB';
+        P.email='studio@marchmontridley.co.uk'; P.accent='#1F5C7A';
+        P.logo=l; P.logoW=1; P.logoH=1; savePractice(); }""",
+        [TEST_PRACTICE, TEST_DESIGNER, TEST_LOGO])
     pg.evaluate("""S.data.job='1150'; S.data.project='Single-storey rear extension';
         S.data.address='42 Hollybank Road, Hounslow'; S.data.client='Mr & Mrs Ahmed';
         S.sel=allBU().map((_,i)=>i); renderSteps(); renderStage(); renderPaper(); save();""")
@@ -68,12 +84,13 @@ with sync_playwright() as p:
         doc = Document(path)
         text = "\n".join(p.text for p in doc.paragraphs)
         ok("W8 python-docx opens the file", True)
-        # Assert the practice from the profile, not a literal: a test that names one firm
-        # is the same hard-coding a layer up, and would go green on a document carrying the
-        # wrong practice as long as that practice happened to be this one.
-        ok("W9 cover carries the practice, not Specline",
-           PRACTICE_NAME in text and "Specline" not in text,
-           "Specline present" if "Specline" in text else ("missing " + PRACTICE_NAME))
+        # The document must carry the practice that was supplied, and nobody else: not the
+        # vendor's own practice, and not Specline, which is the software rather than the designer.
+        ok("W9 cover carries the supplied practice",
+           TEST_PRACTICE in text and TEST_DESIGNER in text,
+           "missing " + TEST_PRACTICE)
+        leaked = [f for f in FORBIDDEN if f in text]
+        ok("W9b no vendor or product identity on the document", not leaked, ", ".join(leaked))
         ok("W10 responsibility statement present",
            "is the named designer and remains responsible" in text)
         ok("W11 compliance wording exact",
@@ -99,6 +116,13 @@ with sync_playwright() as p:
         xml = z.read("word/document.xml").decode("utf-8")
     ok("W18 m²K survives into the XML", "m²K" in xml or "W/m²K" in xml)
     ok("W19 no unescaped ampersands", "& " not in xml.replace("&amp; ", ""))
+    # The accent is the practice's, darkened for text. SY Design Studio's orange was hard-coded
+    # here until 7 September 2026, colouring every heading and reference on every practice's
+    # specification; neither it nor Specline's petrol may appear on a document.
+    ok("W21 headings take the practice's accent", "18485F" in xml.upper(),
+       "expected the darkened #1F5C7A")
+    for brand in ("B5640A", "E8850C", "F5900A", "0E6E85"):
+        ok("W22 no fixed brand colour: " + brand, brand not in xml.upper())
 
     ok("W20 no page errors", len(errs) == 0, "; ".join(errs[:2]))
     print(json.dumps([{"r": a, "t": b_, "x": c} for a, b_, c in R]))

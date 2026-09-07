@@ -255,6 +255,7 @@ h1,h2,h3{font-family:var(--disp);font-weight:400;letter-spacing:-.015em;margin:0
 .fields label.wide{grid-column:1/-1}
 .fields input{border:1px solid var(--line2);background:var(--paper);border-radius:var(--r-input);padding:9px 11px;font-size:14px;color:var(--ink)}
 .fields input:focus{border-color:var(--accent);outline:none;background:var(--surface)}
+.fields input[type=color]{width:76px;height:38px;padding:3px;cursor:pointer}
 .fields small{font-family:var(--mono);font-size:10px;color:var(--ink3);font-weight:400;letter-spacing:.02em}
 .hist{margin-top:22px}
 .hist table{border-collapse:collapse;width:100%;font-size:13px}
@@ -287,9 +288,16 @@ h1,h2,h3{font-family:var(--disp);font-weight:400;letter-spacing:-.015em;margin:0
 
 /* ---------- preview paper ---------- */
 .viewer{padding:22px 26px 60px;border-left:1px solid var(--line);min-width:0;position:sticky;top:107px;max-height:calc(100vh - 107px);overflow:auto}
+/* The paper's accent is the PRACTICE'S, set inline on #paper from the profile by renderPaper().
+   These are the neutral defaults a document takes when the practice has not chosen a colour —
+   they were the vendor's own brand orange until 7 September 2026, which put one practice's
+   colour on every other practice's specification. */
 .paper{background:#FFFFFF;color:#23262A;border:1px solid var(--line);border-radius:var(--r-input);padding:34px 36px 44px;box-shadow:var(--shadow);
-  --pmuted:#6C7278;--prule:#DED9D1;--psoft:#FBEEDC;--pacc:#E8850C;--pacc-ink:#B5640A}
+  --pmuted:#6C7278;--prule:#DED9D1;--psoft:#EFF0F0;--pacc:#3E4244;--pacc-ink:#303335}
 .plogo{height:64px;width:auto;margin:0 0 4px;display:block}
+/* No logo: the practice's own name set as a wordmark. A cover has to carry something. */
+.pmark{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0 0 6px;color:#23262A}
+.pmark span{color:var(--pacc)}
 .paddr{font-size:10px;color:var(--pmuted);margin:3px 0 0;padding-bottom:10px;border-bottom:2.5px solid var(--pacc)}
 .ptitle{font-family:var(--sans);font-size:23px;font-weight:600;line-height:1.06;margin:20px 0 0;letter-spacing:-.02em}
 .ptitle .o{color:var(--pacc);display:block}
@@ -3002,14 +3010,13 @@ ${hasImg ? `<Relationship Id="rIdLogo" Type="http://schemas.openxmlformats.org/o
    as SVG data URIs. For the app chrome, favicons and the marketing site only. Specline brands
    the application; it never appears on a generated specification.
 
-   PRACTICE_SEED_LOGO — the default practice logo for THIS installation (SY Design Studio Ltd).
-   It seeds the practice profile the first time the app runs and can be replaced from Practice
-   settings. The generated specification always uses the practice profile's logo, never a fixed
-   asset. Local to this repo — never upload the practice mark to a third-party site. */
+   There is deliberately NO practice logo here, and build.py fails if one is added. The vendor's
+   own mark used to be compiled in as the default seeding every practice profile, so a subscriber
+   who had not yet uploaded their own issued specifications carrying it. A generated document takes
+   its logo from the practice profile, or with none sets the practice's own name as a wordmark.
+   Removed 7 September 2026, with the same fault in docgen/brand.py. */
 const SPECLINE_ICON = "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20512%20512%22%3E%3Crect%20width=%22512%22%20height=%22512%22%20rx=%2296%22%20fill=%22#0E6E85%22/%3E%3Cpath%20d=%22M212%20118H122V394H212M300%20118H390V394H300%22%20fill=%22none%22%20stroke=%22#FBFAF8%22%20stroke-width=%2240%22%20stroke-linejoin=%22miter%22/%3E%3C/svg%3E";
 const SPECLINE_ICON_32 = "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2032%2032%22%3E%3Crect%20width=%2232%22%20height=%2232%22%20rx=%226%22%20fill=%22#0E6E85%22/%3E%3Cpath%20d=%22M13.5%207.5H8V24.5H13.5M18.5%207.5H24V24.5H18.5%22%20fill=%22none%22%20stroke=%22#FBFAF8%22%20stroke-width=%223%22%20stroke-linejoin=%22miter%22/%3E%3C/svg%3E";
-const PRACTICE_SEED_LOGO = "data:image/jpeg;base64,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";
-const PRACTICE_SEED_LOGO_W = 360, PRACTICE_SEED_LOGO_H = 404;
 
 /* ================= Server-backed store =================
    The app persists through a small interface — db.doc(path).get/set/delete and
@@ -3072,36 +3079,71 @@ function serverStore(cfg){
 }
 
 /* ---------------- practice profile ----------------
-   One record per installation. Seeded with this installation's practice, edited in Practice
-   settings, kept in localStorage and, in the artifact, in db doc practice/profile.
-   The generated specification takes its logo, cover, running header and responsibility statement
-   from THIS, never from a compiled-in asset. Specline's own mark never appears on a document. */
+   WHOSE document this is: the practice USING the tool, and the app hard-codes none.
+
+   It used to be seeded with the vendor's own practice — name, designer, address, and the logo
+   itself compiled into src/logos.js. This app is sold to other practices: every subscriber who
+   had not yet filled the profile in issued a specification with another company's name and logo
+   on the cover, and savePractice() then wrote that logo into their own stored profile. Corrected
+   7 September 2026, alongside the same fault in docgen/brand.py. See PRACTICE_BLANK below, the
+   guard in build.py, and the commercial rule in CLAUDE.md.
+
+   Where the details come from now, in order:
+     the practice on the session, injected by site/app.php from the practices row  (hosted)
+     the profile the practice last saved, in localStorage and in db doc practice/profile
+     PRACTICE_BLANK — placeholders, so an unfilled cover reads [Practice name]
+
+   A blank cover gets corrected before issue; another firm's name might not. Specline's own mark
+   never appears on a document either: Specline is the software, not the designer. */
 const PLANS = {
   solo:     {n:"Solo",     seats:1, price:"£39/month or £390/year"},
   practice: {n:"Practice", seats:5, price:"£89/month or £890/year"},
   payg:     {n:"Per spec", seats:1, price:"£25 per issued specification"}
 };
-const PRACTICE_SEED = {name:"SY Design Studio Ltd", designer:"Salman Yousaf", addr:"49 Durham Avenue, Hounslow, TW5 0HG",
-  email:"info@specline.co.uk", phone:"", logo:PRACTICE_SEED_LOGO, logoW:PRACTICE_SEED_LOGO_W, logoH:PRACTICE_SEED_LOGO_H,
-  plan:"solo", users:["Salman Yousaf"]};
-let P = {...PRACTICE_SEED};
+const PRACTICE_BLANK = {name:"", designer:"", addr:"", email:"", phone:"", accent:"",
+  logo:"", logoW:0, logoH:0, plan:"solo", users:[]};
+/* What a profile is merged onto. The hosted app replaces it with the account's practice at boot,
+   so a field the practice has not set falls back to its own account details and never to a
+   compiled-in firm. */
+let PRACTICE_BASE = {...PRACTICE_BLANK};
+let P = {...PRACTICE_BASE};
 const PRACTICE_KEY="specline-practice";
-function loadPractice(){ try{ const j=JSON.parse(localStorage.getItem(PRACTICE_KEY)||"null"); if(j&&j.name) P={...PRACTICE_SEED,...j}; }catch(e){} }
+let practiceStored = false;   // did this browser actually hold a saved profile?
+function loadPractice(){ try{ const j=JSON.parse(localStorage.getItem(PRACTICE_KEY)||"null");
+  if(j&&j.name){ P={...PRACTICE_BASE,...j}; practiceStored=true; } }catch(e){} }
+/* The cover has to carry something. Never a firm — a placeholder that asks to be filled in. */
+function pName(){ return P.name || "[Practice name]"; }
 let practiceTimer=null;
 function savePractice(){ try{ localStorage.setItem(PRACTICE_KEY,JSON.stringify(P)); }catch(e){}
   clearTimeout(practiceTimer); practiceTimer=setTimeout(async()=>{ if(!db) return;
     try{ await db.doc("practice/profile").set({...P,updated:Date.now()}); }catch(e){ console.error(e); } },600); }
 async function loadPracticeRemote(){ if(!db) return;
   try{ const snap=await db.doc("practice/profile").get();
-    if(snap&&snap.exists){ const j=snap.data(); if(j&&j.name){ P={...PRACTICE_SEED,...j};
+    if(snap&&snap.exists){ const j=snap.data(); if(j&&j.name){ P={...PRACTICE_BASE,...j};
       try{ localStorage.setItem(PRACTICE_KEY,JSON.stringify(P)); }catch(e){}
       if(S.type) renderPaper(); if(S.route==="practice") renderPractice(); } }
   }catch(e){ console.error(e); } }
+/* The document accent is the PRACTICE'S colour, defaulting to the same neutral dark grey the body
+   text uses. It was hard-coded to the vendor's own brand orange, on the cover rule, the
+   SPECIFICATION heading, every section rule, every build-up reference and every NOTE bar of every
+   document the app produced. The ink variant is used where the accent has to be read as text. */
+const ACCENT_NEUTRAL = "3E4244";
+function accHex(){ const h=(P.accent||"").replace(/[^0-9a-f]/gi,""); return (h.length===6?h:ACCENT_NEUTRAL).toUpperCase(); }
+function accRGB(){ const n=parseInt(accHex(),16); return [n>>16&255, n>>8&255, n&255]; }
+function mixHex(rgb,f,t){ return rgb.map(v=>Math.round(v+(t-v)*f)).map(v=>v.toString(16).padStart(2,"0")).join("").toUpperCase(); }
+function accInk(){ return mixHex(accRGB(), .22, 0); }     // darkened, for accent-coloured text
+function accSoft(){ return mixHex(accRGB(), .90, 255); }  // a pale tint, for the notice panel
+/* The three tokens .paper declares, pushed onto the element so the practice's colour wins. */
+function applyAccent(node){ if(!node) return;
+  node.style.setProperty("--pacc", "#"+accHex());
+  node.style.setProperty("--pacc-ink", "#"+accInk());
+  node.style.setProperty("--psoft", "#"+accSoft()); }
+
 /* The cover notice, in the practice's voice. The software drafts; building control approves. */
 function coverNotice(){
-  const who = P.designer ? `${P.designer} of ${P.name}` : P.name;
+  const who = P.designer ? `${P.designer} of ${pName()}` : pName();
   return {
-    lead:`To be read with the ${P.name} drawing pack, the structural engineer's design and calculations, and any specialist sub-contractor design. All work to comply with the Building Regulations 2010 (as amended) and the Approved Documents current at the date of issue.`,
+    lead:`To be read with the ${pName()} drawing pack, the structural engineer's design and calculations, and any specialist sub-contractor design. All work to comply with the Building Regulations 2010 (as amended) and the Approved Documents current at the date of issue.`,
     resp:`${who} is the named designer and remains responsible for the suitability of this specification for this project. Every clause and table reference is to be confirmed against the Approved Documents in force at the date of submission. Compliance of the work is determined by the building control body; this document is the designer's specification of the work, not an approval of it.`
   };
 }
@@ -4192,7 +4234,12 @@ function renderPaper(){
   const r=refs(), sel=orderedSel(), d=S.data;
   const today=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
   const nt=coverNotice();
-  let h=`<img class="plogo" src="${P.logo}" alt="${esc(P.name)}">
+  /* Logo if the practice has uploaded one, otherwise its own name as a wordmark. Never a
+     compiled-in mark: that would be another practice's logo on this practice's cover. */
+  const w = pName().split(" ");
+  const mark = P.logo ? `<img class="plogo" src="${P.logo}" alt="${esc(pName())}">`
+                      : `<p class="pmark">${esc(w[0])}${w.length>1?`<span> ${esc(w.slice(1).join(" "))}</span>`:""}</p>`;
+  let h=`${mark}
     <p class="paddr">${esc(P.addr)}${P.email?" &nbsp;·&nbsp; "+esc(P.email):""}${P.phone?" &nbsp;·&nbsp; "+esc(P.phone):""}</p>
     <h1 class="ptitle">BUILDING REGULATIONS<span class="o">SPECIFICATION</span></h1>
     <p class="psub">${esc(spec().name)} — ${esc(spec().region)}</p>
@@ -4202,7 +4249,7 @@ function renderPaper(){
       <tr><td>Client</td><td>${esc(d.client||"—")}</td></tr>
       <tr><td>Job number</td><td>${esc(d.job||"—")}</td></tr>
       <tr><td>Local authority</td><td>${esc(d.la||"—")}</td></tr>
-      <tr><td>Prepared by</td><td>${esc(P.designer?P.designer+", ":"")}${esc(P.name)}</td></tr>
+      <tr><td>Prepared by</td><td>${esc(P.designer?P.designer+", ":"")}${esc(pName())}</td></tr>
       <tr><td>Date</td><td>${today}</td></tr>
       <tr><td>Revision</td><td>${esc(d.rev||"P01")}</td></tr>
     </table>
@@ -4242,6 +4289,7 @@ function renderPaper(){
     remains under the current standards provided work commences before 24 March 2028. Confirm all clause and
     table references against the edition in force at the date of submission.</div>`;
   el("paper").innerHTML=h;
+  applyAccent(el("paper"));
 }
 function renderSpecNav(){
   const sel=orderedSel(), ns=noteSections();
@@ -4296,12 +4344,15 @@ function renderPractice(){
           <label class="wide">Address<input data-p="addr" value="${esc(P.addr)}"><small>Under the logo on the cover.</small></label>
           <label>Email<input data-p="email" value="${esc(P.email||"")}"><small>Cover and footer.</small></label>
           <label>Phone<input data-p="phone" value="${esc(P.phone||"")}"><small>Cover, if given.</small></label>
+          <label>Document accent<input type="color" data-p="accent" value="#${accHex()}"><small>Rules, section headings and build-up references. Neutral dark grey until you set one.</small></label>
         </div></div>
       <div class="card"><p class="grouplabel" style="margin-top:0">Logo</p>
-        <div class="logobox"><img src="${P.logo}" alt="${esc(P.name)} logo"></div>
-        <div class="cfgfoot"><span class="srcnote">PNG or JPEG up to 3 MB. Fitted to the cover at its own proportions.</span>
-          <label class="btn">Replace logo<input type="file" id="logoFile" accept="image/png,image/jpeg" hidden></label></div>
-        ${P.logo!==PRACTICE_SEED_LOGO?`<p style="margin:12px 0 0"><button class="btn btn-quiet" id="logoReset">Use this installation's default logo</button></p>`:""}</div>
+        <div class="logobox">${P.logo?`<img src="${P.logo}" alt="${esc(pName())} logo">`
+          :`<p class="pmark" style="--pacc:#${accInk()}">${esc(pName())}</p>`}</div>
+        <div class="cfgfoot"><span class="srcnote">${P.logo?"PNG or JPEG up to 3 MB. Fitted to the cover at its own proportions."
+          :"No logo yet — the cover sets your practice name as a wordmark. PNG or JPEG up to 3 MB."}</span>
+          <label class="btn">${P.logo?"Replace logo":"Add logo"}<input type="file" id="logoFile" accept="image/png,image/jpeg" hidden></label></div>
+        ${P.logo?`<p style="margin:12px 0 0"><button class="btn btn-quiet" id="logoClear">Remove logo</button></p>`:""}</div>
       <div class="card"><p class="grouplabel" style="margin-top:0">Plan and seats</p>
         <div class="fields"><label class="wide">Plan<select data-p="plan">${Object.entries(PLANS).map(([k,v])=>`<option value="${k}" ${P.plan===k?"selected":""}>${esc(v.n)} — ${esc(v.price)}</option>`).join("")}</select><small>Billing is not connected yet. The plan sets the seat limit shown below.</small></label></div>
         <p class="seats">${seatLine(used,plan)}</p>
@@ -4312,11 +4363,12 @@ function renderPractice(){
   el("practicepage").querySelectorAll("[data-p]").forEach(inp=>{
     const h=()=>{ const k=inp.dataset.p; P[k]= k==="users" ? inp.value.split("\n").map(x=>x.trim()).filter(Boolean) : inp.value;
       savePractice(); if(S.type) renderPaper();
-      if(k==="users"||k==="plan") el("practicepage").querySelector(".seats").innerHTML=seatLine((P.users||[]).length, PLANS[P.plan]||PLANS.solo); };
+      if(k==="users"||k==="plan") el("practicepage").querySelector(".seats").innerHTML=seatLine((P.users||[]).length, PLANS[P.plan]||PLANS.solo);
+      if(k==="accent"){ const pm=el("practicepage").querySelector(".logobox .pmark"); if(pm) pm.style.setProperty("--pacc","#"+accInk()); } };
     inp.oninput=h; inp.onchange=h;
   });
   el("logoFile").onchange=e=>readLogo(e.target.files[0]);
-  const lr=el("logoReset"); if(lr) lr.onclick=()=>{ P.logo=PRACTICE_SEED_LOGO; P.logoW=PRACTICE_SEED_LOGO_W; P.logoH=PRACTICE_SEED_LOGO_H; savePractice(); renderPractice(); if(S.type) renderPaper(); };
+  const lc=el("logoClear"); if(lc) lc.onclick=()=>{ P.logo=""; P.logoW=0; P.logoH=0; savePractice(); renderPractice(); if(S.type) renderPaper(); };
   el("practiceDone").onclick=()=>go("home");
 }
 function readLogo(file){
@@ -4365,11 +4417,12 @@ function buildPdf(){
   const L=22,R=18,W=210-L-R,BOT=280;
   const d=S.data,r=refs(),sel=orderedSel();
   const today=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
-  const ORANGE=[232,133,12],DARK=[34,38,42],MUTED=[113,118,122],RULE=[220,216,210];
+  /* ACC is the practice's accent, not a fixed brand colour. See accHex(). */
+  const ACC=accRGB(),DARK=[34,38,42],MUTED=[113,118,122],RULE=[220,216,210];
   let y=0,page=1;
   const foot=()=>{ doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.line(L,286,210-R,286);
     doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
-    doc.text(safe(P.name+(P.email?"  ·  "+P.email:"")),L,290);
+    doc.text(safe(pName()+(P.email?"  ·  "+P.email:"")),L,290);
     doc.text("Page "+page,210-R,290,{align:"right"}); };
   const head=()=>{ doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
     const left=safe(spec().name+" — Building Regulations Specification"+(d.address?"  ·  "+d.address:""));
@@ -4382,21 +4435,31 @@ function buildPdf(){
     doc.setFont("helvetica",style);doc.setFontSize(size);doc.setTextColor(...color);
     doc.splitTextToSize(safe(t),W).forEach(ln=>{ need(5);doc.text(ln,L,y);y+=size*0.42+1.1; }); y+=gap; };
 
-  /* the practice's logo, fitted to a 34 x 30 mm box at its own proportions */
-  try{ const fmt=/^data:image\/png/i.test(P.logo)?"PNG":"JPEG"; const bw=34,bh=30; let w=bw,hh=bh;
-    if(P.logoW&&P.logoH){ const ar=P.logoW/P.logoH; if(ar>=bw/bh){ w=bw; hh=bw/ar; } else { hh=bh; w=bh*ar; } }
-    doc.addImage(P.logo,fmt,L,20,w,hh); }catch(e){ console.error(e); }
+  /* The practice's logo, fitted to a 34 x 30 mm box at its own proportions. No logo: its own
+     name as a wordmark, never a compiled-in mark. */
+  if(P.logo){
+    try{ const fmt=/^data:image\/png/i.test(P.logo)?"PNG":"JPEG"; const bw=34,bh=30; let w=bw,hh=bh;
+      if(P.logoW&&P.logoH){ const ar=P.logoW/P.logoH; if(ar>=bw/bh){ w=bw; hh=bw/ar; } else { hh=bh; w=bh*ar; } }
+      doc.addImage(P.logo,fmt,L,20,w,hh); }catch(e){ console.error(e); }
+  } else {
+    const wd=pName().split(" ");
+    doc.setFont("helvetica","bold");doc.setFontSize(22);doc.setTextColor(...DARK);
+    doc.text(safe(wd[0]),L,45);
+    if(wd.length>1){ const adv=doc.getTextWidth(safe(wd[0])+" ");
+      doc.setFontSize(13);doc.setTextColor(...ACC);
+      doc.text(safe(wd.slice(1).join(" ").toUpperCase()),L+adv,45); }
+  }
   doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(...MUTED);
   doc.text(safe(P.addr+(P.email?"  ·  "+P.email:"")+(P.phone?"  ·  "+P.phone:"")),L,58.5);
-  doc.setDrawColor(...ORANGE);doc.setLineWidth(1.1);doc.line(L,61.5,210-R,61.5);
+  doc.setDrawColor(...ACC);doc.setLineWidth(1.1);doc.line(L,61.5,210-R,61.5);
   doc.setFont("helvetica","bold");doc.setFontSize(28);doc.setTextColor(...DARK);
   doc.text("BUILDING REGULATIONS",L,78);
-  doc.setTextColor(...ORANGE);doc.text("SPECIFICATION",L,90);
+  doc.setTextColor(...ACC);doc.text("SPECIFICATION",L,90);
   doc.setFontSize(11);doc.setTextColor(...MUTED);
   doc.text(safe((spec().name+" — "+spec().region).toUpperCase()),L,100);
   const rows=[["Project",d.project],["Site address",d.address],["Client",d.client],["Job number",d.job],
     ["Local authority",d.la],["Application","Full Plans Application"],
-    ["Prepared by",(P.designer?P.designer+", ":"")+P.name],["Date",today],["Revision",d.rev||"P01"]];
+    ["Prepared by",(P.designer?P.designer+", ":"")+pName()],["Date",today],["Revision",d.rev||"P01"]];
   y=114;
   rows.forEach(([k,v])=>{
     doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.setFillColor(251,250,248);
@@ -4405,8 +4468,8 @@ function buildPdf(){
     doc.setFont("helvetica","normal");doc.setFontSize(8.5);
     doc.text(doc.splitTextToSize(safe(v||"—"),W-46)[0],L+44.5,y); y+=7.6; });
   y+=10;
-  doc.setDrawColor(...ORANGE);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
-  doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(...ORANGE);
+  doc.setDrawColor(...ACC);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
+  doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(...ACC);
   doc.text("ISSUED FOR BUILDING CONTROL APPROVAL",L+6,y+1); y+=7;
   { const nt=coverNotice(); para(nt.lead,8,1.6,MUTED); para(nt.resp,8,2,MUTED); }
   const hist=S.history||[];
@@ -4417,14 +4480,14 @@ function buildPdf(){
   foot();doc.addPage();page++;head();y=24;
 
   const secHead=(num,txt)=>{ need(16);y+=4;
-    doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(...ORANGE);doc.text(num,L,y);
+    doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(...ACC);doc.text(num,L,y);
     doc.setTextColor(...DARK);doc.text(safe(txt.toUpperCase()),L+13,y);
-    y+=2.5;doc.setDrawColor(...ORANGE);doc.setLineWidth(.7);doc.line(L,y,210-R,y);y+=6; };
+    y+=2.5;doc.setDrawColor(...ACC);doc.setLineWidth(.7);doc.line(L,y,210-R,y);y+=6; };
   const grpLabel=t=>{ need(10);y+=3;doc.setFont("helvetica","bold");doc.setFontSize(8);
     doc.setTextColor(...MUTED);doc.text(safe(t.toUpperCase()),L,y);y+=5; };
   const entry=(tag,title)=>{ need(13);y+=3.5;
     doc.setFont("helvetica","bold");doc.setFontSize(9.5);
-    if(tag){doc.setTextColor(...ORANGE);doc.text(tag,L,y);}
+    if(tag){doc.setTextColor(...ACC);doc.text(tag,L,y);}
     doc.setTextColor(...DARK);doc.text(safe(title.toUpperCase()),L+(tag?14:0),y);
     y+=1.8;doc.setDrawColor(...RULE);doc.setLineWidth(.15);doc.line(L,y,210-R,y);y+=4.6; };
 
@@ -4440,7 +4503,7 @@ function buildPdf(){
     sel.forEach(i=>{ const b=allBU()[i];need(9);
       const tl=doc.splitTextToSize(safe(b.t),cw[1]-4), rh=Math.max(7,tl.length*3.6+3.4);
       let x2=L;cw.forEach(w=>{doc.rect(x2,y-4.6,w,rh,"D");x2+=w;});
-      doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...ORANGE);doc.text(r[i],L+2,y);
+      doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...ACC);doc.text(r[i],L+2,y);
       doc.setFont("helvetica","normal");doc.setTextColor(...DARK);
       tl.forEach((ln,k)=>doc.text(ln,L+cw[0]+2,y+k*3.6));
       doc.text(safe(b.u||"—"),L+cw[0]+cw[1]+2,y); y+=rh; });
@@ -4450,7 +4513,7 @@ function buildPdf(){
     sel.forEach(i=>{ const b=allBU()[i];
       if(b.g!==lg){lg=b.g;grpLabel(GROUPS[b.g]||b.g);}
       entry(r[i],b.t);
-      if(b.tgt) para(b.tgt,9,2.2,ORANGE,"bold");
+      if(b.tgt) para(b.tgt,9,2.2,ACC,"bold");
       b.p.forEach(t=>para(t, t.startsWith("NOTE")?8:9, 2.4, t.startsWith("NOTE")?MUTED:DARK)); });
   } else para("No build-ups selected.",9,3,MUTED);
 
@@ -4491,8 +4554,8 @@ function buildPdf(){
     });
   }
   need(24);y+=4;
-  doc.setDrawColor(...ORANGE);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
-  doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.setTextColor(...ORANGE);
+  doc.setDrawColor(...ACC);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
+  doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.setTextColor(...ACC);
   doc.text("VERIFY BEFORE ISSUE",L+6,y+1);y+=6;
   para("Approved Documents L1 and F1, 2026 editions, come into force on 24 March 2027. Work with a full plans "+
        "application submitted before that date remains under the current standards provided work commences "+
@@ -4506,39 +4569,48 @@ function buildPdf(){
    Same content and order as the PDF, written straight to .docx by src/docx.js.
    The practice profile supplies the logo, the cover and the running header, exactly
    as it does for the PDF: Specline's own mark never appears on a document. */
-const ORANGE_HEX = "B5640A", DARK_HEX = "23262A", MUTED_HEX = "6E7477", RULE_HEX = "D9DCDD", WELL_HEX = "FBFAF8";
+/* ACC_HEX is read per document, not fixed: it was the vendor's own brand orange, which coloured
+   every heading, rule and reference on every subscriber's specification. */
+const DARK_HEX = "23262A", MUTED_HEX = "6E7477", RULE_HEX = "D9DCDD", WELL_HEX = "FBFAF8";
 
 function buildDocx(){
   const D = DOCX, d = S.data, r = refs(), sel = orderedSel();
+  const ACC_HEX = accInk();
   const today = new Date().toLocaleDateString("en-GB", {day:"numeric", month:"long", year:"numeric"});
   const nt = coverNotice();
   const out = [];
 
   /* ---- cover ---- */
-  const img = D.dataUriToImage(P.logo);
+  const img = P.logo ? D.dataUriToImage(P.logo) : null;
   if(img){
     /* fit inside 34 x 30 mm at the logo's own proportions, as the PDF does */
     const bw = 34, bh = 30; let w = bw, h = bh;
     if(P.logoW && P.logoH){ const ar = P.logoW / P.logoH;
       if(ar >= bw/bh){ w = bw; h = bw/ar; } else { h = bh; w = bh*ar; } }
-    out.push(D.image("rIdLogo", w * D.EMU_PER_MM, h * D.EMU_PER_MM, P.name + " logo"));
+    out.push(D.image("rIdLogo", w * D.EMU_PER_MM, h * D.EMU_PER_MM, pName() + " logo"));
+  } else {
+    /* No logo: the practice's own name as a wordmark, as the cover page does. */
+    const w = pName().split(" ");
+    out.push(D.para([D.run(w[0], {b:true, sz:56, color:DARK_HEX})].concat(
+      w.length > 1 ? [D.run(" " + w.slice(1).join(" ").toUpperCase(), {b:true, sz:32, color:ACC_HEX})] : []),
+      {after:80}));
   }
   out.push(D.para(D.run(P.addr + (P.email ? "  ·  " + P.email : "") + (P.phone ? "  ·  " + P.phone : ""),
-    {sz:16, color:MUTED_HEX}), {after:40, border:{side:"bottom", sz:12, color:ORANGE_HEX}}));
+    {sz:16, color:MUTED_HEX}), {after:40, border:{side:"bottom", sz:12, color:ACC_HEX}}));
 
   out.push(D.para(D.run("BUILDING REGULATIONS", {b:true, sz:56, color:DARK_HEX}), {before:360, after:0}));
-  out.push(D.para(D.run("SPECIFICATION", {b:true, sz:56, color:ORANGE_HEX}), {after:80}));
+  out.push(D.para(D.run("SPECIFICATION", {b:true, sz:56, color:ACC_HEX}), {after:80}));
   out.push(D.para(D.run((spec().name + " — " + spec().region).toUpperCase(), {b:true, sz:22, color:MUTED_HEX}), {after:400}));
 
   const rows = [["Project", d.project], ["Site address", d.address], ["Client", d.client],
     ["Job number", d.job], ["Local authority", d.la], ["Application", "Full Plans Application"],
-    ["Prepared by", (P.designer ? P.designer + ", " : "") + P.name], ["Date", today], ["Revision", d.rev || "P01"]];
+    ["Prepared by", (P.designer ? P.designer + ", " : "") + pName()], ["Date", today], ["Revision", d.rev || "P01"]];
   out.push(D.table(rows.map(([k,v]) => [
     {text:k, w:2600, b:true, sz:18, shade:WELL_HEX},
     {text:v || "—", w:6760, sz:18}
   ])));
 
-  out.push(D.para(D.run("ISSUED FOR BUILDING CONTROL APPROVAL", {b:true, sz:20, color:ORANGE_HEX}),
+  out.push(D.para(D.run("ISSUED FOR BUILDING CONTROL APPROVAL", {b:true, sz:20, color:ACC_HEX}),
     {before:360, after:60}));
   out.push(D.para(D.run(nt.lead, {sz:17, color:MUTED_HEX}), {after:80}));
   out.push(D.para(D.run(nt.resp, {sz:17, color:MUTED_HEX}), {after:80}));
@@ -4554,14 +4626,14 @@ function buildDocx(){
 
   /* ---- helpers matching the PDF's furniture ---- */
   const secHead = (num, txt) => {
-    out.push(D.para([D.run(num + "   ", {b:true, sz:26, color:ORANGE_HEX}),
+    out.push(D.para([D.run(num + "   ", {b:true, sz:26, color:ACC_HEX}),
                      D.run(txt.toUpperCase(), {b:true, sz:26, color:DARK_HEX})],
-      {before:320, after:60, keepNext:true, border:{side:"bottom", sz:10, color:ORANGE_HEX}}));
+      {before:320, after:60, keepNext:true, border:{side:"bottom", sz:10, color:ACC_HEX}}));
   };
   const grpLabel = t => out.push(D.para(D.run(t.toUpperCase(), {b:true, sz:16, color:MUTED_HEX}),
     {before:240, after:60, keepNext:true}));
   const entry = (tag, title) => out.push(D.para(
-    (tag ? [D.run(tag + "   ", {b:true, sz:19, color:ORANGE_HEX})] : []).concat(
+    (tag ? [D.run(tag + "   ", {b:true, sz:19, color:ACC_HEX})] : []).concat(
       [D.run(title.toUpperCase(), {b:true, sz:19, color:DARK_HEX})]),
     {before:200, after:60, keepNext:true, border:{side:"bottom", sz:4, color:RULE_HEX}}));
   const body = t => out.push(D.para(D.run(t, t.startsWith("NOTE") ? {sz:16, color:MUTED_HEX} : {sz:18, color:DARK_HEX}),
@@ -4574,7 +4646,7 @@ function buildDocx(){
                   {text:"BUILD-UP", w:6000, b:true, sz:15, color:MUTED_HEX, shade:WELL_HEX},
                   {text:"STANDARD", w:2460, b:true, sz:15, color:MUTED_HEX, shade:WELL_HEX}];
     const trs = sel.map(i => { const b = allBU()[i];
-      return [{text:r[i], w:900, b:true, sz:17, color:ORANGE_HEX},
+      return [{text:r[i], w:900, b:true, sz:17, color:ACC_HEX},
               {text:b.t, w:6000, sz:17},
               {text:b.u || "—", w:2460, sz:17}]; });
     out.push(D.table([head].concat(trs)));
@@ -4589,7 +4661,7 @@ function buildDocx(){
     sel.forEach(i => { const b = allBU()[i];
       if(b.g !== lg){ lg = b.g; grpLabel(GROUPS[b.g] || b.g); }
       entry(r[i], b.t);
-      if(b.tgt) out.push(D.para(D.run(b.tgt, {b:true, sz:18, color:ORANGE_HEX}), {after:80}));
+      if(b.tgt) out.push(D.para(D.run(b.tgt, {b:true, sz:18, color:ACC_HEX}), {after:80}));
       b.p.forEach(body);
     });
   }
@@ -4642,7 +4714,7 @@ function buildDocx(){
   }
 
   /* ---- closing flag ---- */
-  out.push(D.para(D.run("VERIFY BEFORE ISSUE", {b:true, sz:18, color:ORANGE_HEX}), {before:320, after:60}));
+  out.push(D.para(D.run("VERIFY BEFORE ISSUE", {b:true, sz:18, color:ACC_HEX}), {before:320, after:60}));
   out.push(D.para(D.run("Approved Documents L1 and F1, 2026 editions, come into force on 24 March 2027. Work with a full plans application submitted before that date remains under the current standards provided work commences before 24 March 2028. Confirm all clause and table references against the edition in force at the date of submission.",
     {sz:16, color:MUTED_HEX}), {after:0}));
 
@@ -4650,7 +4722,7 @@ function buildDocx(){
     body: out.join(""),
     header: {left: spec().name + " — Building Regulations Specification" + (d.address ? "  ·  " + d.address : ""),
              right: (d.job ? "Job " + d.job : "") + "  |  Rev " + (d.rev || "P01")},
-    footer: {left: P.name + (P.email ? "  ·  " + P.email : "")},
+    footer: {left: pName() + (P.email ? "  ·  " + P.email : "")},
     image: img
   });
 }
@@ -4788,7 +4860,16 @@ if(restore()){ renderAll(); setSaveState("",db?"Saved":"Kept in this browser"); 
      saving, so no downloads capability is needed. */
   if(window.SPECLINE && window.SPECLINE.api){
     db = serverStore(window.SPECLINE);
-    if(window.SPECLINE.practice) P = {...P, ...window.SPECLINE.practice};
+    /* The signed-in account's own practice becomes what a profile is merged onto, so a field
+       this practice has not filled in falls back to its account details — never to a firm
+       compiled into the app. app.php builds it from the practices row. */
+    if(window.SPECLINE.practice){
+      PRACTICE_BASE = {...PRACTICE_BLANK, ...window.SPECLINE.practice};
+      /* A saved profile is what the practice last chose, so it wins where it has a value;
+         with nothing saved the account's own details stand on their own. Merging an unsaved
+         blank over the account would have wiped the cover back to placeholders. */
+      P = practiceStored ? {...PRACTICE_BASE, ...P} : {...PRACTICE_BASE};
+    }
     /* Hosted behind the practice login, so give the header a way back out of the tool. */
     const nb = el("btnNew");
     if(nb && nb.parentNode && window.SPECLINE.account){

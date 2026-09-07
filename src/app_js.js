@@ -1,34 +1,69 @@
 /* ---------------- practice profile ----------------
-   One record per installation. Seeded with this installation's practice, edited in Practice
-   settings, kept in localStorage and, in the artifact, in db doc practice/profile.
-   The generated specification takes its logo, cover, running header and responsibility statement
-   from THIS, never from a compiled-in asset. Specline's own mark never appears on a document. */
+   WHOSE document this is: the practice USING the tool, and the app hard-codes none.
+
+   It used to be seeded with the vendor's own practice — name, designer, address, and the logo
+   itself compiled into src/logos.js. This app is sold to other practices: every subscriber who
+   had not yet filled the profile in issued a specification with another company's name and logo
+   on the cover, and savePractice() then wrote that logo into their own stored profile. Corrected
+   7 September 2026, alongside the same fault in docgen/brand.py. See PRACTICE_BLANK below, the
+   guard in build.py, and the commercial rule in CLAUDE.md.
+
+   Where the details come from now, in order:
+     the practice on the session, injected by site/app.php from the practices row  (hosted)
+     the profile the practice last saved, in localStorage and in db doc practice/profile
+     PRACTICE_BLANK — placeholders, so an unfilled cover reads [Practice name]
+
+   A blank cover gets corrected before issue; another firm's name might not. Specline's own mark
+   never appears on a document either: Specline is the software, not the designer. */
 const PLANS = {
   solo:     {n:"Solo",     seats:1, price:"£39/month or £390/year"},
   practice: {n:"Practice", seats:5, price:"£89/month or £890/year"},
   payg:     {n:"Per spec", seats:1, price:"£25 per issued specification"}
 };
-const PRACTICE_SEED = {name:"SY Design Studio Ltd", designer:"Salman Yousaf", addr:"49 Durham Avenue, Hounslow, TW5 0HG",
-  email:"info@specline.co.uk", phone:"", logo:PRACTICE_SEED_LOGO, logoW:PRACTICE_SEED_LOGO_W, logoH:PRACTICE_SEED_LOGO_H,
-  plan:"solo", users:["Salman Yousaf"]};
-let P = {...PRACTICE_SEED};
+const PRACTICE_BLANK = {name:"", designer:"", addr:"", email:"", phone:"", accent:"",
+  logo:"", logoW:0, logoH:0, plan:"solo", users:[]};
+/* What a profile is merged onto. The hosted app replaces it with the account's practice at boot,
+   so a field the practice has not set falls back to its own account details and never to a
+   compiled-in firm. */
+let PRACTICE_BASE = {...PRACTICE_BLANK};
+let P = {...PRACTICE_BASE};
 const PRACTICE_KEY="specline-practice";
-function loadPractice(){ try{ const j=JSON.parse(localStorage.getItem(PRACTICE_KEY)||"null"); if(j&&j.name) P={...PRACTICE_SEED,...j}; }catch(e){} }
+let practiceStored = false;   // did this browser actually hold a saved profile?
+function loadPractice(){ try{ const j=JSON.parse(localStorage.getItem(PRACTICE_KEY)||"null");
+  if(j&&j.name){ P={...PRACTICE_BASE,...j}; practiceStored=true; } }catch(e){} }
+/* The cover has to carry something. Never a firm — a placeholder that asks to be filled in. */
+function pName(){ return P.name || "[Practice name]"; }
 let practiceTimer=null;
 function savePractice(){ try{ localStorage.setItem(PRACTICE_KEY,JSON.stringify(P)); }catch(e){}
   clearTimeout(practiceTimer); practiceTimer=setTimeout(async()=>{ if(!db) return;
     try{ await db.doc("practice/profile").set({...P,updated:Date.now()}); }catch(e){ console.error(e); } },600); }
 async function loadPracticeRemote(){ if(!db) return;
   try{ const snap=await db.doc("practice/profile").get();
-    if(snap&&snap.exists){ const j=snap.data(); if(j&&j.name){ P={...PRACTICE_SEED,...j};
+    if(snap&&snap.exists){ const j=snap.data(); if(j&&j.name){ P={...PRACTICE_BASE,...j};
       try{ localStorage.setItem(PRACTICE_KEY,JSON.stringify(P)); }catch(e){}
       if(S.type) renderPaper(); if(S.route==="practice") renderPractice(); } }
   }catch(e){ console.error(e); } }
+/* The document accent is the PRACTICE'S colour, defaulting to the same neutral dark grey the body
+   text uses. It was hard-coded to the vendor's own brand orange, on the cover rule, the
+   SPECIFICATION heading, every section rule, every build-up reference and every NOTE bar of every
+   document the app produced. The ink variant is used where the accent has to be read as text. */
+const ACCENT_NEUTRAL = "3E4244";
+function accHex(){ const h=(P.accent||"").replace(/[^0-9a-f]/gi,""); return (h.length===6?h:ACCENT_NEUTRAL).toUpperCase(); }
+function accRGB(){ const n=parseInt(accHex(),16); return [n>>16&255, n>>8&255, n&255]; }
+function mixHex(rgb,f,t){ return rgb.map(v=>Math.round(v+(t-v)*f)).map(v=>v.toString(16).padStart(2,"0")).join("").toUpperCase(); }
+function accInk(){ return mixHex(accRGB(), .22, 0); }     // darkened, for accent-coloured text
+function accSoft(){ return mixHex(accRGB(), .90, 255); }  // a pale tint, for the notice panel
+/* The three tokens .paper declares, pushed onto the element so the practice's colour wins. */
+function applyAccent(node){ if(!node) return;
+  node.style.setProperty("--pacc", "#"+accHex());
+  node.style.setProperty("--pacc-ink", "#"+accInk());
+  node.style.setProperty("--psoft", "#"+accSoft()); }
+
 /* The cover notice, in the practice's voice. The software drafts; building control approves. */
 function coverNotice(){
-  const who = P.designer ? `${P.designer} of ${P.name}` : P.name;
+  const who = P.designer ? `${P.designer} of ${pName()}` : pName();
   return {
-    lead:`To be read with the ${P.name} drawing pack, the structural engineer's design and calculations, and any specialist sub-contractor design. All work to comply with the Building Regulations 2010 (as amended) and the Approved Documents current at the date of issue.`,
+    lead:`To be read with the ${pName()} drawing pack, the structural engineer's design and calculations, and any specialist sub-contractor design. All work to comply with the Building Regulations 2010 (as amended) and the Approved Documents current at the date of issue.`,
     resp:`${who} is the named designer and remains responsible for the suitability of this specification for this project. Every clause and table reference is to be confirmed against the Approved Documents in force at the date of submission. Compliance of the work is determined by the building control body; this document is the designer's specification of the work, not an approval of it.`
   };
 }
@@ -457,7 +492,12 @@ function renderPaper(){
   const r=refs(), sel=orderedSel(), d=S.data;
   const today=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
   const nt=coverNotice();
-  let h=`<img class="plogo" src="${P.logo}" alt="${esc(P.name)}">
+  /* Logo if the practice has uploaded one, otherwise its own name as a wordmark. Never a
+     compiled-in mark: that would be another practice's logo on this practice's cover. */
+  const w = pName().split(" ");
+  const mark = P.logo ? `<img class="plogo" src="${P.logo}" alt="${esc(pName())}">`
+                      : `<p class="pmark">${esc(w[0])}${w.length>1?`<span> ${esc(w.slice(1).join(" "))}</span>`:""}</p>`;
+  let h=`${mark}
     <p class="paddr">${esc(P.addr)}${P.email?" &nbsp;·&nbsp; "+esc(P.email):""}${P.phone?" &nbsp;·&nbsp; "+esc(P.phone):""}</p>
     <h1 class="ptitle">BUILDING REGULATIONS<span class="o">SPECIFICATION</span></h1>
     <p class="psub">${esc(spec().name)} — ${esc(spec().region)}</p>
@@ -467,7 +507,7 @@ function renderPaper(){
       <tr><td>Client</td><td>${esc(d.client||"—")}</td></tr>
       <tr><td>Job number</td><td>${esc(d.job||"—")}</td></tr>
       <tr><td>Local authority</td><td>${esc(d.la||"—")}</td></tr>
-      <tr><td>Prepared by</td><td>${esc(P.designer?P.designer+", ":"")}${esc(P.name)}</td></tr>
+      <tr><td>Prepared by</td><td>${esc(P.designer?P.designer+", ":"")}${esc(pName())}</td></tr>
       <tr><td>Date</td><td>${today}</td></tr>
       <tr><td>Revision</td><td>${esc(d.rev||"P01")}</td></tr>
     </table>
@@ -507,6 +547,7 @@ function renderPaper(){
     remains under the current standards provided work commences before 24 March 2028. Confirm all clause and
     table references against the edition in force at the date of submission.</div>`;
   el("paper").innerHTML=h;
+  applyAccent(el("paper"));
 }
 function renderSpecNav(){
   const sel=orderedSel(), ns=noteSections();
@@ -561,12 +602,15 @@ function renderPractice(){
           <label class="wide">Address<input data-p="addr" value="${esc(P.addr)}"><small>Under the logo on the cover.</small></label>
           <label>Email<input data-p="email" value="${esc(P.email||"")}"><small>Cover and footer.</small></label>
           <label>Phone<input data-p="phone" value="${esc(P.phone||"")}"><small>Cover, if given.</small></label>
+          <label>Document accent<input type="color" data-p="accent" value="#${accHex()}"><small>Rules, section headings and build-up references. Neutral dark grey until you set one.</small></label>
         </div></div>
       <div class="card"><p class="grouplabel" style="margin-top:0">Logo</p>
-        <div class="logobox"><img src="${P.logo}" alt="${esc(P.name)} logo"></div>
-        <div class="cfgfoot"><span class="srcnote">PNG or JPEG up to 3 MB. Fitted to the cover at its own proportions.</span>
-          <label class="btn">Replace logo<input type="file" id="logoFile" accept="image/png,image/jpeg" hidden></label></div>
-        ${P.logo!==PRACTICE_SEED_LOGO?`<p style="margin:12px 0 0"><button class="btn btn-quiet" id="logoReset">Use this installation's default logo</button></p>`:""}</div>
+        <div class="logobox">${P.logo?`<img src="${P.logo}" alt="${esc(pName())} logo">`
+          :`<p class="pmark" style="--pacc:#${accInk()}">${esc(pName())}</p>`}</div>
+        <div class="cfgfoot"><span class="srcnote">${P.logo?"PNG or JPEG up to 3 MB. Fitted to the cover at its own proportions."
+          :"No logo yet — the cover sets your practice name as a wordmark. PNG or JPEG up to 3 MB."}</span>
+          <label class="btn">${P.logo?"Replace logo":"Add logo"}<input type="file" id="logoFile" accept="image/png,image/jpeg" hidden></label></div>
+        ${P.logo?`<p style="margin:12px 0 0"><button class="btn btn-quiet" id="logoClear">Remove logo</button></p>`:""}</div>
       <div class="card"><p class="grouplabel" style="margin-top:0">Plan and seats</p>
         <div class="fields"><label class="wide">Plan<select data-p="plan">${Object.entries(PLANS).map(([k,v])=>`<option value="${k}" ${P.plan===k?"selected":""}>${esc(v.n)} — ${esc(v.price)}</option>`).join("")}</select><small>Billing is not connected yet. The plan sets the seat limit shown below.</small></label></div>
         <p class="seats">${seatLine(used,plan)}</p>
@@ -577,11 +621,12 @@ function renderPractice(){
   el("practicepage").querySelectorAll("[data-p]").forEach(inp=>{
     const h=()=>{ const k=inp.dataset.p; P[k]= k==="users" ? inp.value.split("\n").map(x=>x.trim()).filter(Boolean) : inp.value;
       savePractice(); if(S.type) renderPaper();
-      if(k==="users"||k==="plan") el("practicepage").querySelector(".seats").innerHTML=seatLine((P.users||[]).length, PLANS[P.plan]||PLANS.solo); };
+      if(k==="users"||k==="plan") el("practicepage").querySelector(".seats").innerHTML=seatLine((P.users||[]).length, PLANS[P.plan]||PLANS.solo);
+      if(k==="accent"){ const pm=el("practicepage").querySelector(".logobox .pmark"); if(pm) pm.style.setProperty("--pacc","#"+accInk()); } };
     inp.oninput=h; inp.onchange=h;
   });
   el("logoFile").onchange=e=>readLogo(e.target.files[0]);
-  const lr=el("logoReset"); if(lr) lr.onclick=()=>{ P.logo=PRACTICE_SEED_LOGO; P.logoW=PRACTICE_SEED_LOGO_W; P.logoH=PRACTICE_SEED_LOGO_H; savePractice(); renderPractice(); if(S.type) renderPaper(); };
+  const lc=el("logoClear"); if(lc) lc.onclick=()=>{ P.logo=""; P.logoW=0; P.logoH=0; savePractice(); renderPractice(); if(S.type) renderPaper(); };
   el("practiceDone").onclick=()=>go("home");
 }
 function readLogo(file){
@@ -630,11 +675,12 @@ function buildPdf(){
   const L=22,R=18,W=210-L-R,BOT=280;
   const d=S.data,r=refs(),sel=orderedSel();
   const today=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
-  const ORANGE=[232,133,12],DARK=[34,38,42],MUTED=[113,118,122],RULE=[220,216,210];
+  /* ACC is the practice's accent, not a fixed brand colour. See accHex(). */
+  const ACC=accRGB(),DARK=[34,38,42],MUTED=[113,118,122],RULE=[220,216,210];
   let y=0,page=1;
   const foot=()=>{ doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.line(L,286,210-R,286);
     doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
-    doc.text(safe(P.name+(P.email?"  ·  "+P.email:"")),L,290);
+    doc.text(safe(pName()+(P.email?"  ·  "+P.email:"")),L,290);
     doc.text("Page "+page,210-R,290,{align:"right"}); };
   const head=()=>{ doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
     const left=safe(spec().name+" — Building Regulations Specification"+(d.address?"  ·  "+d.address:""));
@@ -647,21 +693,31 @@ function buildPdf(){
     doc.setFont("helvetica",style);doc.setFontSize(size);doc.setTextColor(...color);
     doc.splitTextToSize(safe(t),W).forEach(ln=>{ need(5);doc.text(ln,L,y);y+=size*0.42+1.1; }); y+=gap; };
 
-  /* the practice's logo, fitted to a 34 x 30 mm box at its own proportions */
-  try{ const fmt=/^data:image\/png/i.test(P.logo)?"PNG":"JPEG"; const bw=34,bh=30; let w=bw,hh=bh;
-    if(P.logoW&&P.logoH){ const ar=P.logoW/P.logoH; if(ar>=bw/bh){ w=bw; hh=bw/ar; } else { hh=bh; w=bh*ar; } }
-    doc.addImage(P.logo,fmt,L,20,w,hh); }catch(e){ console.error(e); }
+  /* The practice's logo, fitted to a 34 x 30 mm box at its own proportions. No logo: its own
+     name as a wordmark, never a compiled-in mark. */
+  if(P.logo){
+    try{ const fmt=/^data:image\/png/i.test(P.logo)?"PNG":"JPEG"; const bw=34,bh=30; let w=bw,hh=bh;
+      if(P.logoW&&P.logoH){ const ar=P.logoW/P.logoH; if(ar>=bw/bh){ w=bw; hh=bw/ar; } else { hh=bh; w=bh*ar; } }
+      doc.addImage(P.logo,fmt,L,20,w,hh); }catch(e){ console.error(e); }
+  } else {
+    const wd=pName().split(" ");
+    doc.setFont("helvetica","bold");doc.setFontSize(22);doc.setTextColor(...DARK);
+    doc.text(safe(wd[0]),L,45);
+    if(wd.length>1){ const adv=doc.getTextWidth(safe(wd[0])+" ");
+      doc.setFontSize(13);doc.setTextColor(...ACC);
+      doc.text(safe(wd.slice(1).join(" ").toUpperCase()),L+adv,45); }
+  }
   doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(...MUTED);
   doc.text(safe(P.addr+(P.email?"  ·  "+P.email:"")+(P.phone?"  ·  "+P.phone:"")),L,58.5);
-  doc.setDrawColor(...ORANGE);doc.setLineWidth(1.1);doc.line(L,61.5,210-R,61.5);
+  doc.setDrawColor(...ACC);doc.setLineWidth(1.1);doc.line(L,61.5,210-R,61.5);
   doc.setFont("helvetica","bold");doc.setFontSize(28);doc.setTextColor(...DARK);
   doc.text("BUILDING REGULATIONS",L,78);
-  doc.setTextColor(...ORANGE);doc.text("SPECIFICATION",L,90);
+  doc.setTextColor(...ACC);doc.text("SPECIFICATION",L,90);
   doc.setFontSize(11);doc.setTextColor(...MUTED);
   doc.text(safe((spec().name+" — "+spec().region).toUpperCase()),L,100);
   const rows=[["Project",d.project],["Site address",d.address],["Client",d.client],["Job number",d.job],
     ["Local authority",d.la],["Application","Full Plans Application"],
-    ["Prepared by",(P.designer?P.designer+", ":"")+P.name],["Date",today],["Revision",d.rev||"P01"]];
+    ["Prepared by",(P.designer?P.designer+", ":"")+pName()],["Date",today],["Revision",d.rev||"P01"]];
   y=114;
   rows.forEach(([k,v])=>{
     doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.setFillColor(251,250,248);
@@ -670,8 +726,8 @@ function buildPdf(){
     doc.setFont("helvetica","normal");doc.setFontSize(8.5);
     doc.text(doc.splitTextToSize(safe(v||"—"),W-46)[0],L+44.5,y); y+=7.6; });
   y+=10;
-  doc.setDrawColor(...ORANGE);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
-  doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(...ORANGE);
+  doc.setDrawColor(...ACC);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
+  doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(...ACC);
   doc.text("ISSUED FOR BUILDING CONTROL APPROVAL",L+6,y+1); y+=7;
   { const nt=coverNotice(); para(nt.lead,8,1.6,MUTED); para(nt.resp,8,2,MUTED); }
   const hist=S.history||[];
@@ -682,14 +738,14 @@ function buildPdf(){
   foot();doc.addPage();page++;head();y=24;
 
   const secHead=(num,txt)=>{ need(16);y+=4;
-    doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(...ORANGE);doc.text(num,L,y);
+    doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(...ACC);doc.text(num,L,y);
     doc.setTextColor(...DARK);doc.text(safe(txt.toUpperCase()),L+13,y);
-    y+=2.5;doc.setDrawColor(...ORANGE);doc.setLineWidth(.7);doc.line(L,y,210-R,y);y+=6; };
+    y+=2.5;doc.setDrawColor(...ACC);doc.setLineWidth(.7);doc.line(L,y,210-R,y);y+=6; };
   const grpLabel=t=>{ need(10);y+=3;doc.setFont("helvetica","bold");doc.setFontSize(8);
     doc.setTextColor(...MUTED);doc.text(safe(t.toUpperCase()),L,y);y+=5; };
   const entry=(tag,title)=>{ need(13);y+=3.5;
     doc.setFont("helvetica","bold");doc.setFontSize(9.5);
-    if(tag){doc.setTextColor(...ORANGE);doc.text(tag,L,y);}
+    if(tag){doc.setTextColor(...ACC);doc.text(tag,L,y);}
     doc.setTextColor(...DARK);doc.text(safe(title.toUpperCase()),L+(tag?14:0),y);
     y+=1.8;doc.setDrawColor(...RULE);doc.setLineWidth(.15);doc.line(L,y,210-R,y);y+=4.6; };
 
@@ -705,7 +761,7 @@ function buildPdf(){
     sel.forEach(i=>{ const b=allBU()[i];need(9);
       const tl=doc.splitTextToSize(safe(b.t),cw[1]-4), rh=Math.max(7,tl.length*3.6+3.4);
       let x2=L;cw.forEach(w=>{doc.rect(x2,y-4.6,w,rh,"D");x2+=w;});
-      doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...ORANGE);doc.text(r[i],L+2,y);
+      doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...ACC);doc.text(r[i],L+2,y);
       doc.setFont("helvetica","normal");doc.setTextColor(...DARK);
       tl.forEach((ln,k)=>doc.text(ln,L+cw[0]+2,y+k*3.6));
       doc.text(safe(b.u||"—"),L+cw[0]+cw[1]+2,y); y+=rh; });
@@ -715,7 +771,7 @@ function buildPdf(){
     sel.forEach(i=>{ const b=allBU()[i];
       if(b.g!==lg){lg=b.g;grpLabel(GROUPS[b.g]||b.g);}
       entry(r[i],b.t);
-      if(b.tgt) para(b.tgt,9,2.2,ORANGE,"bold");
+      if(b.tgt) para(b.tgt,9,2.2,ACC,"bold");
       b.p.forEach(t=>para(t, t.startsWith("NOTE")?8:9, 2.4, t.startsWith("NOTE")?MUTED:DARK)); });
   } else para("No build-ups selected.",9,3,MUTED);
 
@@ -756,8 +812,8 @@ function buildPdf(){
     });
   }
   need(24);y+=4;
-  doc.setDrawColor(...ORANGE);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
-  doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.setTextColor(...ORANGE);
+  doc.setDrawColor(...ACC);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
+  doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.setTextColor(...ACC);
   doc.text("VERIFY BEFORE ISSUE",L+6,y+1);y+=6;
   para("Approved Documents L1 and F1, 2026 editions, come into force on 24 March 2027. Work with a full plans "+
        "application submitted before that date remains under the current standards provided work commences "+
@@ -771,39 +827,48 @@ function buildPdf(){
    Same content and order as the PDF, written straight to .docx by src/docx.js.
    The practice profile supplies the logo, the cover and the running header, exactly
    as it does for the PDF: Specline's own mark never appears on a document. */
-const ORANGE_HEX = "B5640A", DARK_HEX = "23262A", MUTED_HEX = "6E7477", RULE_HEX = "D9DCDD", WELL_HEX = "FBFAF8";
+/* ACC_HEX is read per document, not fixed: it was the vendor's own brand orange, which coloured
+   every heading, rule and reference on every subscriber's specification. */
+const DARK_HEX = "23262A", MUTED_HEX = "6E7477", RULE_HEX = "D9DCDD", WELL_HEX = "FBFAF8";
 
 function buildDocx(){
   const D = DOCX, d = S.data, r = refs(), sel = orderedSel();
+  const ACC_HEX = accInk();
   const today = new Date().toLocaleDateString("en-GB", {day:"numeric", month:"long", year:"numeric"});
   const nt = coverNotice();
   const out = [];
 
   /* ---- cover ---- */
-  const img = D.dataUriToImage(P.logo);
+  const img = P.logo ? D.dataUriToImage(P.logo) : null;
   if(img){
     /* fit inside 34 x 30 mm at the logo's own proportions, as the PDF does */
     const bw = 34, bh = 30; let w = bw, h = bh;
     if(P.logoW && P.logoH){ const ar = P.logoW / P.logoH;
       if(ar >= bw/bh){ w = bw; h = bw/ar; } else { h = bh; w = bh*ar; } }
-    out.push(D.image("rIdLogo", w * D.EMU_PER_MM, h * D.EMU_PER_MM, P.name + " logo"));
+    out.push(D.image("rIdLogo", w * D.EMU_PER_MM, h * D.EMU_PER_MM, pName() + " logo"));
+  } else {
+    /* No logo: the practice's own name as a wordmark, as the cover page does. */
+    const w = pName().split(" ");
+    out.push(D.para([D.run(w[0], {b:true, sz:56, color:DARK_HEX})].concat(
+      w.length > 1 ? [D.run(" " + w.slice(1).join(" ").toUpperCase(), {b:true, sz:32, color:ACC_HEX})] : []),
+      {after:80}));
   }
   out.push(D.para(D.run(P.addr + (P.email ? "  ·  " + P.email : "") + (P.phone ? "  ·  " + P.phone : ""),
-    {sz:16, color:MUTED_HEX}), {after:40, border:{side:"bottom", sz:12, color:ORANGE_HEX}}));
+    {sz:16, color:MUTED_HEX}), {after:40, border:{side:"bottom", sz:12, color:ACC_HEX}}));
 
   out.push(D.para(D.run("BUILDING REGULATIONS", {b:true, sz:56, color:DARK_HEX}), {before:360, after:0}));
-  out.push(D.para(D.run("SPECIFICATION", {b:true, sz:56, color:ORANGE_HEX}), {after:80}));
+  out.push(D.para(D.run("SPECIFICATION", {b:true, sz:56, color:ACC_HEX}), {after:80}));
   out.push(D.para(D.run((spec().name + " — " + spec().region).toUpperCase(), {b:true, sz:22, color:MUTED_HEX}), {after:400}));
 
   const rows = [["Project", d.project], ["Site address", d.address], ["Client", d.client],
     ["Job number", d.job], ["Local authority", d.la], ["Application", "Full Plans Application"],
-    ["Prepared by", (P.designer ? P.designer + ", " : "") + P.name], ["Date", today], ["Revision", d.rev || "P01"]];
+    ["Prepared by", (P.designer ? P.designer + ", " : "") + pName()], ["Date", today], ["Revision", d.rev || "P01"]];
   out.push(D.table(rows.map(([k,v]) => [
     {text:k, w:2600, b:true, sz:18, shade:WELL_HEX},
     {text:v || "—", w:6760, sz:18}
   ])));
 
-  out.push(D.para(D.run("ISSUED FOR BUILDING CONTROL APPROVAL", {b:true, sz:20, color:ORANGE_HEX}),
+  out.push(D.para(D.run("ISSUED FOR BUILDING CONTROL APPROVAL", {b:true, sz:20, color:ACC_HEX}),
     {before:360, after:60}));
   out.push(D.para(D.run(nt.lead, {sz:17, color:MUTED_HEX}), {after:80}));
   out.push(D.para(D.run(nt.resp, {sz:17, color:MUTED_HEX}), {after:80}));
@@ -819,14 +884,14 @@ function buildDocx(){
 
   /* ---- helpers matching the PDF's furniture ---- */
   const secHead = (num, txt) => {
-    out.push(D.para([D.run(num + "   ", {b:true, sz:26, color:ORANGE_HEX}),
+    out.push(D.para([D.run(num + "   ", {b:true, sz:26, color:ACC_HEX}),
                      D.run(txt.toUpperCase(), {b:true, sz:26, color:DARK_HEX})],
-      {before:320, after:60, keepNext:true, border:{side:"bottom", sz:10, color:ORANGE_HEX}}));
+      {before:320, after:60, keepNext:true, border:{side:"bottom", sz:10, color:ACC_HEX}}));
   };
   const grpLabel = t => out.push(D.para(D.run(t.toUpperCase(), {b:true, sz:16, color:MUTED_HEX}),
     {before:240, after:60, keepNext:true}));
   const entry = (tag, title) => out.push(D.para(
-    (tag ? [D.run(tag + "   ", {b:true, sz:19, color:ORANGE_HEX})] : []).concat(
+    (tag ? [D.run(tag + "   ", {b:true, sz:19, color:ACC_HEX})] : []).concat(
       [D.run(title.toUpperCase(), {b:true, sz:19, color:DARK_HEX})]),
     {before:200, after:60, keepNext:true, border:{side:"bottom", sz:4, color:RULE_HEX}}));
   const body = t => out.push(D.para(D.run(t, t.startsWith("NOTE") ? {sz:16, color:MUTED_HEX} : {sz:18, color:DARK_HEX}),
@@ -839,7 +904,7 @@ function buildDocx(){
                   {text:"BUILD-UP", w:6000, b:true, sz:15, color:MUTED_HEX, shade:WELL_HEX},
                   {text:"STANDARD", w:2460, b:true, sz:15, color:MUTED_HEX, shade:WELL_HEX}];
     const trs = sel.map(i => { const b = allBU()[i];
-      return [{text:r[i], w:900, b:true, sz:17, color:ORANGE_HEX},
+      return [{text:r[i], w:900, b:true, sz:17, color:ACC_HEX},
               {text:b.t, w:6000, sz:17},
               {text:b.u || "—", w:2460, sz:17}]; });
     out.push(D.table([head].concat(trs)));
@@ -854,7 +919,7 @@ function buildDocx(){
     sel.forEach(i => { const b = allBU()[i];
       if(b.g !== lg){ lg = b.g; grpLabel(GROUPS[b.g] || b.g); }
       entry(r[i], b.t);
-      if(b.tgt) out.push(D.para(D.run(b.tgt, {b:true, sz:18, color:ORANGE_HEX}), {after:80}));
+      if(b.tgt) out.push(D.para(D.run(b.tgt, {b:true, sz:18, color:ACC_HEX}), {after:80}));
       b.p.forEach(body);
     });
   }
@@ -907,7 +972,7 @@ function buildDocx(){
   }
 
   /* ---- closing flag ---- */
-  out.push(D.para(D.run("VERIFY BEFORE ISSUE", {b:true, sz:18, color:ORANGE_HEX}), {before:320, after:60}));
+  out.push(D.para(D.run("VERIFY BEFORE ISSUE", {b:true, sz:18, color:ACC_HEX}), {before:320, after:60}));
   out.push(D.para(D.run("Approved Documents L1 and F1, 2026 editions, come into force on 24 March 2027. Work with a full plans application submitted before that date remains under the current standards provided work commences before 24 March 2028. Confirm all clause and table references against the edition in force at the date of submission.",
     {sz:16, color:MUTED_HEX}), {after:0}));
 
@@ -915,7 +980,7 @@ function buildDocx(){
     body: out.join(""),
     header: {left: spec().name + " — Building Regulations Specification" + (d.address ? "  ·  " + d.address : ""),
              right: (d.job ? "Job " + d.job : "") + "  |  Rev " + (d.rev || "P01")},
-    footer: {left: P.name + (P.email ? "  ·  " + P.email : "")},
+    footer: {left: pName() + (P.email ? "  ·  " + P.email : "")},
     image: img
   });
 }
@@ -1053,7 +1118,16 @@ if(restore()){ renderAll(); setSaveState("",db?"Saved":"Kept in this browser"); 
      saving, so no downloads capability is needed. */
   if(window.SPECLINE && window.SPECLINE.api){
     db = serverStore(window.SPECLINE);
-    if(window.SPECLINE.practice) P = {...P, ...window.SPECLINE.practice};
+    /* The signed-in account's own practice becomes what a profile is merged onto, so a field
+       this practice has not filled in falls back to its account details — never to a firm
+       compiled into the app. app.php builds it from the practices row. */
+    if(window.SPECLINE.practice){
+      PRACTICE_BASE = {...PRACTICE_BLANK, ...window.SPECLINE.practice};
+      /* A saved profile is what the practice last chose, so it wins where it has a value;
+         with nothing saved the account's own details stand on their own. Merging an unsaved
+         blank over the account would have wiped the cover back to placeholders. */
+      P = practiceStored ? {...PRACTICE_BASE, ...P} : {...PRACTICE_BASE};
+    }
     /* Hosted behind the practice login, so give the header a way back out of the tool. */
     const nb = el("btnNew");
     if(nb && nb.parentNode && window.SPECLINE.account){
