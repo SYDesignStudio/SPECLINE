@@ -165,6 +165,19 @@ DEFS = """<defs>
     <rect width="70" height="30" fill="#F5EBE9"/>
     <path d="M0 21 q9 -18 18 0 t18 0 t18 0 t18 0" fill="none" stroke="#BE968F" stroke-width="2"/>
   </pattern>
+  <!-- Rigid board insulation: the lobed chain a technologist expects, not a flat tint. Drawn
+       as a column of pinched lobes so it reads the same way up a cavity as across a roof. -->
+  <pattern id="p-ins" width="46" height="30" patternUnits="userSpaceOnUse">
+    <rect width="46" height="30" fill="#FBF2D8"/>
+    <ellipse cx="23" cy="15" rx="21" ry="13.5" fill="none" stroke="#D3AE59" stroke-width="2"/>
+    <path d="M2 1.5 q20 13.5 0 27 M44 1.5 q-20 13.5 0 27" fill="none" stroke="#D3AE59" stroke-width="2"/>
+  </pattern>
+  <!-- Plasterboard: the fine stipple, so a lining reads as a board and not as a void. -->
+  <pattern id="p-pboard" width="18" height="18" patternUnits="userSpaceOnUse">
+    <rect width="18" height="18" fill="#ECEBE7"/>
+    <circle cx="4" cy="5" r="1.1" fill="#A9A8A2"/><circle cx="13" cy="11" r="1.1" fill="#A9A8A2"/>
+    <circle cx="8" cy="15" r="0.9" fill="#A9A8A2"/>
+  </pattern>
   <pattern id="p-timber" width="110" height="110" patternUnits="userSpaceOnUse">
     <rect width="110" height="110" fill="#F0E4CE"/>
     <path d="M-12 96 q55 -34 122 0 M-12 70 q55 -34 122 0 M-12 44 q55 -34 122 0 M-12 18 q55 -34 122 0"
@@ -198,9 +211,9 @@ DEFS = """<defs>
 </defs>"""
 
 FILL = {"brick": "url(#p-brick)", "block": "url(#p-block)", "dense": "url(#p-dense)",
-        "ins": "#F2E3BE", "wool": "url(#p-wool)", "timber": "url(#p-timber)",
+        "ins": "url(#p-ins)", "wool": "url(#p-wool)", "timber": "url(#p-timber)",
         "conc": "url(#p-conc)", "lean": "url(#p-lean)", "screed": "url(#p-screed)",
-        "hard": "url(#p-hard)", "earth": "url(#p-earth)", "pboard": "#E8E7E3",
+        "hard": "url(#p-hard)", "earth": "url(#p-earth)", "pboard": "url(#p-pboard)",
         "membrane": "#8A5A52", "void": "#FFFFFF"}
 
 
