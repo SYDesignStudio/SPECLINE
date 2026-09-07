@@ -235,12 +235,20 @@ full specification on the right, the scale note, and a title block. Four things 
 - **Wall ties are drawn only where the clause specifies them**, at the centres it gives, with
   the fall to the outer leaf it requires. A tie drawn level, or falling inwards, teaches the
   wrong thing.
-- **The title block comes from `docgen/brand.py`**, the same `PRACTICE` dict the Word and PDF
-  specification generator uses, so a sheet and a specification issued the same day cannot
-  disagree about who drew them. Practice name, address and email fill the practice cell, the
-  designer's initials and the current month fill *date / drawn*, and the responsibility note
-  names the designer. Project, client and job number stay as placeholders: they belong to a
-  job, and these are library details, so filling them would be inventing a job.
+- **The title block names the practice USING the tool, and the generator hard-codes none.**
+  It reads a profile: `--practice <file.json>`, else `SPECLINE_PRACTICE`, else
+  `specline-practice.json` in the directory **above the repository** (where it cannot be
+  committed or shipped), else placeholders. `--practice brand` opts explicitly into
+  `docgen/brand.py` for SY Design Studio's own in-house documents. In the hosted app the same
+  details come from the `practices` row for the signed-in account.
+  Baking SY Design Studio into the generator was exactly the bug the commercial rule exists to
+  prevent — no technologist will issue a drawing to building control under another company's
+  name. **With no profile the title block prints `[Practice name]`**, which is the safe
+  failure: a blank gets corrected, someone else's name might not.
+  Practice name, address and email fill the practice cell; the designer's initials and the
+  current month fill *date / drawn*; the responsibility note names the designer. Project,
+  client and job number are never filled from anywhere — they belong to a job, and these are
+  library details, so a value there would be an invented job.
 - **Long clauses are set smaller, not cut off.** The size steps on a cost that counts
   paragraphs as well as characters, because paragraph spacing is what actually fills the
   column — the longest clause in the library is only 2149 characters, so a threshold set on

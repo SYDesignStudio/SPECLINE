@@ -1,0 +1,19 @@
+{
+  "_comment": [
+    "The practice whose name goes on a generated detail sheet. Copy this, fill it in, and",
+    "either pass it with --practice, set SPECLINE_PRACTICE to its path, or save it as",
+    "specline-practice.json in the directory ABOVE this repository — the same place the",
+    "database and the waiting list live, so it survives a deployment and is never web-served.",
+    "",
+    "This exists because a generated document carries the SUBSCRIBING practice's identity and",
+    "never the vendor's. With no profile the title block prints [Practice name] for someone to",
+    "fill in, which is the safe failure: a blank gets corrected, another firm's name might not.",
+    "",
+    "In the hosted app the same thing comes from the practices row for the signed-in account."
+  ],
+  "name": "Your Practice Ltd",
+  "designer": "A N Other",
+  "addr": "1 Example Street, Town, AB1 2CD",
+  "email": "info@yourpractice.co.uk",
+  "web": "www.yourpractice.co.uk"
+}

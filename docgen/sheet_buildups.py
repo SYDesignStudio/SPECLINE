@@ -4,6 +4,8 @@
     python docgen/sheet_buildups.py                 every build-up
     python docgen/sheet_buildups.py extension       one project type
     python docgen/sheet_buildups.py extension EW    one type, one reference group
+    python docgen/sheet_buildups.py --practice p.json   whose name goes in the title block
+    python docgen/sheet_buildups.py --practice brand    this installation's own practice
     python docgen/sheet_buildups.py --html          write the HTML and stop, no PDF
 
 Writes output/sheets/<type>/<REF>_<title>.pdf, and the HTML each was printed from.
@@ -46,36 +48,62 @@ def esc(s):
     return H.escape(str(s), quote=True)
 
 
-def practice():
-    """The practice whose name goes on the sheet, from docgen/brand.py.
+def practice(source=None):
+    """The practice whose name goes on the sheet — THE ONE USING THE TOOL.
 
-    One source, shared with the Word and PDF specification generator, so a sheet and a
-    specification issued on the same day cannot disagree about who drew them. Specline's own
-    name never appears here: the commercial rule is that a generated document carries the
-    subscribing practice's identity and nothing else.
+    This is the commercial rule in CLAUDE.md and it is not a preference: a specification or a
+    detail carries the subscribing practice's own identity, never the vendor's. No technologist
+    will issue a drawing to building control under another company's name. So this generator
+    hard-codes NO practice at all. It reads one, and if it is given none it prints placeholders
+    for a practice to fill in, which is the safe failure: an obviously blank title block gets
+    corrected, someone else's name on your drawing might not.
 
-    Project, client and the job number stay as placeholders on purpose. They belong to a job,
-    and these are library details — filling them in would be inventing a job that does not
-    exist.
+    Where it looks, in order:
+      --practice <file.json>          an explicit profile
+      SPECLINE_PRACTICE               the same, as an environment variable
+      ../specline-practice.json       beside the other per-installation data, above the repo
+      --practice brand                docgen/brand.py, this installation's own practice,
+                                      for SY Design Studio's in-house documents only
+
+    In the hosted app the equivalent profile is the `practices` row for the signed-in account,
+    which is where a sheet generated server-side would take it from.
+
+    Project, client and the job number are NOT filled from anywhere. They belong to a job, and
+    these are library details, so a value there would be an invented job.
     """
-    try:
-        sys.path.insert(0, os.path.join(ROOT, "docgen"))
-        from brand import PRACTICE
-        p = dict(PRACTICE)
-    except Exception:
-        p = {}
-    p.setdefault("name", "[Practice name]")
-    for k in ("designer", "addr", "email", "web"):
-        p.setdefault(k, "")
+    fields = ("name", "designer", "addr", "email", "web")
+    p, where = {}, "placeholders"
+
+    if source == "brand":
+        try:
+            sys.path.insert(0, os.path.join(ROOT, "docgen"))
+            from brand import PRACTICE
+            p, where = dict(PRACTICE), "docgen/brand.py"
+        except Exception as e:
+            print("  could not read docgen/brand.py (%s)" % e)
+    else:
+        path = source or os.environ.get("SPECLINE_PRACTICE") or \
+               os.path.join(os.path.dirname(ROOT), "specline-practice.json")
+        if path and os.path.isfile(path):
+            try:
+                p = json.load(open(path, encoding="utf-8"))
+                where = path
+            except Exception as e:
+                print("  could not read %s (%s)" % (path, e))
+
+    p = {k: str(p.get(k, "")).strip() for k in fields}
+    p["source"] = where
+    if not p["name"]:
+        p["name"] = "[Practice name]"
     parts = [w for w in re.split(r"[\s-]+", p["designer"]) if w]
     p["initials"] = "".join(w[0] for w in parts[:3]).upper() or "[XX]"
     p["date"] = __import__("datetime").date.today().strftime("%m.%y")
-    who = ("%s of %s" % (p["designer"], p["name"])) if p["designer"] else p["name"]
+    who = ("%s of %s" % (p["designer"], p["name"])) if p["designer"] else "The named designer"
     p["resp"] = ("All dimensions to be checked on site. Read in conjunction with the structural "
                  "engineer's drawings and the insulation manufacturer's current certificate. "
-                 "%s is the named designer and remains responsible for the suitability of this "
-                 "detail; compliance of the work is determined by the building control body."
-                 % who)
+                 "%s %s responsible for the suitability of this detail; compliance of the work "
+                 "is determined by the building control body."
+                 % (who, "is the named designer and remains" if p["designer"] else "remains"))
     return p
 
 
@@ -511,10 +539,21 @@ def build_sheet(rec, type_name):
 
 def main():
     global PRACTICE_
-    PRACTICE_ = practice()
-    print("  practice on the title block: %s%s"
-          % (PRACTICE_["name"], " / " + PRACTICE_["designer"] if PRACTICE_["designer"] else ""))
+    src = None
+    if "--practice" in sys.argv:
+        i = sys.argv.index("--practice")
+        if i + 1 < len(sys.argv):
+            src = sys.argv[i + 1]
+    PRACTICE_ = practice(src)
+    print("  practice on the title block: %s%s   (from %s)"
+          % (PRACTICE_["name"], " / " + PRACTICE_["designer"] if PRACTICE_["designer"] else "",
+             PRACTICE_["source"]))
+    if PRACTICE_["source"] == "placeholders":
+        print("  no practice profile found - the title block will print [Practice name] for the")
+        print("  practice to fill in. Pass --practice <file.json>, or see practice.example.json.")
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if src in args:
+        args.remove(src)
     html_only = "--html" in sys.argv
     data = json.load(open(SRC, encoding="utf-8"))
 
