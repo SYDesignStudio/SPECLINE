@@ -66,7 +66,7 @@ NEVER_A_LAYER = re.compile(
     r"studs? at|either side|each side|in every|at\s|from\b|of the\b|"
     r"overlap|laps?|bearing|cover|diameter|gauge|square|wide|deep|long|high|"
     r"and over\b|and in no case|is to be used|for both|to a minimum|where necessary|"
-    r"openings along|over \d|gap at|gap along|gap on|and free of|so that)", re.I)
+    r"openings along|over \d|gap at|gap along|gap on|and free of|so that|stud height)", re.I)
 
 # These may legitimately precede a material — "150mm minimum well-compacted hardcore" is a layer,
 # and so is "50mm clear ventilated and drained cavity". They veto only when nothing follows that
@@ -148,8 +148,7 @@ def _consider(t, phrase, raw, after, layers, notes):
     if t > 600:                      # no single layer in this library is thicker
         notes.append("skipped %gmm %s — too thick to be a layer" % (t, phrase[:40]))
         return
-    h = hatch_for(phrase)
-    if h is None:
+    if hatch_for(phrase) is None:
         # A layer with no identifiable material is prose the pattern happened to catch, not a
         # layer. Recorded rather than guessed, so `layers` stays safe to draw from.
         notes.append("not treated as a layer: '%s'" % phrase[:56])
@@ -162,6 +161,14 @@ def _consider(t, phrase, raw, after, layers, notes):
     if len(label) < 3:
         notes.append("not treated as a layer: '%s'" % phrase[:56])
         return
+    # The hatch follows the LABEL, not the phrase it was cut from. Reading it from the whole
+    # phrase drew "12.5mm plasterboard on a metal furring system with 100mm mineral wool in the
+    # void" as mineral wool, a 50mm clear cavity as brickwork and 150mm of joists as insulation —
+    # 20 layers across the set were drawn as the wrong material. Where the trimmed label names no
+    # material, keep the fuller phrase so the two still agree with each other.
+    h = hatch_for(label)
+    if h is None:
+        label, h = phrase, hatch_for(phrase)
     layers.append({"t": int(t) if t == int(t) else t, "material": label[:70],
                    "hatch": h, "read_from": raw, "_after": after})
 
@@ -172,11 +179,22 @@ WORKING = re.compile(r"calculat|W/m|achiev|U-value", re.I)   # the whole sentenc
 # "...board or a 90mm lining", "215mm dense blockwork or two leaves of 100mm blockwork" — an "or"
 # anywhere between the two figures makes the second a choice, not an extra band.
 ALTERNATIVE = re.compile(r"\bor\b", re.I)
+# Only the verb marks a sentence as arithmetic. W/mK appears in perfectly good layer phrases
+# ("100mm aircrete inner leaf of 0.11 W/mK"), so it cannot be the test.
+WORKING_SENTENCE = re.compile(r"calculat|achiev", re.I)
+# A phrase that names a cavity and nothing else — the restatement of one already read.
+BARE_CAVITY = re.compile(r"^(?:clear\s+|residual\s+|nominal\s+|minimum\s+){0,3}"
+                         r"(?:residual\s+)?cavit(?:y|ies)\b(?:\s+\w+){0,3}$", re.I)
+# The same test one level up, reading the words that come BEFORE the figure: "...to a solid wall,
+# or 62.5mm to an uninsulated cavity wall" offers a choice of construction, not a second band.
+OR_BEFORE = re.compile(r"\bor(?:\s+(?:an?|one|two|three|either))?"
+                       r"(?:\s+(?:layers?|leaves|leaf|sheets?))?(?:\s+of)?\s*$", re.I)
 CONNECTIVE = re.compile(r"^(or|and|with|by|in|on|so|of|at|to|from|as|is|are|both|leaves|remains|"
                         r"filling|between|above|below|over|under|that|which|where)\b", re.I)
 # and the label is trimmed where the noun phrase stops, so "cavity at 0" cannot masquerade
 # as a layer called "cavity".
-TAIL = re.compile(r"\s+(?:in|at|of|so|which|where|leaves|remains|is|are|both|tied|by|and|or|with)\b.*$", re.I)
+TAIL = re.compile(r"\s+(?:in|at|of|on|so|which|where|leaves|remains|is|are|both|tied|by|and|or|"
+                  r"with)\b.*$", re.I)
 
 
 def _rescue(window, layers, notes, context="", outer=None):
@@ -220,23 +238,61 @@ def _rescue(window, layers, notes, context="", outer=None):
                   re.sub(r"\s+", " ", window[im.end():im.end() + 90]), layers, notes)
 
 
-def layers_from(text):
+def layers_from(text, state=None):
     """Pull '103mm facing brick outer leaf' style layers out of a clause.
 
     Returns (layers, notes). Anything that looks like a spacing or a clearance rather than a
     layer is skipped, and the phrase each layer was read from is kept so it can be checked.
     """
     layers, notes, members = [], [], []
+    last_end = None                  # where the previous accepted figure finished
+    # Cavity figures already split into board + residual. Carried across the paragraphs of one
+    # build-up by the caller, because the clause states the cavity in the build-up paragraph and
+    # mentions it again several paragraphs later — "wall ties of the length specified for a 150mm
+    # cavity in BS EN 845-1" — and a set that reset each paragraph could not see the first.
+    cavities = state.setdefault("cavities", set()) if state is not None else set()
     for m in re.finditer(r"(\d+(?:\.\d+)?)\s*mm\s+([A-Za-z][^,;.()—]{2,70})", text):
         t = float(m.group(1))
         phrase = re.sub(r"\s+", " ", m.group(2)).strip()
         raw = re.sub(r"\s+", " ", m.group(0))[:90]
         after = re.sub(r"\s+", " ", text[m.end():m.end() + 90])   # for FILLS_THE_ZONE
 
+        # A sentence that works out a U-value is not a description of the construction, however
+        # many thicknesses it contains: "72.5mm board on a 215mm solid brick wall calculates at
+        # 0.28 and 62.5mm board on an uninsulated cavity wall at 0.28". Only the verb gives it
+        # away — W/mK appears in perfectly good layer phrases, so it cannot be the test.
+        s0 = text.rfind(". ", 0, m.start()) + 1
+        s1 = text.find(". ", m.end())
+        verb = WORKING_SENTENCE.search(text[s0:s1 if s1 > 0 else len(text)])
+        # Everything BEFORE the verb is still specification — "72.5mm K118 insulated
+        # plasterboard ... calculates at 0.28" names a real board. Only what follows it is
+        # working: "...and 62.5mm board on an uninsulated cavity wall at 0.28". Refusing the
+        # whole sentence emptied five retained-element build-ups that state the two together.
+        if verb and m.start() - s0 > verb.start():
+            notes.append("not a layer — %gmm follows the working in its sentence: '%s'"
+                         % (t, phrase[:48]))
+            continue
+
+        # ...and only where the option before it was itself recorded as a layer. "an independent
+        # stud lining or 72.5mm insulated plasterboard" offers a choice whose first half carries
+        # no figure, and dropping the second left that build-up with nothing to draw at all.
+        if OR_BEFORE.search(text[max(0, m.start() - 44):m.start()]) and \
+                last_end is not None and m.start() - last_end < 120:
+            notes.append("not a layer — %gmm is the alternative to the figure before it: '%s'"
+                         % (t, phrase[:48]))
+            continue
+
         # A member's cross-section. Held back and resolved after the loop, so that a member and
         # whatever fills it merge whichever order the clause names them in.
         mem = MEMBER.match(phrase)
         if mem:
+            if MEMBER.match(mem.group(2).strip()):
+                # "500 x 500mm x 700mm minimum set into the slab" — three dimensions makes it a
+                # sump or a pad, an object sitting in the construction rather than a thickness
+                # of it. A section through the floor does not cut it.
+                notes.append("not a layer — %gmm is a component, not a section: '%s'"
+                             % (t, phrase[:48]))
+                continue
             pair = sorted([float(m.group(1)), float(mem.group(1))])
             members.append({"breadth": pair[0], "depth": pair[1],
                             "what": mem.group(2).strip(), "at": len(layers), "raw": raw})
@@ -260,13 +316,25 @@ def layers_from(text):
                 continue
             if t - board > 0:
                 layers.append({"t": round(t - board, 1), "material": "residual cavity",
-                               "hatch": "void", "read_from": raw, "_after": after})
+                               "hatch": "void", "read_from": raw, "_after": after,
+                               "_split": True})
             cut = INNER.search(what)
             lbl = what[:cut.start()].strip(" ,;") if cut and cut.start() >= 3 else what
+            lbl = TAIL.sub("", lbl.strip(" ,;")).strip(" ,;") or what
             layers.append({"t": int(board) if board == int(board) else board,
-                           "material": lbl[:70], "hatch": hatch_for(what) or "ins",
+                           "material": lbl[:70],
+                           "hatch": hatch_for(lbl) or hatch_for(what) or "ins",
                            "read_from": raw, "_after": after})
+            cavities.update({t, round(t - board, 1)})
             _rescue(what, layers, notes, after)
+            continue
+
+        # A cavity already split into board and residual does not get counted again when the
+        # clause restates it: "a 150mm cavity with 100mm K108 ... and a 50mm clear residual
+        # cavity maintained" is one cavity described twice, and was drawn as 350mm of it.
+        if t in cavities and BARE_CAVITY.match(phrase):
+            notes.append("not a layer — %gmm restates a cavity already read: '%s'"
+                         % (t, phrase[:48]))
             continue
 
         # "18mm or 22mm moisture resistant chipboard" is one layer offered in two thicknesses,
@@ -279,6 +347,7 @@ def layers_from(text):
             phrase = window = alt.group(2).strip()
 
         _consider(t, phrase, raw, after, layers, notes)
+        last_end = m.end()
         _rescue(window, layers, notes, after, t)             # anything swallowed by this window
 
     # Members last. A rafter zone and the insulation between the rafters are one thickness of
@@ -307,9 +376,21 @@ def layers_from(text):
                       {"t": int(d) if d == int(d) else d,
                        "material": ("%g x %gmm %s" % (mb["breadth"], d, mb["what"]))[:70],
                        "hatch": h, "read_from": mb["raw"]})
+    # A cavity restated anywhere later in the clause is not a second cavity, whichever pass read
+    # it. "a 150mm cavity with 100mm K108 ... and a 50mm clear residual cavity maintained" had
+    # been drawn as 350mm of cavity in a 365mm wall.
+    keep = []
     for L in layers:
+        split = L.pop("_split", False)
+        if (not split and L.get("hatch") == "void"
+                and BARE_CAVITY.match((L.get("material") or "").strip())
+                and round(float(L["t"]), 1) in cavities):
+            notes.append("not a layer — %gmm restates a cavity already read: '%s'"
+                         % (float(L["t"]), (L.get("material") or "")[:48]))
+            continue
         L.pop("_after", None)
-    return layers, notes
+        keep.append(L)
+    return keep, notes
 
 
 def uvals(b):
@@ -351,9 +432,9 @@ def build():
             text = "\n".join(b["p"])
             # Every paragraph, not just the first: a floor states its hardcore, slab and screed
             # across several sentences and the first alone gives a third of the build-up.
-            layers, notes, seen = [], [], set()
+            layers, notes, seen, state = [], [], set(), {}
             for para in b["p"]:
-                ls, ns = layers_from(para)
+                ls, ns = layers_from(para, state)
                 notes += ns
                 for l in ls:
                     # the clause names the same layer more than once — the residual cavity is

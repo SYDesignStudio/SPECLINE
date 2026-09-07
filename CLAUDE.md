@@ -319,7 +319,44 @@ the phrase it was read from. Two limits worth knowing:
 - **An "A or B" pair keeps A.** `18mm or 22mm chipboard` is one layer offered in two thicknesses.
   Dropping the first instead left a stud partition with no studs.
 
-**Two of those 17 are probably duplicates, and both need an eye before issue**: `loft / Hip to
+### Reviewing the details — `docgen/detail_review.py`
+
+`python docgen/detail_review.py [type]` reads every extracted build-up against its own clause and
+reports; it never edits. `verify()` refuses what a regular expression can be certain of, and this
+is for everything else — the defects that need the layers and the clause read side by side, which
+is how both of the big ones were found. It exits non-zero on a FAIL.
+
+Its first run, on 7 September 2026, found **20 layers drawn as the wrong material**: the hatch was
+chosen from the whole matched phrase while the label was trimmed afterwards, so *"12.5mm
+plasterboard on a metal furring system with 100mm mineral wool in the void"* was drawn as mineral
+wool, a 50mm clear cavity as brickwork and 150mm of joists as insulation. **The hatch now follows
+the trimmed label**, falling back to the fuller phrase only when the label names no material, so
+the two always agree. Five more classes came out of the same pass:
+
+- **An "or" before the figure marks a choice, not another band** — but only where the option
+  before it was itself recorded, and within 120 characters. Without that guard, "an independent
+  stud lining or 72.5mm insulated plasterboard" lost its only layer.
+- **A sentence that works something out is specification up to the verb and arithmetic after it.**
+  "72.5mm K118 board ... calculates at 0.28 and 62.5mm board on a cavity wall at 0.28" — the first
+  figure is real, the second is the answer. Refusing the whole sentence emptied five retained-
+  element build-ups; refusing only what follows `calculat|achiev` gets both right. **W/mK cannot
+  be the test**: it appears in perfectly good layer phrases.
+- **Three dimensions makes a component, not a section.** `500 x 500mm x 700mm minimum set into the
+  slab` is a sump; a section through the floor does not cut it.
+- **A cavity is read once.** The clause states it in the build-up paragraph and mentions it again
+  paragraphs later ("ties of the length specified for a 150mm cavity in BS EN 845-1"), so the
+  cavity figures are carried across paragraphs in `state` — `layers_from()` is called per
+  paragraph, and a set that reset each time could not see the first mention. That wall was drawn
+  515.5mm against a real 365.5.
+- **Labels stop at `on` too**, so "100mm concrete on hardcore" is concrete rather than hardcore —
+  `hatch_for` matches hardcore first.
+
+After all of it: **0 FAIL, 0 warn, 341 layers, one build-up still flagged as implausibly thick**
+for someone to read. Watch for `\b` arriving as a literal backspace byte — it happened again here,
+in `BARE_CAVITY`, and the rule compiled and silently never fired. Use the editor, not a shell
+heredoc, for anything containing a regex escape.
+
+**Two recoveries are probably duplicates, and both need an eye before issue**: `loft / Hip to
 Gable — New Gable Wall` (402.5mm) and `newbuild / Suspended Timber Ground Floor — Insulation
 Between Joists` (542mm). In each the clause restates the build-up in a later sentence, or offers
 an alternative across a comma, and one sentence cannot see the other. **Reading two thicknesses
