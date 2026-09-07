@@ -298,11 +298,13 @@ Stainless steel wall ties fixed to the studs at 450mm vertical centres and at ev
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | 38 x 89mm C16 studs at 400mm centres with head and sole plates | **89** | `timber` |
-| 2 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **101.5** | |
+| 1 | plasterboard | **12.5** | `pboard` |
+| 2 | 38 x 89mm C16 studs at 400mm centres with head and sole plates | **89** | `timber` |
+| 3 | plasterboard | **12.5** | `pboard` |
+| | **Extracted total** | **114** | |
 
 - ⚠ not treated as a layer: 'centres with head and sole plates'
+- ⚠ lining mirrored to the other face — the clause lines both faces with it
 
 <details><summary>Clause</summary>
 
@@ -320,9 +322,12 @@ Internal stud partition to comprise 89mm x 38mm C16 studs at 400mm centres with 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | dense concrete blockwork to the structural engineer's specification | **100** | `dense` |
-| 2 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **112.5** | |
+| 1 | plasterboard | **12.5** | `pboard` |
+| 2 | dense concrete blockwork to the structural engineer's specification | **100** | `dense` |
+| 3 | plasterboard | **12.5** | `pboard` |
+| | **Extracted total** | **125** | |
+
+- ⚠ lining mirrored to the other face — the clause lines both faces with it
 
 <details><summary>Clause</summary>
 
@@ -340,15 +345,41 @@ Internal loadbearing masonry wall to comprise 100mm dense concrete blockwork to 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **12.5** | |
+| 1 | plasterboard to BS EN 520 lining | **12.5** | `pboard` |
+| 2 | mineral wool acoustic insulation between minimum galvanised steel C-section studs | **50** | `wool` |
+| 3 | minimum where the stud depth is shallower | **25** | `timber` |
+| 4 | plasterboard to BS EN 520 lining | **12.5** | `pboard` |
+| | **Extracted total** | **100** | |
 
-- ⚠ not a layer — 600mm reads as a spacing, a level or working: 'centres in matching floor and head channels'
+- ⚠ not a layer — 600mm reads as a spacing, a level or working: 'centres'
+- ⚠ not a layer — 0.5mm reads as a spacing, a level or working: 'gauge'
+- ⚠ not a layer — 400mm reads as a spacing, a level or working: 'centres where higher impact resistance is required o'
+- ⚠ not a layer — 300mm reads as a spacing, a level or working: 'centres'
+- ⚠ merged 50mm 'minimum galvanised steel C-section studs' into the zone it fills — one band, not two
+- ⚠ lining mirrored to the other face — the clause lines both faces with it
 
 <details><summary>Clause</summary>
 
 
-Internal partition of proprietary galvanised steel C-studs at 600mm centres in matching floor and head channels, to the system manufacturer's specification for the height and board configuration required. Infill the full stud depth with acoustic mineral wool and line both faces with 12.5mm plasterboard, joints staggered, taped and filled.
+Non-loadbearing internal partition of 12.5mm plasterboard to BS EN 520 lining both faces of 50mm minimum galvanised steel C-section studs, at 600mm centres, the stud depth infilled with 50mm mineral wool acoustic insulation of 10–45 kg/m³ density (25mm minimum where the stud depth is shallower). Studs in matching galvanised steel U-tracks at head and floor, all to BS EN 14195. Studs and tracks to be not less than 0.5mm gauge.
+
+
+Reduce the studs to 400mm centres where higher impact resistance is required or where the partition carries a heavy finish such as tiling. Head and floor tracks to be fixed securely to the substrate with fixings appropriate to it.
+
+
+Boards to BS EN 520, moisture-resistant in bathrooms and kitchens, fixed with drywall screws at 300mm centres, joints staggered and finished with joint tape and filler. Finish with a plaster skim.
+
+
+Where the partition forms part of a fire-resisting enclosure the lining is to be fireline plasterboard: one layer each side is the minimum for 30 minutes, and two layers each side where the manufacturer's tested detail requires it.
+
+
+Partitions separating bedrooms, bathrooms and habitable rooms are to achieve not less than 40 dB Rw airborne sound insulation in accordance with Approved Document E: fill the studs with mineral wool acoustic insulation of 10–45 kg/m³ and line each side with two layers of plasterboard, or use a proprietary system tested and certified to achieve the standard.
+
+
+Where the partition forms part of an escape route it is to give not less than 30 minutes fire resistance in accordance with Approved Document B. Use a proprietary system installed to the manufacturer's tested details — British Gypsum, Knauf, Siniat or equivalent.
+
+
+Services within the stud cavity to have cables protected by grommets, and any notching or opening of studs to follow the manufacturer's guidance.
 
 
 Provide proprietary fixing plates or timber pattresses at all fixings for sanitaryware, radiators and wall-hung items. All perimeters sealed.
@@ -969,11 +1000,13 @@ NOTE — Where the existing wall is a single-leaf solid wall, the new gable abov
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | 38 x 89mm C16 studs at 400mm centres | **89** | `timber` |
-| 2 | fire-rated plasterboard each face | **12.5** | `pboard` |
-| | **Extracted total** | **101.5** | |
+| 1 | fire-rated plasterboard each face | **12.5** | `pboard` |
+| 2 | 38 x 89mm C16 studs at 400mm centres | **89** | `timber` |
+| 3 | fire-rated plasterboard each face | **12.5** | `pboard` |
+| | **Extracted total** | **114** | |
 
 - ⚠ not treated as a layer: 'centres'
+- ⚠ lining mirrored to the other face — the clause lines both faces with it
 
 <details><summary>Clause</summary>
 
@@ -994,11 +1027,13 @@ Where the existing enclosure to the stair is retained, it is to be inspected and
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | 38 x 89mm C16 studs at 400mm centres with head and sole plates and sol | **89** | `timber` |
-| 2 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **101.5** | |
+| 1 | plasterboard | **12.5** | `pboard` |
+| 2 | 38 x 89mm C16 studs at 400mm centres with head and sole plates and sol | **89** | `timber` |
+| 3 | plasterboard | **12.5** | `pboard` |
+| | **Extracted total** | **114** | |
 
 - ⚠ not treated as a layer: 'centres with head and sole plates and solid n'
+- ⚠ lining mirrored to the other face — the clause lines both faces with it
 
 <details><summary>Clause</summary>
 
@@ -1149,7 +1184,7 @@ Provide a continuous vapour control layer on the warm side of the insulation, se
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | mineral wool quilt between ceiling joists | **100** | `wool` |
-| 2 | mineral wool quilt | **300** | `wool` |
+| 2 | mineral wool quilt laid cross-wise over the joists | **300** | `wool` |
 | | **Extracted total** | **400** | |
 
 - ⚠ not a layer — 10mm reads as a spacing, a level or working: 'gap at the eaves on two opposite sides'
@@ -1233,10 +1268,10 @@ Where floor joists run into the line of the wall, the wall is to be built off a 
 | 1 | or more closed-cell foam or 25mm mineral wool board with the edges tur | **10** | `wool` |
 | 2 | sand | **65** | `screed` |
 | 3 | tongued and grooved chipboard glued at the joints on 19mm plasterboard | **18** | `timber` |
-| 4 | plasterboard | **19** | `pboard` |
+| 4 | plasterboard plank | **19** | `pboard` |
 | | **Extracted total** | **112** | |
 
-- ⚠ not a layer — 25mm is an alternative or a continuation: 'mineral wool board with the edges turn'
+- ⚠ not a layer — 25mm is an alternative or a continuation: 'mineral wool board with the edges turned up at every'
 
 <details><summary>Clause</summary>
 
@@ -1406,11 +1441,13 @@ Work to the party wall is notifiable under the Party Wall etc. Act 1996 as the C
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | 38 x 89mm C16 studs at 400mm centres with head and sole plates and sol | **89** | `timber` |
-| 2 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **101.5** | |
+| 1 | plasterboard | **12.5** | `pboard` |
+| 2 | 38 x 89mm C16 studs at 400mm centres with head and sole plates and sol | **89** | `timber` |
+| 3 | plasterboard | **12.5** | `pboard` |
+| | **Extracted total** | **114** | |
 
 - ⚠ not treated as a layer: 'centres with head and sole plates and solid n'
+- ⚠ lining mirrored to the other face — the clause lines both faces with it
 
 <details><summary>Clause</summary>
 
@@ -1434,9 +1471,9 @@ Internal stud partition to comprise 89mm x 38mm C16 studs at 400mm centres with 
 | 1 | Kingspan Kooltherm K103 Floorboard | **80** | `ins` |
 | 2 | perimeter upstands | **25** | `ins` |
 | 3 | tongued and grooved P5 chipboard as a floating floor with a 10mm perim | **22** | `timber` |
-| | **Extracted total** | **127** | |
+| 4 | perimeter gap | **10** | `void` |
+| | **Extracted total** | **137** | |
 
-- ⚠ not treated as a layer: 'perime'
 - ⚠ not a layer — 65mm is the alternative to the figure before it: 'screed where headroom allows and the slab will c'
 - ⚠ not a layer — 60mm reads as a spacing, a level or working: 'calculates at 0'
 
@@ -1975,9 +2012,10 @@ NOTE — A timber frame infill panel behind a brick skin is not a substitute for
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | dense concrete blockwork off a new thickening | **100** | `dense` |
-| 2 | plasterboard each side | **12.5** | `pboard` |
-| | **Extracted total** | **112.5** | |
+| 1 | plasterboard each side | **12.5** | `pboard` |
+| 2 | dense concrete blockwork off a new thickening | **100** | `dense` |
+| 3 | plasterboard each side | **12.5** | `pboard` |
+| | **Extracted total** | **125** | |
 
 - ⚠ not treated as a layer: 'centres with 100mm mineral wool infill of 33 kg/m'
 - ⚠ not a layer — 100mm reads as a spacing, a level or working: 'above the garage floor or the garage floor laid to f'
@@ -1990,6 +2028,8 @@ NOTE — A timber frame infill panel behind a brick skin is not a substitute for
 - ⚠ not a layer — 89mm follows the working in its sentence: 'studs with K112 and 52'
 - ⚠ not a layer — 5mm follows the working in its sentence: 'insulated plasterboard at 0'
 - ⚠ not treated as a layer: 'step at the connecting door may be removed and the floor'
+- ⚠ lining mirrored to the other face — the clause lines both faces with it
+- ⚠ stud zone drawn undimensioned — the clause gives the centres and leaves the depth to the system manufacturer
 
 <details><summary>Clause</summary>
 
@@ -2529,13 +2569,15 @@ Internal loadbearing wall of 100mm aircrete or dense blockwork to the structural
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | 38 x 89mm C16 studs at 400mm centres with head and sole plates and sol | **89** | `timber` |
-| 2 | minimum mineral wool | **50** | `wool` |
-| 3 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **151.5** | |
+| 1 | plasterboard | **12.5** | `pboard` |
+| 2 | 38 x 89mm C16 studs at 400mm centres with head and sole plates and sol | **89** | `timber` |
+| 3 | minimum mineral wool | **50** | `wool` |
+| 4 | plasterboard | **12.5** | `pboard` |
+| | **Extracted total** | **164** | |
 
 - ⚠ not treated as a layer: 'centres with head and sole plates and solid n'
 - ⚠ not a layer — 1200mm reads as a spacing, a level or working: 'centres and at board edges'
+- ⚠ lining mirrored to the other face — the clause lines both faces with it
 
 <details><summary>Clause</summary>
 
@@ -2597,11 +2639,12 @@ This build-up calculates at 0.12 W/m²K to BS EN ISO 13370 for a floor with a pe
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | minimum well compacted hardcore | **150** | `hard` |
-| 2 | minimum GEN1 or RC25/30 concrete slab reinforced with A142 mesh where  | **100** | `conc` |
-| 3 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
-| 4 | perimeter upstands | **25** | `ins` |
-| 5 | screed | **75** | `screed` |
-| | **Extracted total** | **480** | |
+| 2 | sand | **50** | `screed` |
+| 3 | minimum GEN1 or RC25/30 concrete slab reinforced with A142 mesh where  | **100** | `conc` |
+| 4 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
+| 5 | perimeter upstands | **25** | `ins` |
+| 6 | screed | **75** | `screed` |
+| | **Extracted total** | **530** | |
 
 <details><summary>Clause</summary>
 
@@ -2762,7 +2805,7 @@ This build-up calculates at 0.11 W/m²K to BS EN ISO 6946 at 400mm rafter centre
 - ⚠ not treated as a layer: 'laid cross-wise over'
 - ⚠ not treated as a layer: 'galvanised straps 1m long'
 - ⚠ not a layer — 10mm reads as a spacing, a level or working: 'gap at the eaves on two opposite sides with 25mm pro'
-- ⚠ not treated as a layer: 'proprietary eaves vent'
+- ⚠ not treated as a layer: 'proprietary eaves ventilators and insulation stops to ke'
 - ⚠ not a layer — 400mm follows the working in its sentence: 'centres'
 - ⚠ not a layer — 300mm follows the working in its sentence: 'total calculates at 0'
 - ⚠ layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out
@@ -2899,13 +2942,15 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | dense aggregate or aircrete blockwork of the density required by the c | **100** | `block` |
-| 2 | minimum cavity | **75** | `void` |
-| 3 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **187.5** | |
+| 1 | plasterboard | **12.5** | `pboard` |
+| 2 | dense aggregate or aircrete blockwork of the density required by the c | **100** | `block` |
+| 3 | minimum cavity | **75** | `void` |
+| 4 | plasterboard | **12.5** | `pboard` |
+| | **Extracted total** | **200** | |
 
 - ⚠ not a layer — 13mm is the alternative to the figure before it: 'plaster where the Robust Detail requires a wet f'
 - ⚠ not a layer — 700mm reads as a spacing, a level or working: 'of the separating wall'
+- ⚠ lining mirrored to the other face — the clause lines both faces with it
 
 <details><summary>Clause</summary>
 
@@ -2929,7 +2974,7 @@ Where the wall is built to a Robust Detail, the plots are to be registered with 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | metal C studs | **70** | `timber` |
+| 1 | metal C studs | **70** | `metal` |
 | 2 | minimum overall thickness with a 50mm minimum gap between the frames | **240** | `void` |
 | 3 | minimum gap between the frames | **50** | `void` |
 | 4 | minimum mineral wool | **60** | `wool` |
@@ -2959,7 +3004,7 @@ The wall is to be carried through the floor zone with the floor deck stopped eac
 | 1 | dense blockwork | **215** | `dense` |
 | | **Extracted total** | **215** | |
 
-- ⚠ not a layer — 100mm is an alternative or a continuation: 'blockwork as the separating wall'
+- ⚠ not a layer — 100mm is an alternative or a continuation: 'blockwork as the separating wall build-up'
 
 <details><summary>Clause</summary>
 
@@ -2986,7 +3031,7 @@ Letter plates and services through the wall are to be fire stopped or fitted wit
 | 4 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **277.5** | |
 
-- ⚠ not a layer — 100mm is an alternative or a continuation: 'min'
+- ⚠ not a layer — 100mm is an alternative or a continuation: 'mineral wool in the void'
 
 <details><summary>Clause</summary>
 
@@ -3047,7 +3092,7 @@ NOTE — Impact sound is the usual failure on flats. A resilient layer that is b
 | | **Extracted total** | **382** | |
 
 - ⚠ not a layer — 400mm is an alternative or a continuation: 'or 600mm centres to'
-- ⚠ not treated as a layer: 'tongued and grooved chipboard on a resilien'
+- ⚠ not treated as a layer: 'tongued and grooved chipboard on a resilient layer of mi'
 
 <details><summary>Clause</summary>
 
@@ -3180,12 +3225,14 @@ NOTE — Timber frame is permitted by the Regulations at any height below 18m, b
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | metal C studs | **70** | `timber` |
-| 2 | minimum mineral wool | **50** | `wool` |
-| 3 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **132.5** | |
+| 1 | plasterboard | **12.5** | `pboard` |
+| 2 | metal C studs | **70** | `metal` |
+| 3 | minimum mineral wool | **50** | `wool` |
+| 4 | plasterboard | **12.5** | `pboard` |
+| | **Extracted total** | **145** | |
 
 - ⚠ not a layer — 89mm is a member named inside another phrase: 'x 38mm timber studs at 400mm or 600mm cen'
+- ⚠ lining mirrored to the other face — the clause lines both faces with it
 
 <details><summary>Clause</summary>
 
@@ -3378,15 +3425,16 @@ Where the neighbour's cellar or basement is unheated the wall is a thermal eleme
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | metal C studs | **70** | `timber` |
+| 1 | metal C studs | **70** | `metal` |
 | 2 | minimum mineral wool infill | **50** | `wool` |
-| 3 | plasterboard each side | **5** | `pboard` |
-| 4 | plasterboard | **12.5** | `pboard` |
-| 5 | blockwork may be used | **100** | `dense` |
-| | **Extracted total** | **237.5** | |
+| 3 | plasterboard each side | **12.5** | `pboard` |
+| 4 | plasterboard each side | **5** | `pboard` |
+| 5 | plasterboard | **12.5** | `pboard` |
+| 6 | blockwork may be used | **100** | `dense` |
+| | **Extracted total** | **250** | |
 
-- ⚠ not a layer — 89mm is a member named inside another phrase: 'x 38mm treated timber studs at 600mm centres with'
-- ⚠ not a layer — 15mm is an alternative or a continuation: 'fire-resisting board on the room side and F'
+- ⚠ not a layer — 89mm is a member named inside another phrase: 'x 38mm treated timber studs at 600mm centres with th'
+- ⚠ not a layer — 15mm is an alternative or a continuation: 'fire-resisting board on the room side and FD30S door'
 
 <details><summary>Clause</summary>
 
@@ -3472,7 +3520,7 @@ NOTE — Every tie that penetrates the cavity drain membrane is a potential leak
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | metal studs set | **70** | `timber` |
+| 1 | metal studs set | **70** | `metal` |
 | 2 | insulated plasterboard lining | **37.5** | `ins` |
 | | **Extracted total** | **107.5** | |
 
@@ -3607,7 +3655,7 @@ Type C cavity drainage floor membrane with perimeter channel and sump as BF1, 80
 | 5 | sand | **75** | `screed` |
 | | **Extracted total** | **450** | |
 
-- ⚠ not treated as a layer: 'compacted clean stone with a perimeter land drain w'
+- ⚠ not treated as a layer: 'compacted clean stone with a perimeter land drain where '
 - ⚠ not a layer — 8mm reads as a spacing, a level or working: 'stud height with all joints taped'
 - ⚠ not a layer — 500mm is a component, not a section: 'x 500mm x 700mm minimum set into the slab'
 
@@ -3754,7 +3802,7 @@ NOTE — The separating wall is also a thermal element of the house where the ga
 | | **Extracted total** | **493** | |
 
 - ⚠ not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres and at not mor'
-- ⚠ not treated as a layer: 'horizontal centres and at not more than 300mm vertic'
+- ⚠ not treated as a layer: 'horizontal centres and at not more than 300mm vertical c'
 - ⚠ not treated as a layer: 'of jambs'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'above ground'
 - ⚠ not a layer — 12.5mm follows the working in its sentence: 'plasterboard on dabs'
@@ -3782,6 +3830,7 @@ Where the garage is attached to the dwelling, the garage external wall is to be 
 | 2 | facing brick | **5** | `brick` |
 | | **Extracted total** | **105** | |
 
+- ⚠ not a layer — 102.5mm is an alternative or a continuation: 'facing brick in 1:1:6 mortar'
 - ⚠ not treated as a layer: 'of an unpiered corner'
 - ⚠ not treated as a layer: 'x 325mm'
 - ⚠ not treated as a layer: 'attached piers'
@@ -4013,4 +4062,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T22:14:16+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T22:36:08+00:00*

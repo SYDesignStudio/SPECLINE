@@ -178,6 +178,10 @@ DEFS = """<defs>
     <circle cx="4" cy="5" r="1.1" fill="#A9A8A2"/><circle cx="13" cy="11" r="1.1" fill="#A9A8A2"/>
     <circle cx="8" cy="15" r="0.9" fill="#A9A8A2"/>
   </pattern>
+  <pattern id="p-metal" width="34" height="34" patternUnits="userSpaceOnUse">
+    <rect width="34" height="34" fill="#E7EAEC"/>
+    <path d="M0 34 L34 0 M-8 8 L8 -8 M26 42 L42 26" stroke="#9BA6AD" stroke-width="1.9"/>
+  </pattern>
   <pattern id="p-timber" width="110" height="110" patternUnits="userSpaceOnUse">
     <rect width="110" height="110" fill="#F0E4CE"/>
     <path d="M-12 96 q55 -34 122 0 M-12 70 q55 -34 122 0 M-12 44 q55 -34 122 0 M-12 18 q55 -34 122 0"
@@ -214,6 +218,7 @@ FILL = {"brick": "url(#p-brick)", "block": "url(#p-block)", "dense": "url(#p-den
         "ins": "url(#p-ins)", "wool": "url(#p-wool)", "timber": "url(#p-timber)",
         "conc": "url(#p-conc)", "lean": "url(#p-lean)", "screed": "url(#p-screed)",
         "hard": "url(#p-hard)", "earth": "url(#p-earth)", "pboard": "url(#p-pboard)",
+        "metal": "url(#p-metal)",
         "membrane": "#8A5A52", "void": "#FFFFFF"}
 
 
@@ -257,15 +262,82 @@ def layer_fill(parts, i, mat, t, across):
     return FILL.get(mat, "#FFF")
 
 
+MEMBER_IN = re.compile(r"\bstuds?\b|\bjoists?\b|\brafters?\b", re.I)
+AT_CENTRES = re.compile(r"\bat\s+(\d{3,4})\s*mm\s+centres", re.I)
+CORE_W = 100.0          # drawing width for a stud zone the clause does not size. Never printed.
+
+
+def stud_zone(rec):
+    # Wall ties are specified at VERTICAL centres, so a wall that has them is a vertical section
+    # and its studs cannot be shown at their spacing in that view. Partitions have no ties, and
+    # they are the ones read in plan.
+    if tie_spec(rec["clause"]):
+        return None
+    """Where the studs are, and at what centres — from a sized layer or from an unsized core.
+
+    A partition is read in plan: the studs march along the wall at their centres, and that is
+    what makes it a stud partition rather than a solid one. A vertical section cannot show them
+    at all, which is why the metal stud partition sheet was two lines of plasterboard.
+    """
+    for i, l in enumerate(rec["layers"]):
+        mat = l.get("material") or ""
+        m = AT_CENTRES.search(mat)
+        # the band may be hatched as whatever fills it — a stud zone merged with its insulation
+        # is drawn as the insulation, and the studs are drawn over it
+        if l.get("hatch") in ("timber", "metal") or MEMBER_IN.search(mat):
+            # the centres come from the band where it states them, and from the clause where the
+            # band is a merged zone whose label kept the material but not the spacing
+            c = m or next((x for para in rec["clause"]
+                           for x in [AT_CENTRES.search(para)] if x), None)
+            if c:
+                metal = re.search(r"metal|steel|galvanised", mat, re.I)
+                return {"i": i, "centres": float(c.group(1)),
+                        "hatch": "metal" if metal else "timber", "core": False}
+    c = rec.get("stud_core")
+    if c:
+        return {"i": None, "centres": c["centres"], "hatch": c["hatch"], "core": True,
+                "fill": c.get("fill"), "note": c["note"]}
+    return None
+
+
+def studs(x0, x1, H_, centres, hatch):
+    """C-sections at their centres, drawn as they are cut in plan."""
+    out, y = [], centres * 0.5
+    w = x1 - x0
+    while y < H_ - 10:
+        if hatch == "metal":
+            # A C-stud cut in plan: the web runs across the wall thickness with a flange at each
+            # end, both turned the same way. Drawn the other way round it is not a C.
+            out.append('<path d="M%.1f %.1f L%.1f %.1f L%.1f %.1f L%.1f %.1f" fill="none" '
+                       'stroke="#1B1B1B" stroke-width="5" stroke-linejoin="miter" '
+                       'stroke-linecap="square"/>'
+                       % (x0, y + 22, x0, y, x1, y, x1, y + 22))
+        else:
+            out.append('<rect x="%.1f" y="%.1f" width="%.1f" height="48" fill="url(#p-timber)" '
+                       'stroke="#1B1B1B" stroke-width="3"/>' % (x0, y - 24, w))
+        y += centres
+    return out
+
+
 def wall_svg(rec, sents):
-    layers = rec["layers"]
-    total = sum(l["t"] for l in layers)
+    layers = list(rec["layers"])
+    zone = stud_zone(rec)
+    core_at = None
+    if zone and zone["core"]:
+        # an undimensioned zone between the two linings: the clause gives the centres and leaves
+        # the depth to the system, so the drawing shows the studs and states no thickness
+        core_at = 1 if len(layers) > 1 else len(layers)
+        layers = layers[:core_at] + [{"t": CORE_W, "material": "", "_core": True,
+                                      "hatch": zone.get("fill") or zone["hatch"]}] + layers[core_at:]
+        zone["i"] = core_at
+    total = sum(float(l["t"]) for l in layers)
     ties = tie_spec(rec["clause"])
     H_ = WALL_H
     parts = [DEFS]
 
     # the layers
     pos = 0.0
+    bands = []
     for i, l in enumerate(layers):
         t = float(l["t"])
         mat = l["hatch"] or "void"
@@ -273,7 +345,11 @@ def wall_svg(rec, sents):
                      % (pos, t, H_, layer_fill(parts, i, mat, t, False)))
         if mat in COURSE:
             parts += courses(pos, 0, pos + t, H_, COURSE[mat], False)
+        bands.append((pos, pos + t))
         pos += t
+    if zone and zone["i"] is not None:
+        x0, x1 = bands[zone["i"]]
+        parts += studs(x0, x1, H_, zone["centres"], zone["hatch"])
 
     # wall ties, only where the clause asks for them, at its centres, falling to the outer leaf
     if ties:
@@ -299,13 +375,20 @@ def wall_svg(rec, sents):
         parts.append('<path d="M%.1f %.1f h%.1f" stroke="#1B1B1B" stroke-width="2.2" stroke-dasharray="26 16"/>'
                      % (-26, y, total + 52))
 
-    # overall dimension across the top
+    # Overall dimension across the top — but only when the whole thickness is stated. Where the
+    # clause leaves the stud depth to the system there is no overall figure to give, and printing
+    # one drawn off a nominal band would be inventing the very number the clause declines to fix.
     dy = -96
-    parts.append('<path d="M0 %.1f h%.1f" stroke="#1B1B1B" stroke-width="1.8"/>' % (dy, total))
-    for x in (0, total):
-        parts.append('<path d="M%.1f %.1f v%.1f" stroke="#1B1B1B" stroke-width="1.8"/>' % (x, dy - 20, 40))
-    parts.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="%g" fill="#1B1B1B">%g</text>'
-                 % (total / 2, dy - 26, TXT, total))
+    if not (zone and zone["core"]):
+        parts.append('<path d="M0 %.1f h%.1f" stroke="#1B1B1B" stroke-width="1.8"/>' % (dy, total))
+        for x in (0, total):
+            parts.append('<path d="M%.1f %.1f v%.1f" stroke="#1B1B1B" stroke-width="1.8"/>' % (x, dy - 20, 40))
+        parts.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="%g" fill="#1B1B1B">%g</text>'
+                     % (total / 2, dy - 26, TXT, total))
+    else:
+        parts.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="%g" '
+                     'fill="#1B1B1B">STUD DEPTH TO THE SYSTEM SPECIFICATION</text>'
+                     % (total / 2, dy - 26, TXT_S))
 
     # the tie spacing chain down the left
     if ties:
@@ -324,7 +407,7 @@ def wall_svg(rec, sents):
     # leaders and the sentence from the clause for each layer
     used = set()
     ctext = " ".join(rec["clause"])
-    notes = [(l, note_for(l, ctext, used)) for l in layers]
+    notes = [(l, (zone["note"] if l.get("_core") else note_for(l, ctext, used))) for l in layers]
     if ties and ties["note"]:
         notes.append((None, ties["note"]))
     lx = total + 250
@@ -693,6 +776,9 @@ def build_sheet(rec, type_name):
                 'thickness.</div>' % esc(rec["verified_table"]))
 
     section = "Typical vertical section" if horiz else "Typical section"
+    if horiz and stud_zone(rec):
+        # studs march along the wall, so the view that shows them is a plan
+        section = "Typical plan section"
     # How much room the specification needs, not just how many characters it has. Each
     # paragraph costs a blank line, and the layer-table flag costs a box; the longest clause in
     # the library is only 2149 characters, so a threshold set on characters alone never fired

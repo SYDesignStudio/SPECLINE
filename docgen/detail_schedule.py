@@ -96,10 +96,15 @@ HATCH = [
      r"solid brick|brick wall|brickwork", "brick"),
     (r"aircrete|thermalite|celcon|blockwork inner|block inner|aerated block", "block"),
     (r"dense concrete block|dense block|concrete block|block wall|blockwork|\bblock\b", "dense"),
+    (r"mineral wool|rockwool|dritherm|knauf|glass wool|quilt|cavity barrier|acoustic (?:roll|quilt)", "wool"),
     (r"kooltherm|celotex|sopratherm|xtratherm|unilin|ecotherm|thermaroof|thermafloor|thermawall|"
      r"pir\b|phenolic|rigid (?:urethane )?insulation|insulation board|insulated plasterboard|"
      r"polystyrene|eps\b|xps\b|foam board|k1\d\d|t[rf]\d\d|cw4000|ga4000|xt/|upstand|insulation", "ins"),
-    (r"mineral wool|rockwool|dritherm|knauf|glass wool|quilt|cavity barrier|acoustic (?:roll|quilt)", "wool"),
+    # Steel before timber: the timber rule matches "stud", so a galvanised steel C-stud was being
+    # drawn with a wood grain. A metal stud partition is a different thing to build and to fire
+    # stop, and the drawing should say so.
+    (r"metal (?:c[- ])?studs?|steel c-?studs?|light gauge steel|metal furring|steel frame|"
+     r"galvanised steel|metal channels?|resilient bar", "metal"),
     (r"joist|rafter|stud|batten|counter-batten|timber|softwood|plywood|osb|sole plate|wall plate|"
      r"noggin|firring|deck|fascia|soffit|chipboard|t&g|tongued and grooved|plank flooring|"
      r"flooring grade|floorboard", "timber"),
@@ -107,7 +112,7 @@ HATCH = [
     (r"hardcore|sub-base|compacted fill", "hard"),
     (r"lean mix|lean-mix", "lean"),
     (r"concrete|slab|raft|beam and block", "conc"),
-    (r"plasterboard|plaster|skim|dab|lining board|render", "pboard"),
+    (r"plasterboard|gypsum board|fireline|wallboard|plaster|skim|dab|lining board|render", "pboard"),
     (r"subsoil|ground|earth|topsoil", "earth"),
     (r"sand blinding|blinding|\bsand\b", "screed"),
     (r"membrane|dpm|dpc|vapour control|vcl|breather|underlay|radon", "membrane"),
@@ -197,7 +202,7 @@ TAIL = re.compile(r"\s+(?:in|at|of|on|so|which|where|leaves|remains|is|are|both|
                   r"with)\b.*$", re.I)
 
 
-def _rescue(window, layers, notes, context="", outer=None):
+def _rescue(window, layers, notes, context="", outer=None, limit=None):
     """Thicknesses named inside another match's window.
 
     That window is greedy to 70 characters because the cavity split and the member rule both have
@@ -211,6 +216,12 @@ def _rescue(window, layers, notes, context="", outer=None):
     if WORKING.search(window + " " + context):
         return          # the sentence is about the U-value, so every figure in it is working
     for im in INNER.finditer(window):
+        # A match must START inside the caller's window; the window is allowed to run on a little
+        # so a phrase clipped by the 70-character cut can finish. Without that, "...both faces of
+        # 50mm minimum galvanised" lost the studs — the words naming them fell the wrong side of
+        # the cut and what was left matched no material at all.
+        if limit is not None and im.start() >= limit:
+            break
         inner = re.sub(r"\s+", " ", im.group(2)).strip()
         t = float(im.group(1))
         # A member is only recognised at the top level, where the merge that stops a rafter zone
@@ -250,6 +261,67 @@ INSIDE_FACE = ("pboard",)
 
 MEMBER_WORD = re.compile(r"\brafters?|joists?|studs?\b", re.I)
 
+# "line both faces with 12.5mm plasterboard" is two boards. The extractor reads the figure once,
+# so every stud partition in the library was drawn with plasterboard on one side only — which is
+# not a partition. The phrase has to sit in the same sentence as the board, or "damp proof courses
+# in both leaves" would mirror a lining that is only ever on one face.
+BOTH_FACES = re.compile(r"both faces|both sides|each side|each face|either side", re.I)
+LINING = re.compile(r"plasterboard|lining board|wallboard", re.I)
+
+# A partition whose studs the clause places but does not size. "proprietary galvanised steel
+# C-studs at 600mm centres ... to the system manufacturer's specification" gives the centres and
+# defers the depth, which is right — the depth belongs to the system, not to us. The drawing may
+# not invent one, so the core is recorded WITHOUT a thickness and the sheet draws it as an
+# undimensioned zone with the studs at the centres the clause does give. Left alone, the sheet
+# was two sheets of plasterboard with nothing between them.
+STUD_CENTRES = re.compile(r"\b(?:C-?)?studs?\b[^.]{0,60}?\bat\s+(\d{3,4})\s*mm\s+centres", re.I)
+METAL_STUD = re.compile(r"metal|steel|galvanised", re.I)
+
+
+def stud_core(group, layers, clause, notes):
+    """The stud zone of a partition whose depth the clause leaves to the system."""
+    if group not in ("IW", "SW"):
+        return None
+    if any(l.get("hatch") in ("timber", "metal") or MEMBER_WORD.search(l.get("material") or "")
+           for l in layers):
+        return None          # the studs are already in a band, merged or drawn
+    for para in clause:
+        for s in re.split(r"(?<=[.;])\s+", para):
+            m = STUD_CENTRES.search(s)
+            if m:
+                notes.append("stud zone drawn undimensioned — the clause gives the centres and "
+                             "leaves the depth to the system manufacturer")
+                # what fills between the studs, if the clause says: the zone is drawn as the
+                # infill with the studs over it, which is what the wall actually is.
+                fill = None
+                for p2 in clause:
+                    if re.search(r"infill[^.]{0,80}(mineral wool|quilt|insulation)", p2, re.I):
+                        fill = "wool"
+                        break
+                return {"centres": float(m.group(1)),
+                        "hatch": "metal" if METAL_STUD.search(s) else "timber",
+                        "fill": fill,
+                        "note": re.sub(r"\s+", " ", s).strip()}
+    return None
+
+
+def line_both_faces(group, layers, clause, notes):
+    if group not in ("IW", "SW", "EW", "BW") or not layers:
+        return layers
+    said = any(BOTH_FACES.search(s) and LINING.search(s)
+               for para in clause for s in re.split(r"(?<=[.;])\s+", para))
+    if not said:
+        return layers
+    boards = [i for i, l in enumerate(layers) if l.get("hatch") == "pboard"]
+    if len(boards) != 1 or boards[0] not in (0, len(layers) - 1):
+        return layers            # already two, or in the middle: leave it alone
+    if all(l.get("hatch") == "pboard" for l in layers):
+        return layers            # nothing between the faces to line — see STUD_CENTRES
+    b = layers[boards[0]]
+    notes.append("lining mirrored to the other face — the clause lines both faces with it")
+    twin = dict(b, material=b["material"])
+    return ([twin] + layers) if boards[0] == len(layers) - 1 else (layers + [twin])
+
 
 def merge_member_fill(layers, notes):
     """A member zone and the insulation filling it are one band, across paragraph boundaries.
@@ -266,8 +338,9 @@ def merge_member_fill(layers, notes):
             prev = out[-1]
             same_t = abs(float(prev["t"]) - float(l["t"])) < 0.51
             pair = {prev.get("hatch"), l.get("hatch")}
-            if same_t and pair in ({"timber", "ins"}, {"timber", "wool"}):
-                member = prev if prev.get("hatch") == "timber" else l
+            if same_t and pair in ({"timber", "ins"}, {"timber", "wool"},
+                                   {"metal", "ins"}, {"metal", "wool"}):
+                member = prev if prev.get("hatch") in ("timber", "metal") else l
                 fill = l if member is prev else prev
                 if MEMBER_WORD.search(member.get("material") or ""):
                     notes.append("merged %gmm '%s' into the zone it fills — one band, not two"
@@ -400,7 +473,16 @@ def layers_from(text, state=None):
 
         _consider(t, phrase, raw, after, layers, notes)
         last_end = m.end()
-        _rescue(window, layers, notes, after, t)             # anything swallowed by this window
+        # Anything swallowed by this window, with a short run-on so a phrase clipped by the
+        # 70-character cut can finish. The run-on is rebuilt from the ORIGINAL text and then
+        # normalised, because gluing two separately-normalised pieces either splits a word or
+        # welds two together — both recorded a phrase that appears in no clause.
+        if alt:
+            _rescue(window, layers, notes, after, t)
+        else:
+            run_on = re.sub(r"\s+", " ", m.group(2) + text[m.end():m.end() + 44])
+            _rescue(run_on, layers, notes, after, t,
+                    limit=len(re.sub(r"\s+", " ", m.group(2))))
 
     # Members last. A rafter zone and the insulation between the rafters are one thickness of
     # roof, not two, so a member is folded into the layer that fills it — by an equal thickness
@@ -502,6 +584,7 @@ def build():
                     seen.add(k)
                     layers.append(l)
             layers = face_order(b["g"], merge_member_fill(layers, notes), notes)
+            layers = line_both_faces(b["g"], layers, b["p"], notes)
             got, tgt = uvals(b)
             unmatched += sum(1 for l in layers if l["hatch"] is None)
             rec = {"group": b["g"], "group_name": GROUPS.get(b["g"], b["g"]),
@@ -512,6 +595,7 @@ def build():
                    "total_mm": round(sum(l["t"] for l in layers), 1) if layers else None,
                    "extraction_notes": notes,
                    "verified_table": VERIFIED.get((key, b["t"])),
+                   "stud_core": stud_core(b["g"], layers, b["p"], notes),
                    "clause": b["p"]}
             doc["types"][key]["buildups"].append(rec)
 

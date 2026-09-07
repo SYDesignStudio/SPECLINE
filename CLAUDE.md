@@ -406,6 +406,34 @@ full specification on the right, the scale note, and a title block. Four things 
   current month fill *date / drawn*; the responsibility note names the designer. Project,
   client and job number are never filled from anywhere — they belong to a job, and these are
   library details, so a value there would be an invented job.
+- **A partition is drawn in plan, with its studs** (`stud_zone`, `studs`). Studs march along the
+  wall at their centres, so a vertical section cannot show them at all — the metal stud partition
+  sheet was two lines of plasterboard and nothing else. Those sheets are captioned *typical plan
+  section*, and the studs are drawn at the centres the clause gives: a C-stud as web-across-the-
+  thickness with a flange at each end turned the same way, a timber stud as its full section.
+- **Steel is not timber.** The `timber` hatch pattern matches "stud", so galvanised steel C-studs
+  were drawn with a wood grain in four build-ups. `metal` now comes first in `HATCH`.
+- **"Line both faces with 12.5mm plasterboard" is two boards** (`line_both_faces`). The extractor
+  reads the figure once, so **every stud partition in the library was drawn with plasterboard on
+  one side only**, which is not a partition. The phrase has to sit in the same sentence as the
+  board, or "damp proof courses in both leaves" would mirror a lining that is only ever on one
+  face; and a wall lined on both faces is exempted from the review's inside-out test, because it
+  has no outer face.
+- **Mineral wool is not rigid board.** The `ins` rule matched the bare word *insulation*, so
+  "mineral wool acoustic insulation" was hatched as a PIR board. `wool` now comes first. Gypsum
+  board, fireline and wallboard are plasterboard, which they were not.
+- **A phrase clipped by the 70-character window is allowed to finish.** The rescue pass searches
+  the window plus a short run-on, accepting only matches that *start* inside the window. Rebuild
+  that run-on from the original text and normalise once: gluing two separately-normalised pieces
+  split a word ("10mm perime" + "ter gap") or welded two together ("plasterboardplank"), and the
+  review caught both as lost provenance.
+- **A stud depth the clause declines to fix is drawn undimensioned** (`stud_core`). "Proprietary
+  galvanised steel C-studs at 600mm centres ... to the system manufacturer's specification" gives
+  the centres and defers the depth, which is correct — the depth belongs to the system. So the
+  zone is drawn at a nominal width that is **never printed**, hatched as whatever the clause says
+  fills it, with the studs over it, and the overall dimension is replaced by *stud depth to the
+  system specification*. Printing a total measured off a nominal band would invent the one number
+  the clause deliberately leaves open.
 - **A pitched roof is drawn on the slope** (`pitched_svg`), with the tiles, battens and underlay
   above the structure and a break line at the eaves end. Flat roofs and warm decks stay flat,
   because they are flat. The pitch is **indicative and never dimensioned** — the library does not

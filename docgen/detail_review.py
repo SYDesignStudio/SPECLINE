@@ -84,7 +84,8 @@ def review(doc, only=None):
             # 5. a wall read inside-out
             if g in FINISH_LAST and len(ls) > 2:
                 hs = [L.get("hatch") for L in ls]
-                if hs[0] == "pboard" and any(h in ("brick", "block", "dense") for h in hs[1:]):
+                lined_both = hs[0] == "pboard" and hs[-1] == "pboard"
+                if not lined_both and hs[0] == "pboard" and                         any(h in ("brick", "block", "dense") for h in hs[1:]):
                     add("FAIL", tk, b, "drawn inside-out: the internal finish is the outer layer")
 
             # 6. does it finish anywhere sensible
