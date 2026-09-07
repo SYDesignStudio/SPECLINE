@@ -1076,13 +1076,13 @@ Falls to be a minimum finished 1:40. Cold deck construction is not to be used. P
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | 47 x 150mm C24 rafters at 400mm centres to the structural engineer's d | **150** | `timber` |
-| 2 | Kingspan Kooltherm K107 Pitched Roof Board | **150** | `ins` |
-| 3 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters | **62.5** | `ins` |
-| | **Extracted total** | **362.5** | |
+| 1 | Kingspan Kooltherm K107 Pitched Roof Board between 47 x 150mm C24 rafters at 400mm centres | **150** | `ins` |
+| 2 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters | **62.5** | `ins` |
+| | **Extracted total** | **212.5** | |
 
 - ⚠ not treated as a layer: 'centres to the structural engineer's desig'
 - ⚠ not a layer — 400mm follows the working in its sentence: 'rafter centres allowing for rafter bridging and '
+- ⚠ merged 150mm '47 x 150mm C24 rafters at 400mm centres to t' into the zone it fills — one band, not two
 
 <details><summary>Clause</summary>
 
@@ -3115,13 +3115,13 @@ This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 allowing for mortar jo
 | 1 | facing brick supported | **103** | `brick` |
 | 2 | clear cavity | **50** | `void` |
 | 3 | mineral wool | **100** | `wool` |
-| 4 | light gauge steel C studs | **150** | `timber` |
-| 5 | mineral wool | **150** | `wool` |
-| 6 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **565.5** | |
+| 4 | mineral wool between light gauge steel C studs | **150** | `wool` |
+| 5 | plasterboard | **12.5** | `pboard` |
+| | **Extracted total** | **415.5** | |
 
 - ⚠ not treated as a layer: 'cement particle or calcium silicate sheathing board'
 - ⚠ not a layer — 100mm follows the working in its sentence: 'of continuous external insulation over the sheat'
+- ⚠ merged 150mm 'light gauge steel C studs' into the zone it fills — one band, not two
 
 <details><summary>Clause</summary>
 
@@ -3899,14 +3899,14 @@ This build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a pe
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | 47 x 100mm C16 rafters at 400mm centres for clear spans up to 2 between 50 x 100mm wall pl | **100** | `timber` |
-| 2 | mineral wool between ceiling joists | **100** | `wool` |
-| | **Extracted total** | **200** | |
+| 1 | mineral wool between ceiling joists between 47 x 100mm C16 rafters at 400mm centres for cl | **100** | `wool` |
+| | **Extracted total** | **100** | |
 
 - ⚠ not treated as a layer: 'centres for clear spans up to 2'
 - ⚠ not treated as a layer: 'x 175mm'
 - ⚠ not treated as a layer: 'to 2'
 - ⚠ not treated as a layer: 'to 3'
+- ⚠ merged 100mm '47 x 100mm C16 rafters at 400mm centres for ' into the zone it fills — one band, not two
 
 <details><summary>Clause</summary>
 
@@ -4013,4 +4013,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T21:41:45+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T22:14:16+00:00*

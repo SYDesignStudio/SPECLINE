@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-07T21:41:45+00:00",
+ "generated": "2026-09-07T22:14:16+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [
@@ -1243,13 +1243,7 @@
      "layers": [
       {
        "t": 150,
-       "material": "47 x 150mm C24 rafters at 400mm centres to the structural engineer's d",
-       "hatch": "timber",
-       "read_from": "47mm x 150mm C24 rafters at 400mm centres to the structural engineer's desig"
-      },
-      {
-       "t": 150,
-       "material": "Kingspan Kooltherm K107 Pitched Roof Board",
+       "material": "Kingspan Kooltherm K107 Pitched Roof Board between 47 x 150mm C24 rafters at 400mm centres",
        "hatch": "ins",
        "read_from": "150mm Kingspan Kooltherm K107 Pitched Roof Board "
       },
@@ -1260,10 +1254,11 @@
        "read_from": "62.5mm Kingspan Kooltherm K118 insulated plasterboard beneath the rafters"
       }
      ],
-     "total_mm": 362.5,
+     "total_mm": 212.5,
      "extraction_notes": [
       "not treated as a layer: 'centres to the structural engineer's desig'",
-      "not a layer — 400mm follows the working in its sentence: 'rafter centres allowing for rafter bridging and '"
+      "not a layer — 400mm follows the working in its sentence: 'rafter centres allowing for rafter bridging and '",
+      "merged 150mm '47 x 150mm C24 rafters at 400mm centres to t' into the zone it fills — one band, not two"
      ],
      "verified_table": null,
      "clause": [
@@ -3741,13 +3736,7 @@
       },
       {
        "t": 150,
-       "material": "light gauge steel C studs",
-       "hatch": "timber",
-       "read_from": "150mm light gauge steel C studs at 600mm centres to the frame designer's desi"
-      },
-      {
-       "t": 150,
-       "material": "mineral wool",
+       "material": "mineral wool between light gauge steel C studs",
        "hatch": "wool",
        "read_from": "150mm mineral wool of 0"
       },
@@ -3758,10 +3747,11 @@
        "read_from": "12.5mm plasterboard"
       }
      ],
-     "total_mm": 565.5,
+     "total_mm": 415.5,
      "extraction_notes": [
       "not treated as a layer: 'cement particle or calcium silicate sheathing board'",
-      "not a layer — 100mm follows the working in its sentence: 'of continuous external insulation over the sheat'"
+      "not a layer — 100mm follows the working in its sentence: 'of continuous external insulation over the sheat'",
+      "merged 150mm 'light gauge steel C studs' into the zone it fills — one band, not two"
      ],
      "verified_table": null,
      "clause": [
@@ -4738,23 +4728,18 @@
      "layers": [
       {
        "t": 100,
-       "material": "47 x 100mm C16 rafters at 400mm centres for clear spans up to 2 between 50 x 100mm wall pl",
-       "hatch": "timber",
-       "read_from": "47mm x 100mm C16 rafters at 400mm centres for clear spans up to 2"
-      },
-      {
-       "t": 100,
-       "material": "mineral wool between ceiling joists",
+       "material": "mineral wool between ceiling joists between 47 x 100mm C16 rafters at 400mm centres for cl",
        "hatch": "wool",
        "read_from": "100mm mineral wool between ceiling joists and 300mm over "
       }
      ],
-     "total_mm": 200,
+     "total_mm": 100,
      "extraction_notes": [
       "not treated as a layer: 'centres for clear spans up to 2'",
       "not treated as a layer: 'x 175mm'",
       "not treated as a layer: 'to 2'",
-      "not treated as a layer: 'to 3'"
+      "not treated as a layer: 'to 3'",
+      "merged 100mm '47 x 100mm C16 rafters at 400mm centres for ' into the zone it fills — one band, not two"
      ],
      "verified_table": null,
      "clause": [

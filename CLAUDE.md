@@ -406,6 +406,24 @@ full specification on the right, the scale note, and a title block. Four things 
   current month fill *date / drawn*; the responsibility note names the designer. Project,
   client and job number are never filled from anywhere — they belong to a job, and these are
   library details, so a value there would be an invented job.
+- **A pitched roof is drawn on the slope** (`pitched_svg`), with the tiles, battens and underlay
+  above the structure and a break line at the eaves end. Flat roofs and warm decks stay flat,
+  because they are flat. The pitch is **indicative and never dimensioned** — the library does not
+  state one, and a typical section is drawn at a plausible slope the way the reference details
+  are; the pitch for a job comes off the drawings. `PITCH`, `TILE`, `BATTEN` and `GAUGE` are the
+  drawing constants, not specification.
+- **The covering is drawn only where the clause names one**, the same rule as the wall ties. Six
+  of the twenty-five roof clauses describe the build-up from the rafters inwards and say nothing
+  about tiles; those get no tiles, because a drawing may not state what the specification does
+  not. The covering's key entry quotes the clause from where the covering is named, not the whole
+  sentence, which otherwise repeated the first layer's note word for word.
+- **Rotating a section requires knowing which face is outside**, which is what `face_order()` in
+  `detail_schedule.py` settles. This is why the ordering fix had to come first: four roofs were
+  being drawn with the ceiling as the outermost band, and flat bands hid it.
+- **A member zone and its fill merge across paragraphs too** (`merge_member_fill`). A clause names
+  the rafters in the paragraph about structure and the board filling them two sentences later, so
+  the per-paragraph merge inside `layers_from()` never saw the pair — the dormer roof was drawn
+  150mm too thick. Drawing it on the slope is what made that obvious.
 - **Long clauses are set smaller, not cut off.** The size steps on a cost that counts
   paragraphs as well as characters, because paragraph spacing is what actually fills the
   column — the longest clause in the library is only 2149 characters, so a threshold set on

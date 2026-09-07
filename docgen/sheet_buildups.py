@@ -402,8 +402,164 @@ def floor_svg(rec, sents):
         parts.append('<text x="60" y="%.1f" font-size="%g" font-weight="600" fill="#1B1B1B">%s</text>'
                      % (ky + 2, TXT_S, esc(thick)))
         body.append((170, ky, note))
-        ky += 116
+        ky += max(116, (len(note) // 46 + 1) * TXT_S * 1.34 + 34)
     return parts, body, total, W, (-230, -140, W + 170, ky + 60)
+
+
+# An indicative pitch. It is never dimensioned and never stated as a specified pitch, because the
+# library does not give one: a typical section is drawn at a plausible slope so the construction
+# reads as a roof, and the pitch for a job comes off the drawings. Same convention as the
+# reference details — they show the slope and dimension nothing about it.
+PITCH  = 30.0
+TILE   = 12.0        # tile thickness, drawn
+BATTEN = 38.0        # 25 x 38 battens laid flat on the underlay
+GAUGE  = 325.0       # batten gauge along the slope, indicative
+
+COVERING = re.compile(r"\btiles?\b|\bslates?\b|roof covering|battens|underlay|sarking|felt", re.I)
+
+
+def is_pitched(rec):
+    """A roof drawn on the slope rather than as flat bands.
+
+    Flat roofs and warm decks stay flat — they are flat. Everything else in the RF group that
+    talks about a pitch, rafters or trusses is a sloping roof and was being drawn as a horizontal
+    sandwich, which is why none of them read as roofs.
+    """
+    if rec["group"] != "RF":
+        return False
+    t = rec["title"].lower()
+    if "flat roof" in t or "warm deck" in t:
+        return False
+    return any(w in t for w in ("pitched", "rafter", "trussed", "eaves"))
+
+
+def covering_sentence(clause):
+    """The sentence naming the roof covering, or None.
+
+    The covering is drawn ONLY where the clause names one — the same rule that governs wall ties.
+    Six of the twenty-five roof clauses specify the build-up from the rafters inwards and say
+    nothing about tiles; those get no tiles, because a drawing may not state what the
+    specification does not.
+    """
+    txt = " ".join(clause)
+    if not COVERING.search(txt):
+        return None
+    # the fragment from where the covering is named, not the whole sentence: the covering is
+    # usually named inside the sentence that describes the build-up, and quoting all of it puts
+    # the same words against the tiles as against the first layer.
+    s = next((s for s in sentences(clause) if COVERING.search(s)), "")
+    m = COVERING.search(s)
+    if not m:
+        return s
+    frag = s[max(0, s.rfind(",", 0, m.start()) + 1):].strip()
+    cut = frag.find(", ", 70)
+    if cut > 0:
+        frag = frag[:cut]
+    frag = frag.strip().rstrip(",;")
+    return (frag[0].upper() + frag[1:] + ".") if frag else s
+
+
+def pitched_svg(rec, sents):
+    """A pitched roof, drawn on the slope with its covering.
+
+    Local coordinates run along the slope in x and through the thickness in y, with y=0 the
+    OUTSIDE face — which is why face_order() in detail_schedule.py had to come first. The whole
+    section is then rotated; the callouts are placed at the rotated points so their text stays
+    upright, and the key sits beneath, unrotated, as it does for a flat build-up.
+    """
+    import math
+    layers = rec["layers"]
+    total = sum(float(l["t"]) for l in layers)
+    RUN = 1350.0
+    a = math.radians(PITCH)
+    ca, sa = math.cos(a), math.sin(a)
+
+    def R(x, y):                       # matches transform="rotate(-PITCH)"
+        return (x * ca + y * sa, -x * sa + y * ca)
+
+    cover = covering_sentence(rec["clause"])
+    top = -(BATTEN + TILE) if cover else 0.0
+    parts, g = [DEFS], []
+
+    pos, mids = 0.0, []
+    for i, l in enumerate(layers):
+        t = float(l["t"])
+        mat = l["hatch"] or "void"
+        g.append('<rect x="0" y="%.1f" width="%.1f" height="%.1f" fill="%s" stroke="#1B1B1B" '
+                 'stroke-width="2.6"/>' % (pos, RUN, t, layer_fill(parts, i, mat, t, True)))
+        mids.append(pos + t / 2)
+        pos += t
+
+    if cover:
+        # underlay on the rafters, battens on the underlay, tiles on the battens — the order a
+        # roof is built in, and the order the clause states it.
+        g.append('<path d="M0 0 H%.1f" stroke="#8A5A52" stroke-width="4.5"/>' % RUN)
+        x = 30.0
+        while x < RUN - 40:
+            g.append('<rect x="%.1f" y="%.1f" width="25" height="%.1f" fill="url(#p-timber)" '
+                     'stroke="#1B1B1B" stroke-width="2"/>' % (x, -BATTEN, BATTEN))
+            x += GAUGE
+        g.append('<rect x="-70" y="%.1f" width="%.1f" height="%.1f" fill="#D9D3CB" '
+                 'stroke="#1B1B1B" stroke-width="2.4"/>' % (top, RUN + 70, TILE))
+        x = -70 + GAUGE                       # the tail of each course, so it reads as tiles
+        while x < RUN:
+            g.append('<path d="M%.1f %.1f v%.1f" stroke="#1B1B1B" stroke-width="2.2"/>'
+                     % (x, top, TILE))
+            x += GAUGE
+
+    # break line across the whole section at the lower end
+    zig = ["M%.1f %.1f" % (-34, top)]
+    y = top
+    while y < total:
+        zig.append("l 26 %.1f l -26 %.1f" % (min(34, total - y) / 2, min(34, total - y) / 2))
+        y += 34
+    g.append('<path d="%s" fill="none" stroke="#1B1B1B" stroke-width="2.4"/>' % " ".join(zig))
+
+    parts.append('<g transform="rotate(%.3f)">%s</g>' % (-PITCH, "".join(g)))
+
+    # thickness dimension, square to the slope at the upper end
+    p0, p1 = R(RUN + 60, top), R(RUN + 60, total)
+    parts.append('<path d="M%.1f %.1f L%.1f %.1f" stroke="#1B1B1B" stroke-width="1.8"/>'
+                 % (p0[0], p0[1], p1[0], p1[1]))
+    mid = R(RUN + 110, (top + total) / 2)
+    parts.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="%g" fill="#1B1B1B" '
+                 'transform="rotate(%.3f %.1f %.1f)">%g</text>'
+                 % (mid[0], mid[1], TXT, -PITCH, mid[0], mid[1], round(total - top, 1)))
+
+    # numbered callouts at the rotated layer midpoints, staggered along the slope
+    used = set()
+    ctext = " ".join(rec["clause"])
+    notes = []
+    items = list(layers) + ([None] if cover else [])
+    for i, l in enumerate(items):
+        cx = 190 + (i % 4) * 270
+        cy = (top + TILE / 2) if l is None else mids[i]
+        px, py = R(cx, cy)
+        parts.append('<circle cx="%.1f" cy="%.1f" r="30" fill="#FFFFFF" stroke="#1B1B1B" '
+                     'stroke-width="2.4"/>' % (px, py))
+        parts.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="%g" '
+                     'fill="#1B1B1B">%d</text>' % (px, py + 11, TXT, i + 1))
+        notes.append((i + 1, "covering" if l is None else "%g mm" % l["t"],
+                      cover if l is None else note_for(l, ctext, used)))
+
+    xs, ys = [], []
+    for cx, cy in ((0, top), (RUN + 170, top), (0, total), (RUN + 170, total)):
+        px, py = R(cx, cy)
+        xs.append(px); ys.append(py)
+    x0, x1, y0, y1 = min(xs) - 90, max(xs) + 60, min(ys) - 70, max(ys) + 60
+
+    body = []
+    ky = y1 + 120
+    for n, thick, note in notes:
+        parts.append('<circle cx="%.1f" cy="%.1f" r="26" fill="#FFFFFF" stroke="#1B1B1B" '
+                     'stroke-width="2.2"/>' % (x0 + 40, ky - 8))
+        parts.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="%g" '
+                     'fill="#1B1B1B">%d</text>' % (x0 + 40, ky + 2, TXT_S, n))
+        parts.append('<text x="%.1f" y="%.1f" font-size="%g" font-weight="600" '
+                     'fill="#1B1B1B">%s</text>' % (x0 + 82, ky + 2, TXT_S, esc(thick)))
+        body.append((x0 + 200, ky, note))
+        ky += max(116, (len(note) // 46 + 1) * TXT_S * 1.34 + 34)
+    return parts, body, total, RUN, (x0, y0, x1 - x0, ky - y0 + 60)
 
 
 SHEET = """<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
@@ -489,7 +645,8 @@ svg text{font-family:"IBM Plex Sans",Arial,sans-serif}
 def build_sheet(rec, type_name):
     sents = sentences(rec["clause"])
     horiz = rec["group"] in HORIZONTAL
-    parts, body, total, other, vb = (wall_svg if horiz else floor_svg)(rec, sents)
+    draw = wall_svg if horiz else (pitched_svg if is_pitched(rec) else floor_svg)
+    parts, body, total, other, vb = draw(rec, sents)
 
     wrap = 30 if horiz else 46          # the key beneath a flat section has the full width
     for lx, ly, note in body:

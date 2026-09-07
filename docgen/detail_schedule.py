@@ -248,6 +248,37 @@ def _rescue(window, layers, notes, context="", outer=None):
 INSIDE_FACE = ("pboard",)
 
 
+MEMBER_WORD = re.compile(r"\brafters?|joists?|studs?\b", re.I)
+
+
+def merge_member_fill(layers, notes):
+    """A member zone and the insulation filling it are one band, across paragraph boundaries.
+
+    layers_from() merges them inside a paragraph, but a clause often names the rafters in the
+    paragraph about structure and the board that fills them in the paragraph about insulation —
+    "47mm x 150mm C24 rafters at 400mm centres" and then, two sentences later, "150mm K107 fully
+    filling the rafter depth". Both then survive and the roof is drawn 150mm too thick, which the
+    sloping drawing made obvious.
+    """
+    out = []
+    for l in layers:
+        if out:
+            prev = out[-1]
+            same_t = abs(float(prev["t"]) - float(l["t"])) < 0.51
+            pair = {prev.get("hatch"), l.get("hatch")}
+            if same_t and pair in ({"timber", "ins"}, {"timber", "wool"}):
+                member = prev if prev.get("hatch") == "timber" else l
+                fill = l if member is prev else prev
+                if MEMBER_WORD.search(member.get("material") or ""):
+                    notes.append("merged %gmm '%s' into the zone it fills — one band, not two"
+                                 % (float(member["t"]), (member["material"] or "")[:44]))
+                    out[-1] = dict(fill, material=("%s between %s"
+                                                   % (fill["material"], member["material"]))[:90])
+                    continue
+        out.append(l)
+    return out
+
+
 def face_order(group, layers, notes):
     if group not in ("RF", "SF", "IF") or len(layers) < 2:
         return layers
@@ -470,7 +501,7 @@ def build():
                         continue
                     seen.add(k)
                     layers.append(l)
-            layers = face_order(b["g"], layers, notes)
+            layers = face_order(b["g"], merge_member_fill(layers, notes), notes)
             got, tgt = uvals(b)
             unmatched += sum(1 for l in layers if l["hatch"] is None)
             rec = {"group": b["g"], "group_name": GROUPS.get(b["g"], b["g"]),
