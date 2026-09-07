@@ -787,9 +787,10 @@ Where the cheek is within 1m of the boundary the render system and carrier board
 **Target** 0.18 W/m²K · **Achieved** 0.16 W/m²K
 
 
-*No layer thicknesses stated in the clause — this build-up is described by performance or by reference to another. Draw it from the clause.*
-
-- ⚠ not treated as a layer: 'minimum drained and ventilated cavity'
+| # | Layer | mm | Hatch |
+|---|---|---|---|
+| 1 | minimum drained and ventilated cavity | **25** | `void` |
+| | **Extracted total** | **25** | |
 
 <details><summary>Clause</summary>
 
@@ -2502,15 +2503,15 @@ This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 allowing for mortar jo
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | facing brick outer leaf | **103** | `brick` |
-| 2 | OSB3 sheathing | **9** | `timber` |
-| 3 | Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres to the | **140** | `ins` |
-| 4 | Kingspan Kooltherm K118 insulated plasterboard | **37.5** | `ins` |
-| 5 | service void | **25** | `void` |
-| | **Extracted total** | **314.5** | |
+| 2 | clear drained and vented cavity | **50** | `void` |
+| 3 | OSB3 sheathing | **9** | `timber` |
+| 4 | Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres to the | **140** | `ins` |
+| 5 | Kingspan Kooltherm K118 insulated plasterboard | **37.5** | `ins` |
+| 6 | service void | **25** | `void` |
+| | **Extracted total** | **364.5** | |
 
 - ⚠ not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'horizontal and 375mm vertical centres'
 - ⚠ not treated as a layer: 'vertical centres'
-- ⚠ not treated as a layer: 'clear drained and vented cavity'
 - ⚠ not treated as a layer: 'centres to the frame designer's design with t'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above external ground level'
 - ⚠ not a layer — 400mm follows the working in its sentence: 'centres and an air-gap correction of 0'
@@ -2632,12 +2633,11 @@ This build-up calculates at 0.12 W/m²K to BS EN ISO 13370 for a floor with a pe
 |---|---|---|---|
 | 1 | minimum well compacted hardcore | **150** | `hard` |
 | 2 | sand | **50** | `screed` |
-| 3 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
-| 4 | perimeter upstands | **25** | `ins` |
-| 5 | screed | **75** | `screed` |
-| | **Extracted total** | **430** | |
-
-- ⚠ not treated as a layer: 'minimum GEN1 or RC25/30 concrete slab reinforced with A1'
+| 3 | minimum GEN1 or RC25/30 concrete slab reinforced with A142 mesh where  | **100** | `conc` |
+| 4 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
+| 5 | perimeter upstands | **25** | `ins` |
+| 6 | screed | **75** | `screed` |
+| | **Extracted total** | **530** | |
 
 <details><summary>Clause</summary>
 
@@ -2968,12 +2968,12 @@ Where the wall is built to a Robust Detail, the plots are to be registered with 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | metal C studs | **70** | `metal` |
-| 2 | minimum gap between the frames | **50** | `void` |
-| 3 | minimum mineral wool | **60** | `wool` |
-| | **Extracted total** | **180** | |
+| 2 | minimum overall thickness with a 50mm minimum gap between the frames | **240** | `void` |
+| 3 | minimum gap between the frames | **50** | `void` |
+| 4 | minimum mineral wool | **60** | `wool` |
+| | **Extracted total** | **420** | |
 
 - ⚠ not a layer — 89mm is the alternative to the figure before it: 'x 38mm timber studs'
-- ⚠ not treated as a layer: 'minimum overall thickness with a 50mm minimum gap betwee'
 
 <details><summary>Clause</summary>
 
@@ -3048,13 +3048,12 @@ NOTE — Beam and block is the most economical concrete separating floor for a s
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | or more closed-cell foam or mineral wool board to the Robust Detail or | **10** | `wool` |
-| 2 | minimum sand | **65** | `screed` |
-| 3 | plasterboard | **12.5** | `pboard` |
-| 4 | mineral wool | **100** | `wool` |
-| | **Extracted total** | **187.5** | |
-
-- ⚠ not treated as a layer: 'minimum precast prestressed hollowcore or solid concrete'
+| 1 | minimum precast prestressed hollowcore or solid concrete planks to the | **150** | `conc` |
+| 2 | or more closed-cell foam or mineral wool board to the Robust Detail or | **10** | `wool` |
+| 3 | minimum sand | **65** | `screed` |
+| 4 | plasterboard | **12.5** | `pboard` |
+| 5 | mineral wool | **100** | `wool` |
+| | **Extracted total** | **337.5** | |
 
 <details><summary>Clause</summary>
 
@@ -4072,4 +4071,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T22:46:25+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T23:10:12+00:00*

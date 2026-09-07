@@ -427,9 +427,13 @@ full specification on the right, the scale note, and a title block. Four things 
 - **A sentence offering another way to build it contributes no layers** (`ANOTHER_WAY`):
   *"Masonry partitions of 100mm blockwork may be used where…"*, *"184mm studs fully filled …
   achieve the same figure"*. Those were being drawn as extra bands of a wall built the first way.
-- **A qualifier-led phrase must name its material in its own label.** "25mm minimum where the stud
-  depth is shallower" reached a hatch only through the word *stud* five words later — the same
-  mistake the unconditional veto exists to stop, arriving by a different route.
+- **A qualifier is refused only when what follows it is a condition, not a thing** (`NOT_A_THING`).
+  "25mm minimum **where** the stud depth is shallower" reached a hatch through the word *stud*
+  five words later — the mistake the unconditional veto exists to stop. But testing the trimmed
+  label alone also refused "25mm minimum drained and ventilated cavity", a real cavity whose
+  label the tail-trim had cut at *and*, and a build-up silently stopped drawing. **When a rule
+  makes something disappear, find out which one before accepting the new count** — the sheet total
+  dropping from 107 to 106 was the only visible sign.
 - **A partial fill merges into the member zone it fills** — a 50mm quilt in a 70mm stud is 70mm of
   wall, not 120. Equal thickness cannot be the only test, but the words immediately around the
   fill must say it fills the members (`INFILLING`, using a short `_before` window), or a lining

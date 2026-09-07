@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-07T22:46:25+00:00",
+ "generated": "2026-09-07T23:10:12+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [
@@ -917,11 +917,16 @@
      "u_achieved": "0.16",
      "u_target": "0.18",
      "standard": "0.16 W/m²K",
-     "layers": [],
-     "total_mm": null,
-     "extraction_notes": [
-      "not treated as a layer: 'minimum drained and ventilated cavity'"
+     "layers": [
+      {
+       "t": 25,
+       "material": "minimum drained and ventilated cavity",
+       "hatch": "void",
+       "read_from": "25mm minimum drained and ventilated cavity"
+      }
      ],
+     "total_mm": 25,
+     "extraction_notes": [],
      "verified_table": null,
      "stud_core": null,
      "clause": [
@@ -2995,6 +3000,12 @@
        "read_from": "103mm facing brick outer leaf tied to the frame with stainless steel flexible"
       },
       {
+       "t": 50,
+       "material": "clear drained and vented cavity",
+       "hatch": "void",
+       "read_from": "50mm clear drained and vented cavity"
+      },
+      {
        "t": 9,
        "material": "OSB3 sheathing",
        "hatch": "timber",
@@ -3019,11 +3030,10 @@
        "read_from": "25mm service void is wanted for the cabling it is to be formed on the room s"
       }
      ],
-     "total_mm": 314.5,
+     "total_mm": 364.5,
      "extraction_notes": [
       "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'horizontal and 375mm vertical centres'",
       "not treated as a layer: 'vertical centres'",
-      "not treated as a layer: 'clear drained and vented cavity'",
       "not treated as a layer: 'centres to the frame designer's design with t'",
       "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above external ground level'",
       "not a layer — 400mm follows the working in its sentence: 'centres and an air-gap correction of 0'",
@@ -3199,6 +3209,12 @@
        "read_from": "50mm sand"
       },
       {
+       "t": 100,
+       "material": "minimum GEN1 or RC25/30 concrete slab reinforced with A142 mesh where ",
+       "hatch": "conc",
+       "read_from": "100mm minimum GEN1 or RC25/30 concrete slab reinforced with A142 mesh where t"
+      },
+      {
        "t": 130,
        "material": "Kingspan Kooltherm K103 Floorboard",
        "hatch": "ins",
@@ -3217,10 +3233,8 @@
        "read_from": "75mm screed"
       }
      ],
-     "total_mm": 430,
-     "extraction_notes": [
-      "not treated as a layer: 'minimum GEN1 or RC25/30 concrete slab reinforced with A1'"
-     ],
+     "total_mm": 530,
+     "extraction_notes": [],
      "verified_table": null,
      "stud_core": null,
      "clause": [
@@ -3604,6 +3618,12 @@
        "read_from": "70mm or 90mm metal C studs"
       },
       {
+       "t": 240,
+       "material": "minimum overall thickness with a 50mm minimum gap between the frames",
+       "hatch": "void",
+       "read_from": "240mm minimum overall thickness with a 50mm minimum gap between the frames"
+      },
+      {
        "t": 50,
        "material": "minimum gap between the frames",
        "hatch": "void",
@@ -3616,10 +3636,9 @@
        "read_from": "60mm minimum mineral wool of 10 kg/m³ or more in each frame or the cavity"
       }
      ],
-     "total_mm": 180,
+     "total_mm": 420,
      "extraction_notes": [
-      "not a layer — 89mm is the alternative to the figure before it: 'x 38mm timber studs'",
-      "not treated as a layer: 'minimum overall thickness with a 50mm minimum gap betwee'"
+      "not a layer — 89mm is the alternative to the figure before it: 'x 38mm timber studs'"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -3711,6 +3730,12 @@
      "standard": "45 / 62 dB / REI 60",
      "layers": [
       {
+       "t": 150,
+       "material": "minimum precast prestressed hollowcore or solid concrete planks to the",
+       "hatch": "conc",
+       "read_from": "150mm minimum precast prestressed hollowcore or solid concrete planks to the "
+      },
+      {
        "t": 10,
        "material": "or more closed-cell foam or mineral wool board to the Robust Detail or",
        "hatch": "wool",
@@ -3735,10 +3760,8 @@
        "read_from": "100mm mineral wool in the void"
       }
      ],
-     "total_mm": 187.5,
-     "extraction_notes": [
-      "not treated as a layer: 'minimum precast prestressed hollowcore or solid concrete'"
-     ],
+     "total_mm": 337.5,
+     "extraction_notes": [],
      "verified_table": null,
      "stud_core": null,
      "clause": [

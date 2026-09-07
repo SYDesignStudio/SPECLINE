@@ -72,6 +72,11 @@ NEVER_A_LAYER = re.compile(
 # and so is "50mm clear ventilated and drained cavity". They veto only when nothing follows that
 # can be identified as a material, which is the test the old single list was trying to make.
 QUALIFIER = re.compile(r"^(minimum|maximum|min|max|clear|not less than|thick at)\b", re.I)
+# What may NOT follow a qualifier if the phrase is to be a layer: a relative or a preposition
+# starts a condition, not a material. "minimum where the stud depth is shallower" is a condition;
+# "minimum drained and ventilated cavity" is a cavity.
+NOT_A_THING = re.compile(r"^(where|when|if|unless|in|on|at|of|to|for|with|and|or|that|which)\b",
+                         re.I)
 
 # Working, not construction: "100mm over the rafters calculates at 0.15 W/m²K" is a sentence about
 # the U-value that happens to contain a thickness. Never a layer.
@@ -190,10 +195,14 @@ def _consider(t, phrase, raw, after, layers, notes, before=""):
     # material, keep the fuller phrase so the two still agree with each other.
     h = hatch_for(label)
     if h is None:
-        if QUALIFIER.match(phrase):
-            # A qualifier-led phrase has to name its material in its own label. "25mm minimum
-            # where the stud depth is shallower" reached a hatch only through the word *stud*
-            # five words later — the same mistake the unconditional veto was written to stop.
+        # A qualifier-led phrase is refused only when what follows the qualifier is a clause
+        # rather than a thing. "25mm minimum WHERE the stud depth is shallower" reached a hatch
+        # through the word *stud* five words later, which is the mistake the unconditional veto
+        # exists to stop; "25mm minimum drained and ventilated cavity" is a real cavity whose
+        # label the tail-trim happened to cut at "and". Testing the trimmed label alone refused
+        # both and quietly dropped a build-up.
+        q = QUALIFIER.match(phrase)
+        if q and NOT_A_THING.match(phrase[q.end():].lstrip()):
             notes.append("not treated as a layer: '%s'" % phrase[:56])
             return
         label, h = phrase, hatch_for(phrase)
