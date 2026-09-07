@@ -245,8 +245,13 @@ def _rescue(window, layers, notes, context="", outer=None, limit=None):
     build-ups. Whatever the caller has already consumed is passed in already removed, so nothing
     is counted twice.
     """
-    if WORKING.search(window + " " + context):
-        return          # the sentence is about the U-value, so every figure in it is working
+    # Only what sits AFTER a working verb is working, and only when the verb is inside this
+    # window. Skipping the whole rescue whenever the surrounding text mentioned achieving a
+    # target threw away real layers: "100mm quilt between the joists and 300mm laid cross-wise,
+    # or equivalent to achieve the target U-value" lost the 300mm — the entire top layer of a
+    # roof — because the words "to achieve" happened to follow it.
+    verb = WORKING.search(window)
+    cut = verb.start() if verb else None
     for im in INNER.finditer(window):
         # A match must START inside the caller's window; the window is allowed to run on a little
         # so a phrase clipped by the 70-character cut can finish. Without that, "...both faces of
@@ -254,6 +259,8 @@ def _rescue(window, layers, notes, context="", outer=None, limit=None):
         # the cut and what was left matched no material at all.
         if limit is not None and im.start() >= limit:
             break
+        if cut is not None and im.start() >= cut:
+            continue        # past the verb: this figure is the answer, not the construction
         inner = re.sub(r"\s+", " ", im.group(2)).strip()
         t = float(im.group(1))
         # A member is only recognised at the top level, where the merge that stops a rafter zone

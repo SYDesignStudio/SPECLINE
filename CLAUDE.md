@@ -446,6 +446,13 @@ full specification on the right, the scale note, and a title block. Four things 
   that run-on from the original text and normalise once: gluing two separately-normalised pieces
   split a word ("10mm perime" + "ter gap") or welded two together ("plasterboardplank"), and the
   review caught both as lost provenance.
+- **Only what sits after a working verb is working, and only when the verb is inside the same
+  window.** Abandoning a whole rescue because the surrounding text mentioned achieving a target
+  threw away real layers: "100mm quilt between the joists and 300mm laid cross-wise, **or
+  equivalent to achieve the target U-value**" lost the 300mm — the entire top layer of a roof —
+  because those three words happened to follow it. Two of these now: this and `NOT_A_THING`.
+  A veto written to stop an invented band will, sooner or later, delete a real one; check what
+  a new rule removes as carefully as what it catches.
 - **A stud depth the clause declines to fix is drawn undimensioned** (`stud_core`). "Proprietary
   galvanised steel C-studs at 600mm centres ... to the system manufacturer's specification" gives
   the centres and defers the depth, which is correct — the depth belongs to the system. So the

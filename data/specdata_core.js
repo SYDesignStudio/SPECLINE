@@ -113,7 +113,7 @@ extension: { name:"House Extension", region:"England",
   {g:"EW", c:"External Walls", t:"Solid Wall — Internally Insulated", u:"0.30 W/m²K",
    tgt:"To achieve the standard for a retained or renovated thermal element in Approved Document L, Volume 1",
    p:[
-    "Where an existing solid masonry wall is retained within the thermal envelope, provide insulated plasterboard on dabs or on treated battens to the internal face, with all joints tightly butted and taped and a continuous vapour control layer where the board does not incorporate one.",
+    "Where an existing solid masonry wall is retained within the thermal envelope, provide 72.5mm Kingspan Kooltherm K118 insulated plasterboard (thermal conductivity 0.019 W/mK) to a solid wall, or 62.5mm to an uninsulated cavity wall, on dabs or on treated battens to the internal face, with all joints tightly butted and taped and a continuous vapour control layer where the board does not incorporate one. This exceeds the 0.30 W/m²K retained-element standard; the U-value achieved depends on the construction and thickness of the existing wall and is to be confirmed for the wall on this job.",
     "The existing wall is to be inspected for rising and penetrating damp, defective pointing and cracked render before lining, and every defect made good. External rainwater goods are to be checked and repaired.",
     "NOTE — Internal insulation of a solid wall moves the dew point into the existing masonry and materially increases the risk of interstitial condensation. A condensation risk analysis to BS 5250 is to be carried out where the wall is exposed or of solid construction, and the result recorded."]},
   {g:"EW", c:"External Walls", t:"External Wall Insulation", u:"0.30 W/m²K",
@@ -638,7 +638,7 @@ flat: { name:"Flat Conversion", region:"England",
   {g:"RF", c:"External Walls, Internal Walls & Roofs", t:"Existing Roof — Insulation at Ceiling Level", u:"0.16 W/m²K",
    tgt:"To achieve the standard for a renovated thermal element in Approved Document L, Volume 1",
    p:[
-    "Where the roof void is accessible, top up insulation to achieve the target U-value: mineral wool quilt between and cross-wise over the ceiling joists, with proprietary eaves ventilators and insulation stops to maintain the ventilation path. Loft hatches to be insulated and draught sealed."]}
+    "Where the roof void is accessible, top up the insulation to 100mm mineral wool quilt between the ceiling joists and 300mm mineral wool quilt laid cross-wise over them, or equivalent to achieve the target U-value, with proprietary eaves ventilators and insulation stops to maintain the ventilation path. Loft hatches to be insulated and draught sealed."]}
  ],
  notes:[
   {c:"Applicability", t:"Requirements That Apply on a Material Change of Use", p:[
