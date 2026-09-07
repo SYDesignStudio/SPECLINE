@@ -15,13 +15,18 @@
 
    A blank cover gets corrected before issue; another firm's name might not. Specline's own mark
    never appears on a document either: Specline is the software, not the designer. */
+/* Keys match site/account/index.php exactly. `undecided` is the account's own default and has to
+   be an option here too: without it the select fell through to the first entry and showed Solo
+   against an account that says "Not decided", so touching the control committed a plan the
+   practice had never chosen. seats:0 means no limit has been chosen, not a limit of none. */
 const PLANS = {
+  undecided:{n:"Not decided", seats:0, price:""},
   solo:     {n:"Solo",     seats:1, price:"£39/month or £390/year"},
   practice: {n:"Practice", seats:5, price:"£89/month or £890/year"},
   payg:     {n:"Per spec", seats:1, price:"£25 per issued specification"}
 };
 const PRACTICE_BLANK = {name:"", designer:"", addr:"", email:"", phone:"", accent:"",
-  logo:"", logoW:0, logoH:0, plan:"solo", users:[]};
+  logo:"", logoW:0, logoH:0, plan:"undecided", users:[]};
 /* What a profile is merged onto. The hosted app replaces it with the account's practice at boot,
    so a field the practice has not set falls back to its own account details and never to a
    compiled-in firm. */
@@ -590,8 +595,11 @@ function renderStandards(){
 }
 
 function renderPractice(){
-  const plan=PLANS[P.plan]||PLANS.solo, used=(P.users||[]).filter(Boolean).length;
-  const seatLine=(u,pl)=>`<b>${u} of ${pl.seats}</b> seat${pl.seats>1?"s":""} in use${u>pl.seats?`. Over the ${esc(pl.n)} limit; nothing is enforced yet.`:"."}`;
+  const plan=PLANS[P.plan]||PLANS.undecided, used=(P.users||[]).filter(Boolean).length;
+  /* No plan chosen means no seat limit to count against — say the number, do not invent a limit. */
+  const seatLine=(u,pl)=> pl.seats
+    ? `<b>${u} of ${pl.seats}</b> seat${pl.seats>1?"s":""} in use${u>pl.seats?`. Over the ${esc(pl.n)} limit; nothing is enforced yet.`:"."}`
+    : `<b>${u}</b> user${u===1?"":"s"} listed. The plan sets the seat limit; none chosen yet.`;
   el("practicepage").innerHTML=`<div class="pagehead"><div><p class="eyebrow">Practice settings</p><h1>${esc(P.name||"Your practice")}</h1>
       <p class="lede">Everything here prints on the specification: the logo and address on the cover, the name in the running footer, the named designer in the responsibility statement. Specline's own mark never appears on a document.</p></div></div>
     <div class="pgrid">
@@ -612,7 +620,7 @@ function renderPractice(){
           <label class="btn">${P.logo?"Replace logo":"Add logo"}<input type="file" id="logoFile" accept="image/png,image/jpeg" hidden></label></div>
         ${P.logo?`<p style="margin:12px 0 0"><button class="btn btn-quiet" id="logoClear">Remove logo</button></p>`:""}</div>
       <div class="card"><p class="grouplabel" style="margin-top:0">Plan and seats</p>
-        <div class="fields"><label class="wide">Plan<select data-p="plan">${Object.entries(PLANS).map(([k,v])=>`<option value="${k}" ${P.plan===k?"selected":""}>${esc(v.n)} — ${esc(v.price)}</option>`).join("")}</select><small>Billing is not connected yet. The plan sets the seat limit shown below.</small></label></div>
+        <div class="fields"><label class="wide">Plan<select data-p="plan">${Object.entries(PLANS).map(([k,v])=>`<option value="${k}" ${P.plan===k?"selected":""}>${esc(v.n)}${v.price?" — "+esc(v.price):""}</option>`).join("")}</select><small>Billing is not connected yet. The plan sets the seat limit shown below.</small></label></div>
         <p class="seats">${seatLine(used,plan)}</p>
         <label class="cf">Users, one per line<textarea data-p="users" rows="4">${esc((P.users||[]).join("\n"))}</textarea></label>
         <p class="srcnote" style="margin-top:10px">Every plan carries the practice's own identity on its own documents. Seats and added clauses are what a plan gates.</p></div>
@@ -621,7 +629,7 @@ function renderPractice(){
   el("practicepage").querySelectorAll("[data-p]").forEach(inp=>{
     const h=()=>{ const k=inp.dataset.p; P[k]= k==="users" ? inp.value.split("\n").map(x=>x.trim()).filter(Boolean) : inp.value;
       savePractice(); if(S.type) renderPaper();
-      if(k==="users"||k==="plan") el("practicepage").querySelector(".seats").innerHTML=seatLine((P.users||[]).length, PLANS[P.plan]||PLANS.solo);
+      if(k==="users"||k==="plan") el("practicepage").querySelector(".seats").innerHTML=seatLine((P.users||[]).length, PLANS[P.plan]||PLANS.undecided);
       if(k==="accent"){ const pm=el("practicepage").querySelector(".logobox .pmark"); if(pm) pm.style.setProperty("--pacc","#"+accInk()); } };
     inp.oninput=h; inp.onchange=h;
   });
