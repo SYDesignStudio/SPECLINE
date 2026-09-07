@@ -114,18 +114,24 @@ def note_for(layer, clause_text, used):
     if probe:
         i = clause_text.find(probe[:30])
         if i >= 0:
-            window = clause_text[i:i + 230]
+            window = clause_text[i:i + 300]
             cut = window.find(". ")
             if cut < 30:                       # no sentence end nearby: stop at a comma instead
                 c = [window.find(", ", 60), window.find("; ", 60)]
                 c = [x for x in c if x > 0]
                 cut = min(c) if c else -1
-            frag = (window[:cut + 1] if cut > 0 else window).strip().rstrip(",;")
+            if cut > 0:
+                frag = window[:cut + 1].strip().rstrip(",;")
+            else:
+                # Nothing to break on inside the window. Stop at a word, not in the middle of
+                # one, and say so: a note that ends "where the underlay is not br." reads as a
+                # specification, and it is a truncation.
+                frag = window[:window.rfind(" ", 0, 230)].strip().rstrip(",;") + " …"
     if not frag or frag[:26].lower() in used:
         frag = "%g mm %s" % (layer["t"], layer["material"].rstrip(" of").rstrip())
     used.add(frag[:26].lower())
     frag = frag[0].upper() + frag[1:]
-    return frag if frag.endswith(".") else frag + "."
+    return frag if frag.endswith((".", "…")) else frag + "."
 
 
 def tie_spec(clause):
@@ -498,7 +504,14 @@ TILE   = 12.0        # tile thickness, drawn
 BATTEN = 38.0        # 25 x 38 battens laid flat on the underlay
 GAUGE  = 325.0       # batten gauge along the slope, indicative
 
-COVERING = re.compile(r"\btiles?\b|\bslates?\b|roof covering|battens|underlay|sarking|felt", re.I)
+# The covering, in the order it is worth quoting. A tile or a slate IS the covering; an underlay
+# sits directly under it and names it by implication. Battens and sarking are deliberately absent:
+# a clause says "continuous sarking layer" about a board of insulation and "counter-battens" about
+# deepening an existing rafter, and matching on those put the insulation sentence against the tiles
+# on three of the fourteen pitched roofs.
+COVERING = [re.compile(r"\btiles?\b|\bslates?\b|roof covering", re.I),
+            re.compile(r"\bunderlay\b|\bfelt\b", re.I)]
+CONDITIONAL = re.compile(r"^(where|when|unless|if|although)\b", re.I)
 
 
 def is_pitched(rec):
@@ -524,22 +537,33 @@ def covering_sentence(clause):
     nothing about tiles; those get no tiles, because a drawing may not state what the
     specification does not.
     """
-    txt = " ".join(clause)
-    if not COVERING.search(txt):
-        return None
-    # the fragment from where the covering is named, not the whole sentence: the covering is
-    # usually named inside the sentence that describes the build-up, and quoting all of it puts
-    # the same words against the tiles as against the first layer.
-    s = next((s for s in sentences(clause) if COVERING.search(s)), "")
-    m = COVERING.search(s)
-    if not m:
-        return s
-    frag = s[max(0, s.rfind(",", 0, m.start()) + 1):].strip()
-    cut = frag.find(", ", 70)
-    if cut > 0:
-        frag = frag[:cut]
-    frag = frag.strip().rstrip(",;")
-    return (frag[0].upper() + frag[1:] + ".") if frag else s
+    for pat in COVERING:
+        for s in sentences(clause):
+            m = pat.search(s)
+            if not m:
+                continue
+            # A conditional says what to do IF something else happens - "where the roof covering
+            # is renewed at the same time" - and quoting it without its condition states a
+            # covering the specification has not specified. The build-up sentences are also
+            # conditional ("where the rafters are exposed internally, insulate over and
+            # between:") but they carry a colon and the build-up follows it.
+            if CONDITIONAL.match(s) and ":" not in s:
+                continue
+            # the fragment from where the covering is named, not the whole sentence: the covering
+            # is usually named inside the sentence that describes the build-up, and quoting all of
+            # it puts the same words against the tiles as against the first layer.
+            frag = s[max(0, s.rfind(",", 0, m.start()) + 1):].strip()
+            cut = frag.find(", ", 70)
+            if cut > 0:
+                frag = frag[:cut]
+            frag = re.sub(r"^(?:and|with|on)\s+", "", frag.strip(), flags=re.I).rstrip(",;")
+            # The covering has to be the subject of what is quoted. Where the word turns up
+            # further in - carried through to the roof covering, ventilate unless the underlay is
+            # breathable - the clause is talking about something else and the roof gets no tiles.
+            if not frag or (pat.search(frag) or m).start() > 25:
+                continue
+            return frag[0].upper() + frag[1:] + "."
+    return None
 
 
 def pitched_svg(rec, sents):
@@ -659,8 +683,12 @@ body{width:210mm;height:297mm;font-family:"IBM Plex Sans",Arial,sans-serif;color
 .sheet{width:210mm;height:297mm;padding:12mm 12mm 8mm;display:flex;flex-direction:column}
 header{display:flex;justify-content:space-between;align-items:baseline;
   border-bottom:1.1pt solid #1B1B1B;padding-bottom:2.6mm}
-header h1{margin:0;font-size:12.5pt;font-weight:600;letter-spacing:-0.01em;text-transform:uppercase}
-header .sc{font-family:"IBM Plex Sans Condensed",Arial,sans-serif;font-size:7.6pt;font-weight:600;
+/* The long titles run to two lines. Without a track of its own the heading grows past the
+   scale label and prints over it, which is how RF2 in the flat set was reading. */
+header h1{margin:0;flex:1;min-width:0;padding-right:8mm;
+  font-size:12.5pt;font-weight:600;letter-spacing:-0.01em;text-transform:uppercase}
+header .sc{flex:none;white-space:nowrap;font-family:"IBM Plex Sans Condensed",Arial,sans-serif;
+  font-size:7.6pt;font-weight:600;
   letter-spacing:.1em;text-transform:uppercase;color:#6A6A66}
 main{flex:1;display:grid;grid-template-columns:104mm 1fr;gap:6mm;padding-top:5mm;min-height:0;overflow:hidden}
 .dwg{overflow:hidden}
@@ -732,7 +760,8 @@ def build_sheet(rec, type_name):
     parts, body, total, other, vb = draw(rec, sents)
 
     wrap = 30 if horiz else 46          # the key beneath a flat section has the full width
-    for lx, ly, note in body:
+
+    def fold(note):
         words, line, lines = note.split(), "", []
         for w in words:
             if len(line) + len(w) > wrap:
@@ -740,6 +769,19 @@ def build_sheet(rec, type_name):
             else:
                 line = (line + " " + w).strip()
         lines.append(line)
+        return lines
+
+    for lx, ly, note in body:
+        # Six lines is what fits between one leader and the next. A note longer than that used
+        # to lose its tail without saying so, and a leader reading "continuous vapour control
+        # layer on the" is a drawing that states half a clause. Trim to whole words and mark it:
+        # the specification column on this sheet carries the sentence in full.
+        lines = fold(note)
+        if len(lines) > 6:
+            words = note.split()
+            while len(words) > 1 and len(fold(" ".join(words) + " …")) > 6:
+                words.pop()
+            lines = fold(" ".join(words) + " …")
         for j, ln in enumerate(lines[:6]):
             parts.append('<text x="%.1f" y="%.1f" font-size="%g" fill="#1B1B1B">%s</text>'
                          % (lx, ly + j * (TXT_S * 1.32) - 6, TXT_S, esc(ln)))
