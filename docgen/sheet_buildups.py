@@ -62,48 +62,29 @@ def practice(source=None):
       --practice <file.json>          an explicit profile
       SPECLINE_PRACTICE               the same, as an environment variable
       ../specline-practice.json       beside the other per-installation data, above the repo
-      --practice brand                docgen/brand.py, this installation's own practice,
-                                      for SY Design Studio's in-house documents only
+      --practice brand                docgen/brand_inhouse.py, SY Design Studio's own profile,
+                                      for its in-house documents only
 
     In the hosted app the equivalent profile is the `practices` row for the signed-in account,
     which is where a sheet generated server-side would take it from.
 
+    The lookup itself is docgen/practice.py, shared with the Word and PDF generators so the
+    specification and the details cannot disagree about who drew the job. This used to hold its
+    own copy of it, reading `docgen/brand.py` for --practice brand; when brand.py stopped owning
+    a practice that path quietly returned the installed profile instead of the in-house one.
+
     Project, client and the job number are NOT filled from anywhere. They belong to a job, and
     these are library details, so a value there would be an invented job.
     """
-    fields = ("name", "designer", "addr", "email", "web")
-    p, where = {}, "placeholders"
-
-    if source == "brand":
-        try:
-            sys.path.insert(0, os.path.join(ROOT, "docgen"))
-            from brand import PRACTICE
-            p, where = dict(PRACTICE), "docgen/brand.py"
-        except Exception as e:
-            print("  could not read docgen/brand.py (%s)" % e)
-    else:
-        path = source or os.environ.get("SPECLINE_PRACTICE") or \
-               os.path.join(os.path.dirname(ROOT), "specline-practice.json")
-        if path and os.path.isfile(path):
-            try:
-                p = json.load(open(path, encoding="utf-8"))
-                where = path
-            except Exception as e:
-                print("  could not read %s (%s)" % (path, e))
-
-    p = {k: str(p.get(k, "")).strip() for k in fields}
-    p["source"] = where
-    if not p["name"]:
-        p["name"] = "[Practice name]"
-    parts = [w for w in re.split(r"[\s-]+", p["designer"]) if w]
-    p["initials"] = "".join(w[0] for w in parts[:3]).upper() or "[XX]"
+    sys.path.insert(0, os.path.join(ROOT, "docgen"))
+    import practice as _pr
+    p = _pr.load(source)
     p["date"] = __import__("datetime").date.today().strftime("%m.%y")
-    who = ("%s of %s" % (p["designer"], p["name"])) if p["designer"] else "The named designer"
     p["resp"] = ("All dimensions to be checked on site. Read in conjunction with the structural "
                  "engineer's drawings and the insulation manufacturer's current certificate. "
                  "%s %s responsible for the suitability of this detail; compliance of the work "
                  "is determined by the building control body."
-                 % (who, "is the named designer and remains" if p["designer"] else "remains"))
+                 % (p["who"], "is the named designer and remains" if p["designer"] else "remains"))
     return p
 
 

@@ -3,6 +3,9 @@ import os
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 HERE=os.path.dirname(os.path.abspath(__file__))
 OUT=os.path.join(os.path.dirname(HERE),'output'); os.makedirs(OUT,exist_ok=True)
+# SY Design Studio's own QA report on the library, so it pins the in-house profile
+# rather than reading whichever practice is installed. See dedupe_report.py.
+os.environ.setdefault('SPECLINE_PRACTICE_SOURCE','brand')
 from build_spec import *
 from brand import _rule, _shade
 def sp(d,t,size=9.5,color=None,bold=False):
@@ -11,17 +14,17 @@ def sp(d,t,size=9.5,color=None,bold=False):
     return p
 def bullet(d,t):
     p=d.add_paragraph(); p.paragraph_format.left_indent=Mm(6); p.paragraph_format.first_line_indent=Mm(-4); p.paragraph_format.space_after=Pt(2)
-    r=p.add_run("•  "); r.font.color.rgb=ORANGE; r.font.bold=True; r.font.size=Pt(9.5)
+    r=p.add_run("•  "); r.font.color.rgb=ACCENT; r.font.bold=True; r.font.size=Pt(9.5)
     r=p.add_run(t); r.font.size=Pt(9.5)
 def verdict(d,v,why):
     p=d.add_paragraph(); p.paragraph_format.space_after=Pt(4)
-    r=p.add_run("VERDICT  "); r.font.bold=True; r.font.size=Pt(9); r.font.color.rgb=ORANGE
+    r=p.add_run("VERDICT  "); r.font.bold=True; r.font.size=Pt(9); r.font.color.rgb=ACCENT
     r=p.add_run(v); r.font.bold=True; r.font.size=Pt(10); r.font.color.rgb=DARK
     sp(d,why)
 meta=dict(type="Plan-Check Stress Test of the Specification Library", project="All eight project types",
   address="Simulated Full Plans review — test projects in Hounslow, Feltham, Hillingdon, Richmond and Kingston", client="SY Design Studio Ltd (internal)", job="LIBRARY", la="Simulated LA building control",
   application="Internal QA review", author="Prepared with Claude for Salman Yousaf", date="5 September 2026", rev="R01")
-d=new_doc(); headers(d,meta); cover(d,meta,os.path.join(HERE,'sy_logo.png'))
+d=new_doc(); headers(d,meta); cover(d,meta)          # the logo comes from the practice profile
 h1(d,"Purpose and Method","1.0")
 sp(d,"Each of the eight specifications in the library was reviewed as an experienced local-authority plan checker would review a Full Plans submission, against a realistic test project for that type, using the current English Approved Documents (2024–2026 editions) and the Building Regulations 2010 as amended. The review was carried out after the BuildingRegs4Plans coverage check and the material verification, so it tests the library as it now stands. Verdicts follow plan-check practice: almost every real submission is approved with conditions or a request for further information, because the specification is a library and the drawings, the engineer's design and the energy assessment supply the project-specific facts. The value of this report is in the 'further information' lists — they show where a plan checker would still write to us — and the corrections made in response are recorded at the end.")
 sp(d,"Scores are out of 10 for submission-readiness of the specification alone. Items marked (c) are inherently project-specific and are not defects in the library.")
@@ -70,7 +73,7 @@ for name,proj,v,why,passes,fi,risks,score in R:
     for x in fi: bullet(d,x)
     h2(d,"Site inspection risk")
     for x in risks: bullet(d,x)
-    p=sp(d,"Submission-readiness score: "+score+" / 10",10,ORANGE,True)
+    p=sp(d,"Submission-readiness score: "+score+" / 10",10,ACCENT,True)
 h1(d,"Corrections Made in Response","10.0")
 for x in ["Regulation 46A commencement definition extended to horizontal extensions in every type; duplicated notice and HMO notes removed from the House Extension.",
  "House Extension solid floor GF1 now names Kingspan K103 with calculated U-values at two perimeter/area ratios; roof-only steelwork clarified.",

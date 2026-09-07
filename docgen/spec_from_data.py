@@ -1,6 +1,13 @@
-"""Generate the SY Design Studio Word/PDF specification for one project type
-straight from the app library (specdata.js) — single source of truth.
+"""Generate the Word/PDF specification for one project type straight from the app
+library (specdata.js) — single source of truth.
+
 Usage: python3 spec_from_data.py <typekey> [<typekey> ...]   e.g. extension loft flat
+
+Whose document it is comes from docgen/practice.py, never from here: the cover, the
+address line, the accent colour, the logo and the 'Prepared By' line are all the
+subscribing practice's. Set SPECLINE_PRACTICE to a profile, or drop
+specline-practice.json in the directory above the repository. With no profile the
+cover prints placeholders, which is the safe failure.
 """
 import sys, json, subprocess, os, re, shutil
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
@@ -39,26 +46,26 @@ def bu(d, ref, title, uval):
     BUILDUPS.append((ref,title,uval))
     p=d.add_paragraph(); p.paragraph_format.space_before=Pt(14); p.paragraph_format.space_after=Pt(2)
     p.paragraph_format.keep_with_next=True
-    r=p.add_run(ref); r.font.size=Pt(11); r.font.bold=True; r.font.color.rgb=ORANGE
+    r=p.add_run(ref); r.font.size=Pt(11); r.font.bold=True; r.font.color.rgb=ACCENT
     r=p.add_run("   "+title.upper()); r.font.size=Pt(10.5); r.font.bold=True; r.font.color.rgb=DARK
     _rule(p,"E8EAEB",6)
 def gn(d, title):
     p=d.add_paragraph(); p.paragraph_format.space_before=Pt(13); p.paragraph_format.space_after=Pt(2)
     p.paragraph_format.keep_with_next=True
-    r=p.add_run("* "); r.font.size=Pt(10.5); r.font.bold=True; r.font.color.rgb=ORANGE
+    r=p.add_run("* "); r.font.size=Pt(10.5); r.font.bold=True; r.font.color.rgb=ACCENT
     r=p.add_run(title.upper()); r.font.size=Pt(10); r.font.bold=True; r.font.color.rgb=DARK
 def tgt(d,t):
     p=d.add_paragraph(); p.paragraph_format.space_after=Pt(4); p.paragraph_format.keep_with_next=True
-    r=p.add_run(t); r.font.size=Pt(9.5); r.font.bold=True; r.font.color.rgb=ORANGE
+    r=p.add_run(t); r.font.size=Pt(9.5); r.font.bold=True; r.font.color.rgb=ACCENT
 def sp(d,t):
     p=d.add_paragraph(); p.paragraph_format.space_after=Pt(4)
     r=p.add_run(t); r.font.size=Pt(9.5)
 def note(d,t):
     p=d.add_paragraph(); p.paragraph_format.space_before=Pt(5); p.paragraph_format.space_after=Pt(7)
     p.paragraph_format.left_indent=Mm(6)
-    r=p.add_run("NOTE  "); r.font.size=Pt(8); r.font.bold=True; r.font.color.rgb=ORANGE
+    r=p.add_run("NOTE  "); r.font.size=Pt(8); r.font.bold=True; r.font.color.rgb=ACCENT
     r=p.add_run(t); r.font.size=Pt(8.4); r.font.color.rgb=MID
-    _rule(p,"F5900A",6)
+    _rule(p, None,6)
 def para(d,t):
     if t.startswith("NOTE — "): note(d,t[7:])
     elif t.startswith("NOTE - "): note(d,t[7:])
@@ -69,9 +76,11 @@ def build(key, S):
     T=S[key]
     meta=dict(type=f"{T['name']} ({T.get('region','England')})", project="[PROJECT DESCRIPTION]",
       address="[SITE ADDRESS]", client="[CLIENT NAME]", job="[JOB NUMBER]", la="[LOCAL AUTHORITY]",
-      application="Full Plans Application", author="Salman Yousaf, SY Design Studio Ltd",
+      application="Full Plans Application",
       date="September 2026", rev="P01")
-    d=new_doc(); headers(d,meta); cover(d,meta,os.path.join(os.path.dirname(os.path.abspath(__file__)),'sy_logo.png'))
+    # No author and no logo path: cover() takes both from the practice profile. Naming a
+    # designer here put one practice's director on every practice's specification.
+    d=new_doc(); headers(d,meta); cover(d,meta)
 
     h1(d,"How to Use This Specification","1.0")
     sp(d,"This specification is in two parts.")
@@ -131,10 +140,12 @@ def build(key, S):
             pp=c.paragraphs[0]; pp.paragraph_format.space_after=Pt(2); pp.paragraph_format.space_before=Pt(2)
             rr=pp.add_run(str(v)); rr.font.size=Pt(9)
             if i==0: rr.font.bold=True; rr.font.color.rgb=DARK; _shade(c,LIGHT)
-            elif j==0: rr.font.bold=True; rr.font.color.rgb=ORANGE
+            elif j==0: rr.font.bold=True; rr.font.color.rgb=ACCENT
     ANCHOR._p.addnext(tbl._tbl)
 
-    fn=f"SYDS_SPEC_{T['name'].replace(' ','_')}_{T.get('region','England')}.docx"
+    # Neutral filename: a subscriber's file should not arrive prefixed with another
+    # practice's initials. The practice is named inside the document, on the cover.
+    fn=f"SPEC_{T['name'].replace(' ','_')}_{T.get('region','England')}.docx"
     path=os.path.join(OUT,fn); d.save(path)
     if SOFFICE:
         subprocess.run([SOFFICE,'--headless','--convert-to','pdf','--outdir',OUT,path],check=True,capture_output=True)

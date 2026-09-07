@@ -8,6 +8,10 @@ from playwright.sync_api import sync_playwright
 import json, os, zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+import sys as _sys
+_sys.path.insert(0, os.path.join(ROOT, "docgen"))
+import practice as _pr
+PRACTICE_NAME = _pr.load()["name"]
 URL = "file://" + os.path.join(ROOT, "dist", "preview.html").replace("\\", "/")
 DL = os.path.join(ROOT, "dist", "dl")
 os.makedirs(DL, exist_ok=True)
@@ -64,9 +68,12 @@ with sync_playwright() as p:
         doc = Document(path)
         text = "\n".join(p.text for p in doc.paragraphs)
         ok("W8 python-docx opens the file", True)
+        # Assert the practice from the profile, not a literal: a test that names one firm
+        # is the same hard-coding a layer up, and would go green on a document carrying the
+        # wrong practice as long as that practice happened to be this one.
         ok("W9 cover carries the practice, not Specline",
-           "SY Design Studio Ltd" in text and "Specline" not in text,
-           "Specline present" if "Specline" in text else "ok")
+           PRACTICE_NAME in text and "Specline" not in text,
+           "Specline present" if "Specline" in text else ("missing " + PRACTICE_NAME))
         ok("W10 responsibility statement present",
            "is the named designer and remains responsible" in text)
         ok("W11 compliance wording exact",

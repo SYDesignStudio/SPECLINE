@@ -7,21 +7,29 @@ def cover(d, meta, logo=None):
     # ---- logo / wordmark block
     p = d.add_paragraph(); p.alignment = WD_ALIGN_PARAGRAPH.LEFT
     p.paragraph_format.space_after = Pt(2)
+    logo = logo or LOGO
     if logo and os.path.exists(logo):
         p.add_run().add_picture(logo, width=Mm(33))
     else:
-        r = p.add_run("SY"); r.font.size = Pt(40); r.font.bold = True; r.font.color.rgb = DARK
-        r2 = p.add_run(" DESIGN STUDIO"); r2.font.size = Pt(20); r2.font.bold = True; r2.font.color.rgb = ORANGE
+        # No logo: set the practice's own name as the wordmark. It used to read
+        # "SY DESIGN STUDIO" whoever the document was for.
+        words = PRACTICE["name"].split()
+        head = words[0] if words else PRACTICE["name"]
+        rest = " " + " ".join(words[1:]) if len(words) > 1 else ""
+        r = p.add_run(head); r.font.size = Pt(28); r.font.bold = True; r.font.color.rgb = DARK
+        if rest:
+            r2 = p.add_run(rest.upper()); r2.font.size = Pt(16); r2.font.bold = True
+            r2.font.color.rgb = ACCENT
     p2 = d.add_paragraph(); p2.paragraph_format.space_after = Pt(26); p2.paragraph_format.space_before = Pt(8)
     r = p2.add_run(f"{PRACTICE['addr']}  ·  {PRACTICE['email']}")
     r.font.size = Pt(8); r.font.color.rgb = MID
-    _rule(p2, "F5900A", 18)
+    _rule(p2, None, 18)
 
     # ---- title block
     p = d.add_paragraph(); p.paragraph_format.space_after = Pt(0)
     r = p.add_run("BUILDING REGULATIONS"); r.font.size = Pt(30); r.font.bold = True; r.font.color.rgb = DARK
     p = d.add_paragraph(); p.paragraph_format.space_after = Pt(6)
-    r = p.add_run("SPECIFICATION"); r.font.size = Pt(30); r.font.bold = True; r.font.color.rgb = ORANGE
+    r = p.add_run("SPECIFICATION"); r.font.size = Pt(30); r.font.bold = True; r.font.color.rgb = ACCENT
     p = d.add_paragraph(); p.paragraph_format.space_after = Pt(30)
     r = p.add_run(meta['type'].upper()); r.font.size = Pt(13); r.font.color.rgb = MID
     r.font.bold = True
@@ -59,7 +67,7 @@ def cover(d, meta, logo=None):
     _rule(p, "D9DCDD", 8)
     p = d.add_paragraph()
     r = p.add_run("ISSUED FOR BUILDING CONTROL APPROVAL")
-    r.font.size = Pt(10); r.font.bold = True; r.font.color.rgb = ORANGE
+    r.font.size = Pt(10); r.font.bold = True; r.font.color.rgb = ACCENT
     p = d.add_paragraph()
     r = p.add_run(f"This specification is to be read in conjunction with the {PRACTICE['name']} drawing "
                   "pack listed overleaf, the structural engineer's design and calculations, and any "
@@ -105,9 +113,9 @@ def h1(d, text, num=None):
     p.paragraph_format.space_before = Pt(16); p.paragraph_format.space_after = Pt(6)
     p.paragraph_format.keep_with_next = True
     if num:
-        r = p.add_run(f"{num}  "); r.font.size = Pt(14); r.font.bold = True; r.font.color.rgb = ORANGE
+        r = p.add_run(f"{num}  "); r.font.size = Pt(14); r.font.bold = True; r.font.color.rgb = ACCENT
     r = p.add_run(text.upper()); r.font.size = Pt(13); r.font.bold = True; r.font.color.rgb = DARK
-    _rule(p, "F5900A", 10)
+    _rule(p, None, 10)
 
 def h2(d, text):
     p = d.add_paragraph()
@@ -121,6 +129,6 @@ def clause(d, ref, text):
     p.paragraph_format.left_indent = Mm(14)
     p.paragraph_format.first_line_indent = Mm(-14)
     p.paragraph_format.space_after = Pt(5)
-    r = p.add_run(f"{ref}\t"); r.font.bold = True; r.font.size = Pt(9.5); r.font.color.rgb = ORANGE
+    r = p.add_run(f"{ref}\t"); r.font.bold = True; r.font.size = Pt(9.5); r.font.color.rgb = ACCENT
     r = p.add_run(text); r.font.size = Pt(9.5)
     return p

@@ -59,6 +59,8 @@ src/
   vendor/jspdf.local.js local jsPDF, used only by dist/preview.html for offline tests
 docgen/               Word + PDF generation (python-docx, LibreOffice for the PDF step)
   spec_from_data.py     the generator: one .docx + .pdf per type, straight from dist/specdata.js
+  practice.py           WHOSE document it is — one profile lookup, shared by every generator
+  brand_inhouse.py      SY Design Studio's own profile; reached only by asking for it
   brand.py, build_spec.py   cover page, headers, house typography
   plancheck_report.py, dedupe_report.py   the two QA reports already issued
 tests/                seven Playwright suites, 185 assertions
@@ -188,6 +190,43 @@ Two things this repo has been caught out by before, both now covered by tests:
 
 ---
 
+## The practice on a generated document — `docgen/practice.py`
+
+**No generator owns a practice.** One lookup serves the Word specification, the PDF and the
+detail sheets, so they cannot disagree about who drew the job. Order, first hit wins: a path the
+caller passes, then `SPECLINE_PRACTICE`, then `specline-practice.json` in the directory **above
+the repository**, then placeholders. `"brand"` as the path means `docgen/brand_inhouse.py`, which
+holds SY Design Studio's own profile and is reached **only** by asking for it. A profile carries
+`name`, `designer`, `addr`, `email`, `web`, and optionally `accent` and `logo` — the practice's
+own branding on its own document. `docgen/practice.example.json` is the template.
+
+`docgen/brand.py` used to *be* the profile. On 7 September 2026 it was split: the typography and
+page set-up stayed (they are Specline's, and the same on every document), and the identity moved
+out to the lookup. Three things went with it, each of which had been putting this practice on
+every other practice's specification:
+
+- **`ORANGE` was `F5900A`, SY Design Studio's brand colour**, on every heading, rule, NOTE flag
+  and build-up reference in every document the tool produced. It is now `ACCENT`, read from the
+  profile, defaulting to the same dark grey as the body text. `ORANGE` survives as an alias so
+  nothing breaks silently; prefer `ACCENT`.
+- **The cover printed the wordmark "SY DESIGN STUDIO"** whenever no logo file was found, and
+  `spec_from_data.py` passed `sy_logo.png` explicitly so one was always found. The cover now
+  falls back to the practice's *own* name set as a wordmark, and the generator passes no logo.
+- **"Prepared By" read `Salman Yousaf, SY Design Studio Ltd`**, hard-coded in the meta dict.
+  `cover()` already fell back to the profile, so the fix was deleting the key.
+
+The filename lost its `SYDS_` prefix at the same time (`SPEC_<type>_<region>.docx`) — a
+subscriber's file should not arrive prefixed with another practice's initials.
+
+The two QA reports are the exception and pin the in-house profile deliberately
+(`SPECLINE_PRACTICE_SOURCE=brand`, set before they import `build_spec`): they are SY Design
+Studio's own reviews of the library, not a practice's specification.
+
+**With no profile the documents print `[Practice name]`.** That is the safe failure, and the
+reason nothing here defaults to a real firm: a blank cover gets corrected before issue, another
+company's name might not. Check a change to any generator by running it against a made-up profile
+and grepping the output for "SY Design", "Salman" and "Specline" — all three must be absent.
+
 ## Detail schedules — `docgen/detail_schedule.py`
 
 `python docgen/detail_schedule.py` writes three files into `reference/details/` from `data/`:
@@ -239,8 +278,9 @@ full specification on the right, the scale note, and a title block. Four things 
   It reads a profile: `--practice <file.json>`, else `SPECLINE_PRACTICE`, else
   `specline-practice.json` in the directory **above the repository** (where it cannot be
   committed or shipped), else placeholders. `--practice brand` opts explicitly into
-  `docgen/brand.py` for SY Design Studio's own in-house documents. In the hosted app the same
-  details come from the `practices` row for the signed-in account.
+  `docgen/brand_inhouse.py` for SY Design Studio's own in-house documents. In the hosted app
+  the same details come from the `practices` row for the signed-in account. The lookup itself
+  is `docgen/practice.py` — see "The practice on a generated document" below.
   Baking SY Design Studio into the generator was exactly the bug the commercial rule exists to
   prevent — no technologist will issue a drawing to building control under another company's
   name. **With no profile the title block prints `[Practice name]`**, which is the safe
@@ -623,9 +663,10 @@ Two things that legitimately still say SY Design Studio Ltd, and must:
 - **The legal entity** in the terms, the privacy notice and the site footer. It is the data
   controller and the contracting party, and a company must disclose its registered name on its
   website. "Specline" is a trading name, not a legal person.
-- **The practice profile** — `PRACTICE_SEED`, `docgen/brand.py`, and the practice row in the
-  database. That is *the subscribing practice*, and it is what building control reads on the
-  cover. Putting "Specline" there would be the bug the commercial rule exists to prevent.
+- **The practice profile** — `PRACTICE_SEED`, `specline-practice.json`, `docgen/brand_inhouse.py`
+  and the practice row in the database. That is *the subscribing practice*, and it is what
+  building control reads on the cover. Putting "Specline" there would be the bug the commercial
+  rule exists to prevent. Note where those live: none of them is inside a generator.
 
 ## Commercial model
 

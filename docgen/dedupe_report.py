@@ -3,6 +3,9 @@ import os
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 HERE=os.path.dirname(os.path.abspath(__file__))
 OUT=os.path.join(os.path.dirname(HERE),'output'); os.makedirs(OUT,exist_ok=True)
+# This is SY Design Studio's own QA report on the library, not a practice's specification,
+# so it pins the in-house profile rather than reading whichever practice is installed.
+os.environ.setdefault('SPECLINE_PRACTICE_SOURCE','brand')
 from build_spec import *
 from brand import _rule, _shade
 def sp(d,t,size=9.5,color=None,bold=False):
@@ -11,11 +14,11 @@ def sp(d,t,size=9.5,color=None,bold=False):
     return p
 def bullet(d,t):
     p=d.add_paragraph(); p.paragraph_format.left_indent=Mm(6); p.paragraph_format.first_line_indent=Mm(-4); p.paragraph_format.space_after=Pt(2)
-    r=p.add_run("•  "); r.font.color.rgb=ORANGE; r.font.bold=True; r.font.size=Pt(9.5)
+    r=p.add_run("•  "); r.font.color.rgb=ACCENT; r.font.bold=True; r.font.size=Pt(9.5)
     r=p.add_run(t); r.font.size=Pt(9.5)
 def verdict(d,v,why):
     p=d.add_paragraph(); p.paragraph_format.space_after=Pt(4)
-    r=p.add_run("VERDICT  "); r.font.bold=True; r.font.size=Pt(9); r.font.color.rgb=ORANGE
+    r=p.add_run("VERDICT  "); r.font.bold=True; r.font.size=Pt(9); r.font.color.rgb=ACCENT
     r=p.add_run(v); r.font.bold=True; r.font.size=Pt(10); r.font.color.rgb=DARK
     sp(d,why)
 
@@ -25,7 +28,7 @@ meta=dict(type="Document Review of the Specification Library",
   client="SY Design Studio Ltd (internal)", job="LIBRARY", la="n/a — internal QA",
   application="Second-stage QA following the plan-check stress test",
   author="Prepared with Claude for Salman Yousaf", date="5 September 2026", rev="R02")
-d=new_doc(); headers(d,meta); cover(d,meta,os.path.join(HERE,'sy_logo.png'))
+d=new_doc(); headers(d,meta); cover(d,meta)          # the logo comes from the practice profile
 
 h1(d,"Why This Review Was Needed","1.0")
 sp(d,"The library was completed by adding a set of detailed shared notes — Regulation 16 notices, heating systems, chimneys and stoves, external fire spread, drainage depths and off-mains drainage, the Approved Document F figures, staircase detail, radon detail, foundation fallback dimensions, lintels and fire protection, movement joints and ties, leadwork, permitted development limits, HMO, sub-floor ventilation, rooflights and renewables — to each of the eight project types. Those notes were appended to each type without removing or merging the older general notes that already covered the same ground.")

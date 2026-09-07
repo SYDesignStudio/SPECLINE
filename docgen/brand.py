@@ -1,4 +1,14 @@
-# SY Design Studio Ltd - document brand kit
+# Document brand kit.
+#
+# The typography and page set-up are Specline's; the NAME, ADDRESS, ACCENT COLOUR AND LOGO are
+# the practice's, and they are read rather than owned. docgen/practice.py does the reading. See
+# the note there for why: a generated document carries the subscribing practice's identity and
+# never the vendor's, so no practice is hard-coded anywhere in this generator.
+#
+# ACCENT replaces what used to be called ORANGE. The old name was SY Design Studio's brand
+# colour baked into every heading, rule and reference in every document the tool produced —
+# which would have put this practice's colour on another practice's specification. ORANGE
+# remains as an alias only so nothing breaks silently; prefer ACCENT.
 from docx import Document
 from docx.shared import Pt, Mm, RGBColor, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
@@ -6,20 +16,21 @@ from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.section import WD_SECTION
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
-import os
+import os, sys
 
-ORANGE = RGBColor(0xF5, 0x90, 0x0A)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import practice as _practice
+
+PRACTICE = _practice.load(os.environ.get("SPECLINE_PRACTICE_SOURCE") or None)
+
+ACCENT_HEX = PRACTICE["accent"]
+ACCENT = RGBColor.from_string(ACCENT_HEX)
+ORANGE = ACCENT                      # deprecated alias, see the note above
 DARK   = RGBColor(0x3E, 0x42, 0x44)
 MID    = RGBColor(0x6E, 0x74, 0x77)
 LIGHT  = "E8EAEB"
+LOGO   = PRACTICE["logo"]            # "" when the practice has not supplied one
 
-PRACTICE = {
-    "name":    "SY Design Studio Ltd",
-    "designer":"Salman Yousaf",
-    "addr":    "49 Durham Avenue, Hounslow, TW5 0HG",
-    "email":   "info@specline.co.uk",
-    "web":     "www.sydesignstudio.co.uk",
-}
 
 def _shade(cell, hexcolor):
     tcPr = cell._tc.get_or_add_tcPr()
@@ -28,12 +39,12 @@ def _shade(cell, hexcolor):
     shd.set(qn('w:fill'), hexcolor)
     tcPr.append(shd)
 
-def _rule(par, color="F5900A", size=12):
+def _rule(par, color=None, size=12):
     p = par._p.get_or_add_pPr()
     pbdr = OxmlElement('w:pBdr')
     bot = OxmlElement('w:bottom')
     bot.set(qn('w:val'), 'single'); bot.set(qn('w:sz'), str(size))
-    bot.set(qn('w:space'), '4'); bot.set(qn('w:color'), color)
+    bot.set(qn('w:space'), '4'); bot.set(qn('w:color'), color or ACCENT_HEX)
     pbdr.append(bot); p.append(pbdr)
 
 def _field(par, instr):
