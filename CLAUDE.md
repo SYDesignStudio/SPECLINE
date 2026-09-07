@@ -280,6 +280,38 @@ the phrase it was read from. Two limits worth knowing:
   wins**.
 - **A phrase with no identifiable material is not a layer.** Those are dropped and listed in
   `extraction_notes` rather than guessed into the drawing.
+- **A number that gives a position is never a thickness, and no other word may rescue it.**
+  `NEVER_A_LAYER` is an unconditional veto — spacings, levels, laps, upstands. Until
+  7 September 2026 it was cancelled whenever `hatch_for()` matched anything later in the phrase,
+  and `hatch_for()` answers "what would I draw this with", not "is this a material": its patterns
+  match single common nouns. *"at 450mm vertical centres and at every stud horizontally"* matched
+  **stud** and became 450mm of timber; *"an air-gap correction of 0.01"* matched **gap**;
+  *"600mm below finished ground level"* matched **ground**. **45% of the drawn build-ups had an
+  invented band** — EW5 timber frame was drawn 764.5mm against a real 314.5mm, with the phantom
+  sitting inboard of the plasterboard. `QUALIFIER` is the separate, conditional list (*minimum*,
+  *clear*) for words that may legitimately precede a material.
+- **A member is drawn at its depth, which is the larger of the pair.** The library writes both
+  orders — `47mm x 150mm rafters` and `140mm x 38mm studs` — so neither position can be trusted.
+  Taking the first number gave a 38mm timber frame wall; taking the second, a 47mm rafter zone.
+- **A member and what fills it are one band.** The rafter zone *is* the zone the insulation
+  between the rafters occupies. Drawing both counted one 150mm zone as 300mm. A partial fill
+  still leaves the band at the member's depth (`FILLS_THE_ZONE`).
+- **`verify()` refuses to write a schedule containing any of the above, and exits non-zero.**
+  Everything downstream draws from the JSON, so a bad layer there becomes a bad sheet and a bad
+  DXF. The phrase each layer was read from had been recorded since the beginning *exactly* so it
+  could be checked, and it never was — which is why a third of the set was wrong for weeks with
+  nothing failing. It caught one more on its first run: a sentence of U-value working,
+  *"a 150mm cavity with 150mm of the 0.032 slab calculates at 0.18"*, reaching the cavity-split
+  branch looking exactly like a filled cavity.
+
+**Still open — the opposite defect.** The phrase window is greedy to 70 characters, so where a
+clause names two thicknesses close together the second is swallowed inside the first match and
+never becomes a layer. Roughly **25 real layers are missing across ~30 build-ups**: the 300mm
+mineral wool quilt on a cold-roof ceiling, a 103mm facing brick outer leaf, 50mm sand blinding,
+19mm plank flooring. A drawing missing its main insulation is as wrong as one with an invented
+band. The window cannot simply be shortened — the cavity split (`100mm cavity fully filled with
+90mm Kooltherm`) and the member rule (`47mm x 150mm rafters`) both need to see two thicknesses in
+one phrase — so swallowed thicknesses have to be re-fed through the veto pipeline instead.
 
 Watch the regexes in that file. On 7 September 2026 the `` word boundaries in `HATCH` arrived as
 literal backspace bytes (0x08 — what `` means in a *non*-raw string), so four rules compiled fine

@@ -48,15 +48,47 @@ TYPE_NAMES = {"extension": "House Extension", "loft": "Loft Conversion",
               "newbuild": "New Build", "nbflats": "New Build Flats",
               "basement": "Basement Conversion", "garagebld": "Garage Build"}
 
-# A number followed by one of these is a spacing, a lap or a clearance — never a layer.
-NOT_A_LAYER = re.compile(
-    r"^(centres|wide|deep|long|high|apart|above|below|clear|minimum|maximum|min|max|"
-    r"bearing|overlap|lap|laps|cover|diameter|gauge|square|thick at|from|"
-    r"either side|each side|beyond|into|onto|of the|in every|at |"
-    # not layers: arithmetic, spacings, member sizes, prose carried over by the match
-    r"calculates|and over\b|and in no case|is to be used|for both|to a minimum|"
-    r"where necessary|openings along|over \d|x \d|vertical|horizontal|"
-    r"gap at|gap along|gap on|and free of|so that)", re.I)
+# A number followed by one of these is a SPACING, a LEVEL, a LAP or a clearance — never the
+# thickness of a layer — and the veto is UNCONDITIONAL.
+#
+# It used to be cancelled whenever hatch_for() recognised any word later in the phrase. That was
+# wrong, because hatch_for() answers "what would I draw this with", not "is this a material", and
+# its patterns match single common nouns that turn up in ordinary prose: "at 450mm vertical
+# centres and at every stud horizontally" matched *stud* and became 450mm of timber; "an air-gap
+# correction of 0.01" matched *gap*; "600mm below finished ground level" matched *ground*.
+# On 7 September 2026 that had put an invented band into 45% of the drawn build-ups — EW5 timber
+# frame was drawn 764.5mm thick against a real 314.5mm, with the phantom inboard of the
+# plasterboard. If a phrase reads like a dimension of position rather than of substance, no word
+# anywhere else in it may rescue the number.
+NEVER_A_LAYER = re.compile(
+    r"^(?:[a-z]+\s+)?centres?\b"                       # "centres", "rafter centres", "joist centres"
+    r"|^(?:vertical|horizontal|apart|intervals?|upstands?|above|below|beyond|into|onto|"
+    r"studs? at|either side|each side|in every|at\s|from\b|of the\b|"
+    r"overlap|laps?|bearing|cover|diameter|gauge|square|wide|deep|long|high|"
+    r"and over\b|and in no case|is to be used|for both|to a minimum|where necessary|"
+    r"openings along|over \d|gap at|gap along|gap on|and free of|so that)", re.I)
+
+# These may legitimately precede a material — "150mm minimum well-compacted hardcore" is a layer,
+# and so is "50mm clear ventilated and drained cavity". They veto only when nothing follows that
+# can be identified as a material, which is the test the old single list was trying to make.
+QUALIFIER = re.compile(r"^(minimum|maximum|min|max|clear|not less than|thick at)\b", re.I)
+
+# Working, not construction: "100mm over the rafters calculates at 0.15 W/m²K" is a sentence about
+# the U-value that happens to contain a thickness. Never a layer.
+ARITHMETIC = re.compile(r"calculates|correction of|\bachieves\b", re.I)
+
+# "47mm x 150mm C24 rafters" and "140mm x 38mm C16 studs" — the library writes the pair in both
+# orders, so neither position can be trusted. A section cuts the member's DEPTH, which is always
+# the larger of the two: 47 x 150 rafters are a 150 zone, 140 x 38 studs a 140 zone. Reading the
+# first number gave a 38mm timber frame wall, the second a 47mm rafter zone.
+MEMBER = re.compile(r"^x\s*(\d+(?:\.\d+)?)\s*mm\s+(.+)$", re.I)
+
+# That zone is the same thickness of construction the insulation between the members fills, so the
+# two are one band and not two: drawing both counted a single 150mm rafter zone as 300mm and a
+# 220mm joist zone as 420mm. A partial fill still leaves the zone at the member's depth.
+FILLS_THE_ZONE = re.compile(
+    r"between (?:and under )?(?:the )?(?:joists|rafters|studs)|fitted tightly between|"
+    r"fully filling|full (?:stud|rafter|joist) depth", re.I)
 
 # material phrase -> the hatch to draw it with. Names match the patterns in the detail sheets.
 HATCH = [
@@ -104,14 +136,28 @@ def layers_from(text):
     Returns (layers, notes). Anything that looks like a spacing or a clearance rather than a
     layer is skipped, and the phrase each layer was read from is kept so it can be checked.
     """
-    layers, notes = [], []
+    layers, notes, members = [], [], []
     for m in re.finditer(r"(\d+(?:\.\d+)?)\s*mm\s+([A-Za-z][^,;.()—]{2,70})", text):
         t = float(m.group(1))
         phrase = re.sub(r"\s+", " ", m.group(2)).strip()
         raw = re.sub(r"\s+", " ", m.group(0))[:90]
-        # The qualifier test runs only when no material is named. "150mm minimum well-compacted
-        # hardcore" begins with a qualifier and is still a layer, because hardcore is a material.
-        if NOT_A_LAYER.match(phrase) and hatch_for(phrase) is None:
+        after = re.sub(r"\s+", " ", text[m.end():m.end() + 90])   # for FILLS_THE_ZONE
+
+        # A member's cross-section. Held back and resolved after the loop, so that a member and
+        # whatever fills it merge whichever order the clause names them in.
+        mem = MEMBER.match(phrase)
+        if mem:
+            pair = sorted([float(m.group(1)), float(mem.group(1))])
+            members.append({"breadth": pair[0], "depth": pair[1],
+                            "what": mem.group(2).strip(), "at": len(layers), "raw": raw})
+            continue
+
+        # Unconditional first, then the qualifier test, which asks whether a material follows.
+        if NEVER_A_LAYER.match(phrase) or ARITHMETIC.search(phrase):
+            notes.append("not a layer — %gmm reads as a spacing, a level or working: '%s'"
+                         % (t, phrase[:52]))
+            continue
+        if QUALIFIER.match(phrase) and hatch_for(phrase) is None:
             continue
         if t > 600:                      # no single layer in this library is thicker
             notes.append("skipped %gmm %s — too thick to be a layer" % (t, phrase[:40]))
@@ -125,12 +171,20 @@ def layers_from(text):
             board = float(fill.group(1))
             what = fill.group(2).strip()
             if board <= t:
+                # The vetoes apply to what the split produces as much as to anything else. A
+                # sentence of working — "a 150mm cavity with 150mm of the 0.032 slab calculates
+                # at 0.18" — reaches here looking exactly like a filled cavity, and left
+                # unchecked it became a 150mm layer called "of the 0".
+                if NEVER_A_LAYER.match(what) or ARITHMETIC.search(what):
+                    notes.append("not a layer — %gmm reads as a spacing, a level or working: '%s'"
+                                 % (board, what[:52]))
+                    continue
                 if t - board > 0:
                     layers.append({"t": round(t - board, 1), "material": "residual cavity",
-                                   "hatch": "void", "read_from": raw})
+                                   "hatch": "void", "read_from": raw, "_after": after})
                 layers.append({"t": int(board) if board == int(board) else board,
                                "material": what[:70], "hatch": hatch_for(what) or "ins",
-                               "read_from": raw})
+                               "read_from": raw, "_after": after})
                 continue
 
         h = hatch_for(phrase)
@@ -141,7 +195,36 @@ def layers_from(text):
             continue
         layers.append({"t": int(t) if t == int(t) else t,
                        "material": phrase[:70], "hatch": h,
-                       "read_from": raw})
+                       "read_from": raw, "_after": after})
+
+    # Members last. A rafter zone and the insulation between the rafters are one thickness of
+    # roof, not two, so a member is folded into the layer that fills it — by an equal thickness
+    # where the fill is full depth, or by the clause saying so where it is not.
+    for mb in members:
+        same = next((L for L in layers if abs(float(L["t"]) - mb["depth"]) < 0.51), None)
+        if same is None:
+            same = next((L for L in layers if float(L["t"]) <= mb["depth"]
+                         and FILLS_THE_ZONE.search(L.get("_after", ""))), None)
+            if same is not None:      # a partial fill: the zone is still the member's depth
+                same["t"] = int(mb["depth"]) if mb["depth"] == int(mb["depth"]) else mb["depth"]
+        if same:
+            if " between " not in same["material"]:
+                same["material"] = ("%s between %g x %gmm %s"
+                                    % (same["material"], mb["breadth"], mb["depth"], mb["what"]))[:90]
+            continue
+        if NEVER_A_LAYER.match(mb["what"]) or ARITHMETIC.search(mb["what"]) or mb["depth"] > 600:
+            continue
+        h = hatch_for(mb["what"])
+        if h is None:
+            notes.append("not treated as a layer: '%s'" % mb["what"][:56])
+            continue
+        d = mb["depth"]
+        layers.insert(min(mb["at"], len(layers)),
+                      {"t": int(d) if d == int(d) else d,
+                       "material": ("%g x %gmm %s" % (mb["breadth"], d, mb["what"]))[:70],
+                       "hatch": h, "read_from": mb["raw"]})
+    for L in layers:
+        L.pop("_after", None)
     return layers, notes
 
 
@@ -250,7 +333,35 @@ def build():
     print("  build-up-schedule.json %d types" % len(doc["types"]))
     if unmatched:
         print("  %d layers had no hatch match — listed in the schedule as unmatched" % unmatched)
+    verify(doc)
     return S
+
+
+def verify(doc):
+    """Refuse to leave an invented band in the schedule.
+
+    Everything downstream draws from this file, so a bad layer here becomes a bad sheet and a bad
+    DXF. On 7 September 2026 a third of the drawn build-ups carried a band read out of a spacing
+    or a line of U-value working, and nothing noticed: the phrase each layer was read from was
+    recorded exactly so it could be checked, and never was. This is that check, and it exits
+    non-zero, because a drawing that states a wrong thickness is worse than no drawing.
+    """
+    bad = []
+    for tk, t in doc["types"].items():
+        for b in t["buildups"]:
+            for L in b.get("layers", []):
+                m = (L.get("material") or "").strip()
+                why = ("a spacing or a level" if NEVER_A_LAYER.match(m) else
+                       "a member's cross-section" if MEMBER.match(m) else
+                       "U-value working" if ARITHMETIC.search(m) else None)
+                if why:
+                    bad.append("  %s / %s: %gmm reads as %s — '%s'"
+                               % (tk, b["title"][:40], L["t"], why, m[:52]))
+    if bad:
+        print("\n  REFUSING THE SCHEDULE — %d layer(s) are not layers:" % len(bad))
+        print("\n".join(bad))
+        raise SystemExit(1)
+    print("  checked: no layer reads as a spacing, a member breadth or U-value working")
 
 
 # ─────────────────────────────────────────────────────────────────────────────────────────

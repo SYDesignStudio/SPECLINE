@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-07T00:56:19+00:00",
+ "generated": "2026-09-07T20:29:21+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [
@@ -32,12 +32,6 @@
      "standard": "Engineer's design · 0.17 W/m²K",
      "layers": [
       {
-       "t": 40,
-       "material": "cover to the concrete",
-       "hatch": "conc",
-       "read_from": "40mm cover to the concrete"
-      },
-      {
        "t": 150,
        "material": "of well consolidated hardcore capable of supporting not less than 50 k",
        "hatch": "hard",
@@ -62,10 +56,13 @@
        "read_from": "75mm sand and cement screed"
       }
      ],
-     "total_mm": 380,
+     "total_mm": 340,
      "extraction_notes": [
+      "not a layer — 450mm reads as a spacing, a level or working: 'for both mesh and bar'",
+      "not a layer — 40mm reads as a spacing, a level or working: 'cover to the concrete'",
       "not treated as a layer: 'and sealed at all joints and linked to the wall damp pro'",
-      "not treated as a layer: 'where reinforced'"
+      "not treated as a layer: 'where reinforced'",
+      "not a layer — 90mm reads as a spacing, a level or working: 'calculates at 0'"
      ],
      "verified_table": null,
      "clause": [
@@ -85,17 +82,11 @@
      "u_achieved": null,
      "u_target": null,
      "standard": "Wall + 300 × 225, 1000 deep",
-     "layers": [
-      {
-       "t": 600,
-       "material": "below finished ground level",
-       "hatch": "earth",
-       "read_from": "600mm below finished ground level"
-      }
-     ],
-     "total_mm": 600,
+     "layers": [],
+     "total_mm": null,
      "extraction_notes": [
-      "skipped 1000mm below finished ground level — too thick to be a layer"
+      "not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level'",
+      "not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'"
      ],
      "verified_table": null,
      "clause": [
@@ -115,18 +106,13 @@
      "u_achieved": null,
      "u_target": null,
      "standard": "Wall + 300 wide, 1000 deep",
-     "layers": [
-      {
-       "t": 600,
-       "material": "below finished ground level",
-       "hatch": "earth",
-       "read_from": "600mm below finished ground level"
-      }
-     ],
-     "total_mm": 600,
+     "layers": [],
+     "total_mm": null,
      "extraction_notes": [
       "skipped 750mm thick — too thick to be a layer",
-      "skipped 1000mm below finished ground level and cast aga — too thick to be a layer",
+      "not a layer — 300mm reads as a spacing, a level or working: 'and in no case less than 450mm'",
+      "not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level and cast against undistu'",
+      "not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'",
       "not treated as a layer: 'can fall below the 450mm minimum for trench fill'",
       "not treated as a layer: 'governs'"
      ],
@@ -148,16 +134,11 @@
      "u_achieved": "0.30",
      "u_target": null,
      "standard": "0.30 W/m²K",
-     "layers": [
-      {
-       "t": 150,
-       "material": "above finished ground level so the damp proof course is not bridged",
-       "hatch": "earth",
-       "read_from": "150mm above finished ground level so the damp proof course is not bridged"
-      }
+     "layers": [],
+     "total_mm": null,
+     "extraction_notes": [
+      "not a layer — 150mm reads as a spacing, a level or working: 'above finished ground level so the damp proof course'"
      ],
-     "total_mm": 150,
-     "extraction_notes": [],
      "verified_table": null,
      "clause": [
       "Proprietary external wall insulation system applied to the existing masonry, comprising insulation boards mechanically fixed and adhered, reinforced base coat with mesh, and a finish coat, all to the system manufacturer's specification and current BBA certificate. Components from a single manufacturer's system throughout.",
@@ -206,7 +187,10 @@
       }
      ],
      "total_mm": 315.5,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres'",
+      "not a layer — 225mm reads as a spacing, a level or working: 'vertical centres within 225mm of all unbonded jambs'"
+     ],
      "verified_table": "EW1",
      "clause": [
       "External cavity wall to be built up as a 103mm facing brick outer leaf matched to the existing dwelling, a 100mm cavity fully filled with 90mm Kingspan Kooltherm K106, and a 100mm aircrete blockwork inner leaf of 0.11 W/mK thermal conductivity — Celcon Solar, Thermalite Turbo or equivalent, 2.9N with the strength grade confirmed by the structural engineer — finished internally with 12.5mm plasterboard on dabs. A nominal 10mm residual cavity is to remain between the face of the insulation and the back of the outer leaf. All masonry laid in 1:1:6 cement:lime:sand mortar. This build-up calculates at 0.17 W/m²K to BS EN ISO 6946 allowing for mortar joints, wall ties and an air-gap correction of 0.01; with a 0.15 W/mK block (Celcon Standard, Thermalite Shield) it calculates at 0.18 W/m²K and still meets the limiting value.",
@@ -304,7 +288,7 @@
       },
       {
        "t": 140,
-       "material": "x 38mm C16 studs at 600mm centres to the frame designer's specificatio",
+       "material": "38 x 140mm C16 studs at 600mm centres to the frame designer's specific",
        "hatch": "timber",
        "read_from": "140mm x 38mm C16 studs at 600mm centres to the frame designer's specification"
       },
@@ -319,16 +303,12 @@
        "material": "plasterboard internal finish",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard internal finish"
-      },
-      {
-       "t": 450,
-       "material": "vertical centres and at every stud horizontally",
-       "hatch": "timber",
-       "read_from": "450mm vertical centres and at every stud horizontally"
       }
      ],
-     "total_mm": 764.5,
-     "extraction_notes": [],
+     "total_mm": 314.5,
+     "extraction_notes": [
+      "not a layer — 450mm reads as a spacing, a level or working: 'vertical centres and at every stud horizontally'"
+     ],
      "verified_table": null,
      "clause": [
       "Timber frame external wall to comprise 103mm suitable facing brick or proprietary render system outer leaf, minimum 50mm clear ventilated and drained cavity, breather membrane, 140mm x 38mm C16 studs at 600mm centres to the frame designer's specification with the full stud depth insulated, 9mm OSB3 racking board, continuous vapour control layer on the warm side, and 12.5mm plasterboard internal finish.",
@@ -346,7 +326,7 @@
      "layers": [
       {
        "t": 89,
-       "material": "x 38mm C16 studs at 400mm centres with head and sole plates",
+       "material": "38 x 89mm C16 studs at 400mm centres with head and sole plates",
        "hatch": "timber",
        "read_from": "89mm x 38mm C16 studs at 400mm centres with head and sole plates"
       },
@@ -410,7 +390,9 @@
       }
      ],
      "total_mm": 12.5,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 600mm reads as a spacing, a level or working: 'centres in matching floor and head channels'"
+     ],
      "verified_table": null,
      "clause": [
       "Internal partition of proprietary galvanised steel C-studs at 600mm centres in matching floor and head channels, to the system manufacturer's specification for the height and board configuration required. Infill the full stud depth with acoustic mineral wool and line both faces with 12.5mm plasterboard, joints staggered, taped and filled.",
@@ -556,7 +538,10 @@
       }
      ],
      "total_mm": 320,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 150mm reads as a spacing, a level or working: 'to a minimum finished thickness of 150mm'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'lapped and sealed joints'"
+     ],
      "verified_table": "GF1",
      "clause": [
       "Excavate to formation and lay hardcore in compacted layers not exceeding 150mm to a minimum finished thickness of 150mm, blinded with 50mm of sand or other suitable fine material to protect the membrane above.",
@@ -603,7 +588,9 @@
       }
      ],
      "total_mm": 318,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres'"
+     ],
      "verified_table": null,
      "clause": [
       "Suspended timber ground floor to comprise floor joists to the structural engineer's design at 400mm centres, with rigid insulation between and beneath the joists to achieve the target U-value, supported on breathable insulation support netting.",
@@ -681,16 +668,13 @@
        "material": "plasterboard with skim",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard with skim"
-      },
-      {
-       "t": 10,
-       "material": "gap at the eaves on two opposite sides",
-       "hatch": "void",
-       "read_from": "10mm gap at the eaves on two opposite sides"
       }
      ],
-     "total_mm": 122.5,
-     "extraction_notes": [],
+     "total_mm": 112.5,
+     "extraction_notes": [
+      "not a layer — 10mm reads as a spacing, a level or working: 'gap at the eaves on two opposite sides'",
+      "not a layer — 5mm reads as a spacing, a level or working: 'at the ridge where the pitch exceeds 35° or the span'"
+     ],
      "verified_table": null,
      "clause": [
       "Provide 100mm mineral wool quilt between ceiling joists and 300mm mineral wool quilt laid cross-wise over the joists, or equivalent to achieve the target U-value. Ceiling finish 12.5mm plasterboard with skim.",
@@ -708,14 +692,8 @@
      "standard": "0.15 W/m²K",
      "layers": [
       {
-       "t": 47,
-       "material": "x 150mm minimum rafters to the structural engineer's design",
-       "hatch": "timber",
-       "read_from": "47mm x 150mm minimum rafters to the structural engineer's design"
-      },
-      {
        "t": 150,
-       "material": "Kingspan Kooltherm K107 pitched roof board",
+       "material": "Kingspan Kooltherm K107 pitched roof board between 47 x 150mm minimum rafters to the struc",
        "hatch": "ins",
        "read_from": "150mm Kingspan Kooltherm K107 pitched roof board "
       },
@@ -724,12 +702,6 @@
        "material": "Kingspan Kooltherm K118 insulated plasterboard beneath the rafters",
        "hatch": "ins",
        "read_from": "62.5mm Kingspan Kooltherm K118 insulated plasterboard beneath the rafters"
-      },
-      {
-       "t": 400,
-       "material": "rafter centres",
-       "hatch": "timber",
-       "read_from": "400mm rafter centres"
       },
       {
        "t": 52.5,
@@ -742,16 +714,14 @@
        "material": "ventilated air gap above the insulation with ventilation equivalent to",
        "hatch": "ins",
        "read_from": "50mm ventilated air gap above the insulation with ventilation equivalent to "
-      },
-      {
-       "t": 25,
-       "material": "gap at the eaves and 5mm at the ridge",
-       "hatch": "void",
-       "read_from": "25mm gap at the eaves and 5mm at the ridge"
       }
      ],
-     "total_mm": 787.0,
-     "extraction_notes": [],
+     "total_mm": 315.0,
+     "extraction_notes": [
+      "not a layer — 400mm reads as a spacing, a level or working: 'rafter centres'",
+      "not a layer — 5mm reads as a spacing, a level or working: 'calculates at 0'",
+      "not a layer — 25mm reads as a spacing, a level or working: 'gap at the eaves and 5mm at the ridge'"
+     ],
      "verified_table": null,
      "clause": [
       "Roof covering to match existing on battens and counter-battens over a breathable roofing underlay to BS 5534, on 47mm x 150mm minimum rafters to the structural engineer's design. Provide 150mm Kingspan Kooltherm K107 pitched roof board (thermal conductivity 0.019 W/mK) fully filling the rafter depth and 62.5mm Kingspan Kooltherm K118 insulated plasterboard beneath the rafters, with all joints tightly butted and taped. This build-up calculates at 0.14 W/m²K to BS EN ISO 6946 at 400mm rafter centres, allowing for rafter bridging and an air-gap correction of 0.01; 52.5mm under-rafter board in place of 62.5mm calculates at 0.15 and meets the target with no margin.",
@@ -782,7 +752,11 @@
       }
      ],
      "total_mm": 168,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 120mm reads as a spacing, a level or working: 'and over'",
+      "not a layer — 160mm reads as a spacing, a level or working: 'is to be used instead'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'at all abutments'"
+     ],
      "verified_table": "RF1",
      "clause": [
       "Warm deck flat roof to comprise timber joists to the structural engineer's design, 18mm external quality plywood decking or OSB3 laid to falls, vapour control layer fully bonded to the deck with all laps sealed, 150mm Kingspan Thermaroof TR27 insulation (thermal conductivity 0.024 W/mK at 120mm and over) laid break-bonded in two layers and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where the insulation is mechanically fixed the fastener correction takes it to 0.16 and 160mm is to be used instead.",
@@ -812,13 +786,7 @@
       },
       {
        "t": 140,
-       "material": "x 38mm C16 studs at 400mm centres with the full stud depth filled with",
-       "hatch": "timber",
-       "read_from": "140mm x 38mm C16 studs at 400mm centres with the full stud depth filled with "
-      },
-      {
-       "t": 140,
-       "material": "Kingspan Kooltherm K112 Framing Board",
+       "material": "Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres with t",
        "hatch": "ins",
        "read_from": "140mm Kingspan Kooltherm K112 Framing Board "
       },
@@ -827,12 +795,6 @@
        "material": "Kingspan Kooltherm K118 insulated plasterboard with joints taped",
        "hatch": "ins",
        "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped"
-      },
-      {
-       "t": 400,
-       "material": "centres and an air-gap correction of 0",
-       "hatch": "void",
-       "read_from": "400mm centres and an air-gap correction of 0"
       },
       {
        "t": 184,
@@ -847,8 +809,10 @@
        "read_from": "5mm plasterboard achieve the same figure"
       }
      ],
-     "total_mm": 924.5,
-     "extraction_notes": [],
+     "total_mm": 384.5,
+     "extraction_notes": [
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres and an air-gap correction of 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Dormer cheek to comprise external cladding — tile hanging, slate, or proprietary panel as the elevations — on treated battens over a breather membrane, with a ventilated and drained cavity behind, on 18mm external quality plywood sheathing, 140mm x 38mm C16 studs at 400mm centres with the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer on the warm side, and 37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped. This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for the studs bridging the insulation at 9.5% of the area at 400mm centres and an air-gap correction of 0.01. Where internal width matters more than the thickness of the cheek, 184mm studs fully filled with 12.5mm plasterboard achieve the same figure.",
@@ -866,7 +830,7 @@
      "layers": [
       {
        "t": 140,
-       "material": "x 38mm C16 studs at 400mm centres with the full depth filled with 140m",
+       "material": "38 x 140mm C16 studs at 400mm centres with the full depth filled with ",
        "hatch": "timber",
        "read_from": "140mm x 38mm C16 studs at 400mm centres with the full depth filled with 140mm"
       },
@@ -881,16 +845,12 @@
        "material": "Kingspan Kooltherm K118 insulated plasterboard with joints taped",
        "hatch": "ins",
        "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped"
-      },
-      {
-       "t": 400,
-       "material": "centres and an air-gap correction of 0",
-       "hatch": "void",
-       "read_from": "400mm centres and an air-gap correction of 0"
       }
      ],
-     "total_mm": 595.5,
-     "extraction_notes": [],
+     "total_mm": 195.5,
+     "extraction_notes": [
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres and an air-gap correction of 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Dormer cheek as the tile-hung cheek but finished in a through-coloured silicone or polymer render system applied to a proprietary render carrier board on treated battens over the breather membrane, with a drained and ventilated cavity behind the board, stainless steel beads, a bell cast drip at the base and movement beads at not more than 5m centres and at changes of substrate. Render system to be installed by the system manufacturer's approved contractor to the BBA certificate.",
@@ -934,7 +894,7 @@
      "layers": [
       {
        "t": 89,
-       "material": "x 38mm C16 studs at 400mm centres between sole plate and head plate",
+       "material": "38 x 89mm C16 studs at 400mm centres between sole plate and head plate",
        "hatch": "timber",
        "read_from": "89mm x 38mm C16 studs at 400mm centres between sole plate and head plate"
       },
@@ -985,7 +945,11 @@
       }
      ],
      "total_mm": 400.0,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 5mm reads as a spacing, a level or working: 'calculates at 0'",
+      "not a layer — 62.5mm reads as a spacing, a level or working: 'calculates at 0'",
+      "not a layer — 62.5mm reads as a spacing, a level or working: 'calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where an existing solid or cavity masonry gable wall becomes part of the thermal envelope, provide 72.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs or on treated battens, with all joints tightly butted and taped and a continuous vapour control layer where the board does not incorporate one. On a 215mm solid brick wall 72.5mm calculates at 0.26 W/m²K to BS EN ISO 6946 (62.5mm calculates at 0.30 with no margin); on an uninsulated cavity wall 62.5mm calculates at 0.29. Where the new-element value of 0.18 is wanted, 112.5mm board or a 90mm insulated stud lining is needed and the loss of floor width is to be weighed against it.",
@@ -1009,20 +973,17 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to a "
       },
       {
-       "t": 215,
-       "material": "solid brick wall calculates at 0",
-       "hatch": "brick",
-       "read_from": "215mm solid brick wall calculates at 0"
-      },
-      {
        "t": 100,
        "material": "single-leaf block wall at 0",
        "hatch": "dense",
        "read_from": "100mm single-leaf block wall at 0"
       }
      ],
-     "total_mm": 387.5,
-     "extraction_notes": [],
+     "total_mm": 172.5,
+     "extraction_notes": [
+      "not a layer — 215mm reads as a spacing, a level or working: 'solid brick wall calculates at 0'",
+      "not a layer — 62.5mm reads as a spacing, a level or working: 'calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "The existing separating wall is to be continued to the underside of the roof covering and fire stopped at the junction with the roof, in accordance with Approved Document B. Any gap, void, missing masonry or open perpend revealed during the works is to be made good in full, in masonry, before the new construction is closed up.",
@@ -1095,7 +1056,7 @@
      "layers": [
       {
        "t": 140,
-       "material": "x 38mm C16 studs at 400mm centres with head and sole plates and noggin",
+       "material": "38 x 140mm C16 studs at 400mm centres with head and sole plates and no",
        "hatch": "timber",
        "read_from": "140mm x 38mm C16 studs at 400mm centres with head and sole plates and noggins"
       },
@@ -1118,20 +1079,16 @@
        "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped and sk"
       },
       {
-       "t": 400,
-       "material": "centres and an air-gap correction of 0",
-       "hatch": "void",
-       "read_from": "400mm centres and an air-gap correction of 0"
-      },
-      {
        "t": 12.5,
        "material": "plasterboard alone in place of the insulated board the same panel calc",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard alone in place of the insulated board the same panel calcu"
       }
      ],
-     "total_mm": 739.0,
-     "extraction_notes": [],
+     "total_mm": 339.0,
+     "extraction_notes": [
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres and an air-gap correction of 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where the existing flank wall or its foundation will not carry a new masonry gable, or where the gable is to be clad to match tile hanging or render on the elevations, the new gable is to be a timber frame panel built off a treated softwood sole plate bedded on a damp proof course on the head of the existing wall and fixed with resin anchors or straps to the engineer's design. Panel of 140mm x 38mm C16 studs at 400mm centres with head and sole plates and noggins, 9mm OSB3 sheathing externally, breather membrane, treated battens and counter-battens, and tile hanging, slate hanging or render on a carrier board to match the elevations.",
@@ -1151,7 +1108,7 @@
      "layers": [
       {
        "t": 89,
-       "material": "x 38mm C16 studs at 400mm centres",
+       "material": "38 x 89mm C16 studs at 400mm centres",
        "hatch": "timber",
        "read_from": "89mm x 38mm C16 studs at 400mm centres"
       },
@@ -1181,7 +1138,7 @@
      "layers": [
       {
        "t": 89,
-       "material": "x 38mm C16 studs at 400mm centres with head and sole plates and solid ",
+       "material": "38 x 89mm C16 studs at 400mm centres with head and sole plates and sol",
        "hatch": "timber",
        "read_from": "89mm x 38mm C16 studs at 400mm centres with head and sole plates and solid n"
       },
@@ -1259,7 +1216,11 @@
       }
      ],
      "total_mm": 168,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 120mm reads as a spacing, a level or working: 'and over'",
+      "not a layer — 160mm reads as a spacing, a level or working: 'is to be used instead'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'at all abutments'"
+     ],
      "verified_table": null,
      "clause": [
       "Dormer roof to comprise timber joists to the structural engineer's design, 18mm external quality plywood or OSB3 decking laid to falls, vapour control layer fully bonded to the deck with all laps sealed, 150mm Kingspan Thermaroof TR27 insulation (thermal conductivity 0.024 W/mK at 120mm and over) laid break-bonded in two layers and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where the insulation is mechanically fixed the fastener correction takes it to 0.16 and 160mm is to be used instead.",
@@ -1276,8 +1237,8 @@
      "standard": "0.14 W/m²K",
      "layers": [
       {
-       "t": 47,
-       "material": "x 150mm C24 rafters at 400mm centres to the structural engineer's desi",
+       "t": 150,
+       "material": "47 x 150mm C24 rafters at 400mm centres to the structural engineer's d",
        "hatch": "timber",
        "read_from": "47mm x 150mm C24 rafters at 400mm centres to the structural engineer's desig"
       },
@@ -1292,16 +1253,12 @@
        "material": "Kingspan Kooltherm K118 insulated plasterboard beneath the rafters",
        "hatch": "ins",
        "read_from": "62.5mm Kingspan Kooltherm K118 insulated plasterboard beneath the rafters"
-      },
-      {
-       "t": 400,
-       "material": "rafter centres allowing for rafter bridging and an air-gap correction ",
-       "hatch": "timber",
-       "read_from": "400mm rafter centres allowing for rafter bridging and an air-gap correction o"
       }
      ],
-     "total_mm": 659.5,
-     "extraction_notes": [],
+     "total_mm": 362.5,
+     "extraction_notes": [
+      "not a layer — 400mm reads as a spacing, a level or working: 'rafter centres allowing for rafter bridging and an a'"
+     ],
      "verified_table": null,
      "clause": [
       "Pitched or gabled dormer roof of 47mm x 150mm C24 rafters at 400mm centres to the structural engineer's design, tiles or slates to match the main roof on treated battens and counter-battens over a breathable roofing underlay to BS 5534, with the ridge, hips and valleys formed to match the main roof and the covering fixed to the manufacturer's schedule for the exposure.",
@@ -1337,22 +1294,18 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard beneath the rafters"
       },
       {
-       "t": 400,
-       "material": "rafter centres with K107 at a thermal conductivity of 0",
-       "hatch": "ins",
-       "read_from": "400mm rafter centres with K107 at a thermal conductivity of 0"
-      },
-      {
        "t": 62.5,
        "material": "under-rafter board in place of 72",
        "hatch": "timber",
        "read_from": "62.5mm under-rafter board in place of 72"
       }
      ],
-     "total_mm": 710.0,
+     "total_mm": 310.0,
      "extraction_notes": [
+      "not a layer — 400mm reads as a spacing, a level or working: 'rafter centres with K107 at a thermal conductivity o'",
+      "not a layer — 5mm reads as a spacing, a level or working: 'calculates at 0'",
       "not treated as a layer: 'between with 37'",
-      "not treated as a layer: 'under calculates at 0'"
+      "not a layer — 5mm reads as a spacing, a level or working: 'under calculates at 0'"
      ],
      "verified_table": null,
      "clause": [
@@ -1376,16 +1329,13 @@
        "material": "mineral wool quilt between ceiling joists and 300mm mineral wool quilt",
        "hatch": "wool",
        "read_from": "100mm mineral wool quilt between ceiling joists and 300mm mineral wool quilt "
-      },
-      {
-       "t": 10,
-       "material": "gap at the eaves on two opposite sides",
-       "hatch": "void",
-       "read_from": "10mm gap at the eaves on two opposite sides"
       }
      ],
-     "total_mm": 110,
-     "extraction_notes": [],
+     "total_mm": 100,
+     "extraction_notes": [
+      "not a layer — 10mm reads as a spacing, a level or working: 'gap at the eaves on two opposite sides'",
+      "not a layer — 5mm reads as a spacing, a level or working: 'at the ridge where the pitch exceeds 35°'"
+     ],
      "verified_table": null,
      "clause": [
       "To flat ceiling areas and to any residual roof void outside the insulated envelope, provide 100mm mineral wool quilt between ceiling joists and 300mm mineral wool quilt laid cross-wise over the joists.",
@@ -1576,7 +1526,9 @@
       }
      ],
      "total_mm": 200,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 100mm reads as a spacing, a level or working: 'expanded polystyrene build-up on a 215mm solid brick'"
+     ],
      "verified_table": null,
      "clause": [
       "Where the elevation is not of architectural or planning value and internal space is at a premium, insulate the existing solid wall externally with 100mm expanded polystyrene of 0.032 W/mK or 100mm mineral wool slab of 0.036 W/mK (0.30) mechanically fixed and adhered to the prepared masonry, a base coat with alkali-resistant mesh, and a through-coloured silicone render finish, all as a complete system with a BBA certificate installed by the system holder's approved contractor. Starter track and drip at the base above the damp proof course, stainless steel beads at corners and openings, window sills extended to give a projecting drip over the new face, and the eaves, verges, rainwater goods and soil pipes extended or re-fixed to clear the new thickness.",
@@ -1606,20 +1558,16 @@
        "read_from": "62.5mm to an uninsulated cavity wall"
       },
       {
-       "t": 72.5,
-       "material": "board on a 215mm solid brick wall calculates at 0",
-       "hatch": "brick",
-       "read_from": "72.5mm board on a 215mm solid brick wall calculates at 0"
-      },
-      {
        "t": 62.5,
        "material": "board on an uninsulated cavity wall at 0",
        "hatch": "void",
        "read_from": "62.5mm board on an uninsulated cavity wall at 0"
       }
      ],
-     "total_mm": 270.0,
-     "extraction_notes": [],
+     "total_mm": 197.5,
+     "extraction_notes": [
+      "not a layer — 72.5mm reads as a spacing, a level or working: 'board on a 215mm solid brick wall calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where an existing external wall is retained and upgraded, provide 72.5mm Kingspan Kooltherm K118 insulated plasterboard (thermal conductivity 0.019 W/mK) to a solid wall, or 62.5mm to an uninsulated cavity wall, on dabs or on treated battens to the internal face, with all joints tightly butted and taped and a continuous vapour control layer where the board does not incorporate one.",
@@ -1672,7 +1620,7 @@
      "layers": [
       {
        "t": 89,
-       "material": "x 38mm C16 studs at 400mm centres with head and sole plates and solid ",
+       "material": "38 x 89mm C16 studs at 400mm centres with head and sole plates and sol",
        "hatch": "timber",
        "read_from": "89mm x 38mm C16 studs at 400mm centres with head and sole plates and solid n"
       },
@@ -1725,7 +1673,9 @@
       }
      ],
      "total_mm": 192,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 60mm reads as a spacing, a level or working: 'calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where the ground floor flat has an existing solid floor and the floor is renovated as part of the works, or where the existing floor has no damp proof membrane, provide a polyethylene damp proof membrane of not less than 1200 gauge over the cleaned slab, lapped and taped and linked to the wall damp proof course, 80mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) tightly butted with 25mm perimeter upstands, a vapour control layer, and 22mm tongued and grooved P5 chipboard as a floating floor with a 10mm perimeter gap, or a 65mm screed where headroom allows and the slab will carry it.",
@@ -1753,16 +1703,13 @@
        "material": "P5 chipboard deck",
        "hatch": "timber",
        "read_from": "22mm P5 chipboard deck"
-      },
-      {
-       "t": 400,
-       "material": "joist centres",
-       "hatch": "timber",
-       "read_from": "400mm joist centres"
       }
      ],
-     "total_mm": 572,
-     "extraction_notes": [],
+     "total_mm": 172,
+     "extraction_notes": [
+      "not a layer — 400mm reads as a spacing, a level or working: 'joist centres'",
+      "not a layer — 100mm reads as a spacing, a level or working: 'calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where the ground floor flat has a suspended timber floor, lift the boards, inspect the joists, wall plates and sleeper walls for rot and beetle and treat or replace as the engineer directs, and clear the oversite of debris. Fit 150mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) tightly between the joists on treated battens or breathable netting stapled to the joist sides so the board is flush with the top of the joists, seal the joints with foil tape, lay a breathable membrane or vapour control layer over the joists lapped up the walls behind the skirting, and relay the boards or a new 22mm P5 chipboard deck.",
@@ -1792,19 +1739,16 @@
       },
       {
        "t": 150,
-       "material": "upstands and new edge trims and outlets",
-       "hatch": "ins",
-       "read_from": "150mm upstands and new edge trims and outlets"
-      },
-      {
-       "t": 150,
        "material": "joists",
        "hatch": "timber",
        "read_from": "150mm joists"
       }
      ],
-     "total_mm": 448,
-     "extraction_notes": [],
+     "total_mm": 298,
+     "extraction_notes": [
+      "not a layer — 150mm reads as a spacing, a level or working: 'upstands and new edge trims and outlets'",
+      "not a layer — 120mm reads as a spacing, a level or working: 'calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where an existing flat roof over a flat is re-covered, strip the existing covering, replace any soft or delaminated decking with 18mm exterior grade plywood or OSB3 laid to falls, lay a vapour control layer fully bonded to the deck with laps sealed, 130mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands and new edge trims and outlets. Existing soffit vents to the joist void are to be sealed once the warm deck is complete.",
@@ -1827,22 +1771,10 @@
        "read_from": "125mm Kingspan Kooltherm K107 Pitched Roof Board "
       },
       {
-       "t": 150,
-       "material": "where necessary so that a 50mm ventilated gap remains above the board ",
-       "hatch": "void",
-       "read_from": "150mm where necessary so that a 50mm ventilated gap remains above the board w"
-      },
-      {
        "t": 62.5,
        "material": "Kingspan Kooltherm K118 insulated plasterboard beneath the rafters wit",
        "hatch": "ins",
        "read_from": "62.5mm Kingspan Kooltherm K118 insulated plasterboard beneath the rafters with"
-      },
-      {
-       "t": 400,
-       "material": "rafter centres allowing for rafter bridging and an air-gap correction ",
-       "hatch": "timber",
-       "read_from": "400mm rafter centres allowing for rafter bridging and an air-gap correction o"
       },
       {
        "t": 100,
@@ -1851,20 +1783,17 @@
        "read_from": "100mm K107 filling existing 100mm rafters "
       },
       {
-       "t": 72.5,
-       "material": "K118 beneath it calculates at 0",
-       "hatch": "ins",
-       "read_from": "72.5mm K118 beneath it calculates at 0"
-      },
-      {
        "t": 25,
        "material": "and 5mm continuous gap where the underlay is not breathable",
        "hatch": "membrane",
        "read_from": "25mm and 5mm continuous gap where the underlay is not breathable"
       }
      ],
-     "total_mm": 935.0,
+     "total_mm": 312.5,
      "extraction_notes": [
+      "not a layer — 150mm reads as a spacing, a level or working: 'where necessary so that a 50mm ventilated gap remain'",
+      "not a layer — 400mm reads as a spacing, a level or working: 'rafter centres allowing for rafter bridging and an a'",
+      "not a layer — 72.5mm reads as a spacing, a level or working: 'K118 beneath it calculates at 0'",
       "not treated as a layer: 'beneath gives 0'"
      ],
      "verified_table": null,
@@ -1903,17 +1832,11 @@
      "u_achieved": null,
      "u_target": null,
      "standard": "Wall + 300 × 225, 1000 deep",
-     "layers": [
-      {
-       "t": 600,
-       "material": "below finished ground level",
-       "hatch": "earth",
-       "read_from": "600mm below finished ground level"
-      }
-     ],
-     "total_mm": 600,
+     "layers": [],
+     "total_mm": null,
      "extraction_notes": [
-      "skipped 1000mm below finished ground level — too thick to be a layer"
+      "not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level'",
+      "not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'"
      ],
      "verified_table": null,
      "clause": [
@@ -1933,18 +1856,13 @@
      "u_achieved": null,
      "u_target": null,
      "standard": "Wall + 300 wide, 1000 deep",
-     "layers": [
-      {
-       "t": 600,
-       "material": "below finished ground level",
-       "hatch": "earth",
-       "read_from": "600mm below finished ground level"
-      }
-     ],
-     "total_mm": 600,
+     "layers": [],
+     "total_mm": null,
      "extraction_notes": [
       "skipped 750mm thick — too thick to be a layer",
-      "skipped 1000mm below finished ground level and cast aga — too thick to be a layer",
+      "not a layer — 300mm reads as a spacing, a level or working: 'and in no case less than 450mm'",
+      "not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level and cast against undistu'",
+      "not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'",
       "not treated as a layer: 'can fall below the 450mm minimum for trench fill'",
       "not treated as a layer: 'governs'"
      ],
@@ -1980,12 +1898,6 @@
        "read_from": "37.5mm insulated plasterboard"
       },
       {
-       "t": 62.5,
-       "material": "board on dabs calculates at 0",
-       "hatch": "pboard",
-       "read_from": "62.5mm board on dabs calculates at 0"
-      },
-      {
        "t": 103,
        "material": "brick outer leaf",
        "hatch": "brick",
@@ -1998,8 +1910,10 @@
        "read_from": "50mm clear cavity and 100mm dense block inner leaf"
       }
      ],
-     "total_mm": 315.5,
-     "extraction_notes": [],
+     "total_mm": 253.0,
+     "extraction_notes": [
+      "not a layer — 62.5mm reads as a spacing, a level or working: 'board on dabs calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where the garage was built with an uninsulated cavity wall, inspect the cavity with a borescope for debris and bridging, clean and confirm the damp proof course. Line internally with 62.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs with a continuous ribbon of adhesive at the perimeter and around openings, all joints taped, or fill the cavity with a certificated blown insulation and line with 37.5mm insulated plasterboard.",
@@ -2022,20 +1936,17 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to a "
       },
       {
-       "t": 100,
-       "material": "single-leaf block wall calculates at 0",
-       "hatch": "dense",
-       "read_from": "100mm single-leaf block wall calculates at 0"
-      },
-      {
        "t": 215,
        "material": "brick wall at 0",
        "hatch": "brick",
        "read_from": "215mm brick wall at 0"
       }
      ],
-     "total_mm": 387.5,
-     "extraction_notes": [],
+     "total_mm": 287.5,
+     "extraction_notes": [
+      "not a layer — 100mm reads as a spacing, a level or working: 'single-leaf block wall calculates at 0'",
+      "not a layer — 62.5mm reads as a spacing, a level or working: 'calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where the garage is one of a pair or a terrace and the wall between is shared, the wall is a compartment wall separating two buildings: make good every gap, open perpend, redundant hole and built-in timber so the wall gives 60 minutes fire resistance, carry it up to the underside of the roof covering and fire stop the junction, and do not chase sockets or recesses into it. The neighbour's garage is an unheated space, so the wall is a thermal element of the new room and is to be insulated to 0.30 W/m²K: 72.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to a 100mm single-leaf block wall calculates at 0.27 W/m²K to BS EN ISO 6946 with both faces treated as internal surfaces, and to a 215mm brick wall at 0.26; 62.5mm calculates at 0.31 and 0.30 and is not to be used.",
@@ -2072,7 +1983,10 @@
       }
      ],
      "total_mm": 415,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 100mm reads as a spacing, a level or working: 'expanded polystyrene system on a 100mm dense block w'",
+      "not a layer — 100mm reads as a spacing, a level or working: 'mineral wool version calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where internal space is critical and the elevation is not constrained by planning, insulate the existing single-leaf or cavity wall externally with 100mm expanded polystyrene of 0.032 W/mK or 100mm mineral wool of 0.036 W/mK mechanically fixed and adhered to the prepared masonry, a base coat with alkali-resistant mesh and a through-coloured silicone render finish, as a complete BBA-certificated system installed by the system holder's approved contractor, with a starter track and drip above the damp proof course, beads at corners and openings, sills extended to give a drip over the new face, and the eaves, verge and rainwater goods extended to clear the added thickness.",
@@ -2095,12 +2009,6 @@
        "read_from": "100mm block or 215mm brick single-leaf wall to be retained"
       },
       {
-       "t": 150,
-       "material": "above external ground level",
-       "hatch": "earth",
-       "read_from": "150mm above external ground level"
-      },
-      {
        "t": 90,
        "material": "Kingspan Kooltherm K112 Framing Board",
        "hatch": "ins",
@@ -2113,20 +2021,19 @@
        "read_from": "12.5mm plasterboard skimmed"
       },
       {
-       "t": 89,
-       "material": "stud calculates at 0",
-       "hatch": "timber",
-       "read_from": "89mm stud calculates at 0"
-      },
-      {
        "t": 72.5,
        "material": "Kingspan Kooltherm K118 insulated plasterboard fixed on battens over t",
        "hatch": "ins",
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard fixed on battens over th"
       }
      ],
-     "total_mm": 514.0,
-     "extraction_notes": [],
+     "total_mm": 275.0,
+     "extraction_notes": [
+      "not a layer — 150mm reads as a spacing, a level or working: 'above external ground level'",
+      "not a layer — 600mm reads as a spacing, a level or working: 'centres'",
+      "not a layer — 89mm reads as a spacing, a level or working: 'stud calculates at 0'",
+      "not a layer — 140mm reads as a spacing, a level or working: 'deep and fully filled'"
+     ],
      "verified_table": null,
      "clause": [
       "Existing 100mm block or 215mm brick single-leaf wall to be retained. Inspect externally for cracked, hollow or missing pointing and render and make good; the external face is the only rain screen the wall has. Apply a liquid damp proof membrane or a proprietary tanking slurry to the internal face from floor level to 150mm above external ground level, lapped with the floor membrane.",
@@ -2161,16 +2068,12 @@
        "material": "plasterboard on dabs",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard on dabs"
-      },
-      {
-       "t": 150,
-       "material": "of the 0",
-       "hatch": "ins",
-       "read_from": "150mm cavity with 150mm of the 0"
       }
      ],
-     "total_mm": 362.5,
+     "total_mm": 212.5,
      "extraction_notes": [
+      "not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'of the 0'",
       "not treated as a layer: 'of room width each side'"
      ],
      "verified_table": null,
@@ -2206,30 +2109,15 @@
        "material": "plasterboard on dabs where the cavity is 100mm or more",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard on dabs where the cavity is 100mm or more"
-      },
-      {
-       "t": 100,
-       "material": "dense block wall with plain plasterboard on dabs calculates at 0",
-       "hatch": "dense",
-       "read_from": "100mm dense block wall with plain plasterboard on dabs calculates at 0"
-      },
-      {
-       "t": 37.5,
-       "material": "insulated plasterboard it calculates at 0",
-       "hatch": "ins",
-       "read_from": "37.5mm insulated plasterboard it calculates at 0"
-      },
-      {
-       "t": 100,
-       "material": "cavity blown full with plain plasterboard on dabs calculates at 0",
-       "hatch": "pboard",
-       "read_from": "100mm cavity blown full with plain plasterboard on dabs calculates at 0"
       }
      ],
-     "total_mm": 352.5,
+     "total_mm": 115.0,
      "extraction_notes": [
       "not treated as a layer: 'brick'",
-      "not treated as a layer: 'blown bead'"
+      "not treated as a layer: 'blown bead'",
+      "not a layer — 100mm reads as a spacing, a level or working: 'dense block wall with plain plasterboard on dabs cal'",
+      "not a layer — 37.5mm reads as a spacing, a level or working: 'insulated plasterboard it calculates at 0'",
+      "not a layer — 100mm reads as a spacing, a level or working: 'cavity blown full with plain plasterboard on dabs ca'"
      ],
      "verified_table": null,
      "clause": [
@@ -2276,16 +2164,15 @@
        "material": "plasterboard on dabs",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard on dabs"
-      },
-      {
-       "t": 150,
-       "material": "above finished external ground level lapped with the floor membrane",
-       "hatch": "earth",
-       "read_from": "150mm above finished external ground level lapped with the floor membrane"
       }
      ],
-     "total_mm": 465.5,
-     "extraction_notes": [],
+     "total_mm": 315.5,
+     "extraction_notes": [
+      "not a layer — 225mm reads as a spacing, a level or working: 'centres'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'above finished external ground level lapped with the'",
+      "not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres'",
+      "not a layer — 300mm reads as a spacing, a level or working: 'vertical centres within 225mm of the jambs'"
+     ],
      "verified_table": null,
      "clause": [
       "Remove the garage door, frame and any timber sub-frame. Expose and inspect the foundation beneath the opening: garage door thresholds are commonly carried on the slab thickening or on a shallow strip, and a new foundation to match the adjoining walls is to be provided where the existing is inadequate, to the structural engineer's direction, with the new footing stepped and bonded into the existing.",
@@ -2311,15 +2198,9 @@
       },
       {
        "t": 100,
-       "material": "dense blockwork rendered to match",
+       "material": "dense blockwork rendered to match between 50 x 100mm at 600mm centres set 25mm clear of th",
        "hatch": "dense",
        "read_from": "100mm dense blockwork rendered to match"
-      },
-      {
-       "t": 150,
-       "material": "above ground linked to the floor membrane and a proprietary insulated ",
-       "hatch": "earth",
-       "read_from": "150mm above ground linked to the floor membrane and a proprietary insulated s"
       },
       {
        "t": 37.5,
@@ -2334,9 +2215,11 @@
        "read_from": "90mm board in 89mm studs both calculate at 0"
       }
      ],
-     "total_mm": 592.5,
+     "total_mm": 442.5,
      "extraction_notes": [
-      "not treated as a layer: 'brick infill calculates at 0'"
+      "not a layer — 150mm reads as a spacing, a level or working: 'above ground linked to the floor membrane and a prop'",
+      "not a layer — 215mm reads as a spacing, a level or working: 'brick infill calculates at 0'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'above ground before the lining is fixed'"
      ],
      "verified_table": null,
      "clause": [
@@ -2356,7 +2239,7 @@
      "layers": [
       {
        "t": 140,
-       "material": "x 38mm C16 studs at 400mm centres with head and sole plates and noggin",
+       "material": "38 x 140mm C16 studs at 400mm centres with head and sole plates and no",
        "hatch": "timber",
        "read_from": "140mm x 38mm C16 studs at 400mm centres with head and sole plates and noggins"
       },
@@ -2383,16 +2266,13 @@
        "material": "insulated plasterboard incorporating a vapour control layer",
        "hatch": "ins",
        "read_from": "37.5mm insulated plasterboard incorporating a vapour control layer"
-      },
-      {
-       "t": 400,
-       "material": "centres and an air-gap correction of 0",
-       "hatch": "void",
-       "read_from": "400mm centres and an air-gap correction of 0"
       }
      ],
-     "total_mm": 776.5,
-     "extraction_notes": [],
+     "total_mm": 376.5,
+     "extraction_notes": [
+      "not a layer — 600mm reads as a spacing, a level or working: 'centres horizontally and 375mm vertically'",
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres and an air-gap correction of 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where the infill is to be built quickly or the foundation will only carry a light panel, form the infill as a timber frame panel: 140mm x 38mm C16 studs at 400mm centres with head and sole plates and noggins, sole plate on a damp proof course and fixed to the slab or new plinth with resin anchors, 9mm OSB3 sheathing externally, breather membrane, 50mm clear cavity and a 103mm facing brick outer leaf tied to the frame with stainless steel flexible ties at 600mm centres horizontally and 375mm vertically.",
@@ -2416,12 +2296,6 @@
        "read_from": "100mm dense concrete blockwork off a new thickening or strip foundation"
       },
       {
-       "t": 89,
-       "material": "x 38mm studs at 400mm centres with 100mm mineral wool infill of 33 kg/",
-       "hatch": "wool",
-       "read_from": "89mm x 38mm studs at 400mm centres with 100mm mineral wool infill of 33 kg/m"
-      },
-      {
        "t": 12.5,
        "material": "plasterboard each side",
        "hatch": "pboard",
@@ -2438,12 +2312,6 @@
        "material": "cavity fully filled with mineral wool of 0",
        "hatch": "wool",
        "read_from": "150mm cavity fully filled with mineral wool of 0"
-      },
-      {
-       "t": 100,
-       "material": "cavity calculates at 0",
-       "hatch": "void",
-       "read_from": "100mm cavity calculates at 0"
       },
       {
        "t": 72.5,
@@ -2470,8 +2338,10 @@
        "read_from": "89mm studs with K112 and 52"
       }
      ],
-     "total_mm": 858.0,
+     "total_mm": 669.0,
      "extraction_notes": [
+      "not a layer — 100mm reads as a spacing, a level or working: 'above the garage floor or the garage floor laid to f'",
+      "not a layer — 100mm reads as a spacing, a level or working: 'cavity calculates at 0'",
       "not treated as a layer: 'step at the connecting door may be removed and the floor'"
      ],
      "verified_table": null,
@@ -2508,16 +2378,12 @@
        "material": "sand and cement screed reinforced with a polypropylene fibre or D49 me",
        "hatch": "screed",
        "read_from": "65mm sand and cement screed reinforced with a polypropylene fibre or D49 mes"
-      },
-      {
-       "t": 150,
-       "material": "below the house floor and were rarely laid on a damp proof membrane",
-       "hatch": "membrane",
-       "read_from": "150mm below the house floor and were rarely laid on a damp proof membrane"
       }
      ],
-     "total_mm": 340,
+     "total_mm": 190,
      "extraction_notes": [
+      "not a layer — 10mm reads as a spacing, a level or working: 'over 3m and free of oil contamination'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'below the house floor and were rarely laid on a damp'",
       "not treated as a layer: 'added by this build-up usually brings the finished floor'"
      ],
      "verified_table": null,
@@ -2554,16 +2420,12 @@
        "material": "expansion gap at the perimeter behind the skirting",
        "hatch": "void",
        "read_from": "10mm expansion gap at the perimeter behind the skirting"
-      },
-      {
-       "t": 400,
-       "material": "centres between insulation strips",
-       "hatch": "ins",
-       "read_from": "400mm centres between insulation strips"
       }
      ],
-     "total_mm": 512,
-     "extraction_notes": [],
+     "total_mm": 112,
+     "extraction_notes": [
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres between insulation strips'"
+     ],
      "verified_table": null,
      "clause": [
       "Existing slab prepared and damp proof membrane laid as GF1. Provide 80mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) tightly butted over the membrane, a vapour control layer of 500 gauge polyethylene with laps taped, and 22mm tongued and grooved moisture resistant chipboard (P5) glued at all joints and laid as a floating floor with a 10mm expansion gap at the perimeter behind the skirting.",
@@ -2643,7 +2505,10 @@
      ],
      "total_mm": 322.5,
      "extraction_notes": [
-      "not treated as a layer: 'beneath calculates at 0'"
+      "not a layer — 25mm reads as a spacing, a level or working: 'openings along two opposite eaves'",
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres and the 0'",
+      "not a layer — 62.5mm reads as a spacing, a level or working: 'beneath calculates at 0'",
+      "not a layer — 37.5mm reads as a spacing, a level or working: 'at 0'"
      ],
      "verified_table": null,
      "clause": [
@@ -2681,7 +2546,11 @@
       }
      ],
      "total_mm": 298,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 150mm reads as a spacing, a level or working: 'at all abutments and new edge trims'",
+      "not a layer — 120mm reads as a spacing, a level or working: 'calculates at 0'",
+      "not a layer — 100mm reads as a spacing, a level or working: 'at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Strip the existing felt or replace the decking where it is soft, delaminated or sagging; existing chipboard decks are to be replaced with 18mm exterior grade plywood or OSB3 laid to falls. Lay a vapour control layer fully bonded to the deck with all laps sealed, 130mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate, with upstands of not less than 150mm at all abutments and new edge trims.",
@@ -2715,18 +2584,14 @@
        "material": "laid cross-wise over the joists",
        "hatch": "timber",
        "read_from": "200mm laid cross-wise over the joists"
-      },
-      {
-       "t": 10,
-       "material": "gap along two opposite eaves",
-       "hatch": "void",
-       "read_from": "10mm gap along two opposite eaves"
       }
      ],
-     "total_mm": 322.5,
+     "total_mm": 312.5,
      "extraction_notes": [
       "not treated as a layer: 'ventilation path at the eaves with proprietary eaves ven'",
-      "not treated as a layer: 'where the pitch is below 15 degrees'"
+      "not a layer — 10mm reads as a spacing, a level or working: 'gap along two opposite eaves'",
+      "not treated as a layer: 'where the pitch is below 15 degrees'",
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres and meets the renovation standard with no ma'"
      ],
      "verified_table": null,
      "clause": [
@@ -2768,21 +2633,17 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard beneath the rafters with"
       },
       {
-       "t": 400,
-       "material": "rafter centres allowing for rafter bridging and an air-gap correction ",
-       "hatch": "timber",
-       "read_from": "400mm rafter centres allowing for rafter bridging and an air-gap correction o"
-      },
-      {
        "t": 25,
        "material": "and 5mm continuous gaps unless the underlay is breathable and the cove",
        "hatch": "membrane",
        "read_from": "25mm and 5mm continuous gaps unless the underlay is breathable and the cover"
       }
      ],
-     "total_mm": 772.5,
+     "total_mm": 372.5,
      "extraction_notes": [
-      "not treated as a layer: 'beneath calculates at 0'"
+      "not a layer — 400mm reads as a spacing, a level or working: 'rafter centres allowing for rafter bridging and an a'",
+      "not a layer — 62.5mm reads as a spacing, a level or working: 'beneath calculates at 0'",
+      "not a layer — 52.5mm reads as a spacing, a level or working: 'at 0'"
      ],
      "verified_table": null,
      "clause": [
@@ -2800,8 +2661,8 @@
      "standard": "0.15 W/m²K",
      "layers": [
       {
-       "t": 47,
-       "material": "x 200mm C24 joists at 400mm centres to the structural engineer's desig",
+       "t": 200,
+       "material": "47 x 200mm C24 joists at 400mm centres to the structural engineer's de",
        "hatch": "timber",
        "read_from": "47mm x 200mm C24 joists at 400mm centres to the structural engineer's design"
       },
@@ -2816,16 +2677,13 @@
        "material": "Kingspan Thermaroof TR27 LPC/FM",
        "hatch": "ins",
        "read_from": "150mm Kingspan Thermaroof TR27 LPC/FM "
-      },
-      {
-       "t": 150,
-       "material": "upstands and edge trims",
-       "hatch": "ins",
-       "read_from": "150mm upstands and edge trims"
       }
      ],
-     "total_mm": 365,
-     "extraction_notes": [],
+     "total_mm": 368,
+     "extraction_notes": [
+      "not a layer — 120mm reads as a spacing, a level or working: 'and over'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'upstands and edge trims'"
+     ],
      "verified_table": null,
      "clause": [
       "Where the garage roof is renewed in full, provide 47mm x 200mm C24 joists at 400mm centres to the structural engineer's design, 18mm exterior grade plywood or OSB3 decking laid to falls of not less than 1:40 finished, a vapour control layer fully bonded to the deck, 150mm Kingspan Thermaroof TR27 LPC/FM (thermal conductivity 0.024 W/mK at 120mm and over) fully adhered, and a single ply or built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands and edge trims.",
@@ -2845,17 +2703,11 @@
      "u_achieved": null,
      "u_target": null,
      "standard": "Wall + 300 × 225, 1000 deep",
-     "layers": [
-      {
-       "t": 600,
-       "material": "below finished ground level",
-       "hatch": "earth",
-       "read_from": "600mm below finished ground level"
-      }
-     ],
-     "total_mm": 600,
+     "layers": [],
+     "total_mm": null,
      "extraction_notes": [
-      "skipped 1000mm below finished ground level — too thick to be a layer"
+      "not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level'",
+      "not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'"
      ],
      "verified_table": null,
      "clause": [
@@ -2875,18 +2727,13 @@
      "u_achieved": null,
      "u_target": null,
      "standard": "Wall + 300 wide, 1000 deep",
-     "layers": [
-      {
-       "t": 600,
-       "material": "below finished ground level",
-       "hatch": "earth",
-       "read_from": "600mm below finished ground level"
-      }
-     ],
-     "total_mm": 600,
+     "layers": [],
+     "total_mm": null,
      "extraction_notes": [
       "skipped 750mm thick — too thick to be a layer",
-      "skipped 1000mm below finished ground level and cast aga — too thick to be a layer",
+      "not a layer — 300mm reads as a spacing, a level or working: 'and in no case less than 450mm'",
+      "not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level and cast against undistu'",
+      "not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'",
       "not treated as a layer: 'can fall below the 450mm minimum for trench fill'",
       "not treated as a layer: 'governs'"
      ],
@@ -2985,7 +2832,10 @@
       }
      ],
      "total_mm": 430.5,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres'",
+      "not a layer — 300mm reads as a spacing, a level or working: 'vertical centres within 225mm of jambs'"
+     ],
      "verified_table": null,
      "clause": [
       "External cavity wall of 103mm facing brick outer leaf, a 100mm cavity fully filled with 100mm Kingspan Kooltherm K106 Cavity Board (thermal conductivity 0.019 W/mK) leaving a nominal residual gap only, and a 100mm aircrete inner leaf of 0.11 W/mK thermal conductivity (Celcon Solar, Thermalite Turbo or equivalent, 2.9N with the strength grade confirmed by the structural engineer), finished internally with 12.5mm plasterboard on dabs with a continuous ribbon of adhesive at the perimeter of every board, around openings and at services.",
@@ -3084,13 +2934,7 @@
       },
       {
        "t": 140,
-       "material": "x 38mm C16 studs at 400mm centres to the frame designer's design with ",
-       "hatch": "timber",
-       "read_from": "140mm x 38mm C16 studs at 400mm centres to the frame designer's design with t"
-      },
-      {
-       "t": 140,
-       "material": "Kingspan Kooltherm K112 Framing Board",
+       "material": "Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres to the",
        "hatch": "ins",
        "read_from": "140mm Kingspan Kooltherm K112 Framing Board "
       },
@@ -3105,28 +2949,15 @@
        "material": "service void is wanted for the cabling it is to be formed on the room ",
        "hatch": "void",
        "read_from": "25mm service void is wanted for the cabling it is to be formed on the room s"
-      },
-      {
-       "t": 150,
-       "material": "above external ground level",
-       "hatch": "earth",
-       "read_from": "150mm above external ground level"
-      },
-      {
-       "t": 400,
-       "material": "centres and an air-gap correction of 0",
-       "hatch": "void",
-       "read_from": "400mm centres and an air-gap correction of 0"
-      },
-      {
-       "t": 12.5,
-       "material": "plasterboard and a service void alone the same wall calculates at 0",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard and a service void alone the same wall calculates at 0"
       }
      ],
-     "total_mm": 1067.0,
-     "extraction_notes": [],
+     "total_mm": 364.5,
+     "extraction_notes": [
+      "not a layer — 600mm reads as a spacing, a level or working: 'horizontal and 375mm vertical centres'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'above external ground level'",
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres and an air-gap correction of 0'",
+      "not a layer — 12.5mm reads as a spacing, a level or working: 'plasterboard and a service void alone the same wall '"
+     ],
      "verified_table": null,
      "clause": [
       "Timber frame external wall of 103mm facing brick outer leaf tied to the frame with stainless steel flexible ties at 600mm horizontal and 375mm vertical centres, a 50mm clear drained and vented cavity, breather membrane, 9mm OSB3 sheathing, 140mm x 38mm C16 studs at 400mm centres to the frame designer's design with the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer, and 37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped. Where a 25mm service void is wanted for the cabling it is to be formed on the room side of the insulated board, not in place of it.",
@@ -3180,7 +3011,7 @@
      "layers": [
       {
        "t": 89,
-       "material": "x 38mm C16 studs at 400mm centres with head and sole plates and solid ",
+       "material": "38 x 89mm C16 studs at 400mm centres with head and sole plates and sol",
        "hatch": "timber",
        "read_from": "89mm x 38mm C16 studs at 400mm centres with head and sole plates and solid n"
       },
@@ -3198,7 +3029,9 @@
       }
      ],
      "total_mm": 151.5,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 1200mm reads as a spacing, a level or working: 'centres and at board edges'"
+     ],
      "verified_table": null,
      "clause": [
       "Internal partition of 89mm x 38mm C16 studs at 400mm centres with head and sole plates and solid noggins at 1200mm centres and at board edges, the stud depth filled with 50mm minimum mineral wool of 10 kg/m³ or more, and 12.5mm plasterboard of not less than 10 kg/m² each side, joints staggered, taped and filled, with all perimeters sealed. This is one of the constructions in Approved Document E Section 5 that meets Requirement E2 without testing.",
@@ -3321,14 +3154,8 @@
      "standard": "0.13 W/m²K",
      "layers": [
       {
-       "t": 47,
-       "material": "x 220mm C24 joists at 400mm centres to the engineer's design on treate",
-       "hatch": "timber",
-       "read_from": "47mm x 220mm C24 joists at 400mm centres to the engineer's design on treated"
-      },
-      {
-       "t": 200,
-       "material": "Kingspan Kooltherm K103 Floorboard",
+       "t": 220,
+       "material": "Kingspan Kooltherm K103 Floorboard between 47 x 220mm C24 joists at 400mm centres to the e",
        "hatch": "ins",
        "read_from": "200mm Kingspan Kooltherm K103 Floorboard "
       },
@@ -3351,8 +3178,10 @@
        "read_from": "50mm concrete on a 1200 gauge damp proof membrane"
       }
      ],
-     "total_mm": 469,
-     "extraction_notes": [],
+     "total_mm": 442,
+     "extraction_notes": [
+      "not a layer — 150mm reads as a spacing, a level or working: 'calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Suspended timber ground floor of 47mm x 220mm C24 joists at 400mm centres to the engineer's design on treated wall plates and sleeper walls with a damp proof course beneath every bearing, 200mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) fitted tightly between the joists on treated battens or breathable netting with the joints taped, a breathable membrane over the joists lapped up the walls behind the skirting, and 22mm tongued and grooved P5 chipboard glued at the joints and screwed to the joists.",
@@ -3370,14 +3199,8 @@
      "standard": "40 dB Rw",
      "layers": [
       {
-       "t": 47,
-       "material": "x 220mm C24 solid joists or engineered metal web joists at 400mm or 60",
-       "hatch": "timber",
-       "read_from": "47mm x 220mm C24 solid joists or engineered metal web joists at 400mm or 600"
-      },
-      {
-       "t": 22,
-       "material": "tongued and grooved P5 chipboard glued at all joints and screwed to th",
+       "t": 220,
+       "material": "tongued and grooved P5 chipboard glued at all joints and screwed to th between 47 x 220mm ",
        "hatch": "timber",
        "read_from": "22mm tongued and grooved P5 chipboard glued at all joints and screwed to the"
       },
@@ -3394,7 +3217,7 @@
        "read_from": "12.5mm plasterboard ceiling of not less than 10 kg/m²"
       }
      ],
-     "total_mm": 181.5,
+     "total_mm": 332.5,
      "extraction_notes": [
       "not treated as a layer: 'where the floor requires 30 minutes fire resistance with'"
      ],
@@ -3415,15 +3238,9 @@
      "layers": [
       {
        "t": 150,
-       "material": "Kingspan Kooltherm K107 Pitched Roof Board",
+       "material": "Kingspan Kooltherm K107 Pitched Roof Board between 47 x 150mm rafters at 400mm centres",
        "hatch": "ins",
        "read_from": "150mm Kingspan Kooltherm K107 Pitched Roof Board "
-      },
-      {
-       "t": 47,
-       "material": "x 150mm rafters at 400mm centres",
-       "hatch": "timber",
-       "read_from": "47mm x 150mm rafters at 400mm centres"
       },
       {
        "t": 75,
@@ -3436,22 +3253,13 @@
        "material": "plasterboard with a vapour control layer beneath the rafters or the ra",
        "hatch": "timber",
        "read_from": "12.5mm plasterboard with a vapour control layer beneath the rafters or the raf"
-      },
-      {
-       "t": 400,
-       "material": "rafter centres allowing for rafter bridging and an air-gap correction ",
-       "hatch": "timber",
-       "read_from": "400mm rafter centres allowing for rafter bridging and an air-gap correction o"
-      },
-      {
-       "t": 100,
-       "material": "over the rafters calculates at 0",
-       "hatch": "timber",
-       "read_from": "100mm over the rafters calculates at 0"
       }
      ],
-     "total_mm": 784.5,
-     "extraction_notes": [],
+     "total_mm": 237.5,
+     "extraction_notes": [
+      "not a layer — 400mm reads as a spacing, a level or working: 'rafter centres allowing for rafter bridging and an a'",
+      "not a layer — 100mm reads as a spacing, a level or working: 'over the rafters calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where the rafters are to be exposed internally or the room-in-roof is to have a flat ceiling line without an under-rafter board, insulate over and between: 150mm Kingspan Kooltherm K107 Pitched Roof Board (thermal conductivity 0.019 W/mK) fully filling 47mm x 150mm rafters at 400mm centres, a further 75mm K107 laid over the rafters as a continuous sarking layer with the joints staggered, a vapour permeable underlay to BS 5534 over the sarking board, counter-battens fixed through the sarking into the rafters with the manufacturer's long fixings at the specified centres to carry the tile battens and the roof load, and 12.5mm plasterboard with a vapour control layer beneath the rafters or the rafters left exposed with a vapour control layer above them.",
@@ -3469,14 +3277,8 @@
      "standard": "0.11 W/m²K",
      "layers": [
       {
-       "t": 47,
-       "material": "x 200mm minimum rafters at 400mm centres to the engineer's design",
-       "hatch": "timber",
-       "read_from": "47mm x 200mm minimum rafters at 400mm centres to the engineer's design"
-      },
-      {
        "t": 200,
-       "material": "Kingspan Kooltherm K107 Pitched Roof Board",
+       "material": "Kingspan Kooltherm K107 Pitched Roof Board between 47 x 200mm minimum rafters at 400mm cen",
        "hatch": "ins",
        "read_from": "200mm Kingspan Kooltherm K107 Pitched Roof Board "
       },
@@ -3491,16 +3293,12 @@
        "material": "ventilated gap above the insulation is required and the rafter depth i",
        "hatch": "ins",
        "read_from": "50mm ventilated gap above the insulation is required and the rafter depth in"
-      },
-      {
-       "t": 400,
-       "material": "rafter centres",
-       "hatch": "timber",
-       "read_from": "400mm rafter centres"
       }
      ],
-     "total_mm": 769.5,
-     "extraction_notes": [],
+     "total_mm": 322.5,
+     "extraction_notes": [
+      "not a layer — 400mm reads as a spacing, a level or working: 'rafter centres'"
+     ],
      "verified_table": null,
      "clause": [
       "Cut roof or attic trusses of 47mm x 200mm minimum rafters at 400mm centres to the engineer's design, tiles or slates on battens and counter-battens over a vapour permeable underlay to BS 5534, 200mm Kingspan Kooltherm K107 Pitched Roof Board (thermal conductivity 0.019 W/mK) fully filling the rafter depth, and 72.5mm Kingspan Kooltherm K118 insulated plasterboard fixed through to the rafters with joints staggered and taped.",
@@ -3530,22 +3328,19 @@
        "read_from": "100mm mineral wool quilt of 0"
       },
       {
-       "t": 10,
-       "material": "gap at the eaves on two opposite sides with 25mm proprietary eaves ven",
-       "hatch": "void",
-       "read_from": "10mm gap at the eaves on two opposite sides with 25mm proprietary eaves vent"
-      },
-      {
        "t": 5,
        "material": "continuous gap where the underlay is not vapour permeable",
        "hatch": "membrane",
        "read_from": "5mm continuous gap where the underlay is not vapour permeable"
       }
      ],
-     "total_mm": 127.5,
+     "total_mm": 117.5,
      "extraction_notes": [
       "not treated as a layer: 'laid cross-wise over'",
-      "not treated as a layer: 'total calculates at 0'"
+      "not treated as a layer: 'galvanised straps 1m long'",
+      "not a layer — 10mm reads as a spacing, a level or working: 'gap at the eaves on two opposite sides with 25mm pro'",
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres'",
+      "not a layer — 300mm reads as a spacing, a level or working: 'total calculates at 0'"
      ],
      "verified_table": null,
      "clause": [
@@ -3564,12 +3359,6 @@
      "standard": "0.10 W/m²K",
      "layers": [
       {
-       "t": 47,
-       "material": "x 200mm C24 joists at 400mm centres to the engineer's design",
-       "hatch": "timber",
-       "read_from": "47mm x 200mm C24 joists at 400mm centres to the engineer's design"
-      },
-      {
        "t": 18,
        "material": "exterior grade plywood or OSB3 decking laid to finished falls of not l",
        "hatch": "timber",
@@ -3577,19 +3366,15 @@
       },
       {
        "t": 200,
-       "material": "Kingspan Thermaroof TR26 LPC/FM",
+       "material": "Kingspan Thermaroof TR26 LPC/FM between 47 x 200mm C24 joists at 400mm centres to the engi",
        "hatch": "ins",
        "read_from": "200mm Kingspan Thermaroof TR26 LPC/FM "
-      },
-      {
-       "t": 150,
-       "material": "upstands",
-       "hatch": "ins",
-       "read_from": "150mm upstands"
       }
      ],
-     "total_mm": 415,
-     "extraction_notes": [],
+     "total_mm": 218,
+     "extraction_notes": [
+      "not a layer — 150mm reads as a spacing, a level or working: 'upstands'"
+     ],
      "verified_table": null,
      "clause": [
       "Warm deck flat roof of 47mm x 200mm C24 joists at 400mm centres to the engineer's design, 18mm exterior grade plywood or OSB3 decking laid to finished falls of not less than 1:40 on firrings, a vapour control layer fully bonded to the deck with all laps sealed, 200mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) in two layers break-bonded and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands, edge trims and outlets.",
@@ -3610,17 +3395,11 @@
      "u_achieved": null,
      "u_target": null,
      "standard": "Wall + 300 × 225, 1000 deep",
-     "layers": [
-      {
-       "t": 600,
-       "material": "below finished ground level",
-       "hatch": "earth",
-       "read_from": "600mm below finished ground level"
-      }
-     ],
-     "total_mm": 600,
+     "layers": [],
+     "total_mm": null,
      "extraction_notes": [
-      "skipped 1000mm below finished ground level — too thick to be a layer"
+      "not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level'",
+      "not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'"
      ],
      "verified_table": null,
      "clause": [
@@ -3640,18 +3419,13 @@
      "u_achieved": null,
      "u_target": null,
      "standard": "Wall + 300 wide, 1000 deep",
-     "layers": [
-      {
-       "t": 600,
-       "material": "below finished ground level",
-       "hatch": "earth",
-       "read_from": "600mm below finished ground level"
-      }
-     ],
-     "total_mm": 600,
+     "layers": [],
+     "total_mm": null,
      "extraction_notes": [
       "skipped 750mm thick — too thick to be a layer",
-      "skipped 1000mm below finished ground level and cast aga — too thick to be a layer",
+      "not a layer — 300mm reads as a spacing, a level or working: 'and in no case less than 450mm'",
+      "not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level and cast against undistu'",
+      "not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'",
       "not treated as a layer: 'can fall below the 450mm minimum for trench fill'",
       "not treated as a layer: 'governs'"
      ],
@@ -3700,7 +3474,9 @@
       }
      ],
      "total_mm": 200.5,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 700mm reads as a spacing, a level or working: 'of the separating wall'"
+     ],
      "verified_table": null,
      "clause": [
       "Separating wall between flats of two leaves of 100mm dense aggregate or aircrete blockwork of the density required by the chosen Robust Detail or the pre-completion test design, a 75mm minimum cavity with type A butterfly ties only, a parge coat or render to the cavity face where the detail requires it, the cavity fully filled with mineral wool and effectively edge sealed at the external wall and the roof so the wall is entered in SAP at a U-value of zero, and 12.5mm plasterboard on dabs to each face with a continuous perimeter ribbon (or 13mm plaster where the Robust Detail requires a wet finish). The wall is to be carried through every floor and up to the underside of the roof covering, fire stopped at the roof and at each floor junction, and no service is to be chased into it back to back.",
@@ -3725,7 +3501,7 @@
       },
       {
        "t": 89,
-       "material": "x 38mm timber studs",
+       "material": "38 x 89mm timber studs",
        "hatch": "timber",
        "read_from": "89mm x 38mm timber studs"
       },
@@ -3870,8 +3646,8 @@
      "standard": "45 / 62 dB / REI 60",
      "layers": [
       {
-       "t": 47,
-       "material": "x 220mm minimum solid or engineered joists at 400mm or 600mm centres t",
+       "t": 220,
+       "material": "47 x 220mm minimum solid or engineered joists at 400mm or 600mm centre",
        "hatch": "timber",
        "read_from": "47mm x 220mm minimum solid or engineered joists at 400mm or 600mm centres to"
       },
@@ -3900,7 +3676,7 @@
        "read_from": "100mm mineral wool of 10 kg/m³ or more in the joist void"
       }
      ],
-     "total_mm": 209,
+     "total_mm": 382,
      "extraction_notes": [],
      "verified_table": null,
      "clause": [
@@ -3951,7 +3727,9 @@
      ],
      "total_mm": 465.5,
      "extraction_notes": [
-      "not treated as a layer: 'which calculates at 0'"
+      "not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres'",
+      "not a layer — 300mm reads as a spacing, a level or working: 'vertical centres within 225mm of jambs'",
+      "not a layer — 175mm reads as a spacing, a level or working: 'which calculates at 0'"
      ],
      "verified_table": null,
      "clause": [
@@ -4032,12 +3810,6 @@
      "standard": "0.16 W/m²K",
      "layers": [
       {
-       "t": 140,
-       "material": "x 38mm C16 studs at 400mm centres to the frame designer's design with ",
-       "hatch": "timber",
-       "read_from": "140mm x 38mm C16 studs at 400mm centres to the frame designer's design with 9"
-      },
-      {
        "t": 50,
        "material": "drained and vented cavity and a 103mm brick outer leaf on stainless st",
        "hatch": "brick",
@@ -4045,7 +3817,7 @@
       },
       {
        "t": 140,
-       "material": "Kingspan Kooltherm K112 Framing Board",
+       "material": "Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres to the",
        "hatch": "ins",
        "read_from": "140mm Kingspan Kooltherm K112 Framing Board "
       },
@@ -4054,28 +3826,15 @@
        "material": "Kingspan Kooltherm K118 insulated plasterboard with joints taped",
        "hatch": "ins",
        "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped"
-      },
-      {
-       "t": 400,
-       "material": "centres and an air-gap correction of 0",
-       "hatch": "void",
-       "read_from": "400mm centres and an air-gap correction of 0"
-      },
-      {
-       "t": 12.5,
-       "material": "plasterboard alone it calculates at 0",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard alone it calculates at 0"
-      },
-      {
-       "t": 150,
-       "material": "above ground and the frame differential movement allowed for at every ",
-       "hatch": "earth",
-       "read_from": "150mm above ground and the frame differential movement allowed for at every w"
       }
      ],
-     "total_mm": 930.0,
-     "extraction_notes": [],
+     "total_mm": 227.5,
+     "extraction_notes": [
+      "not a layer — 600mm reads as a spacing, a level or working: 'horizontal and 375mm vertical centres'",
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres and an air-gap correction of 0'",
+      "not a layer — 12.5mm reads as a spacing, a level or working: 'plasterboard alone it calculates at 0'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'above ground and the frame differential movement all'"
+     ],
      "verified_table": null,
      "clause": [
       "Platform timber frame of 140mm x 38mm C16 studs at 400mm centres to the frame designer's design with 9mm OSB3 sheathing, breather membrane, a 50mm drained and vented cavity and a 103mm brick outer leaf on stainless steel flexible ties at 600mm horizontal and 375mm vertical centres, the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a vapour control layer, and 37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped, with any service void formed on the room side of that board rather than in place of it; render on carrier board, tile hanging or cladding may replace the brick outer leaf on the upper storeys with the cladding classified as Approved Document B requires. This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for the studs bridging the insulation at 9.5% of the area at 400mm centres and an air-gap correction of 0.01; with 12.5mm plasterboard alone it calculates at 0.20.",
@@ -4151,16 +3910,13 @@
        "material": "screed",
        "hatch": "screed",
        "read_from": "75mm screed"
-      },
-      {
-       "t": 130,
-       "material": "of the same board with a 15mm fire-rated soffit board calculates at 0",
-       "hatch": "timber",
-       "read_from": "130mm of the same board with a 15mm fire-rated soffit board calculates at 0"
       }
      ],
-     "total_mm": 510,
-     "extraction_notes": [],
+     "total_mm": 380,
+     "extraction_notes": [
+      "not a layer — 130mm reads as a spacing, a level or working: 'of the same board with a 15mm fire-rated soffit boar'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Ground floor of a 150mm minimum reinforced concrete slab or precast beam and block deck to the structural engineer's design, a 1200 gauge polyethylene damp proof membrane lapped and taped and linked to the damp proof course, gas protection membrane where the site investigation requires it, 130mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) with 25mm perimeter upstands, a separating layer, and a 75mm screed. Where the ground floor is over an undercroft car park or an unheated space, the floor is an exposed floor and 130mm of the same board with a 15mm fire-rated soffit board calculates at 0.14 to BS EN ISO 6946, or 150mm at 0.12.",
@@ -4177,14 +3933,8 @@
      "standard": "40 dB Rw",
      "layers": [
       {
-       "t": 47,
-       "material": "x 220mm C24 solid joists or metal web joists at 400mm or 600mm centres",
-       "hatch": "timber",
-       "read_from": "47mm x 220mm C24 solid joists or metal web joists at 400mm or 600mm centres "
-      },
-      {
-       "t": 22,
-       "material": "tongued and grooved P5 chipboard glued and screwed",
+       "t": 220,
+       "material": "tongued and grooved P5 chipboard glued and screwed between 47 x 220mm C24 solid joists or ",
        "hatch": "timber",
        "read_from": "22mm tongued and grooved P5 chipboard glued and screwed"
       },
@@ -4201,7 +3951,7 @@
        "read_from": "12.5mm plasterboard ceiling of not less than 10 kg/m² "
       }
      ],
-     "total_mm": 181.5,
+     "total_mm": 332.5,
      "extraction_notes": [
       "not treated as a layer: 'or two layers where 30 minutes fire resistance is requir'"
      ],
@@ -4240,7 +3990,8 @@
      ],
      "total_mm": 122.5,
      "extraction_notes": [
-      "not treated as a layer: 'laid over'"
+      "not treated as a layer: 'laid over'",
+      "not a layer — 400mm reads as a spacing, a level or working: 'centres'"
      ],
      "verified_table": null,
      "clause": [
@@ -4262,16 +4013,13 @@
        "material": "Kingspan Thermaroof TR26 LPC/FM",
        "hatch": "ins",
        "read_from": "200mm Kingspan Thermaroof TR26 LPC/FM "
-      },
-      {
-       "t": 150,
-       "material": "upstands",
-       "hatch": "ins",
-       "read_from": "150mm upstands"
       }
      ],
-     "total_mm": 350,
-     "extraction_notes": [],
+     "total_mm": 200,
+     "extraction_notes": [
+      "not a layer — 150mm reads as a spacing, a level or working: 'upstands'",
+      "not a layer — 300mm reads as a spacing, a level or working: 'is to be used in that zone'"
+     ],
      "verified_table": null,
      "clause": [
       "Warm deck flat roof of a concrete slab or profiled metal deck to the structural engineer's design laid to falls of not less than 1:80 finished, a vapour control layer fully bonded with laps sealed, 200mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) in two layers break-bonded and fully adhered or mechanically fixed with the fastener correction included, and a single ply or reinforced bitumen membrane waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands, outlets, overflows and edge trims. Where the building has a storey more than 11m above ground the roof insulation within 1.5m of a boundary or a higher external wall is to be Class A2-s1, d0 or better, and mineral wool or cellular glass of 0.038 W/mK at 300mm is to be used in that zone.",
@@ -4303,16 +4051,13 @@
        "material": "solid brick wall with a continuous ribbon of adhesive at every perimet",
        "hatch": "brick",
        "read_from": "215mm solid brick wall with a continuous ribbon of adhesive at every perimete"
-      },
-      {
-       "t": 150,
-       "material": "above ground linked to the basement waterproofing as the Above-Ground ",
-       "hatch": "earth",
-       "read_from": "150mm above ground linked to the basement waterproofing as the Above-Ground P"
       }
      ],
-     "total_mm": 437.5,
-     "extraction_notes": [],
+     "total_mm": 287.5,
+     "extraction_notes": [
+      "not a layer — 62.5mm reads as a spacing, a level or working: 'calculates at 0'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'above ground linked to the basement waterproofing as'"
+     ],
      "verified_table": null,
      "clause": [
       "Where the basement wall rises above external ground level, or the conversion brings a semi-basement room with a part-exposed wall into the heated envelope, the above-ground portion is an external wall and is to be insulated internally: 72.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to a 215mm solid brick wall with a continuous ribbon of adhesive at every perimeter and opening and the joints taped, which calculates at 0.26 W/m²K to BS EN ISO 6946; to an uninsulated cavity wall 62.5mm calculates at 0.29. The external face is to be made weathertight and any damp proof course reinstated before the lining is fixed, and the lining is to lap the below-ground membrane so there is no cold strip at the junction.",
@@ -4471,8 +4216,8 @@
      ],
      "total_mm": 487.5,
      "extraction_notes": [
-      "not treated as a layer: 'of board this build-up calculates at 0'",
-      "not treated as a layer: 'board specified calculates at 0'"
+      "not a layer — 50mm reads as a spacing, a level or working: 'of board this build-up calculates at 0'",
+      "not a layer — 75mm reads as a spacing, a level or working: 'board specified calculates at 0'"
      ],
      "verified_table": null,
      "clause": [
@@ -4504,7 +4249,9 @@
       }
      ],
      "total_mm": 107.5,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 100mm reads as a spacing, a level or working: 'of the framing board calculates at 0'"
+     ],
      "verified_table": null,
      "clause": [
       "Where an existing cellar wall of brick or stone is retained, remove any existing render or bitumen paint, rake out and repoint open joints with a lime or cement mortar to suit the masonry, and make good any voids so the wall is stable and continuous behind the membrane. Where the wall is below the water table or shows active water ingress, the wall is first to be sealed with a cementitious tanking slurry to slow the flow, and the engineer is to confirm the wall can take the hydrostatic load.",
@@ -4614,17 +4361,12 @@
        "material": "screed",
        "hatch": "screed",
        "read_from": "65mm screed"
-      },
-      {
-       "t": 60,
-       "material": "of the same board with a 50mm proprietary screed calculates at 0",
-       "hatch": "screed",
-       "read_from": "60mm of the same board with a 50mm proprietary screed calculates at 0"
       }
      ],
-     "total_mm": 505,
+     "total_mm": 445,
      "extraction_notes": [
-      "not treated as a layer: 'build-up calculates at 0'"
+      "not a layer — 60mm reads as a spacing, a level or working: 'of the same board with a 50mm proprietary screed cal'",
+      "not a layer — 80mm reads as a spacing, a level or working: 'build-up calculates at 0'"
      ],
      "verified_table": null,
      "clause": [
@@ -4661,7 +4403,7 @@
       },
       {
        "t": 500,
-       "material": "x 500mm x 700mm minimum set into the slab",
+       "material": "500 x 500mm x 700mm minimum set into the slab",
        "hatch": "conc",
        "read_from": "500mm x 500mm x 700mm minimum set into the slab"
       },
@@ -4707,17 +4449,11 @@
      "u_achieved": null,
      "u_target": null,
      "standard": "Wall + 300 × 225, 1000 deep",
-     "layers": [
-      {
-       "t": 600,
-       "material": "below finished ground level",
-       "hatch": "earth",
-       "read_from": "600mm below finished ground level"
-      }
-     ],
-     "total_mm": 600,
+     "layers": [],
+     "total_mm": null,
      "extraction_notes": [
-      "skipped 1000mm below finished ground level — too thick to be a layer"
+      "not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level'",
+      "not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'"
      ],
      "verified_table": null,
      "clause": [
@@ -4737,18 +4473,13 @@
      "u_achieved": null,
      "u_target": null,
      "standard": "Wall + 300 wide, 1000 deep",
-     "layers": [
-      {
-       "t": 600,
-       "material": "below finished ground level",
-       "hatch": "earth",
-       "read_from": "600mm below finished ground level"
-      }
-     ],
-     "total_mm": 600,
+     "layers": [],
+     "total_mm": null,
      "extraction_notes": [
       "skipped 750mm thick — too thick to be a layer",
-      "skipped 1000mm below finished ground level and cast aga — too thick to be a layer",
+      "not a layer — 300mm reads as a spacing, a level or working: 'and in no case less than 450mm'",
+      "not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level and cast against undistu'",
+      "not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'",
       "not treated as a layer: 'can fall below the 450mm minimum for trench fill'",
       "not treated as a layer: 'governs'"
      ],
@@ -4791,7 +4522,9 @@
       }
      ],
      "total_mm": 125.0,
-     "extraction_notes": [],
+     "extraction_notes": [
+      "not a layer — 100mm reads as a spacing, a level or working: 'above the garage floor or the garage floor laid to f'"
+     ],
      "verified_table": null,
      "clause": [
       "The wall between an attached or integral garage and the dwelling is to have 30 minutes fire resistance from the garage side: 100mm dense or aircrete blockwork plastered or lined with plasterboard on dabs meets this, as does a timber stud wall with two layers of 12.5mm plasterboard on the garage side and one on the dwelling side with mineral wool in the studs. Where the garage is below a room of the dwelling, the ceiling of the garage and the floor above are to have 30 minutes fire resistance, achieved by two layers of 12.5mm plasterboard or one layer of 15mm Type F board to the garage ceiling with the joints staggered, and the void above the ceiling fire stopped at the separating wall.",
@@ -4827,12 +4560,6 @@
        "read_from": "100mm block inner leaf"
       },
       {
-       "t": 150,
-       "material": "above ground",
-       "hatch": "earth",
-       "read_from": "150mm above ground"
-      },
-      {
        "t": 90,
        "material": "Kingspan Kooltherm K106 Cavity Board",
        "hatch": "ins",
@@ -4851,9 +4578,11 @@
        "read_from": "12.5mm plasterboard on dabs"
       }
      ],
-     "total_mm": 655.5,
+     "total_mm": 505.5,
      "extraction_notes": [
-      "not treated as a layer: 'of jambs'"
+      "not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres and at not mor'",
+      "not treated as a layer: 'of jambs'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'above ground'"
      ],
      "verified_table": null,
      "clause": [
@@ -4881,17 +4610,14 @@
        "material": "facing brick in 1:1:6 mortar",
        "hatch": "brick",
        "read_from": "5mm facing brick in 1:1:6 mortar"
-      },
-      {
-       "t": 150,
-       "material": "above finished external ground level",
-       "hatch": "earth",
-       "read_from": "150mm above finished external ground level"
       }
      ],
-     "total_mm": 255,
+     "total_mm": 105,
      "extraction_notes": [
-      "not treated as a layer: 'of an unpiered corner'"
+      "not treated as a layer: 'of an unpiered corner'",
+      "not treated as a layer: 'x 325mm'",
+      "not treated as a layer: 'attached piers'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'above finished external ground level'"
      ],
      "verified_table": null,
      "clause": [
@@ -4911,7 +4637,7 @@
      "layers": [
       {
        "t": 89,
-       "material": "x 38mm C16 studs at 600mm centres with head and sole plates and noggin",
+       "material": "38 x 89mm C16 studs at 600mm centres with head and sole plates and nog",
        "hatch": "timber",
        "read_from": "89mm x 38mm C16 studs at 600mm centres with head and sole plates and noggins"
       },
@@ -4928,12 +4654,6 @@
        "read_from": "25mm treated battens and vertical or horizontal timber cladding"
       },
       {
-       "t": 150,
-       "material": "above ground",
-       "hatch": "earth",
-       "read_from": "150mm above ground"
-      },
-      {
        "t": 90,
        "material": "Kingspan Kooltherm K112 Framing Board and line internally with a vapou",
        "hatch": "ins",
@@ -4944,12 +4664,6 @@
        "material": "plasterboard",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard"
-      },
-      {
-       "t": 89,
-       "material": "studs at 600mm centres",
-       "hatch": "timber",
-       "read_from": "89mm studs at 600mm centres"
       },
       {
        "t": 140,
@@ -4964,8 +4678,11 @@
        "read_from": "5mm insulated plasterboard lining calculate at 0"
       }
      ],
-     "total_mm": 609.5,
-     "extraction_notes": [],
+     "total_mm": 370.5,
+     "extraction_notes": [
+      "not a layer — 150mm reads as a spacing, a level or working: 'above ground'",
+      "not a layer — 89mm reads as a spacing, a level or working: 'studs at 600mm centres'"
+     ],
      "verified_table": null,
      "clause": [
       "Timber frame panels of 89mm x 38mm C16 studs at 600mm centres with head and sole plates and noggins, 9mm OSB3 sheathing externally, a breather membrane, 25mm treated battens and vertical or horizontal timber cladding, fibre cement board or a metal profile sheet, with the sole plate on a damp proof course fixed to a masonry plinth of not less than 150mm above ground. Racking resistance from the sheathing to the frame designer's design, and holding-down straps to the plinth at not more than 2m centres and at every corner. Where the garage is within 1m of the boundary the cladding is to be non-combustible or the wall built in masonry, as the Exemption note.",
@@ -5002,7 +4719,8 @@
      ],
      "total_mm": 525,
      "extraction_notes": [
-      "not treated as a layer: 'step or a proprietary threshold drainage channel at the '"
+      "not treated as a layer: 'step or a proprietary threshold drainage channel at the '",
+      "not a layer — 100mm reads as a spacing, a level or working: 'below the level of the floor of the dwelling at any '"
      ],
      "verified_table": null,
      "clause": [
@@ -5057,16 +4775,10 @@
      "standard": "",
      "layers": [
       {
-       "t": 47,
-       "material": "x 100mm C16 rafters at 400mm centres for clear spans up to 2",
+       "t": 100,
+       "material": "47 x 100mm C16 rafters at 400mm centres for clear spans up to 2 between 50 x 100mm wall pl",
        "hatch": "timber",
        "read_from": "47mm x 100mm C16 rafters at 400mm centres for clear spans up to 2"
-      },
-      {
-       "t": 100,
-       "material": "x 50mm wall plate bedded and strapped at not more than 2m centres and ",
-       "hatch": "timber",
-       "read_from": "100mm x 50mm wall plate bedded and strapped at not more than 2m centres and f"
       },
       {
        "t": 100,
@@ -5075,8 +4787,12 @@
        "read_from": "100mm mineral wool between ceiling joists and 300mm over "
       }
      ],
-     "total_mm": 247,
-     "extraction_notes": [],
+     "total_mm": 200,
+     "extraction_notes": [
+      "not treated as a layer: 'x 175mm'",
+      "not treated as a layer: 'to 2'",
+      "not treated as a layer: 'to 3'"
+     ],
      "verified_table": null,
      "clause": [
       "Cut roof of 47mm x 100mm C16 rafters at 400mm centres for clear spans up to 2.1m, 47mm x 125mm to 2.8m, or 47mm x 150mm to 3.5m, birdsmouthed onto a 100mm x 50mm wall plate bedded and strapped at not more than 2m centres and fixed to a ridge board of not less than 32mm x 175mm, with collars or ceiling joists tying the feet where the span exceeds 2.5m and purlins with struts to a loadbearing wall where the rafter span is exceeded, all to the structural engineer's design for spans and loads outside these figures. Tiles or slates to match the dwelling on treated battens over a roofing underlay to BS 5534 with the fixing specification from the manufacturer for the exposure, and the gable walls raked and strapped to the rafters at not more than 2m centres with noggins.",
@@ -5094,8 +4810,8 @@
      "standard": "",
      "layers": [
       {
-       "t": 47,
-       "material": "x 150mm C16 joists at 400mm centres to span the garage with firrings t",
+       "t": 150,
+       "material": "47 x 150mm C16 joists at 400mm centres to span the garage with firring",
        "hatch": "timber",
        "read_from": "47mm x 150mm C16 joists at 400mm centres to span the garage with firrings to"
       },
@@ -5104,22 +4820,13 @@
        "material": "exterior grade plywood or OSB3 decking",
        "hatch": "timber",
        "read_from": "18mm exterior grade plywood or OSB3 decking"
-      },
-      {
-       "t": 150,
-       "material": "upstands and edge trims",
-       "hatch": "ins",
-       "read_from": "150mm upstands and edge trims"
-      },
-      {
-       "t": 25,
-       "material": "gap along two opposite eaves where a ceiling is fitted",
-       "hatch": "void",
-       "read_from": "25mm gap along two opposite eaves where a ceiling is fitted"
       }
      ],
-     "total_mm": 240,
-     "extraction_notes": [],
+     "total_mm": 168,
+     "extraction_notes": [
+      "not a layer — 150mm reads as a spacing, a level or working: 'upstands and edge trims'",
+      "not a layer — 25mm reads as a spacing, a level or working: 'gap along two opposite eaves where a ceiling is fitt'"
+     ],
      "verified_table": null,
      "clause": [
       "Flat roof of 47mm x 150mm C16 joists at 400mm centres to span the garage with firrings to a finished fall of not less than 1:40, 18mm exterior grade plywood or OSB3 decking, and a three-layer built-up reinforced bitumen membrane, a single ply membrane or a GRP system to the manufacturer's specification and BBA certificate with 150mm upstands and edge trims. The joist void is to be cross-ventilated by a continuous 25mm gap along two opposite eaves where a ceiling is fitted; where the joists are exposed no ventilation is needed.",
@@ -5136,8 +4843,8 @@
      "standard": "0.15 W/m²K",
      "layers": [
       {
-       "t": 47,
-       "material": "x 200mm C24 joists at 400mm centres to the engineer's design",
+       "t": 200,
+       "material": "47 x 200mm C24 joists at 400mm centres to the engineer's design",
        "hatch": "timber",
        "read_from": "47mm x 200mm C24 joists at 400mm centres to the engineer's design"
       },
@@ -5154,20 +4861,17 @@
        "read_from": "150mm Kingspan Thermaroof TR27 LPC/FM "
       },
       {
-       "t": 150,
-       "material": "upstands",
-       "hatch": "ins",
-       "read_from": "150mm upstands"
-      },
-      {
        "t": 12.5,
        "material": "plasterboard ceiling below",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard ceiling below"
       }
      ],
-     "total_mm": 377.5,
-     "extraction_notes": [],
+     "total_mm": 380.5,
+     "extraction_notes": [
+      "not a layer — 120mm reads as a spacing, a level or working: 'and over'",
+      "not a layer — 150mm reads as a spacing, a level or working: 'upstands'"
+     ],
      "verified_table": null,
      "clause": [
       "Warm deck flat roof of 47mm x 200mm C24 joists at 400mm centres to the engineer's design, 18mm exterior grade plywood or OSB3 decking laid to finished falls of not less than 1:40 on firrings, a vapour control layer fully bonded to the deck with laps sealed, 150mm Kingspan Thermaroof TR27 LPC/FM (thermal conductivity 0.024 W/mK at 120mm and over) fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands, edge trims and outlets, and a 12.5mm plasterboard ceiling below.",
@@ -5184,20 +4888,15 @@
      "standard": "",
      "layers": [
       {
-       "t": 600,
-       "material": "centres on a 100mm x 50mm wall plate bedded and strapped down at not m",
-       "hatch": "timber",
-       "read_from": "600mm centres on a 100mm x 50mm wall plate bedded and strapped down at not mo"
-      },
-      {
        "t": 10,
        "material": "continuous gap at the eaves on two opposite sides where the roof is bo",
        "hatch": "void",
        "read_from": "10mm continuous gap at the eaves on two opposite sides where the roof is boa"
       }
      ],
-     "total_mm": 610,
+     "total_mm": 10,
      "extraction_notes": [
+      "not a layer — 600mm reads as a spacing, a level or working: 'centres on a 100mm x 50mm wall plate bedded and stra'",
       "not treated as a layer: 'up the wall'"
      ],
      "verified_table": null,
