@@ -457,8 +457,9 @@ def layers_from(text, state=None):
         # working: "...and 62.5mm board on an uninsulated cavity wall at 0.28". Refusing the
         # whole sentence emptied five retained-element build-ups that state the two together.
         if verb and m.start() - s0 > verb.start():
-            notes.append("not a layer — %gmm follows the working in its sentence: '%s'"
-                         % (t, phrase[:48]))
+            notes.append("not a layer — %gmm comes after a stated result in its sentence, so it "
+                         "reads as working or as an alternative rather than as this build-up; "
+                         "read the clause: '%s'" % (t, phrase[:48]))
             continue
 
         # ...and only where the option before it was itself recorded as a layer. "an independent

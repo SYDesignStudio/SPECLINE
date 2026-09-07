@@ -401,7 +401,7 @@ Provide proprietary fixing plates or timber pattresses at all fixings for sanita
 | 1 | clear ventilated void beneath the beams | **150** | `void` |
 | | **Extracted total** | **150** | |
 
-- ⚠ not a layer — 65mm follows the working in its sentence: 'minimum sand/cement screed or a floating floor d'
+- ⚠ not a layer — 65mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'minimum sand/cement screed or a floating floor d'
 
 <details><summary>Clause</summary>
 
@@ -656,8 +656,8 @@ Fully fill the gap between the wall plate and the eaves ventilator with flexible
 | 3 | ventilated air gap above the insulation | **50** | `ins` |
 | | **Extracted total** | **262.5** | |
 
-- ⚠ not a layer — 400mm follows the working in its sentence: 'rafter centres'
-- ⚠ not a layer — 52.5mm follows the working in its sentence: 'under-rafter board in place of 62'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres'
+- ⚠ not a layer — 52.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'under-rafter board in place of 62'
 - ⚠ not a layer — 25mm reads as a spacing, a level, working or an alternative construction: 'gap at the eaves and 5mm at the ridge'
 - ⚠ not a layer — 5mm is an alternative or a continuation: 'at the ridge'
 
@@ -694,7 +694,7 @@ Provide a continuous vapour control layer on the warm side of the insulation, wi
 | | **Extracted total** | **168** | |
 
 - ⚠ not a layer — 120mm reads as a spacing, a level, working or an alternative construction: 'and over'
-- ⚠ not a layer — 160mm follows the working in its sentence: 'is to be used instead'
+- ⚠ not a layer — 160mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'is to be used instead'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'at all abutments'
 
 <details><summary>Clause</summary>
@@ -732,7 +732,7 @@ Provide proprietary edge trims, upstands of not less than 150mm at all abutments
 | 3 | Kingspan Kooltherm K118 insulated plasterboard | **37.5** | `ins` |
 | | **Extracted total** | **195.5** | |
 
-- ⚠ not a layer — 400mm follows the working in its sentence: 'centres and an air-gap correction of 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'
 - ⚠ not a layer - 184mm is in a sentence offering another way to build it: 'studs fully filled with 12'
 
 <details><summary>Clause</summary>
@@ -762,7 +762,7 @@ Where the dormer cheek abuts or is close to a boundary, the fire resistance and 
 | 3 | Kingspan Kooltherm K118 insulated plasterboard | **37.5** | `ins` |
 | | **Extracted total** | **195.5** | |
 
-- ⚠ not a layer — 400mm follows the working in its sentence: 'centres and an air-gap correction of 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'
 
 <details><summary>Clause</summary>
 
@@ -855,8 +855,8 @@ The eaves void behind the dwarf wall remains outside the thermal envelope and is
 | 3 | board or a 90mm insulated stud lining is needed and the loss of floor  | **112.5** | `timber` |
 | | **Extracted total** | **400** | |
 
-- ⚠ not a layer — 62.5mm follows the working in its sentence: 'calculates at 0'
-- ⚠ not a layer — 62.5mm follows the working in its sentence: 'calculates at 0'
+- ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
+- ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
 - ⚠ not a layer — 90mm is an alternative or a continuation: 'insulated stud lining is needed and the loss of floo'
 
 <details><summary>Clause</summary>
@@ -885,8 +885,8 @@ Where achieving 0.18 W/m²K internally would create a technical risk or an unrea
 | | **Extracted total** | **72.5** | |
 
 - ⚠ not a layer — 215mm reads as a spacing, a level, working or an alternative construction: 'solid brick wall calculates at 0'
-- ⚠ not a layer — 100mm follows the working in its sentence: 'single-leaf block wall at 0'
-- ⚠ not a layer — 62.5mm follows the working in its sentence: 'calculates at 0'
+- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'single-leaf block wall at 0'
+- ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
 
 <details><summary>Clause</summary>
 
@@ -970,7 +970,7 @@ NOTE — A 90mm board in a 100mm cavity leaves only a 10mm residual cavity, less
 | | **Extracted total** | **339** | |
 
 - ⚠ not treated as a layer: 'centres with head and sole plates and noggins'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'centres and an air-gap correction of 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'
 
 <details><summary>Clause</summary>
 
@@ -1083,7 +1083,7 @@ All perimeters and service penetrations to be sealed. Where the existing ceiling
 | | **Extracted total** | **168** | |
 
 - ⚠ not a layer — 120mm reads as a spacing, a level, working or an alternative construction: 'and over'
-- ⚠ not a layer — 160mm follows the working in its sentence: 'is to be used instead'
+- ⚠ not a layer — 160mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'is to be used instead'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'at all abutments'
 
 <details><summary>Clause</summary>
@@ -1113,7 +1113,7 @@ Falls to be a minimum finished 1:40. Cold deck construction is not to be used. P
 | | **Extracted total** | **212.5** | |
 
 - ⚠ not treated as a layer: 'centres to the structural engineer's desig'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'rafter centres allowing for rafter bridging and '
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres allowing for rafter bridging and '
 - ⚠ merged 150mm '47 x 150mm C24 rafters at 400mm centres to t' into the zone it fills — one band, not two
 
 <details><summary>Clause</summary>
@@ -1146,8 +1146,8 @@ Dormer roof to be flashed to the main roof with lead or a code-approved substitu
 | 3 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters | **72.5** | `ins` |
 | | **Extracted total** | **247.5** | |
 
-- ⚠ not a layer — 400mm follows the working in its sentence: 'rafter centres with K107 at a thermal conductivi'
-- ⚠ not a layer — 62.5mm follows the working in its sentence: 'under-rafter board in place of 72'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres with K107 at a thermal conductivi'
+- ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'under-rafter board in place of 72'
 - ⚠ not treated as a layer: 'between with 37'
 
 <details><summary>Clause</summary>
@@ -1381,7 +1381,7 @@ NOTE — External insulation keeps the existing wall warm and dry and avoids the
 
 - ⚠ not a layer — 62.5mm is the alternative to the figure before it: 'to an uninsulated cavity wall'
 - ⚠ not a layer — 72.5mm reads as a spacing, a level, working or an alternative construction: 'board on a 215mm solid brick wall calculates at 0'
-- ⚠ not a layer — 62.5mm follows the working in its sentence: 'board on an uninsulated cavity wall at 0'
+- ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'board on an uninsulated cavity wall at 0'
 
 <details><summary>Clause</summary>
 
@@ -1411,7 +1411,7 @@ NOTE — A retained wall with a U-value worse than the threshold of 0.70 W/m²K 
 | 1 | Kingspan Kooltherm K118 insulated plasterboard | **72.5** | `ins` |
 | | **Extracted total** | **72.5** | |
 
-- ⚠ not a layer — 215mm follows the working in its sentence: 'solid brick wall to BS EN ISO 6946 with both fac'
+- ⚠ not a layer — 215mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'solid brick wall to BS EN ISO 6946 with both fac'
 - ⚠ not treated as a layer: 'wall'
 
 <details><summary>Clause</summary>
@@ -1501,8 +1501,8 @@ NOTE — Renovating more than 50 per cent of the floor's surface, or more than 2
 | 2 | P5 chipboard deck | **22** | `timber` |
 | | **Extracted total** | **172** | |
 
-- ⚠ not a layer — 400mm follows the working in its sentence: 'joist centres'
-- ⚠ not a layer — 100mm follows the working in its sentence: 'calculates at 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'joist centres'
+- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
 
 <details><summary>Clause</summary>
 
@@ -1531,8 +1531,8 @@ The void beneath is to remain ventilated by air bricks on opposite walls giving 
 | | **Extracted total** | **148** | |
 
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands and new edge trims and outlets'
-- ⚠ not a layer — 150mm follows the working in its sentence: 'joists'
-- ⚠ not a layer — 120mm follows the working in its sentence: 'calculates at 0'
+- ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'joists'
+- ⚠ not a layer — 120mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
 
 <details><summary>Clause</summary>
 
@@ -1563,10 +1563,10 @@ This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered on 150mm
 | | **Extracted total** | **262.5** | |
 
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'where necessary so that a 50mm ventilated gap remain'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'rafter centres allowing for rafter bridging and '
-- ⚠ not a layer — 100mm follows the working in its sentence: 'K107 filling existing 100mm rafters'
-- ⚠ not a layer — 72.5mm follows the working in its sentence: 'K118 beneath it calculates at 0'
-- ⚠ not a layer — 62.5mm follows the working in its sentence: 'beneath gives 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres allowing for rafter bridging and '
+- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'K107 filling existing 100mm rafters'
+- ⚠ not a layer — 72.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'K118 beneath it calculates at 0'
+- ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'beneath gives 0'
 
 <details><summary>Clause</summary>
 
@@ -1695,8 +1695,8 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 | | **Extracted total** | **100** | |
 
 - ⚠ not a layer — 62.5mm reads as a spacing, a level, working or an alternative construction: 'board on dabs calculates at 0'
-- ⚠ not a layer — 103mm follows the working in its sentence: 'brick outer leaf'
-- ⚠ not a layer — 50mm follows the working in its sentence: 'clear cavity and 100mm dense block inner leaf'
+- ⚠ not a layer — 103mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'brick outer leaf'
+- ⚠ not a layer — 50mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'clear cavity and 100mm dense block inner leaf'
 
 <details><summary>Clause</summary>
 
@@ -1724,8 +1724,8 @@ The 62.5mm board on dabs calculates at 0.29 W/m²K to BS EN ISO 6946 for a 103mm
 | | **Extracted total** | **72.5** | |
 
 - ⚠ not a layer — 100mm reads as a spacing, a level, working or an alternative construction: 'single-leaf block wall calculates at 0'
-- ⚠ not a layer — 215mm follows the working in its sentence: 'brick wall at 0'
-- ⚠ not a layer — 62.5mm follows the working in its sentence: 'calculates at 0'
+- ⚠ not a layer — 215mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'brick wall at 0'
+- ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
 
 <details><summary>Clause</summary>
 
@@ -1757,8 +1757,8 @@ Cutting into, raising or lining a shared wall is notifiable under the Party Wall
 
 - ⚠ not a layer — 100mm is the alternative to the figure before it: 'mineral wool of 0'
 - ⚠ not a layer — 100mm reads as a spacing, a level, working or an alternative construction: 'expanded polystyrene system on a 100mm dense block w'
-- ⚠ not a layer — 215mm follows the working in its sentence: 'brick wall at 0'
-- ⚠ not a layer — 100mm follows the working in its sentence: 'mineral wool version calculates at 0'
+- ⚠ not a layer — 215mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'brick wall at 0'
+- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'mineral wool version calculates at 0'
 
 <details><summary>Clause</summary>
 
@@ -1790,9 +1790,9 @@ The 100mm expanded polystyrene system on a 100mm dense block wall calculates at 
 
 - ⚠ not a layer — 215mm is an alternative or a continuation: 'brick single-leaf wall to be retained'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above external ground level'
-- ⚠ not a layer — 600mm follows the working in its sentence: 'centres'
+- ⚠ not a layer — 600mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'
 - ⚠ not a layer — 89mm reads as a spacing, a level, working or an alternative construction: 'stud calculates at 0'
-- ⚠ not a layer — 140mm follows the working in its sentence: 'deep and fully filled'
+- ⚠ not a layer — 140mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'deep and fully filled'
 
 <details><summary>Clause</summary>
 
@@ -1829,7 +1829,7 @@ NOTE — A single-leaf garage wall was never designed to keep a habitable room d
 
 - ⚠ not a layer — 450mm reads as a spacing, a level, working or an alternative construction: 'vertical and 900mm horizontal centres'
 - ⚠ not treated as a layer: 'horizontal centres'
-- ⚠ not a layer — 150mm follows the working in its sentence: 'cavity with 150mm of the 0'
+- ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'cavity with 150mm of the 0'
 - ⚠ not treated as a layer: 'of room width each side'
 
 <details><summary>Clause</summary>
@@ -1865,8 +1865,8 @@ NOTE — The new leaf costs about 200mm of room width each side. On a single gar
 - ⚠ not treated as a layer: 'brick'
 - ⚠ not treated as a layer: 'blown bead'
 - ⚠ not a layer — 100mm reads as a spacing, a level, working or an alternative construction: 'dense block wall with plain plasterboard on dabs cal'
-- ⚠ not a layer — 37.5mm follows the working in its sentence: 'insulated plasterboard it calculates at 0'
-- ⚠ not a layer — 52.5mm follows the working in its sentence: 'insulated plasterboard at 0'
+- ⚠ not a layer — 37.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'insulated plasterboard it calculates at 0'
+- ⚠ not a layer — 52.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'insulated plasterboard at 0'
 - ⚠ not a layer — 100mm reads as a spacing, a level, working or an alternative construction: 'cavity blown full with plain plasterboard on dabs ca'
 
 <details><summary>Clause</summary>
@@ -1944,7 +1944,7 @@ This build-up calculates at 0.17 W/m²K to BS EN ISO 6946 allowing for mortar jo
 - ⚠ not a layer — 100mm is the alternative to the figure before it: 'dense blockwork rendered to match'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above ground linked to the floor membrane and a prop'
 - ⚠ not a layer — 215mm reads as a spacing, a level, working or an alternative construction: 'brick infill calculates at 0'
-- ⚠ not a layer — 90mm follows the working in its sentence: 'board in 89mm studs both calculate at 0'
+- ⚠ not a layer — 90mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'board in 89mm studs both calculate at 0'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above ground before the lining is fixed'
 
 <details><summary>Clause</summary>
@@ -1983,7 +1983,7 @@ NOTE — A solid infill is only worth doing where the garage walls are solid and
 - ⚠ not treated as a layer: 'centres with head and sole plates and noggins'
 - ⚠ not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'centres horizontally and 375mm vertically'
 - ⚠ not treated as a layer: 'vertically'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'centres and an air-gap correction of 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'
 
 <details><summary>Clause</summary>
 
@@ -2014,12 +2014,12 @@ NOTE — A timber frame infill panel behind a brick skin is not a substitute for
 
 - ⚠ not treated as a layer: 'centres with 100mm mineral wool infill of 33 kg/m'
 - ⚠ not a layer — 100mm reads as a spacing, a level, working or an alternative construction: 'above the garage floor or the garage floor laid to f'
-- ⚠ not a layer — 100mm follows the working in its sentence: 'dense block leaf on the garage side and a 100mm '
-- ⚠ not a layer — 150mm follows the working in its sentence: 'cavity fully filled with mineral wool of 0'
-- ⚠ not a layer — 100mm follows the working in its sentence: 'cavity calculates at 0'
-- ⚠ not a layer — 72.5mm follows the working in its sentence: 'insulated plasterboard at 0'
-- ⚠ not a layer — 140mm follows the working in its sentence: 'studs filled with Kingspan Kooltherm K112 with 3'
-- ⚠ not a layer — 89mm follows the working in its sentence: 'studs with K112 and 52'
+- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'dense block leaf on the garage side and a 100mm '
+- ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'cavity fully filled with mineral wool of 0'
+- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'cavity calculates at 0'
+- ⚠ not a layer — 72.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'insulated plasterboard at 0'
+- ⚠ not a layer — 140mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'studs filled with Kingspan Kooltherm K112 with 3'
+- ⚠ not a layer — 89mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'studs with K112 and 52'
 - ⚠ not treated as a layer: 'step at the connecting door may be removed and the floor'
 - ⚠ lining mirrored to the other face - the clause lines both faces with it
 - ⚠ stud zone drawn undimensioned — the clause gives the centres and leaves the depth to the system manufacturer
@@ -2157,9 +2157,9 @@ The new slab is to be set out so the finished floor matches the adjoining house 
 | | **Extracted total** | **272.5** | |
 
 - ⚠ not a layer — 25mm reads as a spacing, a level, working or an alternative construction: 'openings along two opposite eaves'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'centres and the 0'
-- ⚠ not a layer — 62.5mm follows the working in its sentence: 'beneath calculates at 0'
-- ⚠ not a layer — 37.5mm follows the working in its sentence: 'at 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and the 0'
+- ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'beneath calculates at 0'
+- ⚠ not a layer — 37.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'at 0'
 - ⚠ merged 150mm 'joists' into the zone it fills — one band, not two
 
 <details><summary>Clause</summary>
@@ -2192,9 +2192,9 @@ NOTE — Building control will normally accept a cold roof only where the coveri
 | | **Extracted total** | **148** | |
 
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'at all abutments and new edge trims'
-- ⚠ not a layer — 150mm follows the working in its sentence: 'joists'
+- ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'joists'
 - ⚠ not a layer — 120mm reads as a spacing, a level, working or an alternative construction: 'calculates at 0'
-- ⚠ not a layer — 100mm follows the working in its sentence: 'at 0'
+- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'at 0'
 
 <details><summary>Clause</summary>
 
@@ -2229,7 +2229,7 @@ This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered with 150
 - ⚠ not treated as a layer: 'ventilation path at the eaves with proprietary eaves ven'
 - ⚠ not a layer — 10mm reads as a spacing, a level, working or an alternative construction: 'gap along two opposite eaves'
 - ⚠ not a layer — 25mm is the alternative to the figure before it: 'where the pitch is below 15 degrees'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'centres and meets the renovation standard with n'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and meets the renovation standard with n'
 - ⚠ layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out
 
 <details><summary>Clause</summary>
@@ -2261,9 +2261,9 @@ Insulate and draught seal any access hatch, and carry the insulation over the wa
 | 5 | continuous gaps unless the underlay | **25** | `membrane` |
 | | **Extracted total** | **372.5** | |
 
-- ⚠ not a layer — 400mm follows the working in its sentence: 'rafter centres allowing for rafter bridging and '
-- ⚠ not a layer — 62.5mm follows the working in its sentence: 'beneath calculates at 0'
-- ⚠ not a layer — 52.5mm follows the working in its sentence: 'at 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres allowing for rafter bridging and '
+- ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'beneath calculates at 0'
+- ⚠ not a layer — 52.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'at 0'
 
 <details><summary>Clause</summary>
 
@@ -2437,7 +2437,7 @@ NOTE — Impact sound insulation is not a requirement for the separating walls o
 - ⚠ not treated as a layer: 'horizontal centres'
 - ⚠ not a layer — 300mm reads as a spacing, a level, working or an alternative construction: 'vertical centres within 225mm of jambs'
 - ⚠ not a layer — 225mm is an alternative or a continuation: 'of jambs'
-- ⚠ not a layer — 115mm follows the working in its sentence: 'K106 in a 115mm cavity at 0'
+- ⚠ not a layer — 115mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'K106 in a 115mm cavity at 0'
 
 <details><summary>Clause</summary>
 
@@ -2514,7 +2514,7 @@ This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 allowing for mortar jo
 - ⚠ not treated as a layer: 'vertical centres'
 - ⚠ not treated as a layer: 'centres to the frame designer's design with t'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above external ground level'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'centres and an air-gap correction of 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'
 - ⚠ not a layer — 12.5mm reads as a spacing, a level, working or an alternative construction: 'plasterboard and a service void alone the same wall '
 
 <details><summary>Clause</summary>
@@ -2604,7 +2604,7 @@ Where a partition carries a floor or roof load it is to be to the structural eng
 
 - ⚠ not treated as a layer: 'infill blocks to the manufacturer's design'
 - ⚠ not a layer — 50mm is the alternative to the figure before it: 'concrete on a damp proof membrane'
-- ⚠ not a layer — 130mm follows the working in its sentence: 'and at 0'
+- ⚠ not a layer — 130mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'and at 0'
 
 <details><summary>Clause</summary>
 
@@ -2669,7 +2669,7 @@ A ground-bearing slab is only to be used where the site investigation confirms t
 
 - ⚠ not treated as a layer: 'centres to the engineer's design on treated'
 - ⚠ not a layer — 50mm is the alternative to the figure before it: 'concrete on a 1200 gauge damp proof membrane'
-- ⚠ not a layer — 150mm follows the working in its sentence: 'calculates at 0'
+- ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
 
 <details><summary>Clause</summary>
 
@@ -2729,8 +2729,8 @@ Herringbone or solid strutting at mid-span for spans over 2.5m and two rows for 
 | | **Extracted total** | **237.5** | |
 
 - ⚠ not treated as a layer: 'centres'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'rafter centres allowing for rafter bridging and '
-- ⚠ not a layer — 100mm follows the working in its sentence: 'over the rafters calculates at 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres allowing for rafter bridging and '
+- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'over the rafters calculates at 0'
 
 <details><summary>Clause</summary>
 
@@ -2763,7 +2763,7 @@ NOTE — This form of roof raises the roof surface by the thickness of the over-
 | | **Extracted total** | **322.5** | |
 
 - ⚠ not treated as a layer: 'centres to the engineer's design'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'rafter centres'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres'
 
 <details><summary>Clause</summary>
 
@@ -2799,8 +2799,8 @@ This build-up calculates at 0.11 W/m²K to BS EN ISO 6946 at 400mm rafter centre
 - ⚠ not treated as a layer: 'galvanised straps 1m long'
 - ⚠ not a layer — 10mm reads as a spacing, a level, working or an alternative construction: 'gap at the eaves on two opposite sides with 25mm pro'
 - ⚠ not treated as a layer: 'proprietary eaves ventilators and insulation stops to ke'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'centres'
-- ⚠ not a layer — 300mm follows the working in its sentence: 'total calculates at 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'
+- ⚠ not a layer — 300mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'total calculates at 0'
 - ⚠ layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out
 
 <details><summary>Clause</summary>
@@ -3122,8 +3122,8 @@ NOTE — Timber separating floors rely on every layer being present and unbridge
 - ⚠ not treated as a layer: 'horizontal centres'
 - ⚠ not a layer — 300mm reads as a spacing, a level, working or an alternative construction: 'vertical centres within 225mm of jambs'
 - ⚠ not a layer — 225mm is an alternative or a continuation: 'of jambs'
-- ⚠ not a layer — 150mm follows the working in its sentence: 'in a 150mm cavity'
-- ⚠ not a layer — 175mm follows the working in its sentence: 'which calculates at 0'
+- ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'in a 150mm cavity'
+- ⚠ not a layer — 175mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'which calculates at 0'
 
 <details><summary>Clause</summary>
 
@@ -3158,7 +3158,7 @@ This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 allowing for mortar jo
 | | **Extracted total** | **415.5** | |
 
 - ⚠ not treated as a layer: 'cement particle or calcium silicate sheathing board'
-- ⚠ not a layer — 100mm follows the working in its sentence: 'of continuous external insulation over the sheat'
+- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'of continuous external insulation over the sheat'
 - ⚠ merged 150mm 'light gauge steel C studs' into the zone it fills — one band, not two
 
 <details><summary>Clause</summary>
@@ -3192,8 +3192,8 @@ Cavity barriers at each floor level at the slab edge, around openings and at the
 - ⚠ not treated as a layer: 'centres to the frame designer's design with 9'
 - ⚠ not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'horizontal and 375mm vertical centres'
 - ⚠ not treated as a layer: 'vertical centres'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'centres and an air-gap correction of 0'
-- ⚠ not a layer — 12.5mm follows the working in its sentence: 'plasterboard alone it calculates at 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'
+- ⚠ not a layer — 12.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'plasterboard alone it calculates at 0'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above ground and the frame differential movement all'
 
 <details><summary>Clause</summary>
@@ -3265,7 +3265,7 @@ Boards to BS EN 520, moisture-resistant in bathrooms and kitchens, fixed with dr
 | | **Extracted total** | **380** | |
 
 - ⚠ not a layer — 130mm reads as a spacing, a level, working or an alternative construction: 'of the same board with a 15mm fire-rated soffit boar'
-- ⚠ not a layer — 150mm follows the working in its sentence: 'at 0'
+- ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'at 0'
 
 <details><summary>Clause</summary>
 
@@ -3319,7 +3319,7 @@ Floor within a two-storey flat of 47mm x 220mm C24 solid joists or metal web joi
 | | **Extracted total** | **122.5** | |
 
 - ⚠ not treated as a layer: 'laid over'
-- ⚠ not a layer — 400mm follows the working in its sentence: 'centres'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'
 - ⚠ layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out
 
 <details><summary>Clause</summary>
@@ -3381,7 +3381,7 @@ This build-up calculates at 0.10 W/m²K to BS EN ISO 6946 fully adhered on a con
 | 2 | solid brick wall | **215** | `brick` |
 | | **Extracted total** | **287.5** | |
 
-- ⚠ not a layer — 62.5mm follows the working in its sentence: 'calculates at 0'
+- ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above ground linked to the basement waterproofing as'
 
 <details><summary>Clause</summary>
@@ -3406,7 +3406,7 @@ Where the above-ground wall is new, it is to be built to the new-wall standard o
 
 *No layer thicknesses stated in the clause — this build-up is described by performance or by reference to another. Draw it from the clause.*
 
-- ⚠ not a layer — 72.5mm follows the working in its sentence: 'Kingspan Kooltherm K118 insulated plasterboard o'
+- ⚠ not a layer — 72.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'Kingspan Kooltherm K118 insulated plasterboard o'
 
 <details><summary>Clause</summary>
 
@@ -3503,8 +3503,8 @@ NOTE — A basement with a habitable room is reached by a stair that may be the 
 | | **Extracted total** | **387.5** | |
 
 - ⚠ not a layer — 50mm reads as a spacing, a level, working or an alternative construction: 'of board this build-up calculates at 0'
-- ⚠ not a layer — 75mm follows the working in its sentence: 'board specified calculates at 0'
-- ⚠ not a layer — 100mm follows the working in its sentence: 'cavity with 100mm board at 0'
+- ⚠ not a layer — 75mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'board specified calculates at 0'
+- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'cavity with 100mm board at 0'
 
 <details><summary>Clause</summary>
 
@@ -3535,7 +3535,7 @@ NOTE — Every tie that penetrates the cavity drain membrane is a potential leak
 | 2 | insulated plasterboard lining | **37.5** | `ins` |
 | | **Extracted total** | **107.5** | |
 
-- ⚠ not a layer — 100mm follows the working in its sentence: 'of the framing board calculates at 0'
+- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'of the framing board calculates at 0'
 
 <details><summary>Clause</summary>
 
@@ -3777,7 +3777,7 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 | 2 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **112.5** | |
 
-- ⚠ not a layer — 12.5mm follows the working in its sentence: 'plasterboard or one layer of 15mm Type F board t'
+- ⚠ not a layer — 12.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'plasterboard or one layer of 15mm Type F board t'
 - ⚠ not a layer — 100mm reads as a spacing, a level, working or an alternative construction: 'above the garage floor or the garage floor laid to f'
 
 <details><summary>Clause</summary>
@@ -3816,7 +3816,7 @@ NOTE — The separating wall is also a thermal element of the house where the ga
 - ⚠ not treated as a layer: 'horizontal centres and at not more than 300mm vertical c'
 - ⚠ not treated as a layer: 'of jambs'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above ground'
-- ⚠ not a layer — 12.5mm follows the working in its sentence: 'plasterboard on dabs'
+- ⚠ not a layer — 12.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'plasterboard on dabs'
 
 <details><summary>Clause</summary>
 
@@ -3877,8 +3877,8 @@ NOTE — A single-leaf wall is a garage wall, not a house wall. It is not suitab
 
 - ⚠ not treated as a layer: 'centres with head and sole plates and noggins'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above ground'
-- ⚠ not a layer — 89mm follows the working in its sentence: 'studs at 600mm centres'
-- ⚠ not a layer — 140mm follows the working in its sentence: 'studs with 140mm board and a 37'
+- ⚠ not a layer — 89mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'studs at 600mm centres'
+- ⚠ not a layer — 140mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'studs with 140mm board and a 37'
 
 <details><summary>Clause</summary>
 
@@ -4071,4 +4071,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T23:10:12+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T23:19:16+00:00*
