@@ -419,6 +419,21 @@ full specification on the right, the scale note, and a title block. Four things 
   board, or "damp proof courses in both leaves" would mirror a lining that is only ever on one
   face; and a wall lined on both faces is exempted from the review's inside-out test, because it
   has no outer face.
+- **A figure the window cut in half is not a layer.** Both thickness patterns carry `(?<![\d.])`.
+  The 70-character window can end mid-figure — "…mineral wool infill and 12" left ".5mm
+  plasterboard each side" behind it — and `finditer` then resumed on the fragment, putting a 5mm
+  board that no clause mentions on two partitions. The rescue pass reads the whole figure back,
+  because its run-on spans the cut.
+- **A sentence offering another way to build it contributes no layers** (`ANOTHER_WAY`):
+  *"Masonry partitions of 100mm blockwork may be used where…"*, *"184mm studs fully filled …
+  achieve the same figure"*. Those were being drawn as extra bands of a wall built the first way.
+- **A qualifier-led phrase must name its material in its own label.** "25mm minimum where the stud
+  depth is shallower" reached a hatch only through the word *stud* five words later — the same
+  mistake the unconditional veto exists to stop, arriving by a different route.
+- **A partial fill merges into the member zone it fills** — a 50mm quilt in a 70mm stud is 70mm of
+  wall, not 120. Equal thickness cannot be the only test, but the words immediately around the
+  fill must say it fills the members (`INFILLING`, using a short `_before` window), or a lining
+  board inboard of the studs gets swallowed into the frame.
 - **Mineral wool is not rigid board.** The `ins` rule matched the bare word *insulation*, so
   "mineral wool acoustic insulation" was hatched as a PIR board. `wool` now comes first. Gypsum
   board, fireline and wallboard are plasterboard, which they were not.

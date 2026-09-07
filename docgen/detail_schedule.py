@@ -136,17 +136,34 @@ def load():
 
 
 # A thickness named INSIDE another match's window. See _rescue().
-INNER = re.compile(r"(\d+(?:\.\d+)?)\s*mm\s+([A-Za-z][^,;.()—]{2,60})")
+# The lookbehind matters. The rescue pass searches a window that can begin part-way through a
+# figure, so without it "12.5mm plasterboard each side" was read a second time as "5mm
+# plasterboard each side" and a basement partition grew a 5mm board that no clause mentions.
+INNER = re.compile(r"(?<![\d.])(\d+(?:\.\d+)?)\s*mm\s+([A-Za-z][^,;.()—]{2,60})")
+
+# "Masonry partitions of 100mm blockwork may be used where the slab is designed for them" offers
+# another way of building the wall, not another layer of this one.
+ANOTHER_WAY = re.compile(r"may be used|may be substituted|as an alternative|"
+                         r"achieves? the same", re.I)
+
+# The insulation that fills a stud, rafter or joist zone is that zone, not a band beside it —
+# even when it is thinner than the member, which a partial fill usually is. The tell has to be
+# the words immediately around the fill itself: a clause can say "the full stud depth insulated"
+# about the studs and then name a separate lining board inboard of them, and merging that would
+# swallow a real layer.
+INFILLING = re.compile(r"(?:stud|rafter|joist)s?\s+depth\s+(?:filled|infilled|insulated)|"
+                       r"filled with|infilled with|\binfill\b|between the (?:studs|joists|rafters)",
+                       re.I)
 
 
-def _consider(t, phrase, raw, after, layers, notes):
+def _consider(t, phrase, raw, after, layers, notes, before=""):
     """One <thickness, phrase> pair against every veto; appends a layer if it survives.
 
     Shared by the top-level scan and the rescue pass below, so the two cannot drift apart.
     """
-    if NEVER_A_LAYER.match(phrase) or ARITHMETIC.search(phrase):
-        notes.append("not a layer — %gmm reads as a spacing, a level or working: '%s'"
-                     % (t, phrase[:52]))
+    if NEVER_A_LAYER.match(phrase) or ARITHMETIC.search(phrase) or ANOTHER_WAY.search(phrase):
+        notes.append("not a layer — %gmm reads as a spacing, a level, working or an alternative "
+                     "construction: '%s'" % (t, phrase[:52]))
         return
     if QUALIFIER.match(phrase) and hatch_for(phrase) is None:
         return
@@ -173,9 +190,15 @@ def _consider(t, phrase, raw, after, layers, notes):
     # material, keep the fuller phrase so the two still agree with each other.
     h = hatch_for(label)
     if h is None:
+        if QUALIFIER.match(phrase):
+            # A qualifier-led phrase has to name its material in its own label. "25mm minimum
+            # where the stud depth is shallower" reached a hatch only through the word *stud*
+            # five words later — the same mistake the unconditional veto was written to stop.
+            notes.append("not treated as a layer: '%s'" % phrase[:56])
+            return
         label, h = phrase, hatch_for(phrase)
     layers.append({"t": int(t) if t == int(t) else t, "material": label[:70],
-                   "hatch": h, "read_from": raw, "_after": after})
+                   "hatch": h, "read_from": raw, "_after": after, "_before": before})
 
 
 # The rescue pass is a salvage operation, not the primary reading, so it is deliberately meaner
@@ -313,12 +336,20 @@ def line_both_faces(group, layers, clause, notes):
     if not said:
         return layers
     boards = [i for i, l in enumerate(layers) if l.get("hatch") == "pboard"]
+    # Two identical boards sitting together at one end are the two faces, read from a clause that
+    # names the lining once and then again for a fire variant. One belongs on the other face.
+    if (len(boards) == 2 and boards[1] == boards[0] + 1 and len(layers) > 2
+            and boards[1] == len(layers) - 1
+            and abs(float(layers[boards[0]]["t"]) - float(layers[boards[1]]["t"])) < 0.01):
+        notes.append("one of two identical linings moved to the other face - a partition is "
+                     "lined on both sides")
+        return [layers[boards[1]]] + layers[:boards[0]] + [layers[boards[0]]]
     if len(boards) != 1 or boards[0] not in (0, len(layers) - 1):
         return layers            # already two, or in the middle: leave it alone
     if all(l.get("hatch") == "pboard" for l in layers):
         return layers            # nothing between the faces to line — see STUD_CENTRES
     b = layers[boards[0]]
-    notes.append("lining mirrored to the other face — the clause lines both faces with it")
+    notes.append("lining mirrored to the other face - the clause lines both faces with it")
     twin = dict(b, material=b["material"])
     return ([twin] + layers) if boards[0] == len(layers) - 1 else (layers + [twin])
 
@@ -338,15 +369,28 @@ def merge_member_fill(layers, notes):
             prev = out[-1]
             same_t = abs(float(prev["t"]) - float(l["t"])) < 0.51
             pair = {prev.get("hatch"), l.get("hatch")}
-            if same_t and pair in ({"timber", "ins"}, {"timber", "wool"},
-                                   {"metal", "ins"}, {"metal", "wool"}):
+            member_fill = pair in ({"timber", "ins"}, {"timber", "wool"},
+                                   {"metal", "ins"}, {"metal", "wool"})
+            # A partial fill is thinner than the zone it fills, so equal thicknesses cannot be the
+            # only test. The words immediately around the fill have to say it fills the members —
+            # "the stud depth filled with 50mm mineral wool", "mineral wool infill" — or a lining
+            # board inboard of the studs would be swallowed into the frame.
+            fills = l if prev.get("hatch") in ("timber", "metal") else prev
+            deep = prev if fills is l else l
+            partial = (member_fill and not same_t
+                       and float(fills["t"]) <= float(deep["t"])
+                       and (INFILLING.search(fills.get("_before", "") + " "
+                                             + (fills.get("material") or ""))))
+            if member_fill and (same_t or partial):
                 member = prev if prev.get("hatch") in ("timber", "metal") else l
                 fill = l if member is prev else prev
                 if MEMBER_WORD.search(member.get("material") or ""):
                     notes.append("merged %gmm '%s' into the zone it fills — one band, not two"
                                  % (float(member["t"]), (member["material"] or "")[:44]))
-                    out[-1] = dict(fill, material=("%s between %s"
-                                                   % (fill["material"], member["material"]))[:90])
+                    # the band is the MEMBER's depth: a 50mm quilt in a 70mm stud is 70mm of wall
+                    out[-1] = dict(fill, t=member["t"],
+                                   material=("%s between %s"
+                                             % (fill["material"], member["material"]))[:90])
                     continue
         out.append(l)
     return out
@@ -376,11 +420,16 @@ def layers_from(text, state=None):
     # mentions it again several paragraphs later — "wall ties of the length specified for a 150mm
     # cavity in BS EN 845-1" — and a set that reset each paragraph could not see the first.
     cavities = state.setdefault("cavities", set()) if state is not None else set()
-    for m in re.finditer(r"(\d+(?:\.\d+)?)\s*mm\s+([A-Za-z][^,;.()—]{2,70})", text):
+    # The lookbehind is the same guard INNER carries: the 70-character window can cut a figure in
+    # half, and finditer then resumes on the fragment — "...infill and 12" left ".5mm plasterboard
+    # each side" behind it, and a 5mm board no clause mentions appeared on two partitions. The
+    # rescue pass reads the whole figure back, because its run-on spans the cut.
+    for m in re.finditer(r"(?<![\d.])(\d+(?:\.\d+)?)\s*mm\s+([A-Za-z][^,;.()—]{2,70})", text):
         t = float(m.group(1))
         phrase = re.sub(r"\s+", " ", m.group(2)).strip()
         raw = re.sub(r"\s+", " ", m.group(0))[:90]
         after = re.sub(r"\s+", " ", text[m.end():m.end() + 90])   # for FILLS_THE_ZONE
+        before = re.sub(r"\s+", " ", text[max(0, m.start() - 46):m.start()])  # for INFILLING
 
         # A sentence that works out a U-value is not a description of the construction, however
         # many thicknesses it contains: "72.5mm board on a 215mm solid brick wall calculates at
@@ -388,7 +437,12 @@ def layers_from(text, state=None):
         # away — W/mK appears in perfectly good layer phrases, so it cannot be the test.
         s0 = text.rfind(". ", 0, m.start()) + 1
         s1 = text.find(". ", m.end())
-        verb = WORKING_SENTENCE.search(text[s0:s1 if s1 > 0 else len(text)])
+        sentence = text[s0:s1 if s1 > 0 else len(text)]
+        if ANOTHER_WAY.search(sentence):
+            notes.append("not a layer - %gmm is in a sentence offering another way to build it: "
+                         "'%s'" % (t, phrase[:44]))
+            continue
+        verb = WORKING_SENTENCE.search(sentence)
         # Everything BEFORE the verb is still specification — "72.5mm K118 insulated
         # plasterboard ... calculates at 0.28" names a real board. Only what follows it is
         # working: "...and 62.5mm board on an uninsulated cavity wall at 0.28". Refusing the
@@ -471,7 +525,7 @@ def layers_from(text, state=None):
         if alt and len(alt.group(2).strip()) >= 3:
             phrase = window = alt.group(2).strip()
 
-        _consider(t, phrase, raw, after, layers, notes)
+        _consider(t, phrase, raw, after, layers, notes, before)
         last_end = m.end()
         # Anything swallowed by this window, with a short run-on so a phrase clipped by the
         # 70-character cut can finish. The run-on is rebuilt from the ORIGINAL text and then
@@ -585,6 +639,8 @@ def build():
                     layers.append(l)
             layers = face_order(b["g"], merge_member_fill(layers, notes), notes)
             layers = line_both_faces(b["g"], layers, b["p"], notes)
+            for l in layers:                     # context kept only for the merges above
+                l.pop("_before", None)
             got, tgt = uvals(b)
             unmatched += sum(1 for l in layers if l["hatch"] is None)
             rec = {"group": b["g"], "group_name": GROUPS.get(b["g"], b["g"]),
