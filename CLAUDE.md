@@ -188,6 +188,33 @@ Two things this repo has been caught out by before, both now covered by tests:
 
 ---
 
+## Detail schedules — `docgen/detail_schedule.py`
+
+`python docgen/detail_schedule.py` writes three files into `reference/details/` from `data/`:
+
+- `build-up-schedule.md` — all 124 build-ups, layer by layer, each with the clause underneath
+- `build-up-schedule.json` — the same, machine-readable, for generating DXF or PDF
+- `detail-register.md` — the 18 junctions worth drawing, which types need each, and what is drawn
+
+**The layers are extracted from the clause prose, not stored.** The library says "a 103mm facing
+brick outer leaf, a 100mm cavity fully filled with 90mm Kooltherm K106", so the schedule reads the
+thicknesses back out of the sentence. That is good enough to set a drawing out with and not good
+enough to submit unchecked, which is why every build-up carries its clause and every layer carries
+the phrase it was read from. Two limits worth knowing:
+
+- **A clause states what it states.** The cavity wall never gives the dabs a thickness, so the
+  extracted total is 315.5 against the verified 325.5. Where `buildup-layer-schedule.md` holds a
+  hand-checked table (EW1, GF1, RF1) the JSON points at it with `verified_table` and **that table
+  wins**.
+- **A phrase with no identifiable material is not a layer.** Those are dropped and listed in
+  `extraction_notes` rather than guessed into the drawing.
+
+Watch the regexes in that file. On 7 September 2026 the `` word boundaries in `HATCH` arrived as
+literal backspace bytes (0x08 — what `` means in a *non*-raw string), so four rules compiled fine
+and silently never matched: sand blinding was hatched as the membrane it protects. Nothing failed,
+the answer was just wrong. If a hatch looks wrong, check for control characters in the pattern
+before anything else.
+
 ## Publishing
 
 The app is published as a Claude artifact at
