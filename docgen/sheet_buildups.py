@@ -46,6 +46,42 @@ def esc(s):
     return H.escape(str(s), quote=True)
 
 
+def practice():
+    """The practice whose name goes on the sheet, from docgen/brand.py.
+
+    One source, shared with the Word and PDF specification generator, so a sheet and a
+    specification issued on the same day cannot disagree about who drew them. Specline's own
+    name never appears here: the commercial rule is that a generated document carries the
+    subscribing practice's identity and nothing else.
+
+    Project, client and the job number stay as placeholders on purpose. They belong to a job,
+    and these are library details — filling them in would be inventing a job that does not
+    exist.
+    """
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "docgen"))
+        from brand import PRACTICE
+        p = dict(PRACTICE)
+    except Exception:
+        p = {}
+    p.setdefault("name", "[Practice name]")
+    for k in ("designer", "addr", "email", "web"):
+        p.setdefault(k, "")
+    parts = [w for w in re.split(r"[\s-]+", p["designer"]) if w]
+    p["initials"] = "".join(w[0] for w in parts[:3]).upper() or "[XX]"
+    p["date"] = __import__("datetime").date.today().strftime("%m.%y")
+    who = ("%s of %s" % (p["designer"], p["name"])) if p["designer"] else p["name"]
+    p["resp"] = ("All dimensions to be checked on site. Read in conjunction with the structural "
+                 "engineer's drawings and the insulation manufacturer's current certificate. "
+                 "%s is the named designer and remains responsible for the suitability of this "
+                 "detail; compliance of the work is determined by the building control body."
+                 % who)
+    return p
+
+
+PRACTICE_ = None
+
+
 def sentences(clause):
     out = []
     for para in clause:
@@ -368,7 +404,8 @@ footer dt{font-family:"IBM Plex Sans Condensed",Arial,sans-serif;font-size:6.4pt
   letter-spacing:.1em;text-transform:uppercase;color:#6A6A66;margin:0 0 .6mm}
 footer dd{margin:0 0 1.8mm;font-size:7.6pt}
 footer .practice{font-size:6.9pt;color:#4A4A46;line-height:1.35}
-footer .practice b{display:block;font-size:8pt;color:#1B1B1B;margin-bottom:1mm}
+footer .practice b{display:block;font-size:8pt;color:#1B1B1B;margin-bottom:.4mm}
+footer .practice .addr{display:block;font-size:6.4pt;color:#6A6A66;margin-bottom:1.2mm}
 svg text{font-family:"IBM Plex Sans",Arial,sans-serif}
 </style></head><body><div class="sheet">
 <header><h1>%(ref)s &mdash; %(title)s</h1><span class="sc">%(section)s &middot; 1:10 @ A4</span></header>
@@ -392,13 +429,10 @@ svg text{font-family:"IBM Plex Sans",Arial,sans-serif}
   <div class="cell"><dt>Drawing title</dt><dd>%(ref)s %(title_lc)s &mdash; %(section_lc)s</dd>
     <dt>Scale</dt><dd>1:10 @ A4</dd></div>
   <div class="cell"><dt>Client</dt><dd>[Client]</dd>
-    <dt>Date / drawn</dt><dd>[MM.YY] / [XX]</dd></div>
+    <dt>Date / drawn</dt><dd>%(date)s / %(initials)s</dd></div>
   <div class="cell"><dt>Status</dt><dd>For building control approval</dd>
     <dt>Rev</dt><dd>P01</dd></div>
-  <div class="practice"><b>[Practice name]</b>All dimensions to be checked on site. Read in
-    conjunction with the structural engineer's drawings and the insulation manufacturer's
-    current certificate. The named designer remains responsible for the suitability of this
-    detail; compliance is determined by the building control body.</div>
+  <div class="practice"><b>%(pname)s</b><span class="addr">%(paddr)s</span>%(resp)s</div>
 </footer>
 </div></body></html>"""
 
@@ -461,8 +495,13 @@ def build_sheet(rec, type_name):
             + 90 * len(rec["clause"])
             + (260 if rec.get("verified_table") else 0))
     dense = "d3" if cost > 2800 else "d2" if cost > 2200 else "d1" if cost > 1500 else ""
+    pr = PRACTICE_
     return SHEET % {
         "dense": dense,
+        "pname": esc(pr["name"]),
+        "paddr": esc(" · ".join(x for x in (pr["addr"], pr["email"]) if x)),
+        "resp": esc(pr["resp"]),
+        "date": esc(pr["date"]), "initials": esc(pr["initials"]),
         "ref": esc(rec["ref"]), "title": esc(rec["title"]), "title_lc": esc(rec["title"].lower()),
         "section": esc(section.upper()), "section_lc": esc(section.lower()),
         "svg": svg, "perf": perf, "perfnote": perfnote, "flag": flag,
@@ -471,6 +510,10 @@ def build_sheet(rec, type_name):
 
 
 def main():
+    global PRACTICE_
+    PRACTICE_ = practice()
+    print("  practice on the title block: %s%s"
+          % (PRACTICE_["name"], " / " + PRACTICE_["designer"] if PRACTICE_["designer"] else ""))
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     html_only = "--html" in sys.argv
     data = json.load(open(SRC, encoding="utf-8"))

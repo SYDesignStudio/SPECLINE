@@ -235,6 +235,12 @@ full specification on the right, the scale note, and a title block. Four things 
 - **Wall ties are drawn only where the clause specifies them**, at the centres it gives, with
   the fall to the outer leaf it requires. A tie drawn level, or falling inwards, teaches the
   wrong thing.
+- **The title block comes from `docgen/brand.py`**, the same `PRACTICE` dict the Word and PDF
+  specification generator uses, so a sheet and a specification issued the same day cannot
+  disagree about who drew them. Practice name, address and email fill the practice cell, the
+  designer's initials and the current month fill *date / drawn*, and the responsibility note
+  names the designer. Project, client and job number stay as placeholders: they belong to a
+  job, and these are library details, so filling them would be inventing a job.
 - **Long clauses are set smaller, not cut off.** The size steps on a cost that counts
   paragraphs as well as characters, because paragraph spacing is what actually fills the
   column — the longest clause in the library is only 2149 characters, so a threshold set on
