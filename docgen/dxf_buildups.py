@@ -32,7 +32,7 @@ The layer data comes from clause prose, so check any output against the clause p
 build-up-schedule.md before it goes near a submission. Where a build-up names a verified
 table, that table wins and the DXF says so on the sheet.
 """
-import json, os, re, sys
+import glob, json, os, re, sys
 
 try:
     import ezdxf
@@ -344,7 +344,7 @@ def main():
         sys.exit("run python docgen/detail_schedule.py first")
     data = json.load(open(SRC, encoding="utf-8"))
 
-    made = skipped = 0
+    made, skipped, written = 0, 0, set()
     for key, t in data["types"].items():
         if args and key != args[0]:
             continue
@@ -373,6 +373,7 @@ def main():
             os.makedirs(d, exist_ok=True)
             base = os.path.join(d, "%s_%s" % (rec["group"], slug(rec["title"])))
             doc.saveas(base + ".dxf")
+            written.add(base)
             if want_pdf:
                 try:
                     to_pdf(base + ".dxf", base + ".pdf")
@@ -380,6 +381,20 @@ def main():
                     print("     (no pdf for %s: %s)" % (rec["title"][:40], e))
             made += 1
     print("\n  %d drawings written to output/dxf/  ·  %d skipped" % (made, skipped))
+
+    # A build-up that stops drawing leaves its last DXF behind, and that file is wrong by
+    # definition - worse than a stale sheet, because someone opens it in CAD and dimensions
+    # off it. Only a full run may clear them: a filtered run knows nothing about the drawings
+    # it was not asked for. The sheet generator carries the same rule.
+    if not args:
+        keep = {b + ext for b in written for ext in ('.dxf', '.pdf')}
+        orphans = [f for f in glob.glob(os.path.join(OUT, '*', '*.*')) if f not in keep]
+        for f in orphans:
+            os.remove(f)
+        if orphans:
+            print('  %d drawing(s) removed for build-ups that no longer draw:' % len(orphans))
+            for f in sorted({os.path.basename(f).rsplit('.', 1)[0] for f in orphans}):
+                print('      %s' % f)
 
 
 if __name__ == "__main__":
