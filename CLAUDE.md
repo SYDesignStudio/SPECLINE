@@ -478,6 +478,12 @@ full specification on the right, the scale note, and a title block. Four things 
   the rafters in the paragraph about structure and the board filling them two sentences later, so
   the per-paragraph merge inside `layers_from()` never saw the pair — the dormer roof was drawn
   150mm too thick. Drawing it on the slope is what made that obvious.
+- **A full run deletes the sheets of build-ups that no longer draw.** The generator only ever
+  wrote, so a build-up that stopped drawing left its last sheet in the issue folder — and that
+  sheet is wrong by definition. Two sat there for a day: the external wall insulation one still
+  showing the phantom 150mm band read out of *"150mm above finished ground level"*, and the
+  basement party wall showing one of two conditional options as though it were the specification.
+  A **filtered** run never deletes: it knows nothing about the sheets it was not asked for.
 - **Long clauses are set smaller, not cut off.** The size steps on a cost that counts
   paragraphs as well as characters, because paragraph spacing is what actually fills the
   column — the longest clause in the library is only 2149 characters, so a threshold set on

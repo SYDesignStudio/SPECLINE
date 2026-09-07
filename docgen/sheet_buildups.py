@@ -27,7 +27,7 @@ at the centres it specifies, set with the fall to the outer leaf that the clause
 a tie drawn level, or falling inwards, is a drawing that teaches the wrong thing.
 """
 import html as H
-import json, os, re, sys
+import glob, json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC  = os.path.join(ROOT, "reference", "details", "build-up-schedule.json")
@@ -840,6 +840,22 @@ def main():
             jobs.append(base)
 
     print("  %d sheets written" % len(jobs))
+
+    # A build-up that stops drawing leaves its last sheet behind, and that sheet is wrong — the
+    # external wall insulation one still showed the phantom 150mm band read out of "150mm above
+    # finished ground level", and the basement party wall showed one of two conditional options
+    # as though it were the specification. Both sat in the issue folder for a day. Only a full
+    # run may clear them: a filtered run knows nothing about the sheets it did not ask for.
+    if not args:
+        wanted = {j + ".pdf" for j in jobs} | {j + ".html" for j in jobs}
+        orphans = [p for p in glob.glob(os.path.join(OUT, "*", "*.*")) if p not in wanted]
+        for p in orphans:
+            os.remove(p)
+        if orphans:
+            print("  %d sheet(s) removed for build-ups that no longer draw:" % len(orphans))
+            for p in sorted({os.path.basename(p).rsplit(".", 1)[0] for p in orphans}):
+                print("      %s" % p)
+
     if html_only or not jobs:
         return
     try:
