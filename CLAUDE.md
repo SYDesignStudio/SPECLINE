@@ -152,6 +152,7 @@ SPECS.<type> = {
 | Hot water | Cylinder capable of storage at ≥60 °C; bath supply ≤48 °C by a TMV to BS EN 1111 or BS EN 1287 (Approved Document G3). Never "taps limited to 60 °C" |
 | Fixed lighting | 75 lumens per circuit-watt, all fixed internal and external fittings, those under 5 circuit-watts excluded. The "three quarters of fittings" rule was withdrawn in AD L 2021 |
 | Wall ties | `450 mm vertical × 900 mm horizontal centres, staggered` — the PD 6697 maximum — and **225 mm vertical within 225 mm of unbonded jambs, reveals and movement joints**, which is closer than the 300 mm the standard allows and is stated as exceeding it. `reference/FACTS.md` records both figures so the two cannot be mistaken for a contradiction |
+| Category headings | A **bullet** in the practice's accent, then the category in caps — in the app's preview, its PDF and its Word file, and in `docgen`'s documents. An asterisk reads as a footnote reference and there are no footnotes. Part B's headings are numbered instead, so they carry no bullet. In the app's PDF the bullet is **drawn** (`doc.circle`), because `safe()` maps the character to a hyphen: jsPDF's WinAnsi fonts cannot be relied on for it |
 | Building control | Lower case in prose; "the Building Control Officer" for the person |
 
 ## U-value calculations

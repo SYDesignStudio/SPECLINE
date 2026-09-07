@@ -314,6 +314,9 @@ table.meta td:first-child{background:#FBFAF8;font-weight:600;width:36%;font-size
 .sec{font-family:var(--sans);font-size:13px;font-weight:600;margin:26px 0 4px;padding-bottom:4px;border-bottom:2px solid var(--pacc);display:flex;gap:9px;align-items:baseline}
 .sec i{font-style:normal;font-family:var(--mono);font-size:11.5px;color:var(--pacc-ink);font-weight:500}
 .glab{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--pmuted);margin:16px 0 0}
+/* Part A's category headings carry the practice documents' bullet; Part B's are the
+   numbered sections, there and here, so they do not. */
+.glab.cat::before{content:"•";color:var(--pacc);font-weight:600;margin-right:7px}
 .eh{display:flex;gap:9px;align-items:baseline;margin:14px 0 3px;padding-bottom:3px;border-bottom:1px solid var(--prule)}
 .eh .tag2{font-family:var(--mono);font-size:10.5px;font-weight:500;color:var(--pacc-ink)}
 .eh h4{margin:0;font-family:var(--sans);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}

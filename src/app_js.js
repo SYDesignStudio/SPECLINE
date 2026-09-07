@@ -526,7 +526,7 @@ function renderPaper(){
     h+=`<div class="sec" id="s-parta"><i>2.0</i>Part A — Construction build-ups</div>`;
     let lg=null;
     sel.forEach(i=>{const b=allBU()[i];
-      if(b.g!==lg){lg=b.g; h+=`<p class="glab" id="g-${b.g}">${esc(GROUPS[b.g]||b.g)}</p>`;}
+      if(b.g!==lg){lg=b.g; h+=`<p class="glab cat" id="g-${b.g}">${esc(GROUPS[b.g]||b.g)}</p>`;}
       h+=`<div class="eh"><span class="tag2">${r[i]}</span><h4>${esc(b.t)}</h4></div>`;
       if(b.tgt) h+=`<p class="tl">${esc(b.tgt)}</p>`;
       h+=b.p.map(x=>`<p class="${x.startsWith("NOTE")?"nt":""}">${esc(x)}</p>`).join("");
@@ -749,8 +749,12 @@ function buildPdf(){
     doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(...ACC);doc.text(num,L,y);
     doc.setTextColor(...DARK);doc.text(safe(txt.toUpperCase()),L+13,y);
     y+=2.5;doc.setDrawColor(...ACC);doc.setLineWidth(.7);doc.line(L,y,210-R,y);y+=6; };
-  const grpLabel=t=>{ need(10);y+=3;doc.setFont("helvetica","bold");doc.setFontSize(8);
-    doc.setTextColor(...MUTED);doc.text(safe(t.toUpperCase()),L,y);y+=5; };
+  /* The bullet is DRAWN, not written: safe() maps the character to a hyphen because jsPDF's
+     WinAnsi fonts cannot be relied on for it. Part A's category headings carry it, matching the
+     practice documents; Part B's headings are numbered there and here, so they do not. */
+  const grpLabel=(t,cat)=>{ need(10);y+=3;doc.setFont("helvetica","bold");doc.setFontSize(8);
+    if(cat){ doc.setFillColor(...ACC); doc.circle(L+1.1,y-1.1,1.05,"F"); }
+    doc.setTextColor(...MUTED);doc.text(safe(t.toUpperCase()),cat?L+5:L,y);y+=5; };
   const entry=(tag,title)=>{ need(13);y+=3.5;
     doc.setFont("helvetica","bold");doc.setFontSize(9.5);
     if(tag){doc.setTextColor(...ACC);doc.text(tag,L,y);}
@@ -777,7 +781,7 @@ function buildPdf(){
     secHead("2.0","Part A — Construction build-ups");
     let lg=null;
     sel.forEach(i=>{ const b=allBU()[i];
-      if(b.g!==lg){lg=b.g;grpLabel(GROUPS[b.g]||b.g);}
+      if(b.g!==lg){lg=b.g;grpLabel(GROUPS[b.g]||b.g,true);}
       entry(r[i],b.t);
       if(b.tgt) para(b.tgt,9,2.2,ACC,"bold");
       b.p.forEach(t=>para(t, t.startsWith("NOTE")?8:9, 2.4, t.startsWith("NOTE")?MUTED:DARK)); });
@@ -896,7 +900,9 @@ function buildDocx(){
                      D.run(txt.toUpperCase(), {b:true, sz:26, color:DARK_HEX})],
       {before:320, after:60, keepNext:true, border:{side:"bottom", sz:10, color:ACC_HEX}}));
   };
-  const grpLabel = t => out.push(D.para(D.run(t.toUpperCase(), {b:true, sz:16, color:MUTED_HEX}),
+  const grpLabel = (t, cat) => out.push(D.para(
+    (cat ? [D.run("•  ", {b:true, sz:16, color:ACC_HEX})] : [])
+      .concat(D.run(t.toUpperCase(), {b:true, sz:16, color:MUTED_HEX})),
     {before:240, after:60, keepNext:true}));
   const entry = (tag, title) => out.push(D.para(
     (tag ? [D.run(tag + "   ", {b:true, sz:19, color:ACC_HEX})] : []).concat(
@@ -925,7 +931,7 @@ function buildDocx(){
     secHead("2.0", "Part A — Construction build-ups");
     let lg = null;
     sel.forEach(i => { const b = allBU()[i];
-      if(b.g !== lg){ lg = b.g; grpLabel(GROUPS[b.g] || b.g); }
+      if(b.g !== lg){ lg = b.g; grpLabel(GROUPS[b.g] || b.g, true); }
       entry(r[i], b.t);
       if(b.tgt) out.push(D.para(D.run(b.tgt, {b:true, sz:18, color:ACC_HEX}), {after:80}));
       b.p.forEach(body);
