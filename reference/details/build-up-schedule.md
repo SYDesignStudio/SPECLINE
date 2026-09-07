@@ -25,10 +25,10 @@ with the layers read out of its clause and the clause itself underneath.
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | of well consolidated hardcore capable of supporting not less than 50 k | **150** | `hard` |
+| 1 | of well consolidated hardcore capable | **150** | `hard` |
 | 2 | SOPRATHERM GA4000 | **90** | `ins` |
-| 3 | perimeter upstand insulation carried around the full edge of the floor | **25** | `ins` |
-| 4 | sand and cement screed | **75** | `screed` |
+| 3 | perimeter upstand insulation carried around the full edge | **25** | `ins` |
+| 4 | sand | **75** | `screed` |
 | | **Extracted total** | **340** | |
 
 - ⚠ not a layer — 450mm reads as a spacing, a level or working: 'for both mesh and bar'
@@ -107,6 +107,7 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 - ⚠ not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level and cast against undistu'
 - ⚠ not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'
 - ⚠ not treated as a layer: 'can fall below the 450mm minimum for trench fill'
+- ⚠ not treated as a layer: 'minimum for trench fill'
 - ⚠ not treated as a layer: 'governs'
 
 <details><summary>Clause</summary>
@@ -176,12 +177,14 @@ NOTE — The combustibility of the insulation and of the system as a whole is to
 | 1 | facing brick outer leaf matched to the existing dwelling | **103** | `brick` |
 | 2 | residual cavity | **10** | `void` |
 | 3 | Kingspan Kooltherm K106 | **90** | `ins` |
-| 4 | aircrete blockwork inner leaf of 0 | **100** | `block` |
+| 4 | aircrete blockwork inner leaf | **100** | `block` |
 | 5 | plasterboard on dabs | **12.5** | `pboard` |
 | | **Extracted total** | **315.5** | |
 
 - ⚠ not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres'
+- ⚠ not treated as a layer: 'horizontal centres'
 - ⚠ not a layer — 225mm reads as a spacing, a level or working: 'vertical centres within 225mm of all unbonded jambs'
+- ⚠ not a layer — 225mm is an alternative or a continuation: 'of all unbonded jambs'
 
 <details><summary>Clause</summary>
 
@@ -265,13 +268,14 @@ NOTE — Internal insulation of a solid wall moves the dew point into the existi
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | suitable facing brick or proprietary render system outer leaf | **103** | `brick` |
-| 2 | clear ventilated and drained cavity | **50** | `void` |
+| 1 | suitable facing brick | **103** | `brick` |
+| 2 | clear ventilated | **50** | `void` |
 | 3 | 38 x 140mm C16 studs at 600mm centres to the frame designer's specific | **140** | `timber` |
 | 4 | OSB3 racking board | **9** | `timber` |
 | 5 | plasterboard internal finish | **12.5** | `pboard` |
 | | **Extracted total** | **314.5** | |
 
+- ⚠ not treated as a layer: 'centres to the frame designer's specification'
 - ⚠ not a layer — 450mm reads as a spacing, a level or working: 'vertical centres and at every stud horizontally'
 
 <details><summary>Clause</summary>
@@ -294,8 +298,10 @@ Stainless steel wall ties fixed to the studs at 450mm vertical centres and at ev
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | 38 x 89mm C16 studs at 400mm centres with head and sole plates | **89** | `timber` |
-| 2 | plasterboard with joints staggered and all perimeters sealed | **12.5** | `pboard` |
+| 2 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **101.5** | |
+
+- ⚠ not treated as a layer: 'centres with head and sole plates'
 
 <details><summary>Clause</summary>
 
@@ -361,7 +367,7 @@ Provide proprietary fixing plates or timber pattresses at all fixings for sanita
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | clear ventilated void beneath the beams | **150** | `void` |
-| 2 | minimum sand/cement screed or a floating floor deck | **65** | `timber` |
+| 2 | minimum sand/cement screed | **65** | `timber` |
 | | **Extracted total** | **215** | |
 
 <details><summary>Clause</summary>
@@ -392,7 +398,7 @@ Beam layout, bearing and any trimming to openings to the manufacturer's design, 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | clear ventilated void beneath with through ventilation to opposing ext | **150** | `void` |
+| 1 | clear ventilated void beneath | **150** | `void` |
 | | **Extracted total** | **150** | |
 
 <details><summary>Clause</summary>
@@ -417,11 +423,12 @@ Provide a minimum 150mm clear ventilated void beneath with through ventilation t
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | minimum well-compacted hardcore blinded with 50mm sand | **150** | `hard` |
-| 2 | Kingspan Thermafloor TF70 below the slab | **100** | `ins` |
-| 3 | minimum GEN1 ground-bearing concrete slab over | **100** | `conc` |
-| 4 | perimeter insulation upstand to the full depth of the slab at all abut | **25** | `ins` |
-| | **Extracted total** | **375** | |
+| 1 | minimum well-compacted hardcore blinded | **150** | `hard` |
+| 2 | sand | **50** | `screed` |
+| 3 | Kingspan Thermafloor TF70 below the slab | **100** | `ins` |
+| 4 | minimum GEN1 ground-bearing concrete slab over | **100** | `conc` |
+| 5 | perimeter insulation upstand to the full depth | **25** | `ins` |
+| | **Extracted total** | **425** | |
 
 <details><summary>Clause</summary>
 
@@ -448,8 +455,8 @@ Continue 25mm perimeter insulation upstand to the full depth of the slab at all 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | of sand or other suitable fine material to protect the membrane above | **50** | `screed` |
-| 2 | in GEN1 or RC20 concrete | **100** | `conc` |
+| 1 | of sand | **50** | `screed` |
+| 2 | in GEN1 | **100** | `conc` |
 | 3 | Kingspan Kooltherm K103 Floorboard | **80** | `ins` |
 | 4 | perimeter insulation around floor edges to reduce thermal bridging | **25** | `ins` |
 | 5 | minimum sand/cement screed | **65** | `screed` |
@@ -498,7 +505,7 @@ Finish with 65mm minimum sand/cement screed, reinforced where required in accord
 | 1 | clear ventilated void beneath the joists | **150** | `timber` |
 | 2 | concrete on well-compacted hardcore | **100** | `hard` |
 | 3 | concrete on a 1200 gauge damp proof membrane | **50** | `conc` |
-| 4 | moisture resistant tongued and grooved flooring grade board | **18** | `timber` |
+| 4 | moisture resistant tongued | **18** | `timber` |
 | | **Extracted total** | **318** | |
 
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'centres'
@@ -547,8 +554,8 @@ Deck and line as the solid joist floor. Where the underside is exposed or forms 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | or 22mm moisture resistant tongued and grooved flooring grade board | **18** | `timber` |
-| 2 | plasterboard to satisfy Requirement E2 where the floor separates a bed | **12.5** | `pboard` |
+| 1 | moisture resistant tongued | **18** | `timber` |
+| 2 | plasterboard to satisfy Requirement E2 | **12.5** | `pboard` |
 | | **Extracted total** | **30.5** | |
 
 <details><summary>Clause</summary>
@@ -579,8 +586,8 @@ Provide galvanised lateral restraint straps to walls at not more than 2m centres
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | mineral wool quilt between ceiling joists and 300mm mineral wool quilt | **100** | `wool` |
-| 2 | plasterboard with skim | **12.5** | `pboard` |
+| 1 | mineral wool quilt between ceiling joists | **100** | `wool` |
+| 2 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **112.5** | |
 
 - ⚠ not a layer — 10mm reads as a spacing, a level or working: 'gap at the eaves on two opposite sides'
@@ -613,13 +620,14 @@ Fully fill the gap between the wall plate and the eaves ventilator with flexible
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K107 pitched roof board between 47 x 150mm minimum rafters to the struc | **150** | `ins` |
 | 2 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters | **62.5** | `ins` |
-| 3 | under-rafter board in place of 62 | **52.5** | `timber` |
-| 4 | ventilated air gap above the insulation with ventilation equivalent to | **50** | `ins` |
+| 3 | under-rafter board | **52.5** | `timber` |
+| 4 | ventilated air gap above the insulation | **50** | `ins` |
 | | **Extracted total** | **315** | |
 
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'rafter centres'
 - ⚠ not a layer — 5mm reads as a spacing, a level or working: 'calculates at 0'
 - ⚠ not a layer — 25mm reads as a spacing, a level or working: 'gap at the eaves and 5mm at the ridge'
+- ⚠ not a layer — 5mm is an alternative or a continuation: 'at the ridge'
 
 <details><summary>Clause</summary>
 
@@ -649,7 +657,7 @@ Provide a continuous vapour control layer on the warm side of the insulation, wi
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | external quality plywood decking or OSB3 laid to falls | **18** | `timber` |
+| 1 | external quality plywood decking | **18** | `timber` |
 | 2 | Kingspan Thermaroof TR27 insulation | **150** | `ins` |
 | | **Extracted total** | **168** | |
 
@@ -689,8 +697,8 @@ Provide proprietary edge trims, upstands of not less than 150mm at all abutments
 |---|---|---|---|
 | 1 | external quality plywood sheathing | **18** | `timber` |
 | 2 | Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres with t | **140** | `ins` |
-| 3 | Kingspan Kooltherm K118 insulated plasterboard with joints taped | **37.5** | `ins` |
-| 4 | studs fully filled with 12 | **184** | `timber` |
+| 3 | Kingspan Kooltherm K118 insulated plasterboard | **37.5** | `ins` |
+| 4 | studs fully filled | **184** | `timber` |
 | 5 | plasterboard achieve the same figure | **5** | `pboard` |
 | | **Extracted total** | **384.5** | |
 
@@ -720,7 +728,7 @@ Where the dormer cheek abuts or is close to a boundary, the fire resistance and 
 |---|---|---|---|
 | 1 | 38 x 140mm C16 studs at 400mm centres with the full depth filled with  | **140** | `timber` |
 | 2 | plywood sheathing | **18** | `timber` |
-| 3 | Kingspan Kooltherm K118 insulated plasterboard with joints taped | **37.5** | `ins` |
+| 3 | Kingspan Kooltherm K118 insulated plasterboard | **37.5** | `ins` |
 | | **Extracted total** | **195.5** | |
 
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'centres and an air-gap correction of 0'
@@ -750,7 +758,7 @@ Where the cheek is within 1m of the boundary the render system and carrier board
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | minimum drained and ventilated cavity | **25** | `void` |
+| 1 | minimum drained | **25** | `void` |
 | | **Extracted total** | **25** | |
 
 <details><summary>Clause</summary>
@@ -783,6 +791,8 @@ NOTE — Timber cladding weathers to grey within two years unless coated and mai
 | | **Extracted total** | **126.5** | |
 
 - ⚠ skipped 1050mm to 1200mm high as the sections — too thick to be a layer
+- ⚠ not treated as a layer: 'high as the sections'
+- ⚠ not a layer — 400mm reads as a spacing, a level or working: 'centres between sole plate'
 
 <details><summary>Clause</summary>
 
@@ -809,14 +819,15 @@ The eaves void behind the dwarf wall remains outside the thermal envelope and is
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs or on treated b | **72.5** | `ins` |
+| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs | **72.5** | `ins` |
 | 2 | solid brick wall 72 | **215** | `brick` |
-| 3 | board or a 90mm insulated stud lining is needed and the loss of floor  | **112.5** | `timber` |
+| 3 | board | **112.5** | `timber` |
 | | **Extracted total** | **400** | |
 
 - ⚠ not a layer — 5mm reads as a spacing, a level or working: 'calculates at 0'
 - ⚠ not a layer — 62.5mm reads as a spacing, a level or working: 'calculates at 0'
 - ⚠ not a layer — 62.5mm reads as a spacing, a level or working: 'calculates at 0'
+- ⚠ not a layer — 90mm is an alternative or a continuation: 'insulated stud lining is needed and the loss of floo'
 
 <details><summary>Clause</summary>
 
@@ -840,8 +851,8 @@ Where achieving 0.18 W/m²K internally would create a technical risk or an unrea
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to a | **72.5** | `ins` |
-| 2 | single-leaf block wall at 0 | **100** | `dense` |
+| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs | **72.5** | `ins` |
+| 2 | single-leaf block wall | **100** | `dense` |
 | | **Extracted total** | **172.5** | |
 
 - ⚠ not a layer — 215mm reads as a spacing, a level or working: 'solid brick wall calculates at 0'
@@ -885,8 +896,9 @@ NOTE — Requirement E1 applies to dwellings formed by new build or material cha
 | 2 | Kingspan Kooltherm K106 Cavity Board | **90** | `ins` |
 | 3 | lightweight block inner leaf | **100** | `block` |
 | 4 | plasterboard on dabs | **12.5** | `pboard` |
-| 5 | board in a 100mm cavity leaves only a 10mm residual cavity | **90** | `void` |
-| | **Extracted total** | **302.5** | |
+| 5 | board | **90** | `void` |
+| 6 | cavity | **100** | `void` |
+| | **Extracted total** | **402.5** | |
 
 <details><summary>Clause</summary>
 
@@ -922,10 +934,11 @@ NOTE — A 90mm board in a 100mm cavity leaves only a 10mm residual cavity, less
 | 1 | 38 x 140mm C16 studs at 400mm centres with head and sole plates and no | **140** | `timber` |
 | 2 | OSB3 sheathing externally | **9** | `timber` |
 | 3 | Kingspan Kooltherm K112 Framing Board | **140** | `ins` |
-| 4 | Kingspan Kooltherm K118 insulated plasterboard with joints taped and s | **37.5** | `ins` |
-| 5 | plasterboard alone in place of the insulated board the same panel calc | **12.5** | `pboard` |
+| 4 | Kingspan Kooltherm K118 insulated plasterboard | **37.5** | `ins` |
+| 5 | plasterboard alone | **12.5** | `pboard` |
 | | **Extracted total** | **339** | |
 
+- ⚠ not treated as a layer: 'centres with head and sole plates and noggins'
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'centres and an air-gap correction of 0'
 
 <details><summary>Clause</summary>
@@ -954,8 +967,10 @@ NOTE — Where the existing wall is a single-leaf solid wall, the new gable abov
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | 38 x 89mm C16 studs at 400mm centres | **89** | `timber` |
-| 2 | fire-rated plasterboard each face with all joints taped and filled and | **12.5** | `pboard` |
+| 2 | fire-rated plasterboard each face | **12.5** | `pboard` |
 | | **Extracted total** | **101.5** | |
+
+- ⚠ not treated as a layer: 'centres'
 
 <details><summary>Clause</summary>
 
@@ -977,8 +992,10 @@ Where the existing enclosure to the stair is retained, it is to be inspected and
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | 38 x 89mm C16 studs at 400mm centres with head and sole plates and sol | **89** | `timber` |
-| 2 | plasterboard with joints staggered and all perimeters sealed | **12.5** | `pboard` |
+| 2 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **101.5** | |
+
+- ⚠ not treated as a layer: 'centres with head and sole plates and solid n'
 
 <details><summary>Clause</summary>
 
@@ -996,9 +1013,9 @@ Internal stud partition to comprise 89mm x 38mm C16 studs at 400mm centres with 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | moisture resistant tongued and grooved flooring grade board | **22** | `timber` |
-| 2 | mineral wool quilt of minimum density 10 kg/m³ between the joists for  | **100** | `wool` |
-| 3 | plasterboard with joints staggered | **12.5** | `pboard` |
+| 1 | moisture resistant tongued | **22** | `timber` |
+| 2 | mineral wool quilt | **100** | `wool` |
+| 3 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **134.5** | |
 
 <details><summary>Clause</summary>
@@ -1026,7 +1043,7 @@ All perimeters and service penetrations to be sealed. Where the existing ceiling
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | external quality plywood or OSB3 decking laid to falls | **18** | `timber` |
+| 1 | external quality plywood | **18** | `timber` |
 | 2 | Kingspan Thermaroof TR27 insulation | **150** | `ins` |
 | | **Extracted total** | **168** | |
 
@@ -1061,6 +1078,7 @@ Falls to be a minimum finished 1:40. Cold deck construction is not to be used. P
 | 3 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters | **62.5** | `ins` |
 | | **Extracted total** | **362.5** | |
 
+- ⚠ not treated as a layer: 'centres to the structural engineer's desig'
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'rafter centres allowing for rafter bridging and an a'
 
 <details><summary>Clause</summary>
@@ -1089,9 +1107,9 @@ Dormer roof to be flashed to the main roof with lead or a code-approved substitu
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K107 pitched roof board between rafters | **125** | `ins` |
-| 2 | ventilated gap above the board where a non-breathable underlay is pres | **50** | `membrane` |
+| 2 | ventilated gap above the board | **50** | `membrane` |
 | 3 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters | **72.5** | `ins` |
-| 4 | under-rafter board in place of 72 | **62.5** | `timber` |
+| 4 | under-rafter board | **62.5** | `timber` |
 | | **Extracted total** | **310** | |
 
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'rafter centres with K107 at a thermal conductivity o'
@@ -1127,8 +1145,9 @@ Provide a continuous vapour control layer on the warm side of the insulation, se
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | mineral wool quilt between ceiling joists and 300mm mineral wool quilt | **100** | `wool` |
-| | **Extracted total** | **100** | |
+| 1 | mineral wool quilt between ceiling joists | **100** | `wool` |
+| 2 | mineral wool quilt | **300** | `wool` |
+| | **Extracted total** | **400** | |
 
 - ⚠ not a layer — 10mm reads as a spacing, a level or working: 'gap at the eaves on two opposite sides'
 - ⚠ not a layer — 5mm reads as a spacing, a level or working: 'at the ridge where the pitch exceeds 35°'
@@ -1158,9 +1177,10 @@ Ventilate the residual void with ventilation equivalent to a continuous 10mm gap
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | gap | **25** | `void` |
-| 2 | plasterboard of minimum mass 10 kg/m² | **12.5** | `pboard` |
-| 3 | fire-resisting board on resilient bars over 50mm mineral wool | **15** | `wool` |
-| | **Extracted total** | **52.5** | |
+| 2 | plasterboard | **12.5** | `pboard` |
+| 3 | fire-resisting board on resilient bars over | **15** | `wool` |
+| 4 | mineral wool | **50** | `wool` |
+| | **Extracted total** | **102.5** | |
 
 <details><summary>Clause</summary>
 
@@ -1185,7 +1205,7 @@ Where an existing timber stud or lath and plaster partition is to become a separ
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | overall cavity | **200** | `void` |
-| 2 | plasterboard and the cavity filled with mineral wool of minimum densit | **12.5** | `wool` |
+| 2 | plasterboard | **12.5** | `wool` |
 | | **Extracted total** | **212.5** | |
 
 <details><summary>Clause</summary>
@@ -1207,10 +1227,13 @@ Where floor joists run into the line of the wall, the wall is to be built off a 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | or more closed-cell foam or 25mm mineral wool board with the edges tur | **10** | `wool` |
-| 2 | sand and cement screed reinforced with mesh | **65** | `screed` |
-| 3 | tongued and grooved chipboard glued at the joints on 19mm plasterboard | **18** | `timber` |
-| | **Extracted total** | **93** | |
+| 1 | or more closed-cell foam | **10** | `wool` |
+| 2 | sand | **65** | `screed` |
+| 3 | tongued | **18** | `timber` |
+| 4 | plasterboard | **19** | `pboard` |
+| | **Extracted total** | **112** | |
+
+- ⚠ not a layer — 25mm is an alternative or a continuation: 'mineral wool board with the edges turn'
 
 <details><summary>Clause</summary>
 
@@ -1256,9 +1279,10 @@ NOTE — Impact sound is the usual reason a conversion fails its test. Where hea
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | tongued and grooved board on 19mm plank flooring | **18** | `timber` |
-| 2 | plasterboard of minimum total mass 20 kg/m² | **12.5** | `pboard` |
-| | **Extracted total** | **30.5** | |
+| 1 | tongued | **18** | `timber` |
+| 2 | plank flooring | **19** | `timber` |
+| 3 | plasterboard | **12.5** | `pboard` |
+| | **Extracted total** | **49.5** | |
 
 - ⚠ not treated as a layer: 'fire-resisting board'
 - ⚠ not treated as a layer: 'ceiling is sufficient only where 30 minutes applies'
@@ -1288,8 +1312,8 @@ Where the floor is a compartment floor requiring 60 minutes fire resistance (top
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | expanded polystyrene of 0 | **100** | `ins` |
-| 2 | mineral wool slab of 0 | **100** | `wool` |
+| 1 | expanded polystyrene | **100** | `ins` |
+| 2 | mineral wool slab | **100** | `wool` |
 | | **Extracted total** | **200** | |
 
 - ⚠ not a layer — 100mm reads as a spacing, a level or working: 'expanded polystyrene build-up on a 215mm solid brick'
@@ -1321,7 +1345,7 @@ NOTE — External insulation keeps the existing wall warm and dry and avoids the
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K118 insulated plasterboard | **72.5** | `ins` |
 | 2 | to an uninsulated cavity wall | **62.5** | `void` |
-| 3 | board on an uninsulated cavity wall at 0 | **62.5** | `void` |
+| 3 | board on an uninsulated cavity wall | **62.5** | `void` |
 | | **Extracted total** | **197.5** | |
 
 - ⚠ not a layer — 72.5mm reads as a spacing, a level or working: 'board on a 215mm solid brick wall calculates at 0'
@@ -1351,8 +1375,8 @@ NOTE — A retained wall with a U-value worse than the threshold of 0.70 W/m²K 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs or battens | **72.5** | `ins` |
-| 2 | solid brick wall to BS EN ISO 6946 with both faces treated as internal | **215** | `brick` |
+| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs | **72.5** | `ins` |
+| 2 | solid brick wall to BS EN ISO 6946 | **215** | `brick` |
 | | **Extracted total** | **287.5** | |
 
 - ⚠ not treated as a layer: 'wall'
@@ -1383,6 +1407,8 @@ Work to the party wall is notifiable under the Party Wall etc. Act 1996 as the C
 | 2 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **101.5** | |
 
+- ⚠ not treated as a layer: 'centres with head and sole plates and solid n'
+
 <details><summary>Clause</summary>
 
 
@@ -1404,10 +1430,11 @@ Internal stud partition to comprise 89mm x 38mm C16 studs at 400mm centres with 
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K103 Floorboard | **80** | `ins` |
 | 2 | perimeter upstands | **25** | `ins` |
-| 3 | tongued and grooved P5 chipboard as a floating floor with a 10mm perim | **22** | `timber` |
-| 4 | screed where headroom allows and the slab will carry it | **65** | `screed` |
+| 3 | tongued | **22** | `timber` |
+| 4 | screed | **65** | `screed` |
 | | **Extracted total** | **192** | |
 
+- ⚠ not treated as a layer: 'perime'
 - ⚠ not a layer — 60mm reads as a spacing, a level or working: 'calculates at 0'
 
 <details><summary>Clause</summary>
@@ -1464,7 +1491,7 @@ The void beneath is to remain ventilated by air bricks on opposite walls giving 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | exterior grade plywood or OSB3 laid to falls | **18** | `timber` |
+| 1 | exterior grade plywood | **18** | `timber` |
 | 2 | Kingspan Thermaroof TR26 LPC/FM | **130** | `ins` |
 | 3 | joists | **150** | `timber` |
 | | **Extracted total** | **298** | |
@@ -1495,10 +1522,11 @@ This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered on 150mm
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K107 Pitched Roof Board | **125** | `ins` |
-| 2 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters wit | **62.5** | `ins` |
-| 3 | K107 filling existing 100mm rafters | **100** | `ins` |
-| 4 | and 5mm continuous gap where the underlay is not breathable | **25** | `membrane` |
-| | **Extracted total** | **312.5** | |
+| 2 | ventilated gap | **50** | `void` |
+| 3 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters | **62.5** | `ins` |
+| 4 | K107 filling existing | **100** | `ins` |
+| 5 | continuous gap | **25** | `membrane` |
+| | **Extracted total** | **362.5** | |
 
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'where necessary so that a 50mm ventilated gap remain'
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'rafter centres allowing for rafter bridging and an a'
@@ -1590,6 +1618,7 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 - ⚠ not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level and cast against undistu'
 - ⚠ not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'
 - ⚠ not treated as a layer: 'can fall below the 450mm minimum for trench fill'
+- ⚠ not treated as a layer: 'minimum for trench fill'
 - ⚠ not treated as a layer: 'governs'
 
 <details><summary>Clause</summary>
@@ -1626,10 +1655,10 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs with a continuo | **62.5** | `ins` |
+| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs | **62.5** | `ins` |
 | 2 | insulated plasterboard | **37.5** | `ins` |
 | 3 | brick outer leaf | **103** | `brick` |
-| 4 | clear cavity and 100mm dense block inner leaf | **50** | `block` |
+| 4 | clear cavity | **50** | `block` |
 | | **Extracted total** | **253** | |
 
 - ⚠ not a layer — 62.5mm reads as a spacing, a level or working: 'board on dabs calculates at 0'
@@ -1656,8 +1685,8 @@ The 62.5mm board on dabs calculates at 0.29 W/m²K to BS EN ISO 6946 for a 103mm
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to a | **72.5** | `ins` |
-| 2 | brick wall at 0 | **215** | `brick` |
+| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs | **72.5** | `ins` |
+| 2 | brick wall | **215** | `brick` |
 | | **Extracted total** | **287.5** | |
 
 - ⚠ not a layer — 100mm reads as a spacing, a level or working: 'single-leaf block wall calculates at 0'
@@ -1688,9 +1717,9 @@ Cutting into, raising or lining a shared wall is notifiable under the Party Wall
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | expanded polystyrene of 0 | **100** | `ins` |
-| 2 | mineral wool of 0 | **100** | `wool` |
-| 3 | brick wall at 0 | **215** | `brick` |
+| 1 | expanded polystyrene | **100** | `ins` |
+| 2 | mineral wool | **100** | `wool` |
+| 3 | brick wall | **215** | `brick` |
 | | **Extracted total** | **415** | |
 
 - ⚠ not a layer — 100mm reads as a spacing, a level or working: 'expanded polystyrene system on a 100mm dense block w'
@@ -1718,12 +1747,13 @@ The 100mm expanded polystyrene system on a 100mm dense block wall calculates at 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | block or 215mm brick single-leaf wall to be retained | **100** | `dense` |
+| 1 | block | **100** | `dense` |
 | 2 | Kingspan Kooltherm K112 Framing Board | **90** | `ins` |
 | 3 | plasterboard skimmed | **12.5** | `pboard` |
 | 4 | Kingspan Kooltherm K118 insulated plasterboard fixed on battens over t | **72.5** | `ins` |
 | | **Extracted total** | **275** | |
 
+- ⚠ not a layer — 215mm is an alternative or a continuation: 'brick single-leaf wall to be retained'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'above external ground level'
 - ⚠ not a layer — 600mm reads as a spacing, a level or working: 'centres'
 - ⚠ not a layer — 89mm reads as a spacing, a level or working: 'stud calculates at 0'
@@ -1757,12 +1787,13 @@ NOTE — A single-leaf garage wall was never designed to keep a habitable room d
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | block or 102mm brick wall as the outer leaf and build a new 100mm airc | **100** | `brick` |
+| 1 | block | **100** | `brick` |
 | 2 | Knauf DriTherm Cavity Slab 32 or ROCKWOO | **100** | `wool` |
 | 3 | plasterboard on dabs | **12.5** | `pboard` |
 | | **Extracted total** | **212.5** | |
 
 - ⚠ not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres'
+- ⚠ not treated as a layer: 'horizontal centres'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'of the 0'
 - ⚠ not treated as a layer: 'of room width each side'
 
@@ -1791,11 +1822,12 @@ NOTE — The new leaf costs about 200mm of room width each side. On a single gar
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | or wider cavity in sound condition | **50** | `void` |
-| 2 | insulated plasterboard on dabs where the cavity is 50mm | **52.5** | `ins` |
-| 3 | plasterboard on dabs where the cavity is 100mm or more | **12.5** | `pboard` |
+| 1 | or wider cavity | **50** | `void` |
+| 2 | insulated plasterboard on dabs | **52.5** | `ins` |
+| 3 | plasterboard on dabs | **12.5** | `pboard` |
 | | **Extracted total** | **115** | |
 
+- ⚠ not a layer — 100mm is an alternative or a continuation: 'or more'
 - ⚠ not treated as a layer: 'brick'
 - ⚠ not treated as a layer: 'blown bead'
 - ⚠ not a layer — 100mm reads as a spacing, a level or working: 'dense block wall with plain plasterboard on dabs cal'
@@ -1827,17 +1859,19 @@ NOTE — Blown insulation is not to be used where the outer leaf is single-leaf 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | facing brick to match the existing in colour | **103** | `brick` |
+| 1 | facing brick to match the existing | **103** | `brick` |
 | 2 | residual cavity | **10** | `void` |
 | 3 | Kingspan Kooltherm K106 Cavity Board | **90** | `ins` |
-| 4 | aircrete inner leaf of 0 | **100** | `block` |
+| 4 | aircrete inner leaf | **100** | `block` |
 | 5 | plasterboard on dabs | **12.5** | `pboard` |
 | | **Extracted total** | **315.5** | |
 
 - ⚠ not a layer — 225mm reads as a spacing, a level or working: 'centres'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'above finished external ground level lapped with the'
 - ⚠ not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres'
+- ⚠ not treated as a layer: 'horizontal centres'
 - ⚠ not a layer — 300mm reads as a spacing, a level or working: 'vertical centres within 225mm of the jambs'
+- ⚠ not a layer — 225mm is an alternative or a continuation: 'of the jambs'
 
 <details><summary>Clause</summary>
 
@@ -1869,8 +1903,8 @@ This build-up calculates at 0.17 W/m²K to BS EN ISO 6946 allowing for mortar jo
 |---|---|---|---|
 | 1 | solid brickwork bonded into the existing | **215** | `brick` |
 | 2 | dense blockwork rendered to match between 50 x 100mm at 600mm centres set 25mm clear of th | **100** | `dense` |
-| 3 | insulated plasterboard with a vapour control layer | **37.5** | `ins` |
-| 4 | board in 89mm studs both calculate at 0 | **90** | `timber` |
+| 3 | insulated plasterboard | **37.5** | `ins` |
+| 4 | board | **90** | `timber` |
 | | **Extracted total** | **442.5** | |
 
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'above ground linked to the floor membrane and a prop'
@@ -1904,12 +1938,15 @@ NOTE — A solid infill is only worth doing where the garage walls are solid and
 |---|---|---|---|
 | 1 | 38 x 140mm C16 studs at 400mm centres with head and sole plates and no | **140** | `timber` |
 | 2 | OSB3 sheathing externally | **9** | `timber` |
-| 3 | clear cavity and a 103mm facing brick outer leaf tied to the frame wit | **50** | `brick` |
-| 4 | Kingspan Kooltherm K112 Framing Board | **140** | `ins` |
-| 5 | insulated plasterboard incorporating a vapour control layer | **37.5** | `ins` |
-| | **Extracted total** | **376.5** | |
+| 3 | clear cavity | **50** | `brick` |
+| 4 | facing brick outer leaf | **103** | `brick` |
+| 5 | Kingspan Kooltherm K112 Framing Board | **140** | `ins` |
+| 6 | insulated plasterboard incorporating a vapour control layer | **37.5** | `ins` |
+| | **Extracted total** | **479.5** | |
 
+- ⚠ not treated as a layer: 'centres with head and sole plates and noggins'
 - ⚠ not a layer — 600mm reads as a spacing, a level or working: 'centres horizontally and 375mm vertically'
+- ⚠ not treated as a layer: 'vertically'
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'centres and an air-gap correction of 0'
 
 <details><summary>Clause</summary>
@@ -1934,16 +1971,17 @@ NOTE — A timber frame infill panel behind a brick skin is not a substitute for
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | dense concrete blockwork off a new thickening or strip foundation | **100** | `dense` |
+| 1 | dense concrete blockwork off a new thickening | **100** | `dense` |
 | 2 | plasterboard each side | **12.5** | `pboard` |
-| 3 | dense block leaf on the garage side and a 100mm aircrete leaf of 0 | **100** | `block` |
-| 4 | cavity fully filled with mineral wool of 0 | **150** | `wool` |
-| 5 | insulated plasterboard at 0 | **72.5** | `ins` |
-| 6 | studs filled with Kingspan Kooltherm K112 with 37 | **140** | `ins` |
+| 3 | dense block leaf on the garage side | **100** | `block` |
+| 4 | cavity fully filled | **150** | `wool` |
+| 5 | insulated plasterboard | **72.5** | `ins` |
+| 6 | studs filled | **140** | `ins` |
 | 7 | insulated plasterboard on the room side | **5** | `ins` |
-| 8 | studs with K112 and 52 | **89** | `ins` |
+| 8 | studs | **89** | `ins` |
 | | **Extracted total** | **669** | |
 
+- ⚠ not treated as a layer: 'centres with 100mm mineral wool infill of 33 kg/m'
 - ⚠ not a layer — 100mm reads as a spacing, a level or working: 'above the garage floor or the garage floor laid to f'
 - ⚠ not a layer — 100mm reads as a spacing, a level or working: 'cavity calculates at 0'
 - ⚠ not treated as a layer: 'step at the connecting door may be removed and the floor'
@@ -1978,7 +2016,7 @@ NOTE — This separation is only required where a garage remains. Where the whol
 |---|---|---|---|
 | 1 | Kingspan Thermafloor TF70 | **100** | `ins` |
 | 2 | perimeter upstand insulation to all external walls | **25** | `ins` |
-| 3 | sand and cement screed reinforced with a polypropylene fibre or D49 me | **65** | `screed` |
+| 3 | sand | **65** | `screed` |
 | | **Extracted total** | **190** | |
 
 - ⚠ not a layer — 10mm reads as a spacing, a level or working: 'over 3m and free of oil contamination'
@@ -2014,8 +2052,8 @@ NOTE — Garage slabs are commonly 100 to 150mm below the house floor and were r
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K103 Floorboard | **80** | `ins` |
-| 2 | tongued and grooved moisture resistant chipboard | **22** | `timber` |
-| 3 | expansion gap at the perimeter behind the skirting | **10** | `void` |
+| 2 | tongued | **22** | `timber` |
+| 3 | expansion gap | **10** | `void` |
 | | **Extracted total** | **112** | |
 
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'centres between insulation strips'
@@ -2045,11 +2083,13 @@ This build-up calculates at 0.18 W/m²K to BS EN ISO 13370 for a perimeter/area 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | minimum well compacted hardcore blinded with 50mm sand | **150** | `hard` |
-| 2 | Kingspan Thermafloor TF70 with 25mm perimeter upstands | **100** | `ins` |
-| 3 | minimum GEN1 concrete slab reinforced with A142 mesh | **100** | `conc` |
-| 4 | screed or a timber deck as GF2 | **65** | `timber` |
-| | **Extracted total** | **415** | |
+| 1 | minimum well compacted hardcore blinded | **150** | `hard` |
+| 2 | sand | **50** | `screed` |
+| 3 | Kingspan Thermafloor TF70 | **100** | `ins` |
+| 4 | perimeter upstands | **25** | `ins` |
+| 5 | minimum GEN1 concrete slab reinforced | **100** | `conc` |
+| 6 | screed | **65** | `timber` |
+| | **Extracted total** | **490** | |
 
 <details><summary>Clause</summary>
 
@@ -2073,10 +2113,11 @@ The new slab is to be set out so the finished floor matches the adjoining house 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K107 or K103 board | **100** | `ins` |
-| 2 | joists so that a 50mm ventilated void remains between the insulation a | **150** | `ins` |
-| 3 | Kingspan Kooltherm K118 insulated plasterboard with an integral vapour | **72.5** | `ins` |
-| | **Extracted total** | **322.5** | |
+| 1 | Kingspan Kooltherm K107 | **100** | `ins` |
+| 2 | joists | **150** | `ins` |
+| 3 | ventilated void | **50** | `void` |
+| 4 | Kingspan Kooltherm K118 insulated plasterboard | **72.5** | `ins` |
+| | **Extracted total** | **372.5** | |
 
 - ⚠ not a layer — 25mm reads as a spacing, a level or working: 'openings along two opposite eaves'
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'centres and the 0'
@@ -2108,7 +2149,7 @@ NOTE — Building control will normally accept a cold roof only where the coveri
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | exterior grade plywood or OSB3 laid to falls | **18** | `timber` |
+| 1 | exterior grade plywood | **18** | `timber` |
 | 2 | Kingspan Thermaroof TR26 LPC/FM | **130** | `ins` |
 | 3 | joists | **150** | `timber` |
 | | **Extracted total** | **298** | |
@@ -2142,8 +2183,8 @@ This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered with 150
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | plasterboard with a vapour control layer where none exists | **12.5** | `pboard` |
-| 2 | mineral wool quilt of 0 | **100** | `wool` |
+| 1 | plasterboard | **12.5** | `pboard` |
+| 2 | mineral wool quilt | **100** | `wool` |
 | 3 | laid cross-wise over the joists | **200** | `timber` |
 | | **Extracted total** | **312.5** | |
 
@@ -2175,10 +2216,10 @@ Insulate and draught seal any access hatch, and carry the insulation over the wa
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K107 Pitched Roof Board | **100** | `ins` |
-| 2 | or 150mm by counter-battens or bolted deepening pieces where the exist | **125** | `timber` |
-| 3 | ventilated gap remains above the board under a non-breathable underlay | **50** | `membrane` |
-| 4 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters wit | **72.5** | `ins` |
-| 5 | and 5mm continuous gaps unless the underlay is breathable and the cove | **25** | `membrane` |
+| 2 | by counter-battens | **125** | `timber` |
+| 3 | ventilated gap | **50** | `membrane` |
+| 4 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters | **72.5** | `ins` |
+| 5 | continuous gaps unless the underlay | **25** | `membrane` |
 | | **Extracted total** | **372.5** | |
 
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'rafter centres allowing for rafter bridging and an a'
@@ -2208,10 +2249,11 @@ This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 at 400mm rafter centre
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | 47 x 200mm C24 joists at 400mm centres to the structural engineer's de | **200** | `timber` |
-| 2 | exterior grade plywood or OSB3 decking laid to falls of not less than  | **18** | `timber` |
+| 2 | exterior grade plywood | **18** | `timber` |
 | 3 | Kingspan Thermaroof TR27 LPC/FM | **150** | `ins` |
 | | **Extracted total** | **368** | |
 
+- ⚠ not treated as a layer: 'centres to the structural engineer's design'
 - ⚠ not a layer — 120mm reads as a spacing, a level or working: 'and over'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'upstands and edge trims'
 
@@ -2278,6 +2320,7 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 - ⚠ not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level and cast against undistu'
 - ⚠ not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'
 - ⚠ not treated as a layer: 'can fall below the 450mm minimum for trench fill'
+- ⚠ not treated as a layer: 'minimum for trench fill'
 - ⚠ not treated as a layer: 'governs'
 
 <details><summary>Clause</summary>
@@ -2311,10 +2354,10 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | aircrete or dense aggregate blockwork of the density required by the c | **100** | `block` |
+| 1 | aircrete | **100** | `block` |
 | 2 | minimum cavity | **75** | `void` |
-| 3 | parge coat or render to the cavity face where the detail requires it | **8** | `pboard` |
-| 4 | plasterboard on dabs with a continuous adhesive ribbon at the perimete | **12.5** | `pboard` |
+| 3 | parge coat | **8** | `pboard` |
+| 4 | plasterboard on dabs | **12.5** | `pboard` |
 | | **Extracted total** | **195.5** | |
 
 <details><summary>Clause</summary>
@@ -2347,13 +2390,15 @@ NOTE — Impact sound insulation is not a requirement for the separating walls o
 |---|---|---|---|
 | 1 | facing brick outer leaf | **103** | `brick` |
 | 2 | Kingspan Kooltherm K106 Cavity Board | **100** | `ins` |
-| 3 | aircrete inner leaf of 0 | **100** | `block` |
-| 4 | plasterboard on dabs with a continuous ribbon of adhesive at the perim | **12.5** | `pboard` |
-| 5 | K106 in a 115mm cavity at 0 | **115** | `ins` |
+| 3 | aircrete inner leaf | **100** | `block` |
+| 4 | plasterboard on dabs | **12.5** | `pboard` |
+| 5 | K106 | **115** | `ins` |
 | | **Extracted total** | **430.5** | |
 
 - ⚠ not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres'
+- ⚠ not treated as a layer: 'horizontal centres'
 - ⚠ not a layer — 300mm reads as a spacing, a level or working: 'vertical centres within 225mm of jambs'
+- ⚠ not a layer — 225mm is an alternative or a continuation: 'of jambs'
 
 <details><summary>Clause</summary>
 
@@ -2387,9 +2432,9 @@ NOTE — The SAP calculation for the dwelling sets the U-values actually require
 | 2 | residual cavity | **50** | `void` |
 | 3 | Kingspan Kooltherm K108 Cavity Board | **100** | `ins` |
 | 4 | clear residual cavity maintained | **50** | `void` |
-| 5 | aircrete inner leaf of 0 | **100** | `block` |
+| 5 | aircrete inner leaf | **100** | `block` |
 | 6 | plasterboard on dabs | **12.5** | `pboard` |
-| 7 | cavity in BS EN 845-1 and the tie manufacturer's data | **150** | `void` |
+| 7 | cavity | **150** | `void` |
 | | **Extracted total** | **565.5** | |
 
 <details><summary>Clause</summary>
@@ -2417,15 +2462,17 @@ This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 allowing for mortar jo
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | facing brick outer leaf tied to the frame with stainless steel flexibl | **103** | `brick` |
-| 2 | clear drained and vented cavity | **50** | `void` |
+| 1 | facing brick outer leaf | **103** | `brick` |
+| 2 | clear drained | **50** | `void` |
 | 3 | OSB3 sheathing | **9** | `timber` |
 | 4 | Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres to the | **140** | `ins` |
-| 5 | Kingspan Kooltherm K118 insulated plasterboard with joints taped | **37.5** | `ins` |
-| 6 | service void is wanted for the cabling it is to be formed on the room  | **25** | `void` |
+| 5 | Kingspan Kooltherm K118 insulated plasterboard | **37.5** | `ins` |
+| 6 | service void | **25** | `void` |
 | | **Extracted total** | **364.5** | |
 
 - ⚠ not a layer — 600mm reads as a spacing, a level or working: 'horizontal and 375mm vertical centres'
+- ⚠ not treated as a layer: 'vertical centres'
+- ⚠ not treated as a layer: 'centres to the frame designer's design with t'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'above external ground level'
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'centres and an air-gap correction of 0'
 - ⚠ not a layer — 12.5mm reads as a spacing, a level or working: 'plasterboard and a service void alone the same wall '
@@ -2452,10 +2499,12 @@ This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | aircrete or dense blockwork to the structural engineer's design | **100** | `block` |
-| 2 | plasterboard on dabs or 13mm plaster | **12.5** | `pboard` |
-| 3 | block wall with a minimum mass of 120 kg/m² including finishes meets R | **100** | `dense` |
+| 1 | aircrete | **100** | `block` |
+| 2 | plasterboard on dabs | **12.5** | `pboard` |
+| 3 | block wall | **100** | `dense` |
 | | **Extracted total** | **212.5** | |
+
+- ⚠ not a layer — 13mm is an alternative or a continuation: 'plaster'
 
 <details><summary>Clause</summary>
 
@@ -2474,10 +2523,11 @@ Internal loadbearing wall of 100mm aircrete or dense blockwork to the structural
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | 38 x 89mm C16 studs at 400mm centres with head and sole plates and sol | **89** | `timber` |
-| 2 | minimum mineral wool of 10 kg/m³ or more | **50** | `wool` |
-| 3 | plasterboard of not less than 10 kg/m² each side | **12.5** | `pboard` |
+| 2 | minimum mineral wool | **50** | `wool` |
+| 3 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **151.5** | |
 
+- ⚠ not treated as a layer: 'centres with head and sole plates and solid n'
 - ⚠ not a layer — 1200mm reads as a spacing, a level or working: 'centres and at board edges'
 
 <details><summary>Clause</summary>
@@ -2504,11 +2554,11 @@ Where a partition carries a floor or roof load it is to be to the structural eng
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
 | 2 | perimeter upstand insulation | **25** | `ins` |
-| 3 | sand and cement screed with underfloor heating pipes where specified | **75** | `screed` |
+| 3 | sand | **75** | `screed` |
 | 4 | clear ventilated void beneath the beams | **150** | `void` |
 | 5 | concrete on hardcore | **100** | `hard` |
 | 6 | concrete on a damp proof membrane | **50** | `conc` |
-| 7 | of concrete on a damp proof membrane where ground gas is a risk | **50** | `conc` |
+| 7 | of concrete on a damp proof membrane | **50** | `conc` |
 | | **Extracted total** | **580** | |
 
 - ⚠ not treated as a layer: 'infill blocks to the manufacturer's design'
@@ -2539,11 +2589,12 @@ This build-up calculates at 0.12 W/m²K to BS EN ISO 13370 for a floor with a pe
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | minimum well compacted hardcore of clean broken stone blinded with 50m | **150** | `hard` |
-| 2 | minimum GEN1 or RC25/30 concrete slab reinforced with A142 mesh where  | **100** | `conc` |
-| 3 | Kingspan Kooltherm K103 Floorboard with 25mm perimeter upstands | **130** | `ins` |
-| 4 | screed | **75** | `screed` |
-| | **Extracted total** | **455** | |
+| 1 | minimum well compacted hardcore | **150** | `hard` |
+| 2 | minimum GEN1 | **100** | `conc` |
+| 3 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
+| 4 | perimeter upstands | **25** | `ins` |
+| 5 | screed | **75** | `screed` |
+| | **Extracted total** | **480** | |
 
 <details><summary>Clause</summary>
 
@@ -2568,11 +2619,13 @@ A ground-bearing slab is only to be used where the site investigation confirms t
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K103 Floorboard between 47 x 220mm C24 joists at 400mm centres to the e | **220** | `ins` |
-| 2 | tongued and grooved P5 chipboard glued at the joints and screwed to th | **22** | `timber` |
-| 3 | clear void beneath the joists over an oversite of 100mm concrete on co | **150** | `timber` |
-| 4 | concrete on a 1200 gauge damp proof membrane | **50** | `conc` |
-| | **Extracted total** | **442** | |
+| 2 | tongued | **22** | `timber` |
+| 3 | clear void beneath the joists over an oversite | **150** | `timber` |
+| 4 | concrete on com | **100** | `conc` |
+| 5 | concrete on a 1200 gauge damp proof membrane | **50** | `conc` |
+| | **Extracted total** | **542** | |
 
+- ⚠ not treated as a layer: 'centres to the engineer's design on treated'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'calculates at 0'
 
 <details><summary>Clause</summary>
@@ -2597,11 +2650,12 @@ NOTE — A suspended timber ground floor is the hardest of the three floor types
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | tongued and grooved P5 chipboard glued at all joints and screwed to th between 47 x 220mm  | **220** | `timber` |
-| 2 | mineral wool of not less than 10 kg/m³ laid between the joists | **100** | `wool` |
-| 3 | plasterboard ceiling of not less than 10 kg/m² | **12.5** | `pboard` |
+| 1 | tongued between 47 x 220mm C24 solid joists or engineered metal web joists at 400mm or 600 | **220** | `timber` |
+| 2 | mineral wool | **100** | `wool` |
+| 3 | plasterboard ceiling | **12.5** | `pboard` |
 | | **Extracted total** | **332.5** | |
 
+- ⚠ not a layer — 400mm is an alternative or a continuation: 'or 600'
 - ⚠ not treated as a layer: 'where the floor requires 30 minutes fire resistance with'
 
 <details><summary>Clause</summary>
@@ -2627,10 +2681,11 @@ Herringbone or solid strutting at mid-span for spans over 2.5m and two rows for 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K107 Pitched Roof Board between 47 x 150mm rafters at 400mm centres | **150** | `ins` |
-| 2 | K107 laid over the rafters as a continuous sarking layer with the join | **75** | `ins` |
-| 3 | plasterboard with a vapour control layer beneath the rafters or the ra | **12.5** | `timber` |
+| 2 | K107 laid over the rafters as a continuous sarking layer | **75** | `ins` |
+| 3 | plasterboard | **12.5** | `timber` |
 | | **Extracted total** | **237.5** | |
 
+- ⚠ not treated as a layer: 'centres'
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'rafter centres allowing for rafter bridging and an a'
 - ⚠ not a layer — 100mm reads as a spacing, a level or working: 'over the rafters calculates at 0'
 
@@ -2661,9 +2716,10 @@ NOTE — This form of roof raises the roof surface by the thickness of the over-
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K107 Pitched Roof Board between 47 x 200mm minimum rafters at 400mm cen | **200** | `ins` |
 | 2 | Kingspan Kooltherm K118 insulated plasterboard fixed through to the ra | **72.5** | `ins` |
-| 3 | ventilated gap above the insulation is required and the rafter depth i | **50** | `ins` |
+| 3 | ventilated gap above the insulation | **50** | `ins` |
 | | **Extracted total** | **322.5** | |
 
+- ⚠ not treated as a layer: 'centres to the engineer's design'
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'rafter centres'
 
 <details><summary>Clause</summary>
@@ -2691,14 +2747,15 @@ This build-up calculates at 0.11 W/m²K to BS EN ISO 6946 at 400mm rafter centre
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | plasterboard with a vapour control layer | **12.5** | `pboard` |
-| 2 | mineral wool quilt of 0 | **100** | `wool` |
-| 3 | continuous gap where the underlay is not vapour permeable | **5** | `membrane` |
+| 1 | plasterboard | **12.5** | `pboard` |
+| 2 | mineral wool quilt | **100** | `wool` |
+| 3 | continuous gap | **5** | `membrane` |
 | | **Extracted total** | **117.5** | |
 
 - ⚠ not treated as a layer: 'laid cross-wise over'
 - ⚠ not treated as a layer: 'galvanised straps 1m long'
 - ⚠ not a layer — 10mm reads as a spacing, a level or working: 'gap at the eaves on two opposite sides with 25mm pro'
+- ⚠ not treated as a layer: 'proprietary eaves vent'
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'centres'
 - ⚠ not a layer — 300mm reads as a spacing, a level or working: 'total calculates at 0'
 
@@ -2727,10 +2784,11 @@ This build-up calculates at 0.11 W/m²K to BS EN ISO 6946 allowing for the joist
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | exterior grade plywood or OSB3 decking laid to finished falls of not l | **18** | `timber` |
+| 1 | exterior grade plywood | **18** | `timber` |
 | 2 | Kingspan Thermaroof TR26 LPC/FM between 47 x 200mm C24 joists at 400mm centres to the engi | **200** | `ins` |
 | | **Extracted total** | **218** | |
 
+- ⚠ not treated as a layer: 'centres to the engineer's design'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'upstands'
 
 <details><summary>Clause</summary>
@@ -2799,6 +2857,7 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 - ⚠ not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level and cast against undistu'
 - ⚠ not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'
 - ⚠ not treated as a layer: 'can fall below the 450mm minimum for trench fill'
+- ⚠ not treated as a layer: 'minimum for trench fill'
 - ⚠ not treated as a layer: 'governs'
 
 <details><summary>Clause</summary>
@@ -2832,10 +2891,10 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | dense aggregate or aircrete blockwork of the density required by the c | **100** | `block` |
-| 2 | minimum cavity with type A butterfly ties only | **75** | `void` |
-| 3 | plasterboard on dabs to each face with a continuous perimeter ribbon | **12.5** | `pboard` |
-| 4 | plaster where the Robust Detail requires a wet finish | **13** | `pboard` |
+| 1 | dense aggregate | **100** | `block` |
+| 2 | minimum cavity | **75** | `void` |
+| 3 | plasterboard on dabs to each face | **12.5** | `pboard` |
+| 4 | plaster | **13** | `pboard` |
 | | **Extracted total** | **200.5** | |
 
 - ⚠ not a layer — 700mm reads as a spacing, a level or working: 'of the separating wall'
@@ -2862,11 +2921,12 @@ Where the wall is built to a Robust Detail, the plots are to be registered with 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | or 90mm metal C studs | **70** | `timber` |
+| 1 | metal C studs | **70** | `timber` |
 | 2 | 38 x 89mm timber studs | **89** | `timber` |
-| 3 | minimum overall thickness with a 50mm minimum gap between the frames | **240** | `void` |
-| 4 | minimum mineral wool of 10 kg/m³ or more in each frame or the cavity | **60** | `wool` |
-| | **Extracted total** | **459** | |
+| 3 | minimum overall thickness | **240** | `void` |
+| 4 | minimum gap between the frames | **50** | `void` |
+| 5 | minimum mineral wool | **60** | `wool` |
+| | **Extracted total** | **509** | |
 
 <details><summary>Clause</summary>
 
@@ -2887,8 +2947,10 @@ The wall is to be carried through the floor zone with the floor deck stopped eac
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | dense blockwork or two leaves of 100mm blockwork as the separating wal | **215** | `dense` |
+| 1 | dense blockwork | **215** | `dense` |
 | | **Extracted total** | **215** | |
+
+- ⚠ not a layer — 100mm is an alternative or a continuation: 'blockwork as the separating wall'
 
 <details><summary>Clause</summary>
 
@@ -2909,11 +2971,13 @@ Letter plates and services through the wall are to be fire stopped or fitted wit
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | or 225mm precast prestressed concrete beams with dense aggregate infil | **150** | `conc` |
-| 2 | structural or levelling screed where the detail requires it | **50** | `screed` |
-| 3 | minimum sand and cement screed with mesh | **65** | `screed` |
-| 4 | plasterboard on a metal furring system or timber battens with 100mm mi | **12.5** | `timber` |
+| 1 | precast prestressed concrete beams | **150** | `conc` |
+| 2 | structural | **50** | `screed` |
+| 3 | minimum sand | **65** | `screed` |
+| 4 | plasterboard on a metal furring system | **12.5** | `timber` |
 | | **Extracted total** | **277.5** | |
+
+- ⚠ not a layer — 100mm is an alternative or a continuation: 'min'
 
 <details><summary>Clause</summary>
 
@@ -2937,11 +3001,12 @@ NOTE — Beam and block is the most economical concrete separating floor for a s
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | minimum precast prestressed hollowcore or solid concrete planks to the | **150** | `conc` |
-| 2 | or more closed-cell foam or mineral wool board to the Robust Detail or | **10** | `wool` |
-| 3 | minimum sand and cement screed or a proprietary screed | **65** | `screed` |
-| 4 | plasterboard on a metal furring system with 100mm mineral wool in the  | **12.5** | `wool` |
-| | **Extracted total** | **237.5** | |
+| 1 | minimum precast prestressed hollowcore | **150** | `conc` |
+| 2 | or more closed-cell foam | **10** | `wool` |
+| 3 | minimum sand | **65** | `screed` |
+| 4 | plasterboard on a metal furring system | **12.5** | `wool` |
+| 5 | mineral wool | **100** | `wool` |
+| | **Extracted total** | **337.5** | |
 
 <details><summary>Clause</summary>
 
@@ -2966,11 +3031,14 @@ NOTE — Impact sound is the usual failure on flats. A resilient layer that is b
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | 47 x 220mm minimum solid or engineered joists at 400mm or 600mm centre | **220** | `timber` |
-| 2 | tongued and grooved OSB3 or plywood deck | **18** | `timber` |
-| 3 | gypsum-based board and 18mm tongued and grooved chipboard on a resilie | **19** | `timber` |
-| 4 | or more or a proprietary resilient batten system | **25** | `timber` |
-| 5 | mineral wool of 10 kg/m³ or more in the joist void | **100** | `wool` |
+| 2 | tongued | **18** | `timber` |
+| 3 | gypsum-based board | **19** | `timber` |
+| 4 | or more | **25** | `timber` |
+| 5 | mineral wool | **100** | `wool` |
 | | **Extracted total** | **382** | |
+
+- ⚠ not a layer — 400mm is an alternative or a continuation: 'or 600mm centres to'
+- ⚠ not treated as a layer: 'tongued and grooved chipboard on a resilien'
 
 <details><summary>Clause</summary>
 
@@ -2999,13 +3067,15 @@ NOTE — Timber separating floors rely on every layer being present and unbridge
 |---|---|---|---|
 | 1 | facing brick outer leaf | **103** | `brick` |
 | 2 | Kingspan Kooltherm K106 Cavity Board | **100** | `ins` |
-| 3 | aircrete inner leaf of 0 | **100** | `block` |
-| 4 | plasterboard on dabs with a continuous adhesive ribbon at every perime | **12.5** | `pboard` |
-| 5 | in a 150mm cavity | **150** | `void` |
+| 3 | aircrete inner leaf | **100** | `block` |
+| 4 | plasterboard on dabs | **12.5** | `pboard` |
+| 5 | in a | **150** | `void` |
 | | **Extracted total** | **465.5** | |
 
 - ⚠ not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres'
+- ⚠ not treated as a layer: 'horizontal centres'
 - ⚠ not a layer — 300mm reads as a spacing, a level or working: 'vertical centres within 225mm of jambs'
+- ⚠ not a layer — 225mm is an alternative or a continuation: 'of jambs'
 - ⚠ not a layer — 175mm reads as a spacing, a level or working: 'which calculates at 0'
 
 <details><summary>Clause</summary>
@@ -3033,11 +3103,11 @@ This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 allowing for mortar jo
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | facing brick supported on the slab edge or on stainless steel brick su | **103** | `brick` |
+| 1 | facing brick supported on the slab edge | **103** | `brick` |
 | 2 | clear cavity | **50** | `void` |
-| 3 | mineral wool of 0 | **100** | `wool` |
-| 4 | light gauge steel C studs at 600mm centres to the frame designer's des | **150** | `timber` |
-| 5 | mineral wool of 0 | **150** | `wool` |
+| 3 | mineral wool | **100** | `wool` |
+| 4 | light gauge steel C studs | **150** | `timber` |
+| 5 | mineral wool | **150** | `wool` |
 | 6 | plasterboard | **12.5** | `pboard` |
 | 7 | of continuous external insulation over the sheathing | **100** | `ins` |
 | | **Extracted total** | **665.5** | |
@@ -3066,12 +3136,15 @@ Cavity barriers at each floor level at the slab edge, around openings and at the
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | drained and vented cavity and a 103mm brick outer leaf on stainless st | **50** | `brick` |
-| 2 | Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres to the | **140** | `ins` |
-| 3 | Kingspan Kooltherm K118 insulated plasterboard with joints taped | **37.5** | `ins` |
-| | **Extracted total** | **227.5** | |
+| 1 | drained | **50** | `brick` |
+| 2 | brick outer leaf on stainless ste | **103** | `brick` |
+| 3 | Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres to the | **140** | `ins` |
+| 4 | Kingspan Kooltherm K118 insulated plasterboard | **37.5** | `ins` |
+| | **Extracted total** | **330.5** | |
 
+- ⚠ not treated as a layer: 'centres to the frame designer's design with 9'
 - ⚠ not a layer — 600mm reads as a spacing, a level or working: 'horizontal and 375mm vertical centres'
+- ⚠ not treated as a layer: 'vertical centres'
 - ⚠ not a layer — 400mm reads as a spacing, a level or working: 'centres and an air-gap correction of 0'
 - ⚠ not a layer — 12.5mm reads as a spacing, a level or working: 'plasterboard alone it calculates at 0'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'above ground and the frame differential movement all'
@@ -3098,10 +3171,12 @@ NOTE — Timber frame is permitted by the Regulations at any height below 18m, b
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | or 92mm metal C studs or 89mm x 38mm timber studs at 400mm or 600mm ce | **70** | `timber` |
-| 2 | minimum mineral wool of 10 kg/m³ or more | **50** | `wool` |
-| 3 | plasterboard of not less than 10 kg/m² each side with joints staggered | **12.5** | `pboard` |
+| 1 | metal C studs | **70** | `timber` |
+| 2 | minimum mineral wool | **50** | `wool` |
+| 3 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **132.5** | |
+
+- ⚠ not a layer — 89mm is a member named inside another phrase: 'x 38mm timber studs at 400mm or 600mm cen'
 
 <details><summary>Clause</summary>
 
@@ -3125,7 +3200,7 @@ Where an internal partition is also part of the fire enclosure of a protected en
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | minimum reinforced concrete slab or precast beam and block deck to the | **150** | `dense` |
+| 1 | minimum reinforced concrete slab | **150** | `dense` |
 | 2 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
 | 3 | perimeter upstands | **25** | `ins` |
 | 4 | screed | **75** | `screed` |
@@ -3153,11 +3228,12 @@ This build-up calculates at 0.12 W/m²K to BS EN ISO 13370 for a building footpr
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | tongued and grooved P5 chipboard glued and screwed between 47 x 220mm C24 solid joists or  | **220** | `timber` |
-| 2 | mineral wool of not less than 10 kg/m³ between the joists | **100** | `wool` |
-| 3 | plasterboard ceiling of not less than 10 kg/m² | **12.5** | `pboard` |
+| 1 | tongued between 47 x 220mm C24 solid joists or metal web joists at 400mm or 600mm centres | **220** | `timber` |
+| 2 | mineral wool | **100** | `wool` |
+| 3 | plasterboard ceiling | **12.5** | `pboard` |
 | | **Extracted total** | **332.5** | |
 
+- ⚠ not a layer — 400mm is an alternative or a continuation: 'or 600mm centres'
 - ⚠ not treated as a layer: 'or two layers where 30 minutes fire resistance is requir'
 
 <details><summary>Clause</summary>
@@ -3179,9 +3255,9 @@ Floor within a two-storey flat of 47mm x 220mm C24 solid joists or metal web joi
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | plasterboard with a vapour control layer | **12.5** | `pboard` |
-| 2 | mineral wool of 0 | **100** | `wool` |
-| 3 | continuous gap at two opposite eaves with eaves ventilators and insula | **10** | `void` |
+| 1 | plasterboard | **12.5** | `pboard` |
+| 2 | mineral wool | **100** | `wool` |
+| 3 | continuous gap | **10** | `void` |
 | | **Extracted total** | **122.5** | |
 
 - ⚠ not treated as a layer: 'laid over'
@@ -3242,8 +3318,8 @@ This build-up calculates at 0.10 W/m²K to BS EN ISO 6946 fully adhered on a con
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to a | **72.5** | `ins` |
-| 2 | solid brick wall with a continuous ribbon of adhesive at every perimet | **215** | `brick` |
+| 1 | Kingspan Kooltherm K118 insulated plasterboard on dabs | **72.5** | `ins` |
+| 2 | solid brick wall | **215** | `brick` |
 | | **Extracted total** | **287.5** | |
 
 - ⚠ not a layer — 62.5mm reads as a spacing, a level or working: 'calculates at 0'
@@ -3293,12 +3369,15 @@ Where the neighbour's cellar or basement is unheated the wall is a thermal eleme
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | metal C studs or 89mm x 38mm treated timber studs at 600mm centres wit | **70** | `timber` |
-| 2 | minimum mineral wool infill and 12 | **50** | `wool` |
-| 3 | plasterboard each side with joints taped and perimeters sealed | **5** | `pboard` |
-| 4 | plasterboard or one of 15mm fire-resisting board on the room side and  | **12.5** | `pboard` |
-| 5 | blockwork may be used where the slab is designed for them and the base | **100** | `dense` |
+| 1 | metal C studs | **70** | `timber` |
+| 2 | minimum mineral wool infill | **50** | `wool` |
+| 3 | plasterboard each side | **5** | `pboard` |
+| 4 | plasterboard | **12.5** | `pboard` |
+| 5 | blockwork may be used | **100** | `dense` |
 | | **Extracted total** | **237.5** | |
+
+- ⚠ not a layer — 89mm is a member named inside another phrase: 'x 38mm treated timber studs at 600mm centres with'
+- ⚠ not a layer — 15mm is an alternative or a continuation: 'fire-resisting board on the room side and F'
 
 <details><summary>Clause</summary>
 
@@ -3317,7 +3396,7 @@ Internal partitions in the basement of 70mm metal C studs or 89mm x 38mm treated
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | plasterboard | **12.5** | `pboard` |
-| 2 | mineral wool of not less than 10 kg/m³ laid between the joists | **100** | `wool` |
+| 2 | mineral wool | **100** | `wool` |
 | 3 | concrete slab gives the fire resistance without a ceiling | **100** | `conc` |
 | | **Extracted total** | **212.5** | |
 
@@ -3348,11 +3427,11 @@ NOTE — A basement with a habitable room is reached by a stair that may be the 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | aircrete inner leaf of 0 | **100** | `block` |
+| 1 | aircrete inner leaf | **100** | `block` |
 | 2 | Kingspan Kooltherm K108 Cavity Board | **75** | `ins` |
 | 3 | plasterboard on dabs | **12.5** | `pboard` |
 | 4 | board at 0 | **100** | `ins` |
-| 5 | of room width on each wall and adds load to the slab | **200** | `conc` |
+| 5 | of room width on each wall | **200** | `conc` |
 | | **Extracted total** | **487.5** | |
 
 - ⚠ not a layer — 50mm reads as a spacing, a level or working: 'of board this build-up calculates at 0'
@@ -3383,8 +3462,8 @@ NOTE — Every tie that penetrates the cavity drain membrane is a potential leak
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | metal studs set 25mm clear of the membrane with 70mm Kingspan Koolther | **70** | `ins` |
-| 2 | insulated plasterboard lining with a vapour control layer | **37.5** | `ins` |
+| 1 | metal studs set | **70** | `ins` |
+| 2 | insulated plasterboard lining | **37.5** | `ins` |
 | | **Extracted total** | **107.5** | |
 
 - ⚠ not a layer — 100mm reads as a spacing, a level or working: 'of the framing board calculates at 0'
@@ -3418,7 +3497,7 @@ NOTE — A cavity drainage system depends on the drainage channel and pumps bein
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | minimum reinforced concrete to the structural engineer's design | **300** | `conc` |
-| 2 | Kingspan Kooltherm K103 Floorboard or K112 Framing Board | **100** | `ins` |
+| 2 | Kingspan Kooltherm K103 Floorboard | **100** | `ins` |
 | 3 | plasterboard skimmed | **12.5** | `pboard` |
 | | **Extracted total** | **412.5** | |
 
@@ -3450,7 +3529,7 @@ The below-ground wall calculates at 0.13 W/m²K to BS EN ISO 13370 for a basemen
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K103 or K112 board | **100** | `ins` |
+| 1 | Kingspan Kooltherm K103 | **100** | `ins` |
 | 2 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **112.5** | |
 
@@ -3480,10 +3559,11 @@ NOTE — Waterproof concrete is only as good as its joints and its pouring. It s
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | minimum reinforced concrete to the engineer's design on a damp proof m | **150** | `conc` |
-| 2 | compacted stone with 50mm blinding | **150** | `screed` |
-| 3 | Kingspan Kooltherm K103 Floorboard | **80** | `ins` |
-| 4 | screed | **65** | `screed` |
-| | **Extracted total** | **445** | |
+| 2 | compacted stone | **150** | `screed` |
+| 3 | blinding | **50** | `screed` |
+| 4 | Kingspan Kooltherm K103 Floorboard | **80** | `ins` |
+| 5 | screed | **65** | `screed` |
+| | **Extracted total** | **495** | |
 
 - ⚠ not a layer — 60mm reads as a spacing, a level or working: 'of the same board with a 50mm proprietary screed cal'
 - ⚠ not a layer — 80mm reads as a spacing, a level or working: 'build-up calculates at 0'
@@ -3511,13 +3591,16 @@ Type C cavity drainage floor membrane with perimeter channel and sump as BF1, 80
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | minimum reinforced concrete to the structural engineer's design | **200** | `conc` |
-| 2 | blinding over 150mm compacted clean stone with a perimeter land drain  | **50** | `screed` |
-| 3 | stud height with all joints taped | **8** | `timber` |
+| 2 | blinding over | **50** | `screed` |
+| 3 | stud height | **8** | `timber` |
 | 4 | 500 x 500mm x 700mm minimum set into the slab | **500** | `conc` |
 | 5 | Kingspan Kooltherm K103 Floorboard | **100** | `ins` |
 | 6 | perimeter upstands | **25** | `ins` |
-| 7 | sand and cement screed reinforced with fibres or D49 mesh | **75** | `screed` |
+| 7 | sand | **75** | `screed` |
 | | **Extracted total** | **958** | |
+
+- ⚠ not treated as a layer: 'compacted clean stone with a perimeter land drain w'
+- ⚠ skipped 700mm minimum set into the slab — too thick to be a layer
 
 <details><summary>Clause</summary>
 
@@ -3588,6 +3671,7 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 - ⚠ not a layer — 1000mm reads as a spacing, a level or working: 'below finished ground level and cast against undistu'
 - ⚠ not a layer — 600mm reads as a spacing, a level or working: 'below finished ground level'
 - ⚠ not treated as a layer: 'can fall below the 450mm minimum for trench fill'
+- ⚠ not treated as a layer: 'minimum for trench fill'
 - ⚠ not treated as a layer: 'governs'
 
 <details><summary>Clause</summary>
@@ -3621,11 +3705,12 @@ NOTE — Where adverse soil conditions, a change of soil type, made ground, soft
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | dense or aircrete blockwork plastered or lined with plasterboard on da | **100** | `block` |
-| 2 | plasterboard on the garage side and one on the dwelling side with mine | **12.5** | `pboard` |
-| 3 | plasterboard or one layer of 15mm Type F board to the garage ceiling w | **12.5** | `pboard` |
+| 1 | dense | **100** | `block` |
+| 2 | plasterboard on the garage side | **12.5** | `pboard` |
+| 3 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **125** | |
 
+- ⚠ not a layer — 15mm is an alternative or a continuation: 'Type F board to the garage ceiling wi'
 - ⚠ not a layer — 100mm reads as a spacing, a level or working: 'above the garage floor or the garage floor laid to f'
 
 <details><summary>Clause</summary>
@@ -3657,11 +3742,12 @@ NOTE — The separating wall is also a thermal element of the house where the ga
 | 2 | cavity | **100** | `void` |
 | 3 | block inner leaf | **100** | `block` |
 | 4 | Kingspan Kooltherm K106 Cavity Board | **90** | `ins` |
-| 5 | aircrete inner leaf of 0 | **100** | `block` |
+| 5 | aircrete inner leaf | **100** | `block` |
 | 6 | plasterboard on dabs | **12.5** | `pboard` |
 | | **Extracted total** | **505.5** | |
 
 - ⚠ not a layer — 450mm reads as a spacing, a level or working: 'vertical and 900mm horizontal centres and at not mor'
+- ⚠ not treated as a layer: 'horizontal centres and at not more than 300mm vertic'
 - ⚠ not treated as a layer: 'of jambs'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'above ground'
 
@@ -3684,8 +3770,8 @@ Where the garage is attached to the dwelling, the garage external wall is to be 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | dense concrete blockwork or 102 | **100** | `dense` |
-| 2 | facing brick in 1:1:6 mortar | **5** | `brick` |
+| 1 | dense concrete blockwork | **100** | `dense` |
+| 2 | facing brick | **5** | `brick` |
 | | **Extracted total** | **105** | |
 
 - ⚠ not treated as a layer: 'of an unpiered corner'
@@ -3717,13 +3803,14 @@ NOTE — A single-leaf wall is a garage wall, not a house wall. It is not suitab
 |---|---|---|---|
 | 1 | 38 x 89mm C16 studs at 600mm centres with head and sole plates and nog | **89** | `timber` |
 | 2 | OSB3 sheathing externally | **9** | `timber` |
-| 3 | treated battens and vertical or horizontal timber cladding | **25** | `timber` |
-| 4 | Kingspan Kooltherm K112 Framing Board and line internally with a vapou | **90** | `ins` |
+| 3 | treated battens | **25** | `timber` |
+| 4 | Kingspan Kooltherm K112 Framing Board | **90** | `ins` |
 | 5 | plasterboard | **12.5** | `pboard` |
-| 6 | studs with 140mm board and a 37 | **140** | `timber` |
-| 7 | insulated plasterboard lining calculate at 0 | **5** | `ins` |
+| 6 | studs | **140** | `timber` |
+| 7 | insulated plasterboard lining calculate | **5** | `ins` |
 | | **Extracted total** | **370.5** | |
 
+- ⚠ not treated as a layer: 'centres with head and sole plates and noggins'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'above ground'
 - ⚠ not a layer — 89mm reads as a spacing, a level or working: 'studs at 600mm centres'
 
@@ -3746,10 +3833,11 @@ Where a timber frame garage is to be heated or converted later, fill the studs w
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | minimum well compacted clean hardcore blinded with 50mm sand | **150** | `hard` |
-| 2 | GEN3 or RC25/30 concrete slab reinforced with A142 mesh at mid-depth | **150** | `conc` |
-| 3 | under any internal pier or where the slab carries the door post | **225** | `conc` |
-| | **Extracted total** | **525** | |
+| 1 | minimum well compacted clean hardcore blinded | **150** | `hard` |
+| 2 | sand | **50** | `screed` |
+| 3 | GEN3 | **150** | `conc` |
+| 4 | under any internal pier | **225** | `conc` |
+| | **Extracted total** | **575** | |
 
 - ⚠ not treated as a layer: 'step or a proprietary threshold drainage channel at the '
 - ⚠ not a layer — 100mm reads as a spacing, a level or working: 'below the level of the floor of the dwelling at any '
@@ -3804,9 +3892,10 @@ This build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a pe
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | 47 x 100mm C16 rafters at 400mm centres for clear spans up to 2 between 50 x 100mm wall pl | **100** | `timber` |
-| 2 | mineral wool between ceiling joists and 300mm over | **100** | `wool` |
+| 2 | mineral wool between ceiling joists | **100** | `wool` |
 | | **Extracted total** | **200** | |
 
+- ⚠ not treated as a layer: 'centres for clear spans up to 2'
 - ⚠ not treated as a layer: 'x 175mm'
 - ⚠ not treated as a layer: 'to 2'
 - ⚠ not treated as a layer: 'to 3'
@@ -3834,9 +3923,10 @@ NOTE — A cut roof lets the roof space be used for storage or a future room whe
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | 47 x 150mm C16 joists at 400mm centres to span the garage with firring | **150** | `timber` |
-| 2 | exterior grade plywood or OSB3 decking | **18** | `timber` |
+| 2 | exterior grade plywood | **18** | `timber` |
 | | **Extracted total** | **168** | |
 
+- ⚠ not treated as a layer: 'centres to span the garage with firrings to'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'upstands and edge trims'
 - ⚠ not a layer — 25mm reads as a spacing, a level or working: 'gap along two opposite eaves where a ceiling is fitt'
 
@@ -3863,11 +3953,12 @@ A cold deck roof is only acceptable on an unheated building; where the garage is
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | 47 x 200mm C24 joists at 400mm centres to the engineer's design | **200** | `timber` |
-| 2 | exterior grade plywood or OSB3 decking laid to finished falls of not l | **18** | `timber` |
+| 2 | exterior grade plywood | **18** | `timber` |
 | 3 | Kingspan Thermaroof TR27 LPC/FM | **150** | `ins` |
 | 4 | plasterboard ceiling below | **12.5** | `pboard` |
 | | **Extracted total** | **380.5** | |
 
+- ⚠ not treated as a layer: 'centres to the engineer's design'
 - ⚠ not a layer — 120mm reads as a spacing, a level or working: 'and over'
 - ⚠ not a layer — 150mm reads as a spacing, a level or working: 'upstands'
 
@@ -3890,10 +3981,11 @@ This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where m
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | continuous gap at the eaves on two opposite sides where the roof is bo | **10** | `void` |
+| 1 | continuous gap | **10** | `void` |
 | | **Extracted total** | **10** | |
 
 - ⚠ not a layer — 600mm reads as a spacing, a level or working: 'centres on a 100mm x 50mm wall plate bedded and stra'
+- ⚠ not a layer — 100mm is a member named inside another phrase: 'x 50mm wall plate bedded and strapped down at not mo'
 - ⚠ not treated as a layer: 'up the wall'
 
 <details><summary>Clause</summary>
@@ -3913,4 +4005,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T20:29:21+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T20:40:48+00:00*

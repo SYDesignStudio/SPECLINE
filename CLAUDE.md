@@ -304,14 +304,28 @@ the phrase it was read from. Two limits worth knowing:
   *"a 150mm cavity with 150mm of the 0.032 slab calculates at 0.18"*, reaching the cavity-split
   branch looking exactly like a filled cavity.
 
-**Still open — the opposite defect.** The phrase window is greedy to 70 characters, so where a
-clause names two thicknesses close together the second is swallowed inside the first match and
-never becomes a layer. Roughly **25 real layers are missing across ~30 build-ups**: the 300mm
-mineral wool quilt on a cold-roof ceiling, a 103mm facing brick outer leaf, 50mm sand blinding,
-19mm plank flooring. A drawing missing its main insulation is as wrong as one with an invented
-band. The window cannot simply be shortened — the cavity split (`100mm cavity fully filled with
-90mm Kooltherm`) and the member rule (`47mm x 150mm rafters`) both need to see two thicknesses in
-one phrase — so swallowed thicknesses have to be re-fed through the veto pipeline instead.
+- **The swallowed layers are rescued, not lost** (`_rescue`). The phrase window is greedy to 70
+  characters because the cavity split (`100mm cavity fully filled with 90mm Kooltherm`) and the
+  member rule (`47mm x 150mm rafters`) both have to see two thicknesses in one phrase. The cost
+  was that a second layer named close behind the first vanished inside it — the 300mm quilt that
+  is a cold-roof ceiling's entire insulation, 50mm sand blinding, 19mm plank flooring. Swallowed
+  thicknesses now go back through the same vetoes (`_consider` is shared, so the two passes cannot
+  drift apart), and **17 real layers came back**.
+  The rescue pass is deliberately meaner than the top-level scan, because a salvage operation
+  should not invent: it refuses anything from a sentence containing `calculat|W/m|achiev`, any
+  figure equal to the one it sits inside (`115mm K106 in a 115mm cavity` is one band named twice),
+  anything after an `or` (an alternative, not an extra band), a member named inside another phrase,
+  and any label that is not a material once trimmed at the first connective.
+- **An "A or B" pair keeps A.** `18mm or 22mm chipboard` is one layer offered in two thicknesses.
+  Dropping the first instead left a stud partition with no studs.
+
+**Two of those 17 are probably duplicates, and both need an eye before issue**: `loft / Hip to
+Gable — New Gable Wall` (402.5mm) and `newbuild / Suspended Timber Ground Floor — Insulation
+Between Joists` (542mm). In each the clause restates the build-up in a later sentence, or offers
+an alternative across a comma, and one sentence cannot see the other. **Reading two thicknesses
+out of one sentence cannot always tell an extra layer from an alternative**, so `verify()` also
+prints every build-up that has come out implausibly thick for its group rather than pretending
+otherwise — 6 today. Those totals are the ones to check against the clause before issuing.
 
 Watch the regexes in that file. On 7 September 2026 the `` word boundaries in `HATCH` arrived as
 literal backspace bytes (0x08 — what `` means in a *non*-raw string), so four rules compiled fine

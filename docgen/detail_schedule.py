@@ -130,6 +130,96 @@ def load():
     return json.loads(subprocess.check_output(["node", "-e", js]).decode("utf-8"))
 
 
+# A thickness named INSIDE another match's window. See _rescue().
+INNER = re.compile(r"(\d+(?:\.\d+)?)\s*mm\s+([A-Za-z][^,;.()—]{2,60})")
+
+
+def _consider(t, phrase, raw, after, layers, notes):
+    """One <thickness, phrase> pair against every veto; appends a layer if it survives.
+
+    Shared by the top-level scan and the rescue pass below, so the two cannot drift apart.
+    """
+    if NEVER_A_LAYER.match(phrase) or ARITHMETIC.search(phrase):
+        notes.append("not a layer — %gmm reads as a spacing, a level or working: '%s'"
+                     % (t, phrase[:52]))
+        return
+    if QUALIFIER.match(phrase) and hatch_for(phrase) is None:
+        return
+    if t > 600:                      # no single layer in this library is thicker
+        notes.append("skipped %gmm %s — too thick to be a layer" % (t, phrase[:40]))
+        return
+    h = hatch_for(phrase)
+    if h is None:
+        # A layer with no identifiable material is prose the pattern happened to catch, not a
+        # layer. Recorded rather than guessed, so `layers` stays safe to draw from.
+        notes.append("not treated as a layer: '%s'" % phrase[:56])
+        return
+    # The label stops at the next thickness, which is a layer of its own and is about to be read
+    # as one: "well-compacted hardcore blinded with 50mm sand" labels the hardcore, not the sand.
+    cut = INNER.search(phrase)
+    label = phrase[:cut.start()] if cut and cut.start() >= 3 else phrase
+    label = TAIL.sub("", label.strip(" ,;")).strip(" ,;")
+    if len(label) < 3:
+        notes.append("not treated as a layer: '%s'" % phrase[:56])
+        return
+    layers.append({"t": int(t) if t == int(t) else t, "material": label[:70],
+                   "hatch": h, "read_from": raw, "_after": after})
+
+
+# The rescue pass is a salvage operation, not the primary reading, so it is deliberately meaner
+# than the top-level scan. Three tells separate a swallowed layer from swallowed prose:
+WORKING = re.compile(r"calculat|W/m|achiev|U-value", re.I)   # the whole sentence is arithmetic
+# "...board or a 90mm lining", "215mm dense blockwork or two leaves of 100mm blockwork" — an "or"
+# anywhere between the two figures makes the second a choice, not an extra band.
+ALTERNATIVE = re.compile(r"\bor\b", re.I)
+CONNECTIVE = re.compile(r"^(or|and|with|by|in|on|so|of|at|to|from|as|is|are|both|leaves|remains|"
+                        r"filling|between|above|below|over|under|that|which|where)\b", re.I)
+# and the label is trimmed where the noun phrase stops, so "cavity at 0" cannot masquerade
+# as a layer called "cavity".
+TAIL = re.compile(r"\s+(?:in|at|of|so|which|where|leaves|remains|is|are|both|tied|by|and|or|with)\b.*$", re.I)
+
+
+def _rescue(window, layers, notes, context="", outer=None):
+    """Thicknesses named inside another match's window.
+
+    That window is greedy to 70 characters because the cavity split and the member rule both have
+    to see two thicknesses in one phrase. The cost, until 7 September 2026, was that a second
+    layer named close behind the first vanished inside it and was never read: "150mm minimum
+    well-compacted hardcore blinded with 50mm sand" lost the sand blinding, and a cold-roof
+    ceiling lost the 300mm quilt that is its entire insulation. About 25 real layers across 30
+    build-ups. Whatever the caller has already consumed is passed in already removed, so nothing
+    is counted twice.
+    """
+    if WORKING.search(window + " " + context):
+        return          # the sentence is about the U-value, so every figure in it is working
+    for im in INNER.finditer(window):
+        inner = re.sub(r"\s+", " ", im.group(2)).strip()
+        t = float(im.group(1))
+        # A member is only recognised at the top level, where the merge that stops a rafter zone
+        # and its insulation being counted twice lives. Rescuing one from inside another phrase
+        # has no such context, and the ones that turn up here are alternatives — "70mm metal C
+        # studs or 89mm x 38mm treated timber studs" — or a member that is not a layer at all,
+        # like a wall plate. Both would add a band that is not there.
+        if MEMBER.match(inner):
+            notes.append("not a layer — %gmm is a member named inside another phrase: '%s'"
+                         % (t, inner[:52]))
+            continue
+        if ALTERNATIVE.search(window[:im.start()]) or CONNECTIVE.match(inner):
+            notes.append("not a layer — %gmm is an alternative or a continuation: '%s'"
+                         % (t, inner[:52]))
+            continue
+        if outer is not None and abs(t - outer) < 0.01:
+            # The same figure restated — "115mm K106 in a 115mm cavity", "100mm K107 filling
+            # existing 100mm rafters". One band, named twice.
+            continue
+        label = TAIL.sub("", inner).strip(" ,;")
+        if len(label) < 3 or hatch_for(label) is None:
+            notes.append("not treated as a layer: '%s'" % inner[:56])
+            continue
+        _consider(t, label, re.sub(r"\s+", " ", im.group(0))[:90],
+                  re.sub(r"\s+", " ", window[im.end():im.end() + 90]), layers, notes)
+
+
 def layers_from(text):
     """Pull '103mm facing brick outer leaf' style layers out of a clause.
 
@@ -150,52 +240,46 @@ def layers_from(text):
             pair = sorted([float(m.group(1)), float(mem.group(1))])
             members.append({"breadth": pair[0], "depth": pair[1],
                             "what": mem.group(2).strip(), "at": len(layers), "raw": raw})
-            continue
-
-        # Unconditional first, then the qualifier test, which asks whether a material follows.
-        if NEVER_A_LAYER.match(phrase) or ARITHMETIC.search(phrase):
-            notes.append("not a layer — %gmm reads as a spacing, a level or working: '%s'"
-                         % (t, phrase[:52]))
-            continue
-        if QUALIFIER.match(phrase) and hatch_for(phrase) is None:
-            continue
-        if t > 600:                      # no single layer in this library is thicker
-            notes.append("skipped %gmm %s — too thick to be a layer" % (t, phrase[:40]))
+            _rescue(mem.group(2), layers, notes, after)     # the depth is consumed; the rest is not
             continue
 
         # "100mm cavity fully filled with 90mm Kooltherm K106" is TWO layers, and reading it as
         # one both loses the board and double counts the residual against the separate mention
         # of it later in the clause. Split it: the board, and what is left of the cavity.
         fill = re.match(r"cavit(?:y|ies)[^0-9]{0,40}?(\d+(?:\.\d+)?)\s*mm\s+(.{3,60})", phrase, re.I)
-        if fill:
+        if fill and float(fill.group(1)) <= t:
             board = float(fill.group(1))
             what = fill.group(2).strip()
-            if board <= t:
-                # The vetoes apply to what the split produces as much as to anything else. A
-                # sentence of working — "a 150mm cavity with 150mm of the 0.032 slab calculates
-                # at 0.18" — reaches here looking exactly like a filled cavity, and left
-                # unchecked it became a 150mm layer called "of the 0".
-                if NEVER_A_LAYER.match(what) or ARITHMETIC.search(what):
-                    notes.append("not a layer — %gmm reads as a spacing, a level or working: '%s'"
-                                 % (board, what[:52]))
-                    continue
-                if t - board > 0:
-                    layers.append({"t": round(t - board, 1), "material": "residual cavity",
-                                   "hatch": "void", "read_from": raw, "_after": after})
-                layers.append({"t": int(board) if board == int(board) else board,
-                               "material": what[:70], "hatch": hatch_for(what) or "ins",
-                               "read_from": raw, "_after": after})
+            # The vetoes apply to what the split produces as much as to anything else. A
+            # sentence of working — "a 150mm cavity with 150mm of the 0.032 slab calculates
+            # at 0.18" — reaches here looking exactly like a filled cavity, and left
+            # unchecked it became a 150mm layer called "of the 0".
+            if NEVER_A_LAYER.match(what) or ARITHMETIC.search(what):
+                notes.append("not a layer — %gmm reads as a spacing, a level or working: '%s'"
+                             % (board, what[:52]))
                 continue
-
-        h = hatch_for(phrase)
-        if h is None:
-            # A layer with no identifiable material is prose the pattern happened to catch, not a
-            # layer. Recorded rather than guessed, so `layers` stays safe to draw from.
-            notes.append("not treated as a layer: '%s'" % phrase[:56])
+            if t - board > 0:
+                layers.append({"t": round(t - board, 1), "material": "residual cavity",
+                               "hatch": "void", "read_from": raw, "_after": after})
+            cut = INNER.search(what)
+            lbl = what[:cut.start()].strip(" ,;") if cut and cut.start() >= 3 else what
+            layers.append({"t": int(board) if board == int(board) else board,
+                           "material": lbl[:70], "hatch": hatch_for(what) or "ins",
+                           "read_from": raw, "_after": after})
+            _rescue(what, layers, notes, after)
             continue
-        layers.append({"t": int(t) if t == int(t) else t,
-                       "material": phrase[:70], "hatch": h,
-                       "read_from": raw, "_after": after})
+
+        # "18mm or 22mm moisture resistant chipboard" is one layer offered in two thicknesses,
+        # not two layers. Keep the first — the base specification — and take its material from
+        # after the alternative, whose own number is then consumed rather than rescued. Dropping
+        # the first instead left a stud partition with no studs.
+        alt = re.match(r"^(?:or|and)\s+(\d+(?:\.\d+)?)\s*mm\s+(.*)$", phrase, re.I)
+        window = phrase
+        if alt and len(alt.group(2).strip()) >= 3:
+            phrase = window = alt.group(2).strip()
+
+        _consider(t, phrase, raw, after, layers, notes)
+        _rescue(window, layers, notes, after, t)             # anything swallowed by this window
 
     # Members last. A rafter zone and the insulation between the rafters are one thickness of
     # roof, not two, so a member is folded into the layer that fills it — by an equal thickness
@@ -362,6 +446,26 @@ def verify(doc):
         print("\n".join(bad))
         raise SystemExit(1)
     print("  checked: no layer reads as a spacing, a member breadth or U-value working")
+
+    # A warning, not a refusal. Reading two thicknesses out of one sentence cannot always tell an
+    # extra layer from an alternative — "215mm dense blockwork or two leaves of 100mm blockwork"
+    # is one wall, and a restatement in a later paragraph looks exactly like a second band. What
+    # it can do is notice when the answer has come out implausibly thick and say so, so the ones
+    # worth reading get read. These are the numbers to check against the clause before issuing.
+    FAT = {"EW": 500, "IW": 350, "SW": 500, "GF": 600, "IF": 500, "SF": 500,
+           "RF": 600, "BW": 600, "BF": 700, "FD": 1200}
+    fat = []
+    for tk, t in doc["types"].items():
+        for b in t["buildups"]:
+            tot = sum(float(L["t"]) for L in b.get("layers", []))
+            lim = FAT.get(b.get("group") or b.get("g") or "", 600)
+            if tot > lim:
+                fat.append("  %s / %s: %gmm — thicker than a %s is usually built"
+                           % (tk, b["title"][:44], tot, b.get("group") or b.get("g") or "build-up"))
+    if fat:
+        print("  %d build-up(s) came out thick enough to be worth checking against the clause:"
+              % len(fat))
+        print("\n".join(fat))
 
 
 # ─────────────────────────────────────────────────────────────────────────────────────────
