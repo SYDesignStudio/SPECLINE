@@ -98,6 +98,12 @@ FILLS_THE_ZONE = re.compile(
 
 # material phrase -> the hatch to draw it with. Names match the patterns in the detail sheets.
 HATCH = [
+    # A phrase whose subject is a void IS a void, whatever it goes on to mention. "clear
+    # ventilated void beneath the joists" was drawn as timber and "ventilated air gap above the
+    # insulation" as insulation, because a word further along the phrase reached a rule first.
+    # The lookahead keeps a cavity BOARD out of it: that is a board, and it is named as one.
+    (r"^(?:[a-z]+\s+){0,4}(?:void|gap|cavity)\b"
+     r"(?!\s+(?:board|batt|barrier|wall|insulation|fill|slab|tray))", "void"),
     (r"facing brick|brick outer|brickwork outer|facing brickwork|brick-on-edge|engineering brick|"
      r"solid brick|brick wall|brickwork", "brick"),
     (r"aircrete|thermalite|celcon|blockwork inner|block inner|aerated block", "block"),
@@ -613,7 +619,11 @@ def face_order(group, layers, notes, clause=()):
     def inside_face(l):
         return (l.get("hatch") or "") in INSIDE_FACE or bool(LINING.search(l.get("material") or ""))
 
-    first, last = inside_face(layers[0]), inside_face(layers[-1])
+    # Which way round the clause reads is settled by the SOLID layers. A ventilated void sits
+    # outside the insulation whatever order the clause names it in, so a build-up that ends with
+    # one still needs turning over if the lining is at its other end.
+    solid = [l for l in layers if (l.get("hatch") or "") != "void"] or layers
+    first, last = inside_face(solid[0]), inside_face(solid[-1])
     if last and not first:
         notes.append("layers reversed so the ceiling finish reads at the bottom — the clause "
                      "states this build-up from the outside in")

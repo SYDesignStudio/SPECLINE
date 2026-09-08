@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-08T02:25:33+00:00",
+ "generated": "2026-09-08T02:40:12+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [
@@ -140,16 +140,29 @@
      "u_achieved": "0.30",
      "u_target": null,
      "standard": "0.30 W/m²K",
-     "layers": [],
+     "layers": [
+      {
+       "t": 215,
+       "material": "solid brick wall",
+       "hatch": "brick",
+       "read_from": "215mm solid brick wall and to be confirmed on site"
+      },
+      {
+       "t": 100,
+       "material": "insulation boards",
+       "hatch": "ins",
+       "read_from": "100mm insulation boards of not more than 0"
+      }
+     ],
      "edge": [],
-     "total_mm": null,
+     "total_mm": 315,
      "extraction_notes": [
       "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above finished ground level so the damp proof course'"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Proprietary external wall insulation system applied to the existing masonry, comprising insulation boards mechanically fixed and adhered, reinforced base coat with mesh, and a finish coat, all to the system manufacturer's specification and current BBA certificate. Components from a single manufacturer's system throughout.",
+      "Proprietary external wall insulation system applied to the existing masonry, drawn here as a 215mm solid brick wall and to be confirmed on site, comprising 100mm insulation boards of not more than 0.032 W/mK mechanically fixed and adhered, reinforced base coat with mesh, and a finish coat, all to the system manufacturer's specification and current BBA certificate. Components from a single manufacturer's system throughout.",
       "Provide beads, stop beads, movement joints and a bellcast at the base, stopped a minimum 150mm above finished ground level so the damp proof course is not bridged. Detail reveals, cills, eaves and verges to the system manufacturer's standard details, and extend cills and any projecting features as required.",
       "NOTE — The combustibility of the insulation and of the system as a whole is to be checked against Approved Document B, particularly where the wall is within 1m of the relevant boundary. Confirm the required reaction to fire classification before specifying."
      ]
@@ -325,16 +338,16 @@
        "read_from": "50mm clear ventilated and drained cavity"
       },
       {
-       "t": 140,
-       "material": "38 x 140mm C16 studs at 600mm centres to the frame designer's specific",
-       "hatch": "timber",
-       "read_from": "140mm x 38mm C16 studs at 600mm centres to the frame designer's specification"
-      },
-      {
        "t": 9,
        "material": "OSB3 racking board",
        "hatch": "timber",
        "read_from": "9mm OSB3 racking board"
+      },
+      {
+       "t": 140,
+       "material": "Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 600mm centres to the",
+       "hatch": "ins",
+       "read_from": "140mm Kingspan Kooltherm K112 Framing Board "
       },
       {
        "t": 12.5,
@@ -352,7 +365,7 @@
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Timber frame external wall to comprise 103mm suitable facing brick or proprietary render system outer leaf, minimum 50mm clear ventilated and drained cavity, breather membrane, 140mm x 38mm C16 studs at 600mm centres to the frame designer's specification with the full stud depth insulated, 9mm OSB3 racking board, continuous vapour control layer on the warm side, and 12.5mm plasterboard internal finish.",
+      "Timber frame external wall to comprise 103mm suitable facing brick or proprietary render system outer leaf, minimum 50mm clear ventilated and drained cavity, breather membrane, 9mm OSB3 racking board, 140mm x 38mm C16 studs at 600mm centres to the frame designer's specification with the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer on the warm side, and 12.5mm plasterboard internal finish.",
       "Stainless steel wall ties fixed to the studs at 450mm vertical centres and at every stud horizontally. Cavity barriers to be provided in accordance with Approved Document B. All timber to be treated and isolated from masonry by a damp proof course."
      ]
     },
@@ -547,9 +560,9 @@
      "group_name": "Ground floors",
      "category": "Ground Floors",
      "title": "In-Situ Suspended Concrete Floor",
-     "u_achieved": "0.18",
+     "u_achieved": "0.17",
      "u_target": "0.18",
-     "standard": "0.18 W/m²K",
+     "standard": "0.17 W/m²K",
      "layers": [
       {
        "t": 150,
@@ -562,16 +575,37 @@
        "material": "slab",
        "hatch": "conc",
        "read_from": "150mm slab"
+      },
+      {
+       "t": 90,
+       "material": "Kingspan Kooltherm K103 Floorboard",
+       "hatch": "ins",
+       "read_from": "90mm Kingspan Kooltherm K103 Floorboard "
+      },
+      {
+       "t": 65,
+       "material": "minimum sand/cement screed",
+       "hatch": "screed",
+       "read_from": "65mm minimum sand/cement screed"
       }
      ],
-     "edge": [],
-     "total_mm": 300,
-     "extraction_notes": [],
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter upstand",
+       "hatch": "ins",
+       "read_from": "25mm perimeter upstand and a 65mm minimum sand/cement screed"
+      }
+     ],
+     "total_mm": 455,
+     "extraction_notes": [
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
+     ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
       "Reinforced in-situ concrete slab to the structural engineer's design, spanning to loadbearing walls or beams over a minimum 150mm clear ventilated void, with reinforcement, cover and concrete grade as the engineer's specification. The detail is drawn on a 150mm slab; the engineer's design governs the thickness actually built.",
-      "Provide a minimum 150mm clear ventilated void beneath with through ventilation to opposing external walls. Damp proof membrane, rigid insulation to achieve the target U-value and finish as the section drawing."
+      "Provide a minimum 150mm clear ventilated void beneath with through ventilation to opposing external walls. Lay a polyethylene damp proof membrane of not less than 1200 gauge over the slab, then 90mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) with a 25mm perimeter upstand and a 65mm minimum sand/cement screed. This build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a perimeter/area ratio of 0.7 on clay."
      ]
     },
     {
@@ -637,6 +671,12 @@
      "standard": "0.18 W/m²K",
      "layers": [
       {
+       "t": 150,
+       "material": "minimum well-compacted hardcore",
+       "hatch": "hard",
+       "read_from": "150mm minimum well-compacted hardcore"
+      },
+      {
        "t": 50,
        "material": "of sand",
        "hatch": "screed",
@@ -669,16 +709,15 @@
        "read_from": "25mm perimeter insulation around floor edges to reduce thermal bridging"
       }
      ],
-     "total_mm": 295,
+     "total_mm": 445,
      "extraction_notes": [
-      "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'to a minimum finished thickness of 150mm'",
       "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'lapped and sealed joints'",
       "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
      ],
      "verified_table": "GF1",
      "stud_core": null,
      "clause": [
-      "Excavate to formation and lay hardcore in compacted layers not exceeding 150mm to a minimum finished thickness of 150mm, blinded with 50mm of sand or other suitable fine material to protect the membrane above.",
+      "Excavate to formation and lay 150mm minimum well-compacted hardcore, in layers not exceeding 150mm, blinded with 50mm of sand or other suitable fine material to protect the membrane above.",
       "Cast a ground-bearing slab of not less than 100mm in GEN1 or RC20 concrete, conforming to BS EN 206 and BS 8500.",
       "Lay a proprietary polyethylene damp proof membrane not less than 1200 gauge (300 micron), or 1600 gauge where required by the local authority, site conditions or where acting as a combined gas/radon membrane, installed in accordance with the manufacturer's recommendations. Lap and seal joints in accordance with the manufacturer's details and link the membrane with the damp proof course within the walls.",
       "Provide 80mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) over the damp proof membrane with all joints tightly butted; this build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a perimeter/area ratio of 0.5 on clay and at 0.18 at a ratio of 0.7 — where the extension floor is small with three exposed sides (ratio above 0.7) use 100mm, which calculates at 0.15 at a ratio of 0.7. The perimeter/area ratio of the whole enlarged dwelling may be used in the calculation (Approved Document L Volume 1 Table 4.2 note).",
@@ -692,21 +731,21 @@
      "group_name": "Ground floors",
      "category": "Ground Floors",
      "title": "Suspended Timber Ground Floor",
-     "u_achieved": "0.18",
+     "u_achieved": "0.17",
      "u_target": "0.18",
-     "standard": "0.18 W/m²K",
+     "standard": "0.17 W/m²K",
      "layers": [
       {
        "t": 150,
-       "material": "clear ventilated void beneath the joists",
-       "hatch": "timber",
-       "read_from": "150mm clear ventilated void beneath the joists"
+       "material": "clear ventilated void",
+       "hatch": "void",
+       "read_from": "150mm clear ventilated void"
       },
       {
-       "t": 100,
-       "material": "concrete",
-       "hatch": "conc",
-       "read_from": "100mm concrete on well-compacted hardcore"
+       "t": 150,
+       "material": "Kingspan Kooltherm K103 Floorboard between 47 x 150mm C24 joists at 400mm centres",
+       "hatch": "ins",
+       "read_from": "150mm Kingspan Kooltherm K103 Floorboard "
       },
       {
        "t": 18,
@@ -716,17 +755,18 @@
       }
      ],
      "edge": [],
-     "total_mm": 268,
+     "total_mm": 318,
      "extraction_notes": [
-      "not a layer — 400mm reads as a spacing, a level, working or an alternative construction: 'centres'",
-      "not a layer — 50mm is the alternative to the figure before it: 'concrete on a 1200 gauge damp proof membrane'"
+      "not treated as a layer: 'centres'",
+      "not a layer - 100mm is in a sentence offering another way to build it: 'concrete on well-compacted hardcore may be u'",
+      "not a layer - 50mm is in a sentence offering another way to build it: 'concrete on a 1200 gauge damp proof membrane'"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Suspended timber ground floor to comprise floor joists to the structural engineer's design at 400mm centres, with rigid insulation between and beneath the joists to achieve the target U-value, supported on breathable insulation support netting.",
-      "Provide a minimum 150mm clear ventilated void beneath the joists, with through ventilation to opposing external walls equivalent to 1500mm² per metre run, by means of proprietary air bricks and telescopic ducts carried through the cavity.",
-      "Provide an oversite of 100mm concrete on well-compacted hardcore, or 50mm concrete on a 1200 gauge damp proof membrane, to prevent plant growth. All timber to be isolated from masonry by a damp proof course. Finish with 18mm moisture resistant tongued and grooved flooring grade board."
+      "Suspended timber ground floor over a minimum 150mm clear ventilated void, to comprise floor joists to the structural engineer's design, drawn here as 47mm x 150mm C24 joists at 400mm centres, with 150mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) between the joists on breathable insulation support netting. This build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a perimeter/area ratio of 0.7 on clay.",
+      "Ventilate the void beneath the joists through to opposing external walls, equivalent to 1500mm² per metre run, by means of proprietary air bricks and telescopic ducts carried through the cavity.",
+      "The oversite is to prevent plant growth; 100mm concrete on well-compacted hardcore may be used, or 50mm concrete on a 1200 gauge damp proof membrane. All timber to be isolated from masonry by a damp proof course. Finish with 18mm moisture resistant tongued and grooved flooring grade board."
      ]
     },
     {
@@ -875,21 +915,21 @@
      "standard": "0.14 W/m²K",
      "layers": [
       {
-       "t": 150,
-       "material": "Kingspan Kooltherm K107 pitched roof board between 47 x 150mm minimum rafters to the struc",
-       "hatch": "ins",
-       "read_from": "150mm Kingspan Kooltherm K107 pitched roof board "
-      },
-      {
        "t": 62.5,
        "material": "Kingspan Kooltherm K118 insulated plasterboard beneath the rafters",
        "hatch": "ins",
        "read_from": "62.5mm Kingspan Kooltherm K118 insulated plasterboard beneath the rafters"
       },
       {
+       "t": 150,
+       "material": "Kingspan Kooltherm K107 pitched roof board between 47 x 150mm minimum rafters to the struc",
+       "hatch": "ins",
+       "read_from": "150mm Kingspan Kooltherm K107 pitched roof board "
+      },
+      {
        "t": 50,
        "material": "ventilated air gap above the insulation",
-       "hatch": "ins",
+       "hatch": "void",
        "read_from": "50mm ventilated air gap above the insulation with ventilation equivalent to "
       }
      ],
@@ -899,7 +939,9 @@
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres'",
       "not a layer — 52.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'under-rafter board in place of 62'",
       "not a layer — 25mm is a ventilation free area, not a thickness: 'gap at the eaves and 5mm at the ridge'",
-      "not a layer — 5mm is an alternative or a continuation: 'at the ridge'"
+      "not a layer — 5mm is an alternative or a continuation: 'at the ridge'",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in",
+      "the ventilated void moved outside the insulation it ventilates"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -968,6 +1010,12 @@
      "standard": "0.16 W/m²K",
      "layers": [
       {
+       "t": 25,
+       "material": "minimum ventilated",
+       "hatch": "void",
+       "read_from": "25mm minimum ventilated and drained cavity behind"
+      },
+      {
        "t": 18,
        "material": "external quality plywood sheathing",
        "hatch": "timber",
@@ -987,7 +1035,7 @@
       }
      ],
      "edge": [],
-     "total_mm": 195.5,
+     "total_mm": 220.5,
      "extraction_notes": [
       "not treated as a layer: 'centres with the full stud depth filled with'",
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'",
@@ -996,7 +1044,7 @@
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Dormer cheek to comprise external cladding — tile hanging, slate, or proprietary panel as the elevations — on treated battens over a breather membrane, with a ventilated and drained cavity behind, on 18mm external quality plywood sheathing, 140mm x 38mm C16 studs at 400mm centres with the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer on the warm side, and 37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped. This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for the studs bridging the insulation at 9.5% of the area at 400mm centres and an air-gap correction of 0.01. Where internal width matters more than the thickness of the cheek, 184mm studs fully filled with 12.5mm plasterboard achieve the same figure.",
+      "Dormer cheek to comprise external cladding — tile hanging, slate, or proprietary panel as the elevations — on treated battens over a breather membrane, with a 25mm minimum ventilated and drained cavity behind, on 18mm external quality plywood sheathing, 140mm x 38mm C16 studs at 400mm centres with the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer on the warm side, and 37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped. This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for the studs bridging the insulation at 9.5% of the area at 400mm centres and an air-gap correction of 0.01. Where internal width matters more than the thickness of the cheek, 184mm studs fully filled with 12.5mm plasterboard achieve the same figure.",
       "Where the dormer cheek abuts or is close to a boundary, the fire resistance and the extent of unprotected area are to be checked against Approved Document B before construction. Cavity barriers to be provided at the perimeter of the cheek and at any junction with the main roof."
      ]
     },
@@ -1009,6 +1057,12 @@
      "u_target": "0.18",
      "standard": "0.16 W/m²K",
      "layers": [
+      {
+       "t": 25,
+       "material": "minimum drained and ventilated cavity behind the board",
+       "hatch": "void",
+       "read_from": "25mm minimum drained and ventilated cavity behind the board"
+      },
       {
        "t": 18,
        "material": "plywood sheathing",
@@ -1029,7 +1083,7 @@
       }
      ],
      "edge": [],
-     "total_mm": 195.5,
+     "total_mm": 220.5,
      "extraction_notes": [
       "not treated as a layer: 'centres with the full stud depth filled with'",
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'"
@@ -1037,7 +1091,7 @@
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Dormer cheek as the tile-hung cheek but finished in a through-coloured silicone or polymer render system applied to a proprietary render carrier board on treated battens over the breather membrane, with a drained and ventilated cavity behind the board, stainless steel beads, a bell cast drip at the base and movement beads at not more than 5m centres and at changes of substrate. Render system to be installed by the system manufacturer's approved contractor to the BBA certificate.",
+      "Dormer cheek as the tile-hung cheek but finished in a through-coloured silicone or polymer render system applied to a proprietary render carrier board on treated battens over the breather membrane, with a 25mm minimum drained and ventilated cavity behind the board, stainless steel beads, a bell cast drip at the base and movement beads at not more than 5m centres and at changes of substrate. Render system to be installed by the system manufacturer's approved contractor to the BBA certificate.",
       "Framing of 18mm plywood sheathing, 140mm x 38mm C16 studs at 400mm centres with the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer and 37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped. This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for the stud fraction at 400mm centres and an air-gap correction of 0.01.",
       "Where the cheek is within 1m of the boundary the render system and carrier board are to achieve the fire performance for an external wall within 1m of the relevant boundary and the unprotected area limited to 1m²; cavity barriers at the perimeter of the cheek and at the junction with the main roof."
      ]
@@ -3591,7 +3645,7 @@
       {
        "t": 150,
        "material": "clear void beneath the joists over an oversite",
-       "hatch": "timber",
+       "hatch": "void",
        "read_from": "150mm clear void beneath the joists over an oversite of 100mm concrete on com"
       },
       {
@@ -3715,21 +3769,21 @@
      "standard": "0.11 W/m²K",
      "layers": [
       {
-       "t": 200,
-       "material": "Kingspan Kooltherm K107 Pitched Roof Board between 47 x 200mm minimum rafters at 400mm cen",
-       "hatch": "ins",
-       "read_from": "200mm Kingspan Kooltherm K107 Pitched Roof Board "
-      },
-      {
        "t": 72.5,
        "material": "Kingspan Kooltherm K118 insulated plasterboard fixed through to the ra",
        "hatch": "ins",
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard fixed through to the raf"
       },
       {
+       "t": 200,
+       "material": "Kingspan Kooltherm K107 Pitched Roof Board between 47 x 200mm minimum rafters at 400mm cen",
+       "hatch": "ins",
+       "read_from": "200mm Kingspan Kooltherm K107 Pitched Roof Board "
+      },
+      {
        "t": 50,
        "material": "ventilated gap above the insulation",
-       "hatch": "ins",
+       "hatch": "void",
        "read_from": "50mm ventilated gap above the insulation is required and the rafter depth in"
       }
      ],
@@ -3737,7 +3791,9 @@
      "total_mm": 322.5,
      "extraction_notes": [
       "not treated as a layer: 'centres to the engineer's design'",
-      "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres'"
+      "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres'",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in",
+      "the ventilated void moved outside the insulation it ventilates"
      ],
      "verified_table": null,
      "stud_core": null,
