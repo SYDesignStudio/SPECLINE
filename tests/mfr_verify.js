@@ -25,6 +25,14 @@ for(const k in SPECS) for(const b of SPECS[k].buildups){
   const ok=Math.abs(r.U-stated)<0.0051;
   if(!ok){ console.log(`DIFF  ${k.padEnd(9)} ${b.t.slice(0,60).padEnd(60)} stated ${stated} calc ${r.U.toFixed(3)}`); bad++; }
   else if(all) console.log(`ok    ${k.padEnd(9)} ${b.t.slice(0,60).padEnd(60)} stated ${stated} calc ${r.U.toFixed(3)} lim ${d.lim}`);
+  /* an alternative construction is verified the same way: its phrases must be in the clause and
+     the figure it calculates must be one the clause states */
+  if(d.alt){
+    d.alt.s.forEach(s=>{ if(!txt.includes(s.f)){ console.log("ALT PHRASE NOT FOUND", k, b.t, "::", s.f); bad++; } });
+    const ra=M.mfrRun(d.alt.k, d.alt.p);
+    if(!txt.includes(ra.U.toFixed(2))){ console.log(`ALT FIGURE NOT STATED  ${k} ${b.t} calc ${ra.U.toFixed(3)}`); bad++; }
+    else if(all) console.log(`  alt ${k.padEnd(9)} ${b.t.slice(0,60).padEnd(60)} calc ${ra.U.toFixed(3)} lim ${d.alt.lim}`);
+  }
   for(const m of M.MFRS){
     if(m.id==="kingspan") continue;
     summary[m.id]=summary[m.id]||{kept:0,ok:0,short:0,up:0};
@@ -34,7 +42,10 @@ for(const k in SPECS) for(const b of SPECS[k].buildups){
     if(s.info.swaps.some(x=>/increased/.test(x))) summary[m.id].up++;
     if(!/\d\.\d\d W\/m²K/.test(s.b.u)||!(s.b.calc.result.U>0)){ console.log("BAD RESULT", k, b.t, m.id); bad++; }
     if(all) console.log("      "+m.id.padEnd(9)+(s.info.ok?" ok    ":" SHORT ")+s.info.U.toFixed(3)+"  "+s.info.swaps.join("; ").slice(0,150));
-    const left=s.b.p.slice(0,-1).join("\n"); d.s.forEach(x=>{ if(left.includes(x.f) && !s.info.kept.length){ console.log("PHRASE SURVIVED", k, b.t, m.id, x.f); bad++; } });
+    /* On the alternative route the primary product stays named in the clause on purpose: it is
+       the route the closing paragraph says not to use with this product. */
+    const left=s.b.p.slice(0,-1).join("\n");
+    if(!s.info.viaAlt) d.s.forEach(x=>{ if(left.includes(x.f) && !s.info.kept.length){ console.log("PHRASE SURVIVED", k, b.t, m.id, x.f); bad++; } });
   }
 }
 console.log(`mfr: ${n} descriptors reproduce their clause; ${bad} problems; `+Object.keys(summary).map(k=>`${k} ok ${summary[k].ok}/short ${summary[k].short}/kept ${summary[k].kept}`).join(", "));

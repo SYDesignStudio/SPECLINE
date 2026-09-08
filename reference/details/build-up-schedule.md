@@ -1868,12 +1868,20 @@ The 62.5mm board on dabs calculates at 0.29 W/m²K to BS EN ISO 6946 for a 103mm
 
 - ⚠ not a layer — 215mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'brick wall at 0'
 - ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
+- ⚠ not a layer - 100mm is in a sentence offering another way to build it: 'x 38mm treated softwood studs at 600mm centr'
+- ⚠ not a layer - 100mm is in a sentence offering another way to build it: 'Kingspan Kooltherm K112 Framing Board'
+- ⚠ not a layer - 12.5mm is in a sentence offering another way to build it: 'plasterboard skimmed'
+- ⚠ not a layer - 100mm is in a sentence about what a construction complies with, not about this one: 'block wall and 0'
+- ⚠ not a layer - 215mm is in a sentence about what a construction complies with, not about this one: 'brick wall'
 - ⚠ the lining moved to the inside face — the clause states the work before the wall it is applied to
 
 <details><summary>Clause</summary>
 
 
 Where the garage is one of a pair or a terrace and the wall between is shared, the wall is a compartment wall separating two buildings: make good every gap, open perpend, redundant hole and built-in timber so the wall gives 60 minutes fire resistance, carry it up to the underside of the roof covering and fire stop the junction, and do not chase sockets or recesses into it. The neighbour's garage is an unheated space, so the wall is a thermal element of the new room and is to be insulated to 0.30 W/m²K: 72.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to the existing wall, drawn here as a 100mm single-leaf block wall. That calculates at 0.27 W/m²K to BS EN ISO 6946 with both faces treated as internal surfaces, and to a 215mm brick wall at 0.26; 62.5mm calculates at 0.31 and 0.30 and is not to be used.
+
+
+As an alternative, where the insulated plasterboard range chosen does not reach the standard in the thickness it is made in, or where a deeper lining is acceptable, line the wall with 100mm x 38mm treated softwood studs at 600mm centres set 25mm clear of the shared wall and fixed to the floor and the ceiling so that no fixing penetrates it, the stud depth filled with 100mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK) or a 0.022 W/mK board of the same thickness, a continuous vapour control layer on the warm side with laps taped, and 12.5mm plasterboard skimmed. With the phenolic board the lining calculates at 0.23 W/m²K to BS EN ISO 6946 on the 100mm block wall and 0.22 on a 215mm brick wall; with a 0.022 W/mK board at 0.25 and 0.24; and with mineral wool of 0.035 W/mK at 0.33, which does not meet the standard. The lining takes more room width than the insulated plasterboard on dabs, which is to be checked against the finished room before it is adopted.
 
 
 Where the neighbour has already converted and heats the room on the other side, the wall is not a thermal element and needs no insulation, but the fire treatment still applies and an independent lining with mineral wool is recommended for sound. Where the shared wall is a cavity wall, the cavity is to be closed at the top and at the ends with a cavity barrier so a garage fire cannot pass through it, and a blown cavity fill may be used where both owners agree.
@@ -4272,4 +4280,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T15:40:50+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T18:15:24+00:00*

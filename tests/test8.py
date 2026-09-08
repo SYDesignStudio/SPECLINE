@@ -90,6 +90,15 @@ with sync_playwright() as p:
     f=pg.evaluate("(()=>{const b=SPECS.loft.buildups.find(b=>b.t==='Hip to Gable — New Gable Wall'); const c={...b, mf:{...b.mf, lim:0.10}}; const r=mfrSubstitute(c,'knauf'); return {ok:r.info.ok, last:r.b.p[r.b.p.length-1]};})()")
     ok("M9 a shortfall is a NOTE that says so", f["ok"] is False and f["last"].startswith("NOTE — Insulation manufacturer") and "does not meet the target" in f["last"])
 
+    # M9c a clause that states an alternative construction takes it when the range falls short
+    pg.evaluate("S.data.mfr='celotex'; S.type='garage'; S.ovr={}; renderPaper();")
+    alt=pg.evaluate("(()=>{const i=spec().buildups.findIndex(b=>/Shared with the Neighbour/.test(b.t)); const b=allBU()[i]; return {ok:b.mfrInfo&&b.mfrInfo.ok, via:b.mfrInfo&&b.mfrInfo.viaAlt, u:b.u, U:b.calc&&b.calc.result.U, last:b.p[b.p.length-1], txt:b.p.join(' ')};})()")
+    ok("M9c the alternative construction is taken", alt["ok"] and alt["via"] and "alternative construction stated in this clause is specified instead" in alt["last"])
+    ok("M9c it says why the plasterboard route is not used", "does not meet the target of 0.30" in alt["last"] and "0.304" in alt["last"])
+    ok("M9c the schedule figure follows the alternative", alt["u"].startswith("0.25") and abs(alt["U"]-0.249)<0.002, alt["u"])
+    ok("M9c the studs carry the substituted board", "100mm Celotex GA4000" in alt["txt"])
+    ok("M9c the primary route keeps its own stated figure", "calculates at 0.27 W/m²K" in alt["txt"])
+
     # M10 every manufacturer runs across every descriptor without error
     tot=pg.evaluate("""(()=>{let n=0,e=[]; Object.keys(SPECS).forEach(k=>SPECS[k].buildups.forEach(b=>{ if(!b.mf) return;
         MFRS.forEach(m=>{ try{ const r=mfrSubstitute(b,m.id); if(r&&r.changed){ n++; if(!(r.b.calc.result.U>0)) e.push(k+'/'+b.t+'/'+m.id); if(!/W\\/m²K/.test(r.b.u)) e.push('u:'+b.t); } }catch(x){ e.push(k+'/'+b.t+'/'+m.id+': '+x.message); } }); })); return {n,e};})()""")

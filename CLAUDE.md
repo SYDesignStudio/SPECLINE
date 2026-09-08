@@ -241,10 +241,11 @@ Two things this repo has been caught out by before, both now covered by tests:
   partial-fill boards stop at 100mm, so with the 0.15 block every 0.022 substitute came out at
   0.181 and the only room to move was the inner leaf. The loft's new gable followed for the
   same reason (0.177 → 0.172, 0.18 → 0.17): 150mm of DriTherm 32 against the 0.15 block was
-  0.182. The one shortfall left in the library is Celotex PL4000 at its thickest (72.5mm) on the
-  garage wall shared with the neighbour — 0.304 against 0.30, a limit of that product range
-  rather than of the wall; `tests/test8.py` drives the shortfall NOTE with an unreachable
-  target so it does not depend on any one build-up staying short.
+  0.182. The last one was Celotex PL4000 at its thickest (72.5mm) on the garage wall shared with
+  the neighbour, 0.304 against 0.30 — a limit of that product range rather than of the wall, so
+  that clause gained the insulated stud lining as a stated alternative and the descriptor an
+  `alt` (below). **No library build-up now falls short with any manufacturer**; `tests/test8.py`
+  drives the shortfall NOTE with an unreachable target so it does not depend on one staying short.
 
 ## Insulation manufacturers — `src/mfr.js`
 
@@ -274,9 +275,25 @@ Three rules that are load-bearing:
   no verified product for a role keeps the Kingspan board and the clause says so (Recticel has
   no partial-fill, flat-roof or lining product here; Knauf and ROCKWOOL are cavity-only).
 - **A shortfall is a NOTE, never silence.** Where the substitute cannot reach the target at its
-  greatest thickness — Celotex, Unilin and EcoTherm partial fill in the extension's 150mm
-  cavity, mineral wool in a 100mm block gable, PL4000 on a party wall — the build-up prints
-  with a NOTE giving the three-decimal figure and saying it is not to be issued as it stands.
+  greatest thickness the build-up prints with a NOTE giving the three-decimal figure and saying
+  it is not to be issued as it stands. Nothing in the library reaches that state today, because
+  the four cases that did were fixed in the specification (above) rather than papered over.
+- **An `alt` on a descriptor is a second construction the clause already states**, taken when the
+  chosen manufacturer's range cannot reach the target in any thickness it is made in — the
+  garage wall shared with the neighbour offers an insulated stud lining beside the insulated
+  plasterboard, so Celotex goes 100mm GA4000 in 100 × 38 studs at 0.25 instead of PL4000 at
+  0.304. `mfrSubstitute()` recurses into the alt with `viaAlt`, which leaves the clause's prose
+  figures alone (the first "calculates at" belongs to the primary route, and the alternative's
+  own sentence gives a figure for each class of board) and writes a closing paragraph naming
+  the product that fell short, by how much, and what is specified instead. The primary product
+  stays named in the clause on purpose — it is the route the note says not to use. `alt`
+  descriptors are verified like any other: their phrases must be in the clause and the figure
+  they calculate must be one the clause states.
+- **Prose that compares thicknesses can become a drawn layer.** The first draft of that
+  alternative ended "takes 137.5mm of room width against 82.5mm for the insulated plasterboard
+  on dabs"; the extractor read the 82.5 as an insulation band and drew the wall 255mm instead of
+  172.5mm — `detail_review.py` passed it, because 255mm is plausible for a wall. The sentence now
+  states no figure. **Regenerate the schedule and read the layers after editing any clause.**
 - **Descriptors are verified, not assumed.** A new descriptor, or an edited clause with one, is
   run through the verify script before commit; a descriptor that does not reproduce the stated
   figure means either the descriptor or the clause is wrong, and the answer is never to move

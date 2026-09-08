@@ -148,6 +148,24 @@ function mfrSubstitute(b, mfrId){
   /* 3. rewrite the clause */
   const lambda = d => d.role==="lining" ? d.k : d.prod.k;
   const phrase = d => d.role==="lining" ? `${d.t}mm ${d.name} (thermal conductivity ${d.k} W/mK)` : `${d.t}mm ${d.prod.n} (thermal conductivity ${d.prod.k} W/mK)`;
+  const std = mf.k==="floorSolid"||mf.k==="floorSusp"||mf.k.startsWith("basement") ? "BS EN ISO 13370" : "BS EN ISO 6946";
+
+  /* Where the product cannot reach the target in any thickness it is made in, and the clause
+     itself states another way to build the element, take that instead of printing a shortfall.
+     The alternative is specification the library already carries and its own descriptor is
+     verified the same way, so nothing here invents a construction. */
+  if(!ok && mf.alt){
+    const a = mfrSubstitute({...b, mf:{...mf.alt, viaAlt:true}}, mfrId);
+    if(a && a.changed && a.info.ok){
+      const why = `Insulation manufacturer: ${M.n} is selected for this job. The ${M.short} `
+        + `${MFR_ROLES[done[0].s.r]} equivalent to the board named above, ${phrase(done[0])}, calculates at `
+        + `${run.U.toFixed(3)} W/m²K to ${std} at its greatest published thickness and does not meet the target `
+        + `of ${mf.lim.toFixed(2)}, so that route is not to be used with this product. The alternative `
+        + `construction stated in this clause is specified instead: `;
+      const at = a.b.p[a.b.p.length-1].replace(/^Insulation manufacturer: .*? is selected for this job\. /, "");
+      return {...a, b:{...a.b, p:a.b.p.slice(0,-1).concat([why+at])}, info:{...a.info, viaAlt:true}};
+    }
+  }
   let ps=b.p.slice(), tgt=b.tgt||"";
   done.forEach(d=>{ ps=ps.map(x=>x.split(d.s.f).join(phrase(d)));
     if(d.s.over) ps=ps.map(x=>x.split(d.s.over).join(`${p.over}mm ${d.prod.n}`)); });
@@ -157,15 +175,19 @@ function mfrSubstitute(b, mfrId){
   if(mf.k==="rafter" && p.rafterDepth!==mf.p.rafterDepth){ ps=ps.map(x=>x.split(`x ${mf.p.rafterDepth}mm`).join(`x ${p.rafterDepth}mm`).split(`${mf.p.rafterDepth}mm rafters`).join(`${p.rafterDepth}mm rafters`).split(`${mf.p.rafterDepth}mm joists`).join(`${p.rafterDepth}mm joists`)); geo.push(`the rafters deepened from ${mf.p.rafterDepth}mm to ${p.rafterDepth}mm`); }
   const Ut=run.U.toFixed(2);
   let hit=false;
-  ps=ps.map(x=>{ if(hit) return x; const y=x.replace(/calculates at \d\.\d\d W\/m²K/, m=>{hit=true; return `calculates at ${Ut} W/m²K`;}); return y; });
+  /* On the alternative route the first "calculates at" in the clause belongs to the primary
+     construction, which is not what is being specified, and the alternative's own sentence
+     already gives a figure for each class of board. So the prose figures are left alone. */
+  if(!mf.viaAlt) ps=ps.map(x=>{ if(hit) return x; const y=x.replace(/calculates at \d\.\d\d W\/m²K/, m=>{hit=true; return `calculates at ${Ut} W/m²K`;}); return y; });
   tgt=tgt.replace(/achieved \d\.\d\d W\/m²K/, `achieved ${Ut} W/m²K`);
   const u=(b.u||"").replace(/\d\.\d\d W\/m²K/, `${Ut} W/m²K`) || `${Ut} W/m²K`;
   const swaps=done.map(d=>{ const from=d.s.f.replace(/\s*\(thermal.*$/,""); const to=phrase(d).replace(/\s*\(thermal.*$/,"");
     const two = d.role!=="lining" && !d.prod.th.includes(d.t) ? " laid in two layers" : "";
     return `${to}${two} in place of ${from}${d.t!==d.from?` (thickness increased from ${d.from}mm to ${d.t}mm to meet the target${geo.length?", with "+geo.join(" and "):""})`:""}`; });
-  const std = mf.k==="floorSolid"||mf.k==="floorSusp"||mf.k.startsWith("basement") ? "BS EN ISO 13370" : "BS EN ISO 6946";
   const tail = ok
-    ? `Insulation manufacturer: ${M.n} is selected for this job. ${swaps.join("; ")}. The U-value stated in this clause, in the schedule and in the target line is recalculated for the substituted product to ${std} by the same method as the library figure and is carried into the U-value working; figures quoted in the clause for other thicknesses of the original product no longer apply. The substituted product is to be installed to its own BBA certificate and the manufacturer's certified U-value calculation obtained before submission.`
+    ? (mf.viaAlt
+      ? `Insulation manufacturer: ${M.n} is selected for this job. ${swaps.join("; ")}. The schedule figure and the target line are recalculated for this construction to ${std} by the same method as the library figure and the working is carried into section 4.0; the clause states a figure for each class of board and the figure achieved here is ${Ut} W/m²K. The substituted product is to be installed to its own BBA certificate and the manufacturer's certified U-value calculation obtained before submission.`
+      : `Insulation manufacturer: ${M.n} is selected for this job. ${swaps.join("; ")}. The U-value stated in this clause, in the schedule and in the target line is recalculated for the substituted product to ${std} by the same method as the library figure and is carried into the U-value working; figures quoted in the clause for other thicknesses of the original product no longer apply. The substituted product is to be installed to its own BBA certificate and the manufacturer's certified U-value calculation obtained before submission.`)
     : `NOTE — Insulation manufacturer: ${M.n} is selected for this job. ${swaps.join("; ")}. At its greatest published thickness the substituted product calculates at ${run.U.toFixed(3)} W/m²K to ${std} (${Ut} to two places) and does not meet the target of ${mf.lim.toFixed(2)}; the build-up is shown with it for information and is not to be issued until the construction is changed or the original product reinstated.`;
   const info={mfr:M.id, ok, U:run.U, swaps, kept:kept.map(s=>MFR_ROLES[s.r])};
   const keptTail = kept.length ? ` The ${kept.map(s=>MFR_ROLES[s.r]).join(" and ")} named in the clause is retained: the library holds no verified ${M.short} product for that role.` : "";
