@@ -188,3 +188,8 @@ section>h2{margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--r
 .inline{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
 .inline select,.inline input{font:13px var(--sans);padding:6px 8px;border:1px solid var(--rule);border-radius:var(--r-input);background:var(--surface);color:var(--ink)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* plans, on the subscribe page */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px}
+.plan{border:1px solid var(--rule);border-radius:var(--r-card);padding:16px 18px;background:var(--surface)}
+.plan h2{margin:0 0 2px;font-size:19px;border:0;padding:0}

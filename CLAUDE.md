@@ -1030,11 +1030,46 @@ checked end to end over HTTP — sign in, refuse, grant, open, end, refuse — a
 server. Windows PHP from winget has `pdo_sqlite` present but not enabled, hence the
 `-d extension=php_pdo_sqlite.dll` the runner adds.
 
-Still not built, and the reason a subscription still cannot be sold: **a payment processor**
-(the choice between Stripe and a merchant of record is a tax decision — see `docs/TERMS-DRAFT.md`),
-**the app calling `/api.php` op `spec.issue`** at the moment of issue, without which per-spec
-cannot be enforced, and **a solicitor** on auto-renewal, refunds, the founding-member promise and
-unspent credits — questions 5 to 11 of that brief.
+### Stripe — `site/app/stripe.php`, `site/webhook.php`, `site/account/subscribe.php`
+
+Built 9 September 2026. **`docs/STRIPE-SETUP.md` is the dashboard half** — products, prices, the
+webhook, the config file, and the order to do it in.
+
+No SDK and no composer: Stripe's API is form-encoded HTTPS and its webhook signature is an HMAC,
+both a few lines, and the rest of this site has no dependencies. Four things are load-bearing.
+
+- **The signature check is the security model.** `/webhook.php` is public because Stripe has to
+  reach it; `stripe_verify()` is what separates a payment system from a free-for-all. It **fails
+  closed** — no secret configured means nothing verifies, not everything — checks the timestamp
+  against a 5-minute window, and compares with `hash_equals`. It verifies the RAW BODY before
+  decoding, because the signature covers the bytes Stripe sent, not a re-encoded copy of them.
+- **The return from checkout grants nothing.** The entitlement is written when the webhook says
+  the money arrived. A page that granted access on the way back from Stripe would grant it to
+  anyone who guessed the return address.
+- **Events are idempotent by construction.** The event id goes into `billing_events` under a
+  unique index *before* anything is written, so a replay — and Stripe replays — is recorded and
+  ignored. A replay still answers 200, because a webhook that errors on things it does not care
+  about teaches a processor to retry forever.
+- **`past_due` is live on purpose.** Stripe retries a failed card for about a fortnight; shutting
+  a practice out of its own drafts over an expired card costs more than the fortnight is worth.
+  It shows as a warning on the account page and the admin page, and Stripe ends the subscription
+  itself when the retries run out. Question 11 for the solicitor.
+
+Keys live in `specline-config.php` above the web root (`stripe_secret_key`,
+`stripe_webhook_secret`); the five price identifiers are not secret and are set on the admin page,
+where anything not shaped like `price_…` is refused rather than saved. `stripe_mode()` reads test
+or live **from the key itself**, so nobody can be in one and believe they are in the other.
+
+`tests/billing_test.php` is 60 assertions, 24 of them Stripe: signature verification including
+the fail-closed case and a rotated secret, the price map both ways, an event that cannot be placed
+writing nothing, a replay granting nothing twice, and an unpaid checkout adding no credits. The
+webhook was also checked end to end over HTTP against `php -S` — unsigned refused, tampered
+refused, signed accepted, replay ignored, refusals counted.
+
+Still to do before selling: **the app must call `/api.php` op `spec.issue`** at the moment of
+issue, without which per-spec cannot be enforced (subscriptions can), and **a solicitor** on
+auto-renewal, refunds, the founding-member promise and unspent credits — questions 5 to 11 of
+`docs/TERMS-DRAFT.md`.
 
 ## Mail — info@specline.co.uk
 

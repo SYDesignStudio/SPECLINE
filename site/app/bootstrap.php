@@ -103,7 +103,7 @@ function db(): PDO {
     }
     return $pdo;
 }
-const SCHEMA_VERSION = 6;
+const SCHEMA_VERSION = 7;
 function db_driver(): string { db(); return $GLOBALS['DB_DRIVER'] ?? '?'; }
 
 function migrate(PDO $pdo): void {
@@ -154,6 +154,10 @@ function migrate(PDO $pdo): void {
      "CREATE TABLE IF NOT EXISTS spec_credits (id $ai, practice_id INTEGER NOT NULL, delta INTEGER NOT NULL,
         reason VARCHAR(40) NOT NULL DEFAULT '', ref VARCHAR(120) NOT NULL DEFAULT '', job_id VARCHAR(48) NOT NULL DEFAULT '',
         at VARCHAR(32) NOT NULL, by_who VARCHAR(254) NOT NULL DEFAULT '')",
+     /* Every webhook event, stored before it is acted on and keyed on the processor's own event
+        id, so a replay — and Stripe replays — is recorded and ignored rather than granting twice. */
+     "CREATE TABLE IF NOT EXISTS billing_events (id $ai, event_id VARCHAR(80) NOT NULL UNIQUE, type VARCHAR(60) NOT NULL,
+        practice_id INTEGER, at VARCHAR(32) NOT NULL, payload TEXT NOT NULL DEFAULT '', note TEXT NOT NULL DEFAULT '')",
      "CREATE TABLE IF NOT EXISTS proposals (id $ai, doc_id INTEGER NOT NULL, event_id INTEGER, kind VARCHAR(20) NOT NULL,
         type_name VARCHAR(80) NOT NULL DEFAULT '', clause_title VARCHAR(300) NOT NULL DEFAULT '', file_rel VARCHAR(120) NOT NULL DEFAULT '',
         find_text TEXT NOT NULL, replace_text TEXT NOT NULL DEFAULT '', evidence TEXT NOT NULL DEFAULT '', figures TEXT,
@@ -165,6 +169,8 @@ function migrate(PDO $pdo): void {
        added after a database was built needs its own step. Ask for the column and add it
        only if the query fails; that works the same on SQLite and MySQL. */
     foreach ([['practices', 'contact_email', "VARCHAR(254) NOT NULL DEFAULT ''"],
+              ['practices', 'stripe_customer_id', "VARCHAR(80) NOT NULL DEFAULT ''"],
+              ['entitlements', 'ref', "VARCHAR(120) NOT NULL DEFAULT ''"],
               ['tokens',    'payload',       "TEXT NOT NULL DEFAULT ''"]] as [$table, $col, $type]) {
         try { $pdo->query("SELECT $col FROM $table LIMIT 1"); }
         catch (Throwable $t) { try { $pdo->exec("ALTER TABLE $table ADD COLUMN $col $type"); } catch (Throwable $t2) {} }
@@ -172,6 +178,7 @@ function migrate(PDO $pdo): void {
 }
 
 require_once __DIR__ . '/billing.php';
+require_once __DIR__ . '/stripe.php';
 
 function q(string $sql, array $args = []): PDOStatement {
     $st = db()->prepare($sql); $st->execute($args); return $st;

@@ -103,6 +103,96 @@ ok('the owner keeps access whatever billing says', entitled_to_open(['practice_i
 /* ---- the audit trail ---- */
 ok('grants, expiries and issues are all audited', (int)val('SELECT COUNT(*) FROM audit') >= 8);
 
+/* ---------------------------------------------------------------- Stripe ---- */
+/* No network: the signature check and the event handling are pure, and they are the two
+   places where being wrong costs money or lets a stranger grant themselves a subscription. */
+
+$GLOBALS['CFG']['payment_processor']     = 'stripe';
+$GLOBALS['CFG']['stripe_secret_key']     = 'sk_test_abc123';
+$GLOBALS['CFG']['stripe_webhook_secret'] = 'whsec_test_secret';
+
+ok('the key tells us which mode we are in', stripe_mode() === 'test', stripe_mode());
+$GLOBALS['CFG']['stripe_secret_key'] = 'sk_live_abc123';
+ok('and a live key is not mistaken for a test one', stripe_mode() === 'live', stripe_mode());
+$GLOBALS['CFG']['stripe_secret_key'] = 'sk_test_abc123';
+
+/* --- signature verification, which is the whole security model of the webhook --- */
+$body = '{"id":"evt_1","type":"ping"}';
+$sign = function (string $payload, int $t, string $secret): string {
+    return 't=' . $t . ',v1=' . hash_hmac('sha256', $t . '.' . $payload, $secret);
+};
+$now = time();
+ok('a correctly signed event verifies', stripe_verify($body, $sign($body, $now, 'whsec_test_secret'), 'whsec_test_secret', $now));
+ok('a signature from another secret does not', !stripe_verify($body, $sign($body, $now, 'whsec_someone_else'), 'whsec_test_secret', $now));
+ok('a tampered payload does not', !stripe_verify('{"id":"evt_1","type":"grant.me.everything"}', $sign($body, $now, 'whsec_test_secret'), 'whsec_test_secret', $now));
+ok('a stale timestamp does not (replay window)', !stripe_verify($body, $sign($body, $now - 4000, 'whsec_test_secret'), 'whsec_test_secret', $now));
+ok('a missing header does not', !stripe_verify($body, '', 'whsec_test_secret', $now));
+ok('NO SECRET CONFIGURED MEANS NOTHING VERIFIES, not everything', !stripe_verify($body, $sign($body, $now, ''), '', $now));
+ok('a header without a v1 digest does not', !stripe_verify($body, 't=' . $now, 'whsec_test_secret', $now));
+ok('one good digest among several is accepted (Stripe rotates secrets)',
+   stripe_verify($body, 't=' . $now . ',v1=deadbeef,v1=' . hash_hmac('sha256', $now . '.' . $body, 'whsec_test_secret'), 'whsec_test_secret', $now));
+
+/* --- the price map --- */
+set_setting(stripe_price_key('practice', 'month'), 'price_practice_monthly');
+set_setting(stripe_price_key('payg', 'each'), 'price_credit');
+ok('a price maps back to its plan', stripe_plan_for_price('price_practice_monthly')['plan'] === 'practice');
+ok('an unknown price maps to nothing rather than guessing', stripe_plan_for_price('price_never_seen')['plan'] === '');
+
+/* --- events become entitlements --- */
+q('DELETE FROM entitlements WHERE practice_id = ?', [$pid]);
+q('DELETE FROM spec_credits WHERE practice_id = ?', [$pid]);
+
+$sub = function (string $evid, string $status, ?int $ends = null, string $subid = 'sub_1') use ($pid) {
+    return ['id' => $evid, 'type' => 'customer.subscription.updated', 'data' => ['object' => [
+        'id' => $subid, 'customer' => 'cus_123', 'status' => $status,
+        'current_period_end' => $ends, 'metadata' => ['practice_id' => (string)$pid],
+        'items' => ['data' => [['price' => ['id' => 'price_practice_monthly']]]],
+    ]]];
+};
+
+stripe_handle_event($sub('evt_a', 'active', time() + 2592000));
+$e = entitlement($pid);
+ok('a subscription event grants the plan its price names', $e['live'] && $e['plan'] === 'practice', $e['plan'] . ' ' . $e['status']);
+ok('and it is recorded as coming from Stripe', $e['source'] === 'stripe', $e['source']);
+ok('the customer is remembered for the events that follow',
+   (string)val('SELECT stripe_customer_id FROM practices WHERE id = ?', [$pid]) === 'cus_123');
+
+$before = (int)val('SELECT COUNT(*) FROM entitlements WHERE practice_id = ?', [$pid]);
+$again = stripe_handle_event($sub('evt_a', 'active', time() + 2592000));
+ok('a REPLAYED event is ignored, not granted twice',
+   str_contains($again, 'already seen') && (int)val('SELECT COUNT(*) FROM entitlements WHERE practice_id = ?', [$pid]) === $before, $again);
+
+stripe_handle_event($sub('evt_b', 'past_due', time() + 2592000));
+$e = entitlement($pid);
+ok('a failed payment does not shut the tool on the first retry', $e['live'] && $e['status'] === 'past_due', $e['status']);
+ok('but it is visible as past due, not as healthy', $e['status'] !== 'active');
+
+stripe_handle_event(['id' => 'evt_c', 'type' => 'customer.subscription.deleted',
+                     'data' => ['object' => ['id' => 'sub_1', 'customer' => 'cus_123', 'metadata' => ['practice_id' => (string)$pid]]]]);
+ok('a cancelled subscription ends the entitlement', !entitlement($pid)['live']);
+
+/* --- an event with no practice on it must write nothing --- */
+$orphan = stripe_handle_event(['id' => 'evt_d', 'type' => 'customer.subscription.updated',
+    'data' => ['object' => ['id' => 'sub_x', 'customer' => 'cus_unknown', 'status' => 'active',
+               'items' => ['data' => [['price' => ['id' => 'price_practice_monthly']]]]]]]);
+ok('an event this site cannot place writes nothing', str_contains($orphan, 'no practice'), $orphan);
+
+/* --- per-spec credits arrive by checkout --- */
+stripe_handle_event(['id' => 'evt_e', 'type' => 'checkout.session.completed', 'data' => ['object' => [
+    'mode' => 'payment', 'payment_status' => 'paid', 'customer' => 'cus_123', 'payment_intent' => 'pi_1',
+    'client_reference_id' => (string)$pid, 'metadata' => ['practice_id' => (string)$pid, 'credits' => '4']]]]);
+ok('a paid checkout adds the credits it was for', spec_credit_balance($pid) === 4, (string)spec_credit_balance($pid));
+
+stripe_handle_event(['id' => 'evt_f', 'type' => 'checkout.session.completed', 'data' => ['object' => [
+    'mode' => 'payment', 'payment_status' => 'unpaid', 'customer' => 'cus_123',
+    'metadata' => ['practice_id' => (string)$pid, 'credits' => '9']]]]);
+ok('an unpaid checkout adds nothing', spec_credit_balance($pid) === 4, (string)spec_credit_balance($pid));
+
+/* --- and the money is traceable --- */
+$ref = (string)val("SELECT ref FROM spec_credits WHERE practice_id = ? AND delta > 0 ORDER BY id DESC LIMIT 1", [$pid]);
+ok('a bought credit keeps the payment it came from', $ref === 'pi_1', $ref);
+ok('every event is kept for the audit', (int)val('SELECT COUNT(*) FROM billing_events') >= 6);
+
 echo "\n$pass passed, $fail failed\n";
 
 /* leave nothing behind */

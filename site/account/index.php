@@ -113,6 +113,7 @@ page_start('Your account');
       <dt>Specification credits</dt><dd class="mono"><?= (int)$ent['credits'] ?><span class="small muted"> — one is spent on each specification you issue.</span></dd>
     <?php endif; ?>
     <dt>Account created</dt><dd class="mono"><?= e(fmt_when($u['created_at'])) ?></dd>
+    <dt>Plans</dt><dd><a href="/account/subscribe.php">Choose a plan or buy specification credits</a><?php if ($ent['live'] && $ent['status'] === 'past_due'): ?> <span class="pill pill-hold">last payment failed — update the card</span><?php endif; ?></dd>
     <dt>Billing</dt><dd><?php $proc = processor_status(); ?>
       <?= $proc['connected'] ? 'Card billing is connected.' : 'No card is held and no payment method is connected yet.' ?>
       <span class="small muted">Annual is ten months: Solo £<?= (int)$cat['solo']['year'] ?>, Practice £<?= (int)$cat['practice']['year'] ?>. Prices exclude VAT.</span></dd>

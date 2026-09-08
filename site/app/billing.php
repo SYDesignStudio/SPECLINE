@@ -85,27 +85,42 @@ function billing_enforced(): bool { return setting('billing_enforce', '0') === '
 /** What is connected. Nothing yet, and this says so rather than implying otherwise. */
 function processor_status(): array {
     $name = (string)cfg('payment_processor', '');
-    $key  = (string)cfg('payment_secret_key', '');
+    $key  = stripe_ready();
+    $hook = stripe_webhook_secret() !== '';
+    $mode = stripe_mode();
+    $prices = array_filter(stripe_price_map(), fn($p) => $p['id'] !== '');
     return [
         'chosen'    => $name !== '',
         'name'      => $name ?: 'none chosen',
-        'connected' => $name !== '' && $key !== '',
-        'note'      => $key === ''
-            ? 'No processor key is configured. Entitlements can only be granted here, by hand.'
-            : 'A key is configured in specline-config.php, above the web root.',
+        'connected' => $key && $hook,
+        'mode'      => $mode,
+        'key'       => $key,
+        'webhook'   => $hook,
+        'prices'    => count($prices),
+        'prices_total' => count(stripe_price_map()),
+        'note'      => !$key   ? 'No Stripe key is configured, so nothing can be charged. Entitlements can only be granted here, by hand.'
+                     : (!$hook ? 'A Stripe key is configured but no webhook secret, so payments would be taken and never recorded. Add stripe_webhook_secret before selling anything.'
+                     : ($mode === 'test' ? 'Connected in TEST mode. Cards are not really charged.'
+                     : 'Connected in live mode.')),
     ];
 }
 
 /* ---------------------------------------------------------------- entitlement */
 
-const ENTITLEMENT_LIVE = ['trialing', 'active'];
+/* `past_due` is live ON PURPOSE. Stripe retries a failed card for about two weeks, and shutting
+   a practice out of its own drafts on the first failed retry — over a card that expired — costs
+   more goodwill than the fortnight is worth. It is shown as a warning on the account page and on
+   the admin page, and Stripe ends the subscription itself when the retries run out, which
+   arrives here as `customer.subscription.deleted`. Question 11 for the solicitor. */
+const ENTITLEMENT_LIVE = ['trialing', 'active', 'past_due'];
 
 /**
  * What this practice is entitled to, and why. The latest row that has not ended wins;
  * everything else is history and stays for the audit.
  */
 function entitlement(int $practice_id): array {
-    $row = row("SELECT * FROM entitlements WHERE practice_id = ? AND status IN ('trialing','active')
+    $in = "'" . implode("','", ENTITLEMENT_LIVE) . "'";
+    $row = row("SELECT * FROM entitlements WHERE practice_id = ? AND status IN ($in)
                 ORDER BY id DESC LIMIT 1", [$practice_id]);
     if ($row && !empty($row['ends_at']) && $row['ends_at'] < now()) {
         q("UPDATE entitlements SET status = 'expired' WHERE id = ?", [(int)$row['id']]);
@@ -181,22 +196,24 @@ function entitled_to_issue(int $practice_id): bool {
 
 /** Grant, extend or start something. The only way an entitlement is written by hand. */
 function grant_entitlement(int $practice_id, string $plan, string $status, ?string $ends_at,
-                           string $source, string $note, string $by, ?int $seats = null): int {
+                           string $source, string $note, string $by, ?int $seats = null, string $ref = ''): int {
     $plan = array_key_exists($plan, plan_catalogue()) ? $plan : 'solo';
     $status = in_array($status, ENTITLEMENT_LIVE, true) ? $status : 'active';
     $seats = $seats !== null ? max(1, $seats) : (int)plan_meta($plan)['seats'];
-    q("UPDATE entitlements SET status = 'superseded', ended_at = ? WHERE practice_id = ? AND status IN ('trialing','active')",
+    $in = "'" . implode("','", ENTITLEMENT_LIVE) . "'";
+    q("UPDATE entitlements SET status = 'superseded', ended_at = ? WHERE practice_id = ? AND status IN ($in)",
       [now(), $practice_id]);
-    q('INSERT INTO entitlements (practice_id, plan, seats, status, source, note, started_at, ends_at, created_at, created_by)
-       VALUES (?,?,?,?,?,?,?,?,?,?)',
-      [$practice_id, $plan, $seats, $status, $source, $note, now(), $ends_at, now(), $by]);
+    q('INSERT INTO entitlements (practice_id, plan, seats, status, source, note, ref, started_at, ends_at, created_at, created_by)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+      [$practice_id, $plan, $seats, $status, $source, $note, $ref, now(), $ends_at, now(), $by]);
     audit('billing.grant', "practice $practice_id $plan $status" . ($ends_at ? " until $ends_at" : ' open-ended') . " by $by");
     return (int)db()->lastInsertId();
 }
 
 function end_entitlement(int $practice_id, string $by, string $why = ''): void {
+    $in = "'" . implode("','", ENTITLEMENT_LIVE) . "'";
     q("UPDATE entitlements SET status = 'cancelled', ended_at = ?, note = CASE WHEN note = '' THEN ? ELSE note END
-       WHERE practice_id = ? AND status IN ('trialing','active')", [now(), $why, $practice_id]);
+       WHERE practice_id = ? AND status IN ($in)", [now(), $why, $practice_id]);
     audit('billing.end', "practice $practice_id by $by" . ($why ? " — $why" : ''));
 }
 

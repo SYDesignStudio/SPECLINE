@@ -148,16 +148,17 @@ payment processor is connected and no card is held.
 
 Still to do, and stated plainly because a half-built payment path is worse than none:
 
-1. **Choose the processor.** Stripe: more control, lower fee, and SY Design Studio Ltd handles
-   VAT itself. A merchant of record (Paddle, Lemon Squeezy): they are the seller of record,
-   charge and remit VAT, and take a larger cut. For a UK company selling to UK practices below
-   the VAT threshold, Stripe is the simpler answer; the moment there are EU subscribers the
-   merchant of record starts earning its fee. This is a commercial and tax decision, not a
-   technical one.
-2. **The webhook.** Whichever is chosen writes `entitlements` rows on subscription created,
-   renewed, payment failed and cancelled. The interface it must satisfy is the four functions
-   `grant_entitlement`, `end_entitlement`, `add_spec_credits`, `entitlement` — no other part of
-   the site needs to know a processor exists.
+1. ~~Choose the processor.~~ **Stripe, chosen 9 September 2026 and built the same day**
+   (`site/app/stripe.php`, `docs/STRIPE-SETUP.md`). SY Design Studio Ltd is therefore the seller
+   of record and handles VAT itself: prices are quoted excluding VAT throughout, and question 9
+   below is the one to put to the solicitor and the accountant before the first live charge.
+   Cancellation and card changes are handled by Stripe's own billing portal, so clause 1's
+   cancellation mechanics must match what that portal actually does.
+2. ~~The webhook.~~ **Built.** `/webhook.php` verifies Stripe's signature and writes
+   `entitlements` on created, updated, deleted, paused and resumed, and credits on a paid
+   checkout. Two behaviours the solicitor should know about because they are promises to a
+   customer: a subscription in `past_due` keeps working while Stripe retries the card (see
+   question 11), and ending a subscription deletes nothing at all.
 3. **Issuing must spend a credit.** The server side is built (`/api.php` op `spec.issue`, which
    is honest about whether it charged); the app has still to call it at the moment of issue.
    Until it does, per-spec cannot be enforced and only subscriptions can be sold.
