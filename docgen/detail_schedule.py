@@ -151,6 +151,15 @@ INNER = re.compile(r"(?<![\d.])(\d+(?:\.\d+)?)\s*mm\s+([A-Za-z][^,;.()—]{2,60}
 ANOTHER_WAY = re.compile(r"may be used|may be substituted|as an alternative|"
                          r"achieves? the same", re.I)
 
+# A sentence conditional on reaching some OTHER standard is describing some other build-up:
+# "Where the new-element value of 0.18 is wanted, 112.5mm board or a 90mm insulated stud lining
+# is needed" put a phantom 112.5mm band on the loft gable wall. The U-value in the condition is
+# what makes it safe to veto - "where a residual cavity is required" opens a real build-up
+# sentence in two of the cavity wall clauses, and must go on being read.
+REACHES_INSTEAD = re.compile(
+    r"\bwhere\b[^,]{0,90}\b\d\.\d{2}\b[^,]{0,40}\b(?:is|are)\s+"
+    r"(?:wanted|required|needed|to be achieved)\b", re.I)
+
 # The insulation that fills a stud, rafter or joist zone is that zone, not a band beside it —
 # even when it is thinner than the member, which a partial fill usually is. The tell has to be
 # the words immediately around the fill itself: a clause can say "the full stud depth insulated"
@@ -161,11 +170,42 @@ INFILLING = re.compile(r"(?:stud|rafter|joist)s?\s+depth\s+(?:filled|infilled|in
                        re.I)
 
 
+# "Ventilation equivalent to a continuous 10mm gap", "equivalent to a 25mm and 5mm continuous
+# gap" — the figure that follows is a free area, not a layer.
+VENT_EQUIV = re.compile(r"equivalent to (?:a |an )?(?:continuous )?"
+                        r"(?:\d+(?:\.\d+)?\s*mm\s+and\s+)?$", re.I)
+# A second lift of insulation laid over the first, named without a material of its own.
+LAID_OVER = re.compile(r"^laid\s+(?:cross-?wise\s+)?over\b", re.I)
+# The same thing where it does name its material: "300mm mineral wool quilt laid cross-wise over
+# the joists". It reaches a layer on its own merits; the flag only settles which side it goes.
+LAID_OVER_ANY = re.compile(r"\blaid\s+(?:cross-?wise\s+)?over\b", re.I)
+
+
 def _consider(t, phrase, raw, after, layers, notes, before=""):
     """One <thickness, phrase> pair against every veto; appends a layer if it survives.
 
     Shared by the top-level scan and the rescue pass below, so the two cannot drift apart.
     """
+    # An equivalent free area is a rate of ventilation, not a thickness of anything. It was
+    # being drawn: a 5mm band across the top of the newbuild cold roof and a 10mm band across
+    # the top of the flats one, both of them the ridge and eaves ventilation. The words are the
+    # test - a 50mm ventilated gap above the insulation IS a layer and stays one.
+    if VENT_EQUIV.search(before):
+        notes.append("not a layer — %gmm is a ventilation free area, not a thickness: '%s'"
+                     % (t, phrase[:48]))
+        return
+    # The second lift of quilt: "100mm mineral wool between the ceiling ties with a further
+    # 300mm laid cross-wise over". It carries no material of its own, so it was either dropped
+    # or, where the words ran on into the joists, drawn as 200mm of timber over the ceiling.
+    # It is the same insulation as the layer it is laid over, and it takes its material.
+    if LAID_OVER.match(phrase) and layers and layers[-1].get("hatch") in ("wool", "ins"):
+        prev = layers[-1]
+        notes.append("%gmm continues the %s laid below it: '%s'"
+                     % (t, prev["hatch"], phrase[:44]))
+        layers.append({"t": int(t) if t == int(t) else t, "material": prev["material"],
+                       "hatch": prev["hatch"], "read_from": raw, "_after": after,
+                       "_before": before, "_laid_over": True})
+        return
     if NEVER_A_LAYER.match(phrase) or ARITHMETIC.search(phrase) or ANOTHER_WAY.search(phrase):
         notes.append("not a layer — %gmm reads as a spacing, a level, working or an alternative "
                      "construction: '%s'" % (t, phrase[:52]))
@@ -207,7 +247,10 @@ def _consider(t, phrase, raw, after, layers, notes, before=""):
             return
         label, h = phrase, hatch_for(phrase)
     layers.append({"t": int(t) if t == int(t) else t, "material": label[:70],
-                   "hatch": h, "read_from": raw, "_after": after, "_before": before})
+                   "hatch": h, "read_from": raw, "_after": after, "_before": before,
+                   # Whether it names its own material or borrows it, a lift laid over another
+                   # belongs on the far side of it from the inside face.
+                   "_laid_over": bool(LAID_OVER_ANY.search(phrase))})
 
 
 # The rescue pass is a salvage operation, not the primary reading, so it is deliberately meaner
@@ -296,6 +339,13 @@ def _rescue(window, layers, notes, context="", outer=None, limit=None):
 # its plasterboard on the weather side. Reversing the list orders what the clause already states
 # and invents nothing; it is recorded in extraction_notes so it can be checked.
 INSIDE_FACE = ("pboard",)
+
+# A lining, as opposed to insulation that belongs on the outside of a wall. An internally
+# insulated wall clause states the work first and the wall it goes on second - "provide 72.5mm
+# insulated plasterboard to a 215mm solid brick wall" - which is good English and the wrong way
+# round for a section drawn from the outside in.
+LINING  = re.compile(r"plasterboard|dry[- ]?lining|insulated (?:board|lining)|K1[01]8", re.I)
+MASONRY = ("brick", "block", "dense", "conc")
 
 
 MEMBER_WORD = re.compile(r"\brafters?|joists?|studs?\b", re.I)
@@ -413,13 +463,37 @@ def merge_member_fill(layers, notes):
 
 
 def face_order(group, layers, notes):
-    if group not in ("RF", "SF", "IF") or len(layers) < 2:
+    if len(layers) < 2:
+        return layers
+
+    if group in ("EW", "SW", "BW"):
+        # A wall is drawn outside to inside. Where the clause opens with the lining and the
+        # masonry follows, the lining is the inside face however the sentence is written, and it
+        # goes last. Not a reversal: the layers behind it keep their order.
+        first = layers[0]
+        if (LINING.search(first.get("material") or "")
+                and any((L.get("hatch") or "") in MASONRY for L in layers[1:])):
+            notes.append("the lining moved to the inside face — the clause states the work "
+                         "before the wall it is applied to")
+            return layers[1:] + [first]
+        return layers
+
+    if group not in ("RF", "SF", "IF"):
         return layers
     first, last = (layers[0].get("hatch") or ""), (layers[-1].get("hatch") or "")
     if first in INSIDE_FACE and last not in INSIDE_FACE:
         notes.append("layers reversed so the ceiling finish reads as the inside face — the clause "
                      "states this build-up from the inside out")
-        return list(reversed(layers))
+        layers = list(reversed(layers))
+
+    # The inside face is the last layer of a vertical element, so a lift laid OVER another sits
+    # further from it — earlier in the list. Three of the ceiling-level roofs had the 300mm
+    # over-joist lift next to the ceiling and the 100mm between-joist lift on the outside, which
+    # is the wrong way round for anyone dimensioning the two apart.
+    for i in range(len(layers) - 1):
+        a, b = layers[i], layers[i + 1]
+        if b.get("_laid_over") and not a.get("_laid_over") and a.get("hatch") == b.get("hatch"):
+            layers[i], layers[i + 1] = b, a
     return layers
 
 
@@ -458,12 +532,19 @@ def layers_from(text, state=None):
             notes.append("not a layer - %gmm is in a sentence offering another way to build it: "
                          "'%s'" % (t, phrase[:44]))
             continue
+        if REACHES_INSTEAD.search(sentence):
+            notes.append("not a layer - %gmm belongs to a sentence about reaching a different "
+                         "standard, so it describes a different build-up: '%s'" % (t, phrase[:44]))
+            continue
         verb = WORKING_SENTENCE.search(sentence)
         # Everything BEFORE the verb is still specification — "72.5mm K118 insulated
         # plasterboard ... calculates at 0.28" names a real board. Only what follows it is
         # working: "...and 62.5mm board on an uninsulated cavity wall at 0.28". Refusing the
         # whole sentence emptied five retained-element build-ups that state the two together.
-        if verb and m.start() - s0 > verb.start():
+        # A second lift laid over the first is the exception: it is specification wherever it
+        # falls in the sentence, and the conductivity quoted for the quilt reads as a result,
+        # which left both cold roofs drawing 100mm of quilt instead of 400.
+        if verb and m.start() - s0 > verb.start() and not LAID_OVER.match(phrase):
             notes.append("not a layer — %gmm comes after a stated result in its sentence, so it "
                          "reads as working or as an alternative rather than as this build-up; "
                          "read the clause: '%s'" % (t, phrase[:48]))
@@ -656,8 +737,9 @@ def build():
                     layers.append(l)
             layers = face_order(b["g"], merge_member_fill(layers, notes), notes)
             layers = line_both_faces(b["g"], layers, b["p"], notes)
-            for l in layers:                     # context kept only for the merges above
+            for l in layers:                     # context kept only for the merges and the order
                 l.pop("_before", None)
+                l.pop("_laid_over", None)
             got, tgt = uvals(b)
             unmatched += sum(1 for l in layers if l["hatch"] is None)
             rec = {"group": b["g"], "group_name": GROUPS.get(b["g"], b["g"]),

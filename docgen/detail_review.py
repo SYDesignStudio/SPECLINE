@@ -33,6 +33,24 @@ OUTSIDE = {"EW": ("brick", "block", "dense", "pboard", "timber"),
 # was written inside-out or that a later sentence was picked up as if it came first.
 FINISH_LAST = {"EW", "SW", "BW"}
 
+# Every U-value a clause works out for itself, whichever arrangement it belongs to. The value in
+# the Achieved box has to be one of them.
+#
+# Read only the sentences that do the arithmetic, so a standard quoted elsewhere ("improved to
+# 0.30") is not mistaken for a result. Within those, take every value stated after "at", because
+# a clause runs its figures on: "calculates at 0.17 ... and at 0.18 at a ratio of 0.7". Two
+# decimals exactly - a conductivity of 0.019 and a perimeter ratio of 0.7 are not U-values.
+CALCULATES = re.compile(r"\bat (\d\.\d{2})\b")
+
+
+def stated_u_values(clause):
+    out = []
+    for para in clause:
+        for s in re.split(r"(?<=[.;])\s+", para):
+            if "calculat" in s.lower():
+                out += CALCULATES.findall(s)
+    return out
+
 THIN, THICK = 3.0, 400.0
 
 
@@ -114,6 +132,26 @@ def review(doc, only=None):
             if b.get("u_achieved") and not (b.get("u_target") or b.get("standard")):
                 add("warn", tk, b, "U-value %s stated with no target to measure it against"
                     % b["u_achieved"])
+
+            # A specification that states a U-value worse than the target printed beside it is
+            # a specification that fails on its own sheet. The newbuild warm-roof clause did
+            # exactly that - 0.12 against a notional 0.11 - while carrying the remedy in its own
+            # next sentence.
+            try:
+                got, tgt = float(b.get("u_achieved")), float(b.get("u_target"))
+            except (TypeError, ValueError):
+                got = tgt = None
+            if got is not None and got > tgt + 1e-9:
+                add("FAIL", tk, b, "states %.2f achieved against a target of %.2f: the build-up "
+                                   "does not meet the standard printed beside it" % (got, tgt))
+
+            # The achieved value has to be one the clause actually works out. Where it is not,
+            # the number in the box is usually the standard, or the alternative arrangement,
+            # rather than what the specified build-up does.
+            said = stated_u_values(b["clause"])
+            if b.get("u_achieved") and said and b["u_achieved"] not in said:
+                add("warn", tk, b, "states %s achieved; its clause calculates %s"
+                    % (b["u_achieved"], ", ".join(said)))
     return findings
 
 

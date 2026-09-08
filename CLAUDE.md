@@ -184,6 +184,36 @@ Two things this repo has been caught out by before, both now covered by tests:
   The lesson is the same one the rafters taught: at air-gap level 0 every original figure was
   right, so this was an assumption rather than an arithmetic error. **Never state a framed-wall
   U-value without running it through `UC.frame()`.**
+- **The `u` field is what the build-up ACHIEVES; `tgt` is what it has to beat.** On 8 September
+  2026 an audit through `UC.wall()`, `UC.roofRafter()`, `UC.roofCeiling()` and `UC.roofFlat()`
+  found nine figures where the standard had been written into the achieved field, or an
+  alternative arrangement's figure had, and one build-up that missed the target printed beside
+  it. Everything else in the library reconciled exactly.
+
+  | Build-up | Was | Now | What was wrong |
+  |---|---|---|---|
+  | Pitched Roof — Insulation Between and Over Rafters (new build) | 0.12 | 0.10 | 0.12 against a 0.11 target: **the specification failed on its own sheet.** The over-rafter board is now the 100mm the clause already priced at 0.10 |
+  | Solid Wall — Internally Insulated (extension) | 0.30 | 0.26 | the retained-element standard, not the achievement |
+  | Existing Gable or Flank Wall — Internally Insulated (loft) | 0.30 | 0.26 | as above, and its own prose already said 0.26 |
+  | Pitched Roof — Insulation at Ceiling Level (extension) | 0.15 | 0.11 | the target. 400mm of 0.044 quilt is 0.11, as the two new-build clauses say of the same build-up |
+  | Pitched Roof — Insulation at Ceiling Level, Residual Void (loft) | 0.15 | 0.11 | as above |
+  | Existing Roof — Insulation at Ceiling Level (flat) | 0.16 | 0.11 | the renovation standard, not the achievement |
+  | Existing Pitched Roof — Insulation at Ceiling Level (garage) | 0.16 | 0.15 | 300mm total is 0.15; the new-build clause says so of the same 300mm |
+  | Pitched Roof — Insulation at Rafter Level (extension) | 0.15 | 0.14 | the 52.5mm alternative's figure, not the 62.5mm specified |
+  | Pitched Roof — Insulation Between and Under Rafters (loft) | 0.15 | 0.14 | as above |
+  | Partial Fill Cavity Wall (extension) | 0.18 | 0.16 | the target; the 0.15 block gives 0.16 |
+  | Existing Uninsulated Cavity Wall — Blown Cavity (garage) | 0.25 | 0.28 | the better of two specified linings; state the worse |
+
+  Two checks in `docgen/detail_review.py` now hold the line: a **FAIL** where the achieved value
+  is worse than the target, and a **warn** where it is not among the figures the clause itself
+  works out. Neither can catch a figure the clause never states, so **run a new or edited
+  build-up through `UC` before writing its `u`** — and where two types carry the same
+  construction, they must carry the same number.
+
+  `UC` has no mode for insulation between AND over the rafters (the warm roof / sarking board
+  build-up). It was checked by hand against `roofRafter`'s own conventions — Rse 0.10 for the
+  ventilated batten space, 47/spacing bridging, the Annex F gap correction scaled by
+  (R insulation / R total)². Worth adding as `roofOverRafter()`.
 - The cladding on a framed wall sits outside a ventilated cavity, so BS EN ISO 6946 §6.9.3
   requires it and the cavity to be disregarded with the external surface resistance taken as still
   air. The outer finish therefore changes the prose and the boundary check, not the U-value.

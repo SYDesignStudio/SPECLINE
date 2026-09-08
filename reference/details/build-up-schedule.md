@@ -210,7 +210,7 @@ Stainless steel wall ties to be provided at 450mm vertical and 900mm horizontal 
 *External walls · External Walls*
 
 
-**Target** 0.18 W/m²K · **Achieved** 0.18 W/m²K
+**Target** 0.18 W/m²K · **Achieved** 0.16 W/m²K
 
 
 | # | Layer | mm | Hatch |
@@ -222,13 +222,15 @@ Stainless steel wall ties to be provided at 450mm vertical and 900mm horizontal 
 | 5 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **365.5** | |
 
+- ⚠ not a layer — 450mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'vertical and 900mm horizontal centres and an air'
+
 <details><summary>Clause</summary>
 
 
 Where a residual cavity is required, new cavity wall to comprise of 103mm suitable facing brick, 100mm Kingspan Kooltherm K108 partial fill cavity board retained against the inner leaf with proprietary retaining clips, minimum 50mm clear residual cavity maintained, 100mm lightweight block inner leaf, 0.15 W/mK, and 12.5mm plasterboard on dabs.
 
 
-Insulation thickness to be confirmed by U-value calculation for the build-up adopted, allowing for mortar joints, wall ties and repeating thermal bridges.
+This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for mortar joints in the inner leaf, stainless steel wall ties at 450mm vertical and 900mm horizontal centres and an air-gap correction at level 1. Insulation thickness to be confirmed by U-value calculation for the build-up adopted where the inner leaf or the board differs from the above.
 
 
 </details>
@@ -239,20 +241,25 @@ Insulation thickness to be confirmed by U-value calculation for the build-up ado
 *External walls · External Walls*
 
 
-**Target** — · **Achieved** 0.30 W/m²K
+**Target** — · **Achieved** 0.26 W/m²K
 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K118 insulated plasterboard | **72.5** | `ins` |
-| | **Extracted total** | **72.5** | |
+| 1 | solid brick wall | **215** | `brick` |
+| 2 | Kingspan Kooltherm K118 insulated plasterboard | **72.5** | `ins` |
+| | **Extracted total** | **287.5** | |
 
 - ⚠ not a layer — 62.5mm is the alternative to the figure before it: 'to an uninsulated cavity wall'
+- ⚠ not a layer — 72.5mm reads as a spacing, a level, working or an alternative construction: 'board on a 215mm solid brick wall calculates at 0'
+- ⚠ not a layer — 215mm reads as a spacing, a level, working or an alternative construction: 'solid brick wall calculates'
+- ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'board on an uninsulated cavity wall at 0'
+- ⚠ the lining moved to the inside face — the clause states the work before the wall it is applied to
 
 <details><summary>Clause</summary>
 
 
-Where an existing solid masonry wall is retained within the thermal envelope, provide 72.5mm Kingspan Kooltherm K118 insulated plasterboard (thermal conductivity 0.019 W/mK) to a solid wall, or 62.5mm to an uninsulated cavity wall, on dabs or on treated battens to the internal face, with all joints tightly butted and taped and a continuous vapour control layer where the board does not incorporate one. This exceeds the 0.30 W/m²K retained-element standard; the U-value achieved depends on the construction and thickness of the existing wall and is to be confirmed for the wall on this job.
+Where an existing solid masonry wall is retained within the thermal envelope, provide 72.5mm Kingspan Kooltherm K118 insulated plasterboard (thermal conductivity 0.019 W/mK) to the internal face of the existing wall, shown here on a 215mm solid brick wall, or 62.5mm to an uninsulated cavity wall, on dabs or on treated battens, with all joints tightly butted and taped and a continuous vapour control layer where the board does not incorporate one. The 72.5mm board on a 215mm solid brick wall calculates at 0.26 W/m²K to BS EN ISO 6946 and the 62.5mm board on an uninsulated cavity wall at 0.29, both better than the 0.30 W/m²K retained-element standard. The value achieved depends on the construction and thickness of the existing wall and is to be confirmed for the wall on this job.
 
 
 The existing wall is to be inspected for rising and penetrating damp, defective pointing and cracked render before lining, and every defect made good. External rainwater goods are to be checked and repaired.
@@ -619,23 +626,25 @@ Provide galvanised lateral restraint straps to walls at not more than 2m centres
 *Roofs · Roofs*
 
 
-**Target** 0.15 W/m²K · **Achieved** 0.15 W/m²K
+**Target** 0.15 W/m²K · **Achieved** 0.11 W/m²K
 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | mineral wool quilt between ceiling joists | **100** | `wool` |
-| 2 | mineral wool quilt laid cross-wise over the joists | **300** | `wool` |
+| 1 | mineral wool quilt laid cross-wise over the joists | **300** | `wool` |
+| 2 | mineral wool quilt between ceiling joists | **100** | `wool` |
 | 3 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **412.5** | |
 
-- ⚠ not a layer — 10mm reads as a spacing, a level, working or an alternative construction: 'gap at the eaves on two opposite sides'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'
+- ⚠ not a layer — 300mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'total calculates at 0'
+- ⚠ not a layer — 10mm is a ventilation free area, not a thickness: 'gap at the eaves on two opposite sides'
 - ⚠ not a layer — 5mm reads as a spacing, a level, working or an alternative construction: 'at the ridge where the pitch exceeds 35° or the span'
 
 <details><summary>Clause</summary>
 
 
-Provide 100mm mineral wool quilt between ceiling joists and 300mm mineral wool quilt laid cross-wise over the joists, or equivalent to achieve the target U-value. Ceiling finish 12.5mm plasterboard with skim.
+Provide 100mm mineral wool quilt between ceiling joists and 300mm mineral wool quilt laid cross-wise over the joists, or equivalent to achieve the target U-value. Ceiling finish 12.5mm plasterboard with skim. This build-up calculates at 0.11 W/m²K to BS EN ISO 6946 allowing for the joist fraction at 400mm centres; 300mm total calculates at 0.15.
 
 
 Ventilate the roof void with ventilation equivalent to a continuous 10mm gap at the eaves on two opposite sides, plus 5mm at the ridge where the pitch exceeds 35° or the span exceeds 10m. Provide proprietary eaves ventilators and insulation stops to ensure the ventilation path is not blocked by the insulation.
@@ -652,7 +661,7 @@ Fully fill the gap between the wall plate and the eaves ventilator with flexible
 *Roofs · Roofs*
 
 
-**Target** 0.15 W/m²K · **Achieved** 0.15 W/m²K
+**Target** 0.15 W/m²K · **Achieved** 0.14 W/m²K
 
 
 | # | Layer | mm | Hatch |
@@ -664,7 +673,7 @@ Fully fill the gap between the wall plate and the eaves ventilator with flexible
 
 - ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres'
 - ⚠ not a layer — 52.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'under-rafter board in place of 62'
-- ⚠ not a layer — 25mm reads as a spacing, a level, working or an alternative construction: 'gap at the eaves and 5mm at the ridge'
+- ⚠ not a layer — 25mm is a ventilation free area, not a thickness: 'gap at the eaves and 5mm at the ridge'
 - ⚠ not a layer — 5mm is an alternative or a continuation: 'at the ridge'
 
 <details><summary>Clause</summary>
@@ -853,20 +862,20 @@ The eaves void behind the dwarf wall remains outside the thermal envelope and is
 *External walls · Upgrading Existing External Wall*
 
 
-**Target** 0.30 W/m²K · **Achieved** 0.30 W/m²K
+**Target** 0.30 W/m²K · **Achieved** 0.26 W/m²K
 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K118 insulated plasterboard | **72.5** | `ins` |
-| 2 | solid brick wall 72 | **215** | `brick` |
-| 3 | board or a 90mm insulated stud lining is needed and the loss of floor  | **112.5** | `timber` |
-| | **Extracted total** | **400** | |
+| 1 | solid brick wall 72 | **215** | `brick` |
+| 2 | Kingspan Kooltherm K118 insulated plasterboard | **72.5** | `ins` |
+| | **Extracted total** | **287.5** | |
 
 - ⚠ not treated as a layer: 'calculates at 0'
 - ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
 - ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
-- ⚠ not a layer — 90mm is an alternative or a continuation: 'insulated stud lining is needed and the loss of floo'
+- ⚠ not a layer - 112.5mm belongs to a sentence about reaching a different standard, so it describes a different build-up: 'board or a 90mm insulated stud lining is nee'
+- ⚠ the lining moved to the inside face — the clause states the work before the wall it is applied to
 
 <details><summary>Clause</summary>
 
@@ -1145,7 +1154,7 @@ Dormer roof to be flashed to the main roof with lead or a code-approved substitu
 *Roofs · Roofs*
 
 
-**Target** 0.15 W/m²K · **Achieved** 0.15 W/m²K
+**Target** 0.15 W/m²K · **Achieved** 0.14 W/m²K
 
 
 | # | Layer | mm | Hatch |
@@ -1183,22 +1192,24 @@ Provide a continuous vapour control layer on the warm side of the insulation, se
 *Roofs · Roofs*
 
 
-**Target** 0.15 W/m²K · **Achieved** 0.15 W/m²K
+**Target** 0.15 W/m²K · **Achieved** 0.11 W/m²K
 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | mineral wool quilt between ceiling joists | **100** | `wool` |
-| 2 | mineral wool quilt laid cross-wise over the joists | **300** | `wool` |
+| 1 | mineral wool quilt laid cross-wise over the joists | **300** | `wool` |
+| 2 | mineral wool quilt between ceiling joists | **100** | `wool` |
 | | **Extracted total** | **400** | |
 
-- ⚠ not a layer — 10mm reads as a spacing, a level, working or an alternative construction: 'gap at the eaves on two opposite sides'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'
+- ⚠ not a layer — 300mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'total calculates at 0'
+- ⚠ not a layer — 10mm is a ventilation free area, not a thickness: 'gap at the eaves on two opposite sides'
 - ⚠ not a layer — 5mm reads as a spacing, a level, working or an alternative construction: 'at the ridge where the pitch exceeds 35°'
 
 <details><summary>Clause</summary>
 
 
-To flat ceiling areas and to any residual roof void outside the insulated envelope, provide 100mm mineral wool quilt between ceiling joists and 300mm mineral wool quilt laid cross-wise over the joists.
+To flat ceiling areas and to any residual roof void outside the insulated envelope, provide 100mm mineral wool quilt between ceiling joists and 300mm mineral wool quilt laid cross-wise over the joists. This build-up calculates at 0.11 W/m²K to BS EN ISO 6946 allowing for the joist fraction at 400mm centres; 300mm total calculates at 0.15.
 
 
 Ventilate the residual void with ventilation equivalent to a continuous 10mm gap at the eaves on two opposite sides, plus 5mm at the ridge where the pitch exceeds 35°. Where the conversion isolates part of the void, cross ventilation is to be maintained by proprietary vents or the void is to be brought inside the insulated envelope. Provide insulation stops at the eaves so the ventilation path is not blocked.
@@ -1387,18 +1398,20 @@ NOTE — External insulation keeps the existing wall warm and dry and avoids the
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K118 insulated plasterboard | **72.5** | `ins` |
-| | **Extracted total** | **72.5** | |
+| 1 | solid brick wall | **215** | `brick` |
+| 2 | Kingspan Kooltherm K118 insulated plasterboard | **72.5** | `ins` |
+| | **Extracted total** | **287.5** | |
 
 - ⚠ not a layer — 62.5mm is the alternative to the figure before it: 'to an uninsulated cavity wall'
 - ⚠ not a layer — 72.5mm reads as a spacing, a level, working or an alternative construction: 'board on a 215mm solid brick wall calculates at 0'
 - ⚠ not a layer — 215mm reads as a spacing, a level, working or an alternative construction: 'solid brick wall calculates'
 - ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'board on an uninsulated cavity wall at 0'
+- ⚠ the lining moved to the inside face — the clause states the work before the wall it is applied to
 
 <details><summary>Clause</summary>
 
 
-Where an existing external wall is retained and upgraded, provide 72.5mm Kingspan Kooltherm K118 insulated plasterboard (thermal conductivity 0.019 W/mK) to a solid wall, or 62.5mm to an uninsulated cavity wall, on dabs or on treated battens to the internal face, with all joints tightly butted and taped and a continuous vapour control layer where the board does not incorporate one.
+Where an existing external wall is retained and upgraded, provide 72.5mm Kingspan Kooltherm K118 insulated plasterboard (thermal conductivity 0.019 W/mK) to the internal face of the existing wall, shown here on a 215mm solid brick wall, or 62.5mm to an uninsulated cavity wall, on dabs or on treated battens, with all joints tightly butted and taped and a continuous vapour control layer where the board does not incorporate one.
 
 
 The existing wall is to be inspected for damp, defective pointing and cracked render before lining, and any defect made good. Internal insulation increases the risk of interstitial condensation within the existing masonry.
@@ -1571,14 +1584,14 @@ This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered on 150mm
 | 1 | Kingspan Kooltherm K107 Pitched Roof Board | **125** | `ins` |
 | 2 | ventilated gap | **50** | `void` |
 | 3 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters | **62.5** | `ins` |
-| 4 | continuous gap | **25** | `void` |
-| | **Extracted total** | **262.5** | |
+| | **Extracted total** | **237.5** | |
 
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'where necessary so that a 50mm ventilated gap remain'
 - ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres allowing for rafter bridging and '
 - ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'K107 filling existing 100mm rafters'
 - ⚠ not a layer — 72.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'K118 beneath it calculates at 0'
 - ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'beneath gives 0'
+- ⚠ not a layer — 25mm is a ventilation free area, not a thickness: 'continuous gap where the underlay is not breatha'
 
 <details><summary>Clause</summary>
 
@@ -1600,19 +1613,23 @@ NOTE — The separating wall between top-floor flats must be carried up tight to
 *Roofs · External Walls, Internal Walls & Roofs*
 
 
-**Target** — · **Achieved** 0.16 W/m²K
+**Target** — · **Achieved** 0.11 W/m²K
 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | mineral wool quilt between the ceiling joists | **100** | `wool` |
-| 2 | mineral wool quilt laid cross-wise over them | **300** | `wool` |
+| 1 | mineral wool quilt laid cross-wise over them | **300** | `wool` |
+| 2 | mineral wool quilt between the ceiling joists | **100** | `wool` |
 | | **Extracted total** | **400** | |
+
+- ⚠ not a layer — 400mm reads as a spacing, a level, working or an alternative construction: 'calculates at 0'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'
+- ⚠ not a layer — 300mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'total calculates at 0'
 
 <details><summary>Clause</summary>
 
 
-Where the roof void is accessible, top up the insulation to 100mm mineral wool quilt between the ceiling joists and 300mm mineral wool quilt laid cross-wise over them, or equivalent to achieve the target U-value, with proprietary eaves ventilators and insulation stops to maintain the ventilation path. Loft hatches to be insulated and draught sealed.
+Where the roof void is accessible, top up the insulation to 100mm mineral wool quilt between the ceiling joists and 300mm mineral wool quilt laid cross-wise over them, or equivalent to achieve the target U-value, with proprietary eaves ventilators and insulation stops to maintain the ventilation path. The 400mm calculates at 0.11 W/m²K to BS EN ISO 6946 allowing for the joist fraction at 400mm centres; 300mm total calculates at 0.15, which still meets the 0.16 renovation standard. Loft hatches to be insulated and draught sealed.
 
 
 </details>
@@ -1870,7 +1887,7 @@ NOTE — The new leaf costs about 200mm of room width each side. On a single gar
 *External walls · External Walls*
 
 
-**Target** 0.30 W/m²K · **Achieved** 0.25 W/m²K
+**Target** 0.30 W/m²K · **Achieved** 0.28 W/m²K
 
 
 | # | Layer | mm | Hatch |
@@ -2235,20 +2252,21 @@ This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered with 150
 *Roofs · Roofs*
 
 
-**Target** 0.16 W/m²K · **Achieved** 0.16 W/m²K
+**Target** 0.16 W/m²K · **Achieved** 0.15 W/m²K
 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | laid cross-wise over the joists | **200** | `timber` |
+| 1 | mineral wool quilt | **200** | `wool` |
 | 2 | mineral wool quilt | **100** | `wool` |
 | 3 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **312.5** | |
 
+- ⚠ 200mm continues the wool laid below it: 'laid cross-wise over the joists'
 - ⚠ not treated as a layer: 'ventilation path at the eaves with proprietary eaves ven'
-- ⚠ not a layer — 10mm reads as a spacing, a level, working or an alternative construction: 'gap along two opposite eaves'
+- ⚠ not a layer — 10mm is a ventilation free area, not a thickness: 'gap along two opposite eaves'
 - ⚠ not a layer — 25mm is the alternative to the figure before it: 'where the pitch is below 15 degrees'
-- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and meets the renovation standard with n'
+- ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'
 - ⚠ layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out
 
 <details><summary>Clause</summary>
@@ -2257,7 +2275,7 @@ This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered with 150
 Provide a new ceiling of 12.5mm plasterboard with a vapour control layer where none exists, and lay 100mm mineral wool quilt of 0.044 W/mK between the ceiling joists with a further 200mm laid cross-wise over the joists, to a total of 300mm. Maintain a continuous 25mm ventilation path at the eaves with proprietary eaves ventilators and insulation stops, and provide ventilation equivalent to a continuous 10mm gap along two opposite eaves, or 25mm where the pitch is below 15 degrees.
 
 
-Insulate and draught seal any access hatch, and carry the insulation over the wall plate to meet the wall insulation without a gap. This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 allowing for joist bridging at 400mm centres and meets the renovation standard with no margin; do not reduce the quilt thickness.
+Insulate and draught seal any access hatch, and carry the insulation over the wall plate to meet the wall insulation without a gap. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 allowing for joist bridging at 400mm centres, meeting the 0.16 renovation standard with little to spare; do not reduce the quilt thickness.
 
 
 </details>
@@ -2277,12 +2295,12 @@ Insulate and draught seal any access hatch, and carry the insulation over the wa
 | 2 | by counter-battens | **125** | `timber` |
 | 3 | ventilated gap | **50** | `void` |
 | 4 | Kingspan Kooltherm K118 insulated plasterboard beneath the rafters | **72.5** | `ins` |
-| 5 | continuous gaps unless the underlay | **25** | `membrane` |
-| | **Extracted total** | **372.5** | |
+| | **Extracted total** | **347.5** | |
 
 - ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres allowing for rafter bridging and '
 - ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'beneath calculates at 0'
 - ⚠ not a layer — 52.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'at 0'
+- ⚠ not a layer — 25mm is a ventilation free area, not a thickness: 'continuous gaps unless the underlay is breathabl'
 
 <details><summary>Clause</summary>
 
@@ -2737,27 +2755,27 @@ Herringbone or solid strutting at mid-span for spans over 2.5m and two rows for 
 *Roofs · Roofs*
 
 
-**Target** 0.11 W/m²K · **Achieved** 0.12 W/m²K
+**Target** 0.11 W/m²K · **Achieved** 0.10 W/m²K
 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K107 Pitched Roof Board between 47 x 150mm rafters at 400mm centres | **150** | `ins` |
-| 2 | K107 laid over the rafters as a continuous sarking layer | **75** | `ins` |
+| 1 | K107 laid over the rafters as a continuous sarking layer | **100** | `ins` |
+| 2 | Kingspan Kooltherm K107 Pitched Roof Board between 47 x 150mm rafters at 400mm centres | **150** | `ins` |
 | 3 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **237.5** | |
+| | **Extracted total** | **262.5** | |
 
 - ⚠ not treated as a layer: 'centres'
 - ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres allowing for rafter bridging and '
-- ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'over the rafters calculates at 0'
+- ⚠ not a layer — 75mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'over the rafters calculates at 0'
 
 <details><summary>Clause</summary>
 
 
-Where the rafters are to be exposed internally or the room-in-roof is to have a flat ceiling line without an under-rafter board, insulate over and between: 150mm Kingspan Kooltherm K107 Pitched Roof Board (thermal conductivity 0.019 W/mK) fully filling 47mm x 150mm rafters at 400mm centres, a further 75mm K107 laid over the rafters as a continuous sarking layer with the joints staggered, a vapour permeable underlay to BS 5534 over the sarking board, counter-battens fixed through the sarking into the rafters with the manufacturer's long fixings at the specified centres to carry the tile battens and the roof load, and 12.5mm plasterboard with a vapour control layer beneath the rafters or the rafters left exposed with a vapour control layer above them.
+Where the rafters are to be exposed internally or the room-in-roof is to have a flat ceiling line without an under-rafter board, insulate over and between: 150mm Kingspan Kooltherm K107 Pitched Roof Board (thermal conductivity 0.019 W/mK) fully filling 47mm x 150mm rafters at 400mm centres, a further 100mm K107 laid over the rafters as a continuous sarking layer with the joints staggered, a vapour permeable underlay to BS 5534 over the sarking board, counter-battens fixed through the sarking into the rafters with the manufacturer's long fixings at the specified centres to carry the tile battens and the roof load, and 12.5mm plasterboard with a vapour control layer beneath the rafters or the rafters left exposed with a vapour control layer above them.
 
 
-This build-up calculates at 0.12 W/m²K to BS EN ISO 6946 at 400mm rafter centres allowing for rafter bridging and an air-gap correction of 0.01; 100mm over the rafters calculates at 0.10. The counter-batten fixings are structural: the tile battens, the roof covering and the wind uplift are carried through the sarking board into the rafters and the fixing schedule is to be from the board manufacturer for the pitch and exposure. Eaves, verge and ridge details are to allow for the raised roof line, and the wall plate strapping is unaffected.
+This build-up calculates at 0.10 W/m²K to BS EN ISO 6946 at 400mm rafter centres allowing for rafter bridging and an air-gap correction of 0.01; 75mm over the rafters calculates at 0.12 and does not meet the notional value. The counter-batten fixings are structural: the tile battens, the roof covering and the wind uplift are carried through the sarking board into the rafters and the fixing schedule is to be from the board manufacturer for the pitch and exposure. Eaves, verge and ridge details are to allow for the raised roof line, and the wall plate strapping is unaffected.
 
 
 NOTE — This form of roof raises the roof surface by the thickness of the over-rafter board plus the counter-battens; on a semi-detached or terraced house the ridge and verge will not line through with the neighbour and the planning drawings must show it.
@@ -2809,15 +2827,16 @@ This build-up calculates at 0.11 W/m²K to BS EN ISO 6946 at 400mm rafter centre
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | continuous gap | **5** | `void` |
+| 1 | mineral wool quilt | **300** | `wool` |
 | 2 | mineral wool quilt | **100** | `wool` |
 | 3 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **117.5** | |
+| | **Extracted total** | **412.5** | |
 
-- ⚠ not treated as a layer: 'laid cross-wise over'
+- ⚠ 300mm continues the wool laid below it: 'laid cross-wise over'
 - ⚠ not treated as a layer: 'galvanised straps 1m long'
-- ⚠ not a layer — 10mm reads as a spacing, a level, working or an alternative construction: 'gap at the eaves on two opposite sides with 25mm pro'
+- ⚠ not a layer — 10mm is a ventilation free area, not a thickness: 'gap at the eaves on two opposite sides with 25mm'
 - ⚠ not treated as a layer: 'proprietary eaves ventilators and insulation stops to ke'
+- ⚠ not a layer — 5mm is a ventilation free area, not a thickness: 'continuous gap where the underlay is not vapour '
 - ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'
 - ⚠ not a layer — 300mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'total calculates at 0'
 - ⚠ layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out
@@ -3334,12 +3353,13 @@ Floor within a two-storey flat of 47mm x 220mm C24 solid joists or metal web joi
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | continuous gap | **10** | `void` |
+| 1 | mineral wool | **300** | `wool` |
 | 2 | mineral wool | **100** | `wool` |
 | 3 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **122.5** | |
+| | **Extracted total** | **412.5** | |
 
-- ⚠ not treated as a layer: 'laid over'
+- ⚠ 300mm continues the wool laid below it: 'laid over'
+- ⚠ not a layer — 10mm is a ventilation free area, not a thickness: 'continuous gap at two opposite eaves with eaves '
 - ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'
 - ⚠ layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out
 
@@ -3398,12 +3418,13 @@ This build-up calculates at 0.10 W/m²K to BS EN ISO 6946 fully adhered on a con
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K118 insulated plasterboard | **72.5** | `ins` |
-| 2 | solid brick wall | **215** | `brick` |
+| 1 | solid brick wall | **215** | `brick` |
+| 2 | Kingspan Kooltherm K118 insulated plasterboard | **72.5** | `ins` |
 | | **Extracted total** | **287.5** | |
 
 - ⚠ not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above ground linked to the basement waterproofing as'
+- ⚠ the lining moved to the inside face — the clause states the work before the wall it is applied to
 
 <details><summary>Clause</summary>
 
@@ -4069,13 +4090,11 @@ This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where m
 *Roofs · Roofs*
 
 
-| # | Layer | mm | Hatch |
-|---|---|---|---|
-| 1 | continuous gap | **10** | `void` |
-| | **Extracted total** | **10** | |
+*No layer thicknesses stated in the clause — this build-up is described by performance or by reference to another. Draw it from the clause.*
 
 - ⚠ not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'centres on a 100mm x 50mm wall plate bedded and stra'
 - ⚠ not a layer — 100mm is a member named inside another phrase: 'x 50mm wall plate bedded and strapped down at not mo'
+- ⚠ not a layer — 10mm is a ventilation free area, not a thickness: 'continuous gap at the eaves on two opposite side'
 - ⚠ not treated as a layer: 'up the wall'
 
 <details><summary>Clause</summary>
@@ -4095,4 +4114,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-07T23:27:27+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T00:35:31+00:00*

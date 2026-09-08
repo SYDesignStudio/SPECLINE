@@ -526,6 +526,11 @@ def is_pitched(rec):
     t = rec["title"].lower()
     if "flat roof" in t or "warm deck" in t:
         return False
+    # Insulation at ceiling level is a horizontal build-up under a pitched roof, not a build-up
+    # on the slope. Drawn on the slope it read as 400mm of quilt following the rafters, which is
+    # not where any of it goes: the quilt lies on the ceiling ties with a cold void above it.
+    if "ceiling level" in t:
+        return False
     return any(w in t for w in ("pitched", "rafter", "trussed", "eaves"))
 
 
