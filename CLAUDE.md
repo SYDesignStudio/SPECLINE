@@ -239,7 +239,12 @@ Two things this repo has been caught out by before, both now covered by tests:
   board is not to be omitted. The same day the extension's partial fill wall moved to the
   0.11 W/mK aircrete block its full fill neighbour already uses (0.163 → 0.158, both 0.16):
   partial-fill boards stop at 100mm, so with the 0.15 block every 0.022 substitute came out at
-  0.181 and the only room to move was the inner leaf.
+  0.181 and the only room to move was the inner leaf. The loft's new gable followed for the
+  same reason (0.177 → 0.172, 0.18 → 0.17): 150mm of DriTherm 32 against the 0.15 block was
+  0.182. The one shortfall left in the library is Celotex PL4000 at its thickest (72.5mm) on the
+  garage wall shared with the neighbour — 0.304 against 0.30, a limit of that product range
+  rather than of the wall; `tests/test8.py` drives the shortfall NOTE with an unreachable
+  target so it does not depend on any one build-up staying short.
 
 ## Insulation manufacturers — `src/mfr.js`
 

@@ -988,7 +988,7 @@ NOTE — Requirement E1 applies to dwellings formed by new build or material cha
 *External walls · Hip to Gable*
 
 
-**Target** 0.18 W/m²K · **Achieved** 0.18 W/m²K
+**Target** 0.18 W/m²K · **Achieved** 0.17 W/m²K
 
 
 | # | Layer | mm | Hatch |
@@ -996,7 +996,7 @@ NOTE — Requirement E1 applies to dwellings formed by new build or material cha
 | 1 | brick outer leaf to match existing | **103** | `brick` |
 | 2 | residual cavity | **10** | `void` |
 | 3 | Kingspan Kooltherm K106 Cavity Board | **90** | `ins` |
-| 4 | lightweight block inner leaf | **100** | `block` |
+| 4 | aircrete block inner leaf | **100** | `block` |
 | 5 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **315.5** | |
 
@@ -1006,7 +1006,7 @@ NOTE — Requirement E1 applies to dwellings formed by new build or material cha
 Where the roof is converted from hip to gable, the hip rafters and jack rafters are to be removed and a new gable wall constructed, all to the structural engineer's design. The new gable is to be built off the existing flank wall, whose adequacy — together with that of the foundation beneath it — is to be confirmed by the engineer before the hip is removed.
 
 
-New gable in masonry to comprise a 103mm brick outer leaf to match existing, 100mm cavity with 90mm Kingspan Kooltherm K106 Cavity Board (thermal conductivity 0.019 W/mK) retained against the inner leaf, and 100mm lightweight block inner leaf (0.15 W/mK) with 12.5mm plasterboard on dabs. Alternatively in timber frame, with an outer leaf of tile hanging or render to match the elevations.
+New gable in masonry to comprise a 103mm brick outer leaf to match existing, 100mm cavity with 90mm Kingspan Kooltherm K106 Cavity Board (thermal conductivity 0.019 W/mK) retained against the inner leaf, and a 100mm aircrete block inner leaf of 0.11 W/mK thermal conductivity (Celcon Solar, Thermalite Turbo or equivalent, 2.9N with the strength grade confirmed by the structural engineer) with 12.5mm plasterboard on dabs. This build-up calculates at 0.17 W/m²K to BS EN ISO 6946 allowing for mortar joints, wall ties and an air-gap correction of 0.01; with a 0.15 W/mK block (Celcon Standard, Thermalite Shield) it calculates at 0.18 and meets the standard with no margin, and the 0.11 block is what gives a mineral wool full fill of the same cavity the margin to meet it. Alternatively in timber frame, with an outer leaf of tile hanging or render to match the elevations.
 
 
 The new gable is to be tied into the existing flank wall and to the new roof structure, with a new wall plate bedded and strapped. Provide lateral restraint straps at not more than 2m centres at roof and floor level. Cavity trays, damp proof courses and cavity barriers to be continued through the new work.
@@ -4272,4 +4272,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T15:36:28+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T15:40:50+00:00*

@@ -86,9 +86,8 @@ with sync_playwright() as p:
     r=pg.evaluate("(()=>{const i=spec().buildups.findIndex(b=>/Warm Deck Flat Roof/.test(b.t)); const b=allBU()[i]; return {calc:!!b.calc, last:b.p[b.p.length-1]};})()")
     ok("M8 ROCKWOOL keeps the flat roof board", not r["calc"] and "no verified ROCKWOOL product" in r["last"], r["last"][:120])
     # M9 a product that cannot reach the target is flagged, not hidden
-    # mineral wool at its greatest thickness in the loft's new gable, against a 0.15 block, is 0.182
-    pg.evaluate("S.data.mfr='knauf'; S.type='loft'; S.ovr={}; renderPaper();")
-    f=pg.evaluate("(()=>{const i=spec().buildups.findIndex(b=>b.t==='Hip to Gable — New Gable Wall'); const b=allBU()[i]; return {ok:b.mfrInfo&&b.mfrInfo.ok, last:b.p[b.p.length-1]};})()")
+    # no library build-up falls short any more, so drive the NOTE path with an unreachable target
+    f=pg.evaluate("(()=>{const b=SPECS.loft.buildups.find(b=>b.t==='Hip to Gable — New Gable Wall'); const c={...b, mf:{...b.mf, lim:0.10}}; const r=mfrSubstitute(c,'knauf'); return {ok:r.info.ok, last:r.b.p[r.b.p.length-1]};})()")
     ok("M9 a shortfall is a NOTE that says so", f["ok"] is False and f["last"].startswith("NOTE — Insulation manufacturer") and "does not meet the target" in f["last"])
 
     # M10 every manufacturer runs across every descriptor without error
