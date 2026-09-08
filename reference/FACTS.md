@@ -69,3 +69,9 @@ Document A Section 2E; they are recorded here because a calculator now depends o
 
 ## Materials (manufacturer-verified λ W/mK, 05/09/2026)
 Kingspan K103/K106/K107/K108/K118 = 0.019; TF70 0.022; TR26 0.022; TR27 0.027 (<80 mm) / 0.025 (80–119) / 0.024 (≥120). Celotex is now SOPRATHERM (CW4000/GA4000/XR4000/PL4000 0.022; Thermaclass 21 0.021). Unilin (ex-Xtratherm) CavityTherm 0.021, XT/CW, XT/PR-UF, FR/ALU 0.022. EcoTherm Eco-Cavity full/partial 0.022, Eco-Versal 0.022. ROCKWOOL Full Fill 0.037; Knauf DriTherm 32/37. Aircrete 7.3N λ 0.18/0.185.
+
+## Recticel (manufacturer product pages, read 08/09/2026)
+- **Eurowall+** full fill cavity board: λ 0.022 W/mK; thicknesses 75, 90, 115, 140 mm; designed with a 10 mm residual cavity; CCPI assessed. `UC.insulation` id `ewplus`.
+- **Eurothane GP** general purpose PIR: λ 0.022 W/mK; thicknesses 25, 30, 40, 50, 60, 70, 75, 80, 90, 100, 110, 120, 130, 140, 150, 160 mm; 2400 × 1200 board; applications floor, pitched roof, internal wall, ceiling and loft; BBA certificate for underfloor use cited on the page (number not shown). Ids `egp` (floor), `egpr` (rafter), `egpf` (frame).
+- No Recticel partial-fill cavity board, flat roof board or insulated plasterboard was verified, so those roles fall back to the Kingspan product and the clause says so.
+- Thickness lists: the roof and frame entries for GA4000, XT/PR-UF and Eco-Versal take the list verified for the floor board of the same name (same product, different application).

@@ -61,6 +61,8 @@ def assemble():
     uc   = rd(os.path.join(SRC, "ucalc.js")).replace('if(typeof module!=="undefined") module.exports=UC;', '')
     uc2  = rd(os.path.join(SRC, "ucalc2.js"))
     uc3  = rd(os.path.join(SRC, "ucalc3.js"))
+    uc4  = rd(os.path.join(SRC, "ucalc4.js"))
+    mfr  = rd(os.path.join(SRC, "mfr.js")).replace('if(typeof module!=="undefined") module.exports={MFRS, MFR_ROLES, LINING_FAM, mfrSubstitute, mfrRun, mfrTable};', "")
     cfg  = rd(os.path.join(SRC, "configurator.js"))
     cfg2 = rd(os.path.join(SRC, "configurator2.js"))
     cfg3 = rd(os.path.join(SRC, "configurator3.js"))
@@ -85,7 +87,7 @@ def assemble():
     assert marker in app, "anchor comment missing from src/app_js.js"
     app = app.replace(marker, cfg + "\n" + cfg2 + "\n" + cfg3 + "\n" + cfg4 + "\n" + marker, 1)
 
-    js = "\n".join([spec, uc, uc2, uc3, dcx, logos, srv, app])
+    js = "\n".join([spec, uc, uc2, uc3, uc4, mfr, dcx, logos, srv, app])
     html = (head + "\n" + body +
             '\n<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>\n'
             '<script>\n' + js + '\n</script>\n')
@@ -160,7 +162,7 @@ def check():
 
 def test():
     fails = 0
-    for n in range(1, 8):
+    for n in range(1, 9):
         t = os.path.join(ROOT, "tests", "test%d.py" % n)
         r = subprocess.run([sys.executable, t], capture_output=True, text=True, cwd=ROOT)
         passes = r.stdout.count('"r": "PASS"')

@@ -1,6 +1,7 @@
 
 /* ================= Cavity wall configurator (parametric build-ups) ================= */
-const allBU = () => spec().buildups.concat(S.custom||[]);
+/* library build-ups pass through the manufacturer substitution (src/mfr.js); configured ones follow */
+const allBU = () => spec().buildups.map(mfrApply).concat(S.custom||[]);
 const CFG_DEFAULT = {outer:"brick",cavity:100,fill:"full",insulation:"k106",thickness:90,inner:"a015",
                      mortar:"gp",finish:"pbdabs",ties:"ss45x90",gapLevel:1,limit:0.18};
 function cfg(){ if(!S.cfg) S.cfg={...CFG_DEFAULT}; return S.cfg; }

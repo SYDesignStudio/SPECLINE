@@ -108,7 +108,7 @@ const STANDARDS = [
   {item:"Building control", value:"Lower case in prose. ‘The Building Control Officer’ for the person.", flag:""}
 ];
 
-let S = {route:"home", type:null, id:null, data:{}, sel:[], notes:{}, step:-1, open:{}, custom:[], cfg:null, cfgF:null, cfgR:null, history:[], created:0, updated:0};
+let S = {route:"home", type:null, id:null, data:{}, sel:[], notes:{}, step:-1, open:{}, custom:[], cfg:null, cfgF:null, cfgR:null, history:[], created:0, updated:0, ovr:{}};
 FIELDS.forEach(f=>S.data[f[0]]=f[2]);
 
 const el = id => document.getElementById(id);
@@ -140,11 +140,21 @@ function catCount(cat){
 function catTotal(cat){ const {bus,nts}=catItems(cat); return bus.length+nts.length; }
 
 function defaults(){
-  S.sel=[]; S.notes={}; S.step=-1; S.open={}; S.custom=[]; S.cfg=null; S.cfgF=null; S.cfgR=null; S.visited={};
+  S.sel=[]; S.notes={}; S.step=-1; S.open={}; S.custom=[]; S.cfg=null; S.cfgF=null; S.cfgR=null; S.visited={}; S.ovr={};
+  if(!S.data.mfr) S.data.mfr="kingspan";
   spec().notes.forEach((n,i)=>S.notes[i]=true);
+  applyM4();
   ["FD","SW","SF","EW","GF","RF","IF","BW","BF"].forEach(g=>{ const i=spec().buildups.findIndex(b=>b.g===g); if(i>=0) S.sel.push(i); });
   S.sel.sort((a,b)=>a-b);
 }
+/* Part M: a new dwelling is M4(1) unless the planning permission imposes M4(2) or M4(3). The
+   library carries one note per category, tagged m4, and the job's category decides which is on. */
+const M4 = [["1","M4(1) Visitable dwelling"],["2","M4(2) Accessible and adaptable dwelling"],["3","M4(3) Wheelchair user dwelling"]];
+function m4Notes(){ return !!S.type && spec().notes.some(n=>n.m4); }
+function applyM4(){ if(!m4Notes()) return; if(!S.data.m4) S.data.m4="1"; spec().notes.forEach((n,i)=>{ if(n.m4) S.notes[i]=(n.m4===S.data.m4); }); }
+function m4Label(){ if(!m4Notes()) return ""; const m=M4.find(x=>x[0]===S.data.m4); return m?m[1]:M4[0][1]; }
+function mfrLabel(){ const m=MFRS.find(x=>x.id===(S.data.mfr||"kingspan"))||MFRS[0]; const o=Object.keys(S.ovr||{}).length; return m.n+(o?` (${o} build-up${o>1?"s":""} overridden)`:""); }
+
 function refs(){
   const c={}, out={};
   S.sel.forEach(i=>{ const b=allBU()[i]; if(!b) return; const g=b.g; c[g]=(c[g]||0)+1; out[i]=g+c[g]; });
@@ -366,7 +376,8 @@ function renderStage(){
           <span class="tag ${on?"":"off"}">${on?r[i]:"—"}</span>
           <span class="ct">${esc(b.t)}</span>
           ${b.u?`<span class="cu">${esc(b.u)}</span>`:""}
-          ${b.calc?`<button class="rm" data-rm="${i}" title="Remove this calculated build-up">Remove</button>`:""}</label>
+          ${b.calc&&i>=spec().buildups.length?`<button class="rm" data-rm="${i}" title="Remove this calculated build-up">Remove</button>`:""}</label>
+        ${b.mf?mfrRow(b,i):""}
         ${b.calc?`<div class="cfgbar">${layerBar(b.calc.result.layers,{small:true})}</div>`:""}
         ${b.tgt?`<p class="tgt">${esc(b.tgt)}</p>`:""}
         <div class="text ${opened?"":"clip"}">${b.p.map(x=>`<p class="${x.startsWith("NOTE")?"nt":""}">${esc(x)}</p>`).join("")}</div>
@@ -405,6 +416,10 @@ function renderStage(){
     renderStage(); renderSteps(); renderPaper(); save();
   });
   bindConfigurator3(); bindConfigurator4(); bindConfigurator(); bindConfigurator2();
+  el("stage").querySelectorAll("select[data-mo]").forEach(s=>s.onchange=()=>{
+    const i=+s.dataset.mo; S.ovr=S.ovr||{}; if(s.value) S.ovr[i]=s.value; else delete S.ovr[i];
+    renderStage(); renderSteps(); renderPaper(); save();
+  });
   el("stage").querySelectorAll(".rm").forEach(b=>b.onclick=(e)=>{
     e.preventDefault(); const i=+b.dataset.rm, base=spec().buildups.length, ci=i-base;
     if(ci<0) return; S.custom.splice(ci,1);
@@ -439,9 +454,23 @@ function renderJobRecord(){
 }
 function renderFields(){
   const c=el("fields"); if(!c) return;
-  c.innerHTML = FIELDS.map(f=>
+  let h = FIELDS.map(f=>
     `<label class="${f[3]?"wide":""}">${esc(f[1])}<input data-k="${f[0]}" value="${esc(S.data[f[0]])}" ${f[0]==="job"?'inputmode="numeric"':""}><small>${esc(f[4])}</small></label>`).join("");
+  const mfr=S.data.mfr||"kingspan";
+  h += `<label class="${m4Notes()?"":"wide"}">Insulation manufacturer<select data-k="mfr">${MFRS.map(m=>`<option value="${m.id}" ${m.id===mfr?"selected":""}>${esc(m.n)}</option>`).join("")}</select><small>Job default. The library is written with Kingspan; another choice re-runs every insulated build-up with that manufacturer's product and states the result. Override on any build-up's card.</small></label>`;
+  if(m4Notes()) h += `<label>Part M category<select data-k="m4">${M4.map(m=>`<option value="${m[0]}" ${m[0]===(S.data.m4||"1")?"selected":""}>${esc(m[1])}</option>`).join("")}</select><small>Decides which Access (Part M) note the specification carries. M4(2) and M4(3) apply only where the planning permission requires them.</small></label>`;
+  c.innerHTML = h;
   c.querySelectorAll("input").forEach(i=>i.oninput=()=>{ S.data[i.dataset.k]=i.value; renderPaper(); renderSteps(); save(); });
+  c.querySelectorAll("select").forEach(s=>s.onchange=()=>{ S.data[s.dataset.k]=s.value; if(s.dataset.k==="m4") applyM4(); renderPaper(); renderSteps(); save(); });
+}
+
+/* the manufacturer row on a build-up card: job default, or an override for this build-up */
+function mfrRow(b,i){
+  const dflt=MFRS.find(m=>m.id===(S.data.mfr||"kingspan"))||MFRS[0], cur=(S.ovr||{})[i]||"";
+  const info=b.mfrInfo;
+  const chip = info ? `<span class="chip ${info.ok?"ok":"bad"}">${info.ok?"Recalculated "+info.U.toFixed(2):"Does not meet the target at "+info.U.toFixed(2)}</span>`
+                    : (b.lib!=null&&mfrFor(i)!=="kingspan" ? `<span class="chip">Kingspan product retained</span>` : "");
+  return `<div class="mfrrow"><label>Insulation <select data-mo="${i}"><option value="">Job default — ${esc(dflt.short)}</option>${MFRS.map(m=>`<option value="${m.id}" ${m.id===cur?"selected":""}>${esc(m.short)}</option>`).join("")}</select></label>${chip}</div>`;
 }
 
 function renderReview(){
@@ -451,6 +480,8 @@ function renderReview(){
   const rows=[
     ["Job", `${esc(S.data.job||"—")} · ${esc(S.data.rev||"P01")} · ${esc(S.data.address||"no site address")}`, missing.length?["bad",`${missing.length} of ${FIELDS.length} fields not set`]:["ok","Cover page complete"]],
     ["Type", `${esc(spec().name)} · ${esc(spec().region)}`, ["ok","Set"]],
+    ["Insulation", esc(mfrLabel()), ["dim", (S.data.mfr||"kingspan")==="kingspan"?"Library products":"Substituted and recalculated"]],
+    ...(m4Notes()?[["Access", esc(m4Label()), ["dim","Approved Document M Volume 1"]]]:[]),
     ...sel.map(i=>{ const b=allBU()[i]; let f=["dim",b.u||"Library build-up"];
       if(b.calc){ const lim=b.calc.params&&b.calc.params.limit; const pass=lim?b.calc.result.U<=lim+1e-9:true; f=[pass?"ok":"bad",`${b.calc.result.U.toFixed(2)} against ${lim?lim.toFixed(2):"—"}`]; }
       return [r[i], esc(b.t), f]; }),
@@ -512,6 +543,7 @@ function renderPaper(){
       <tr><td>Client</td><td>${esc(d.client||"—")}</td></tr>
       <tr><td>Job number</td><td>${esc(d.job||"—")}</td></tr>
       <tr><td>Local authority</td><td>${esc(d.la||"—")}</td></tr>
+      ${m4Label()?`<tr><td>Access category</td><td>${esc(m4Label())}</td></tr>`:""}
       <tr><td>Prepared by</td><td>${esc(P.designer?P.designer+", ":"")}${esc(pName())}</td></tr>
       <tr><td>Date</td><td>${today}</td></tr>
       <tr><td>Revision</td><td>${esc(d.rev||"P01")}</td></tr>
@@ -724,7 +756,7 @@ function buildPdf(){
   doc.setFontSize(11);doc.setTextColor(...MUTED);
   doc.text(safe((spec().name+" — "+spec().region).toUpperCase()),L,100);
   const rows=[["Project",d.project],["Site address",d.address],["Client",d.client],["Job number",d.job],
-    ["Local authority",d.la],["Application","Full Plans Application"],
+    ["Local authority",d.la],...(m4Label()?[["Access category",m4Label()]]:[]),["Application","Full Plans Application"],
     ["Prepared by",(P.designer?P.designer+", ":"")+pName()],["Date",today],["Revision",d.rev||"P01"]];
   y=114;
   rows.forEach(([k,v])=>{
@@ -873,7 +905,7 @@ function buildDocx(){
   out.push(D.para(D.run((spec().name + " — " + spec().region).toUpperCase(), {b:true, sz:22, color:MUTED_HEX}), {after:400}));
 
   const rows = [["Project", d.project], ["Site address", d.address], ["Client", d.client],
-    ["Job number", d.job], ["Local authority", d.la], ["Application", "Full Plans Application"],
+    ["Job number", d.job], ["Local authority", d.la], ...(m4Label()?[["Access category", m4Label()]]:[]), ["Application", "Full Plans Application"],
     ["Prepared by", (P.designer ? P.designer + ", " : "") + pName()], ["Date", today], ["Revision", d.rev || "P01"]];
   out.push(D.table(rows.map(([k,v]) => [
     {text:k, w:2600, b:true, sz:18, shade:WELL_HEX},
@@ -1037,14 +1069,17 @@ const makeDocx = () => makeDoc("docx");
 
 /* ---------------- jobs: draft, store, list ---------------- */
 function uid(){ return "j"+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
-function snapshot(){ return {id:S.id,type:S.type,data:{...S.data},sel:[...S.sel],notes:{...S.notes},step:S.step,visited:S.visited||{},custom:S.custom||[],cfg:S.cfg||null,cfgF:S.cfgF||null,cfgR:S.cfgR||null,history:S.history||[],created:S.created||Date.now(),updated:Date.now(),route:S.route}; }
+function snapshot(){ return {id:S.id,type:S.type,data:{...S.data},sel:[...S.sel],notes:{...S.notes},step:S.step,visited:S.visited||{},custom:S.custom||[],ovr:S.ovr||{},cfg:S.cfg||null,cfgF:S.cfgF||null,cfgR:S.cfgR||null,history:S.history||[],created:S.created||Date.now(),updated:Date.now(),route:S.route}; }
 function loadInto(j){
-  S.id=j.id||uid(); S.type=j.type; S.data={...S.data,...j.data}; S.sel=[...(j.sel||[])]; S.notes={...(j.notes||{})};
+  S.id=j.id||uid(); S.type=j.type; S.data={}; FIELDS.forEach(f=>S.data[f[0]]=f[2]); S.data={...S.data,...j.data};
+  S.ovr=j.ovr||{}; if(!S.data.mfr) S.data.mfr="kingspan"; S.sel=[...(j.sel||[])]; S.notes={...(j.notes||{})};
   S.step=(j.step===undefined||j.step===null)?-1:j.step; S.visited=j.visited||{}; S.open={}; S.custom=j.custom||[];
   S.cfg=j.cfg||null; S.cfgF=j.cfgF||null; S.cfgR=j.cfgR||null; S.history=j.history||[]; S.created=j.created||Date.now();
+  /* a job saved before the Part M category existed carried all three notes: settle it on M4(1) */
+  if(m4Notes() && !S.data.m4) applyM4();
 }
 function newJob(type){
-  S.id=uid(); S.type=type; S.data={}; FIELDS.forEach(f=>S.data[f[0]]=f[2]); S.history=[]; S.created=Date.now();
+  S.id=uid(); S.type=type; S.data={}; FIELDS.forEach(f=>S.data[f[0]]=f[2]); S.data.mfr="kingspan"; S.history=[]; S.created=Date.now();
   defaults(); S.route="job"; renderAll(); save();
   toast("New job started. It saves as you go.");
 }

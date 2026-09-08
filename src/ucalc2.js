@@ -68,7 +68,9 @@ Object.assign(UC, {
     const fl=[{n:`${p.slab||200}mm reinforced concrete slab`,d:p.slab||200,R:(p.slab||200)/1000/1.35},{n:"Waterproofing / cavity drain membrane",d:0,R:0},
       {n:`${p.floorThk}mm ${fi.n} (λ ${fi.k})`,d:p.floorThk,R:p.floorThk/1000/fi.k,ins:true},{n:"75mm screed",d:75,R:0.075/1.41}];
     const wl=[{n:`${Math.round(w*1000)}mm reinforced concrete / masonry retaining wall`,d:w*1000,R:w/1.35},{n:"Waterproofing / cavity drain membrane",d:0,R:0},
-      {n:`${p.wallThk}mm ${wi.n} (λ ${wi.k})`,d:p.wallThk,R:p.wallThk/1000/wi.k,ins:true},{n:"12.5mm plasterboard",d:12.5,R:0.0125/0.21}];
+      {n:`${p.wallThk}mm ${wi.n} (λ ${wi.k})`,d:p.wallThk,R:p.wallThk/1000/wi.k,ins:true}]
+      .concat((p.wallExtra||[]).map(l=>({n:l.n,d:l.d,R:l.d/1000/l.k})))
+      .concat([{n:"12.5mm plasterboard",d:12.5,R:0.0125/0.21}]);
     const Rf=fl.reduce((s,l)=>s+l.R,0), Rw=wl.reduce((s,l)=>s+l.R,0);
     const dt=w+g.k*(this.Rsi_floor+Rf+this.Rse_floor), dw=g.k*(this.Rsi_wall+Rw+this.Rse_wall);
     const Ubf = (dt+0.5*z)<B ? (2*g.k/(Math.PI*B+dt+0.5*z))*Math.log(Math.PI*B/(dt+0.5*z)+1) : g.k/(0.457*B+dt+0.5*z);
