@@ -370,6 +370,8 @@ table.meta td:first-child{background:#FBFAF8;font-weight:600;width:36%;font-size
 
 /* ---------- practice settings ---------- */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;align-items:start}
+/* one view at a time: a settings form reads better at a measure than full bleed */
+.pgrid.solo{grid-template-columns:minmax(0,760px)}
 .logobox{background:#FFFFFF;border:1px solid var(--line);border-radius:var(--r-input);padding:18px;display:flex;justify-content:center;align-items:center;min-height:120px;margin-bottom:12px}
 .logobox img{max-height:110px;max-width:100%;display:block}
 .seats{font-size:14px;margin:12px 0 10px}

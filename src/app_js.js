@@ -685,10 +685,24 @@ function renderPractice(){
   const seatLine=(u,pl)=> pl.seats
     ? `<b>${u} of ${pl.seats}</b> seat${pl.seats>1?"s":""} in use${u>pl.seats?`. Over the ${esc(pl.n)} limit; nothing is enforced yet.`:"."}`
     : `<b>${u}</b> user${u===1?"":"s"} listed. The plan sets the seat limit; none chosen yet.`;
+  /* Three views. This page fits one screen at desktop width, so the tabs are not here to make
+     room — they are here because the rest of the app works this way. That costs the glance that
+     told you a logo was set and the seats were counted, so each tab carries its own state:
+     what is still to fill in, whether the cover carries an image or a wordmark, seats in use. */
+  const blanks=["name","designer","addr","email"].filter(k=>!String(P[k]||"").trim()).length;
+  const pTabs=[{id:"ident", n:"Identity",       c:blanks?`${blanks} to fill`:"", bad:!!blanks},
+               {id:"logo",  n:"Logo",           c:P.logo?"Image":"Wordmark"},
+               {id:"plan",  n:"Plan and seats", c:plan.seats?`${used}/${plan.seats}`:String(used), bad:!!(plan.seats&&used>plan.seats)}];
+  const pCur=pTabs.some(t=>t.id===S.tab)?S.tab:"ident";
+  const pShow=id=>pCur===id?"":' hidden';
+  const setChip=(id,txt,bad)=>{ const c=el("practicepage").querySelector(`[data-stab="${id}"] .stn`);
+    if(c){ c.textContent=txt; c.classList.toggle("bad",!!bad); } };
   el("practicepage").innerHTML=`<div class="pagehead"><div><p class="eyebrow">Practice settings</p><h1>${esc(P.name||"Your practice")}</h1>
       <p class="lede">Everything here prints on the specification: the logo and address on the cover, the name in the running footer, the named designer in the responsibility statement. Specline's own mark never appears on a document.</p></div></div>
-    <div class="pgrid">
-      <div class="card"><p class="grouplabel" style="margin-top:0">Identity on the document</p>
+    <div class="stagetabs" role="tablist">${pTabs.map(t=>
+      `<button class="stab${pCur===t.id?" cur":""}" data-stab="${t.id}" role="tab" aria-selected="${pCur===t.id}">${esc(t.n)} <span class="stn${t.bad?" bad":""}">${esc(t.c)}</span></button>`).join("")}</div>
+    <div class="pgrid solo">
+      <div class="card"${pShow("ident")}>
         <div class="fields">
           <label>Practice name<input data-p="name" value="${esc(P.name)}"><small>Cover page and footer.</small></label>
           <label>Named designer<input data-p="designer" value="${esc(P.designer||"")}"><small>Prepared by, and the responsibility statement.</small></label>
@@ -697,14 +711,14 @@ function renderPractice(){
           <label>Phone<input data-p="phone" value="${esc(P.phone||"")}"><small>Cover, if given.</small></label>
           <label>Document accent<input type="color" data-p="accent" value="#${accHex()}"><small>Rules, section headings and build-up references. Neutral dark grey until you set one.</small></label>
         </div></div>
-      <div class="card"><p class="grouplabel" style="margin-top:0">Logo</p>
+      <div class="card"${pShow("logo")}>
         <div class="logobox">${P.logo?`<img src="${P.logo}" alt="${esc(pName())} logo">`
           :`<p class="pmark" style="--pacc:#${accInk()}">${esc(pName())}</p>`}</div>
         <div class="cfgfoot"><span class="srcnote">${P.logo?"PNG or JPEG up to 3 MB. Fitted to the cover at its own proportions."
           :"No logo yet — the cover sets your practice name as a wordmark. PNG or JPEG up to 3 MB."}</span>
           <label class="btn">${P.logo?"Replace logo":"Add logo"}<input type="file" id="logoFile" accept="image/png,image/jpeg" hidden></label></div>
         ${P.logo?`<p style="margin:12px 0 0"><button class="btn btn-quiet" id="logoClear">Remove logo</button></p>`:""}</div>
-      <div class="card"><p class="grouplabel" style="margin-top:0">Plan and seats</p>
+      <div class="card"${pShow("plan")}>
         <div class="fields"><label class="wide">Plan<select data-p="plan">${Object.entries(PLANS).map(([k,v])=>`<option value="${k}" ${P.plan===k?"selected":""}>${esc(v.n)}${v.price?" — "+esc(v.price):""}</option>`).join("")}</select><small>Billing is not connected yet. The plan sets the seat limit shown below.</small></label></div>
         <p class="seats">${seatLine(used,plan)}</p>
         <label class="cf">Users, one per line<textarea data-p="users" rows="4">${esc((P.users||[]).join("\n"))}</textarea></label>
@@ -714,11 +728,20 @@ function renderPractice(){
   el("practicepage").querySelectorAll("[data-p]").forEach(inp=>{
     const h=()=>{ const k=inp.dataset.p; P[k]= k==="users" ? inp.value.split("\n").map(x=>x.trim()).filter(Boolean) : inp.value;
       savePractice(); if(S.type) renderPaper();
-      if(k==="users"||k==="plan") el("practicepage").querySelector(".seats").innerHTML=seatLine((P.users||[]).length, PLANS[P.plan]||PLANS.undecided);
+      if(k==="users"||k==="plan"){
+        const pl=PLANS[P.plan]||PLANS.undecided, u=(P.users||[]).filter(Boolean).length;
+        const st=el("practicepage").querySelector(".seats"); if(st) st.innerHTML=seatLine(u,pl);
+        setChip("plan", pl.seats?`${u}/${pl.seats}`:String(u), !!(pl.seats&&u>pl.seats));
+      }
+      if(["name","designer","addr","email"].includes(k)){
+        const nb=["name","designer","addr","email"].filter(x=>!String(P[x]||"").trim()).length;
+        setChip("ident", nb?`${nb} to fill`:"", !!nb);
+      }
       if(k==="accent"){ const pm=el("practicepage").querySelector(".logobox .pmark"); if(pm) pm.style.setProperty("--pacc","#"+accInk()); } };
     inp.oninput=h; inp.onchange=h;
   });
-  el("logoFile").onchange=e=>readLogo(e.target.files[0]);
+  el("practicepage").querySelectorAll("[data-stab]").forEach(t=>t.onclick=()=>{ S.tab=t.dataset.stab; renderPractice(); });
+  const lf=el("logoFile"); if(lf) lf.onchange=e=>readLogo(e.target.files[0]);
   const lc=el("logoClear"); if(lc) lc.onclick=()=>{ P.logo=""; P.logoW=0; P.logoH=0; savePractice(); renderPractice(); if(S.type) renderPaper(); };
   el("practiceDone").onclick=()=>go("home");
 }

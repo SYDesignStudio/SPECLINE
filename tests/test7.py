@@ -130,6 +130,38 @@ with sync_playwright() as p:
     for brand in ("B5640A", "E8850C", "F5900A", "0E6E85"):
         ok("W22 no fixed brand colour: " + brand, brand not in xml.upper())
 
+    # W23 the practice page: three views, and each tab keeps the state the glance used to give
+    pg.evaluate("go('practice')"); pg.wait_for_timeout(400)
+    labs = [t.strip().splitlines()[0] for t in pg.locator("#practicepage .stab").all_inner_texts()]
+    ok("W23 the practice page splits into identity, logo and plan",
+       labs == ["Identity", "Logo", "Plan and seats"], str(labs))
+    ok("W23 one view at a time", pg.locator("#practicepage .card:not([hidden])").count() == 1)
+    ok("W23 the logo tab says which the cover carries",
+       pg.locator('[data-stab="logo"] .stn').inner_text().strip() in ("Image", "Wordmark"),
+       pg.locator('[data-stab="logo"] .stn').inner_text())
+    ok("W23 a complete identity carries no warning",
+       pg.locator('[data-stab="ident"] .stn').inner_text().strip() == "",
+       pg.locator('[data-stab="ident"] .stn').inner_text())
+    # clearing a field that prints on the cover must say so on the tab, at once
+    pg.fill('#practicepage input[data-p="designer"]', ""); pg.wait_for_timeout(300)
+    ok("W23 an emptied field is counted on the tab",
+       "to fill" in pg.locator('[data-stab="ident"] .stn').inner_text(),
+       pg.locator('[data-stab="ident"] .stn').inner_text().strip())
+    pg.fill('#practicepage input[data-p="designer"]', TEST_DESIGNER); pg.wait_for_timeout(300)
+    ok("W23 and uncounted when it is filled again",
+       pg.locator('[data-stab="ident"] .stn').inner_text().strip() == "")
+    # the seats tab counts against the plan, and says when it is over
+    pg.locator('#practicepage .stab:has-text("Plan")').click(); pg.wait_for_timeout(300)
+    ok("W23 the plan tab holds the seats", pg.locator("#practicepage .seats").count() == 1)
+    pg.evaluate("P.plan='solo'; P.users=['a@x.co','b@x.co']; savePractice(); renderPractice();")
+    pg.wait_for_timeout(300)
+    chip = pg.locator('[data-stab="plan"] .stn')
+    ok("W23 over the seat limit is named on the tab and marked",
+       chip.inner_text().strip() == "2/1" and "bad" in (chip.get_attribute("class") or ""),
+       chip.inner_text().strip() + " / " + str(chip.get_attribute("class")))
+    ok("W23 the practice page still leaves for the desk",
+       (pg.click("#practiceDone"), pg.wait_for_timeout(400), pg.evaluate("S.route") == "home")[2])
+
     ok("W20 no page errors", len(errs) == 0, "; ".join(errs[:2]))
     print(json.dumps([{"r": a, "t": b_, "x": c} for a, b_, c in R]))
     print("PAGE ERRORS:", errs[:4])

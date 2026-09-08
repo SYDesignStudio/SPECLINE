@@ -713,6 +713,15 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
   `S.tab` is UI state, not job state — it is not in `snapshot()`, and `setStep()` clears it so
   each category opens on its first view. A tab id that does not exist in the category you move
   to falls back to the first, so `nts` on a build-ups-only category cannot strand the page.
+- **The practice page is tabbed for consistency, not for room** — `Identity · Logo Wordmark ·
+  Plan and seats 2/5`. It measured 882px at desktop width with all three cards side by side, so
+  unlike the other four screens it had nothing to fix, and tabbing it costs the glance that told
+  you a logo was set and the seats were counted. That is why **each tab carries its own state**:
+  how many cover fields are still to fill (in the warn colour), whether the cover carries an
+  image or a wordmark, and seats against the plan's limit — patched in place as you type, so the
+  cursor is never thrown out of the field it is in. It does earn its keep below ~900px, where
+  the three cards stacked to 1272px. If it ever reads as a step backwards, the grid is one
+  commit away.
 - **The desk splits too**: `Jobs 6 · Project types 8`, with the headline, the two buttons and
   the U-value card above the strip. With **nothing saved there is no strip** — the eight types
   stand alone under their own heading, because an empty list is not a view worth a tab and the
