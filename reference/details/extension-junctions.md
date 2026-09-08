@@ -1,6 +1,6 @@
 # Construction details — House Extension
 
-Drawing specification for the six details in the library. Written from the Approved
+Drawing specification for the eleven details in the library. Written from the Approved
 Documents and from clauses already verified in `data/specdata_core.js`, so the drawings and the
 specification agree. Every figure below appears in the specification already; where a detail and a
 clause disagree, the clause is right and the drawing is wrong.
@@ -12,10 +12,14 @@ the wall, the roof edge, and the join to the existing house — the three a buil
 actually marks up on a single-storey rear extension.
 
 **Conventions for all three**
-- **1:10 at A4 landscape**, and the sheets measure it. The three details are 1920 to 2120mm
-  wide, which at 1:5 would need 384 to 424mm of paper — wider than A4 in either orientation, so
-  the earlier 1:5 label could not have been true on any sheet. A drawing that states a scale it
-  does not hold is worse than one that states none, because someone will scale off it.
+- **1:10 at A3 landscape**, and the sheets measure it. The details are 1920 to 2100mm wide, which
+  at 1:5 would need 384 to 420mm of paper — wider than A4 in either orientation, so the earlier
+  1:5 label could not have been true on any sheet. A drawing that states a scale it does not
+  hold is worse than one that states none, because someone will scale off it.
+  **The paper was A4 until 8 September 2026 and did not fit**: printed at A4 landscape every
+  sheet ran to two pages. At A3 landscape with a 72mm side panel each sheet is one page and the
+  1:10 still holds, and A3 is the sheet size the drawing packs already use, and the size
+  `dxf_details.py` has always built its paper space at.
 - Status default **For Building Control Approval**, not For Construction.
 - Hatch key on every sheet, showing the real hatch rather than a flat colour. Dimensions in
   millimetres. "Do not scale from this drawing."
@@ -203,12 +207,174 @@ drop outside exceeds 600. And, where the window is an escape window, an openable
 than 0.33 m² and not less than 450 by 450, with the bottom of the openable area not more than 1100
 above the floor and not less than 800 unless guarded.
 
-## After these six
+---
 
-The window trio is now drawn as D-204 to D-206, and unlike the first three it is reusable across
-all eight project types with only the build-up changing. Next: **eaves at a pitched roof**, then
-the **party wall junction**.
+## D-207 — Eaves at a pitched roof
 
-Do not draw thirty details before one has been through a building control submission. Issue these
-six on a live job first; if they come back unmarked the format works, and if they are marked up
-the lesson costs three drawings rather than thirty.
+**Substantiates:** the wall head thermal bridge where the roof is insulated at rafter level, and
+the separation of the two components that meet there — the cavity barrier, which is fire stopping,
+and the insulation, which is not.
+
+**Section cuts** vertically **between rafters**, so the board filling the rafter depth is seen,
+from about 550mm out past the fascia to about 500mm down the wall. Drawn at 35°; the pitch is as
+the elevations.
+
+**From the plate up**
+
+| Component | Dimension / spec | Annotate |
+|---|---|---|
+| Cavity insulation | EW1 unchanged, carried up to the underside of the wall plate | No gap at the head |
+| Cavity barrier | mineral wool or a proprietary closer at the very head of the cavity | **Fire, not thermal** — label it as such |
+| Wall plate | bedded on the inner leaf, strapped down against uplift | Restraint straps 30 x 5 galvanised, 1m long, at not more than 2m centres |
+| Wedge over the plate | flexible insulation filling between the plate and the rafters, tucked into the head of the cavity | This is the piece that is left out on site |
+| Rafter zone | **150** Kooltherm K107 fully filling 47 x 150 minimum rafters to the engineer's design | RF2 |
+| Underlay | breathable to BS 5534, counter-battens up the slope, battens over | |
+| Lining | **62.5** K118 insulated plasterboard beneath the rafters, joints taped | |
+| Vapour control | continuous on the warm side, laps, junctions and penetrations sealed | |
+
+**The critical check — draw the two insulation lines meeting.** The cavity insulation stops at the
+top of the cavity and the roof insulation starts at the plate arris. If the drawing only brings
+them close, the wall plate is a straight cold path from the cavity into the roof, and the
+psi-value assumed in SAP is not the detail being built. The cavity barrier does not close that
+path and must not be drawn as though it does.
+
+**Also show:** that with a breathable underlay there is no roof void to ventilate, and that where a
+non-breathable underlay is used a clear **50mm** gap is kept above the insulation, ventilated
+equivalent to a continuous **25mm** at the eaves and **5mm** at the ridge. Where the roof is
+insulated at ceiling level instead, the eaves piece is flexible insulation of R-value not less than
+**1.2 m²K/W** filling between the wall plate and the eaves ventilator, and the void is ventilated
+equivalent to a continuous **10mm** gap at the eaves on two opposite sides plus **5mm** at the ridge.
+
+---
+
+## D-208 — Verge and gable ladder
+
+**Substantiates:** insulation continuity at the gable and the closing of the cavity at the verge.
+The weathering is ordinary; the junction that gets queried is where the cavity insulation stops and
+the roof insulation starts.
+
+**Section cuts** square to the verge — perpendicular to the line of greatest slope — so the roof
+build-up reads as a flat sandwich, the rafters and counter-battens are cut, and the battens and the
+ladder noggins are seen along their length.
+
+**Across the junction**
+
+| Component | Dimension / spec | Annotate |
+|---|---|---|
+| Covering | on battens seen along their length, counter-battens cut at rafter centres | |
+| Undercloak | fibre cement or a proprietary dry verge unit, bedded in mortar on the outer leaf | Indicative — it is a product |
+| Gable ladder | built off the last rafter but one, noggins between the verge rafter and the last rafter | Restraint straps 30 x 5 at not more than 2m centres |
+| Barge board and soffit | to the verge rafter, soffit ventilated | |
+| Rafter zone | **150** K107 filling the rafter depth, inboard of the last rafter | RF3 |
+| Lining | **62.5** K118 beneath, vapour control layer carried to the wall lining | |
+| Cavity barrier | closing the head of the cavity | **Fire, not thermal** |
+| Continuity piece | flexible insulation over the inner leaf, tight to the last rafter | |
+
+**The critical check.** The cavity insulation stops at the top of the cavity; the roof insulation
+starts inboard of the last rafter. Without a piece bridging the two, the inner leaf is a cold path
+the full length of the gable — and a gable is long. Draw both the barrier and the insulation, label
+both, and keep them separate.
+
+---
+
+## D-212 — Intermediate floor into the external wall
+
+**Substantiates:** the air barrier through the floor zone, and the continuity of the cavity
+insulation past it. The joist bearing is the engineer's; this is the sheet building control marks
+up.
+
+**Section cuts** vertically **between joists**, so the quilt is seen, with the joist and the hanger
+shown beyond.
+
+**Across the junction**
+
+| Component | Dimension / spec | Annotate |
+|---|---|---|
+| Deck | **18 or 22** moisture resistant tongued and grooved flooring grade board, glued and screwed | |
+| Joists | to the engineer's design and span; drawn 47 x 220 C24 at 400 centres | IF1 — **indicative, no size implied** |
+| Quilt | **100** mineral wool of not less than 10 kg/m³ between the joists | Requirement E2 |
+| Ceiling | **12.5** plasterboard | |
+| Bearing | joists carried on hangers fixed to the inner leaf, **not built in** | |
+| Air barrier | parge coat or wet plaster, continuous up the inner face of the inner leaf | Draw it as one unbroken line |
+| Restraint | straps 30 x 5 galvanised, 1m long, at not more than 2m centres, over three joists with solid noggins | |
+| Cavity insulation | EW1 carried past the floor zone without a break | |
+
+**The critical check.** Joists built into the inner leaf punch a hole in the air barrier at every
+joist and every strap. Hang them and the leaf stays continuous, which is the only version of this
+junction that survives an air test. Then check the cavity insulation runs past the floor zone: it is
+the easiest place on the elevation to leave a gap and the hardest to find afterwards.
+
+---
+
+## D-213 — Wall to foundation
+
+**Substantiates:** the substructure — what happens between the foundation and the damp proof
+course. D-201 takes the same wall and resolves the floor edge; this one resolves the foundation, the
+cavity fill and the change from dense blockwork to the wall above.
+
+**Section cuts** vertically through the wall and the trench, **with the depth broken**. The break is
+drawn: the sheet is not to be scaled for depth.
+
+**From the bottom up**
+
+| Component | Dimension / spec | Annotate |
+|---|---|---|
+| Trench fill | mass concrete not less than **750** thick, width the wall plus **300** and in no case less than **450**, cast against undisturbed ground in a trench dug to the full width | FD1. **Width is an input** — Table 10 of AD A or the engineer |
+| Depth | not less than **1000** below finished ground level; **600** to internal loadbearing walls; below the invert of any adjacent drain without undermining it | Shown broken |
+| Concrete | BS EN 206 and BS 8500; chemical class from the ground investigation report | Never from the soil description |
+| Substructure | dense concrete blockwork both leaves | |
+| Cavity fill | lean mix to not less than **225** below the DPC, top finished with a fall to the outside | |
+| Weep holes | at not more than **900** centres, above both the fill and finished external ground | |
+| DPC | not less than **150** above finished external ground, both leaves | |
+| Floor | per GF1 — see D-201. Membrane lapped to the DPC | Indicated only, not dimensioned here |
+
+**The critical check.** Where the wall is thin, wall plus 300 falls below the 450 minimum for trench
+fill and the 450 governs. And where the ground falls the foundation is stepped: no step greater than
+the thickness, the higher foundation overlapping the lower by the greatest of twice the step, the
+thickness, or 300 — **not less than 1m for trench fill**.
+
+**Also note:** where adverse ground, made ground, soft spots or major tree roots are found in the
+excavation, work stops, building control is notified and the engineer advises before any concrete is
+placed. The depth and size are approved on site by the building control officer.
+
+---
+
+## D-218 — Door threshold, level access
+
+**Substantiates:** the threshold as two separate problems solved by different components — water,
+and heat. A level threshold removes the 150mm step that normally keeps water out, so the fall on the
+paving, the channel and the tray have to do that job instead.
+
+**Section cuts** vertically through the door opening, from about 250mm above the threshold to about
+650mm below finished floor level.
+
+**Across the junction**
+
+| Component | Dimension / spec | Annotate |
+|---|---|---|
+| Threshold and frame | proprietary low-profile section | **Indicative** — they are products |
+| Level | paving **15** below finished floor level, laid to fall away | See the note below |
+| Channel | channel drain across the full opening, removable grating, discharging to the surface water system | |
+| Cavity tray | under the threshold with stop ends, weeping over the channel | Draw the stop end |
+| Closer | insulated cavity closer, and **25** edge insulation | |
+| Floor | GF1 — **65** screed on **80** K103 over a **100** slab, **50** blinding, **150** hardcore | |
+| Membrane | over the slab, turned up at the opening and lapped to the tray | |
+
+**The critical check.** Water and heat are solved by different components at this junction: the
+channel and the tray keep water out, the closer and the edge insulation keep the heat in. A sheet
+showing three of the four gets built with three. The floor insulation and the cavity insulation have
+to meet under the threshold or the opening is the bridge.
+
+**NOT VERIFIED — confirm before this sheet is issued.** The 15mm and the definition of an
+*accessible threshold* are Approved Document M, and the Appendix A definition is **not** held in
+`reference/FACTS.md`. The library confirms the M4(1) figures either side of it — a clear opening
+width of not less than 775mm, and a level landing outside the principal entrance — but not the
+upstand. Read Appendix A, add the figure to FACTS.md, and then take this note off the sheet.
+
+## After these eleven
+
+House Extension is now complete against the register except `D-217`, the dormer cheek, which the
+relevance table reaches through EW + RF and which belongs with the loft details rather than here.
+
+The next tranche is the shared ones: `D-209` separating wall to roof and `D-214` party wall at the
+ground floor, both of which unlock New Build, New Build Flats and Flat Conversion at the same time.

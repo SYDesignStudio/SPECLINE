@@ -19,18 +19,18 @@ data in machine-readable form is in `build-up-schedule.json`.
 | `D-204` | Window head — lintel and cavity tray | EW | Head thermal bridge; cavity tray and weep holes over the opening | **drawn** |
 | `D-205` | Window jamb — closer and vertical DPC | EW | Reveal thermal bridge; vertical DPC where the cavity is closed | **drawn** |
 | `D-206` | Window cill — sub-cill, DPC and closer | EW | Cill thermal bridge; water thrown clear; guarding and glazing thresholds | **drawn** |
-| `D-207` | Eaves at a pitched roof | EW + RF | Insulation continuity over the wall plate; ventilation path kept clear | next |
-| `D-208` | Verge and gable ladder | EW + RF | Insulation continuity at the gable; cavity closed at the verge | — |
+| `D-207` | Eaves at a pitched roof | EW + RF | Insulation continuity over the wall plate; ventilation path kept clear | **drawn** |
+| `D-208` | Verge and gable ladder | EW + RF | Insulation continuity at the gable; cavity closed at the verge | **drawn** |
 | `D-209` | Separating wall to roof | SW + RF | Fire stopping at the head; sound flanking at the junction | — |
 | `D-210` | Separating wall to intermediate floor | SW + IF | Sound flanking; fire separation between dwellings | — |
 | `D-211` | Separating floor edge at the external wall | SF + EW | Sound flanking at the perimeter; compartment continuity | — |
-| `D-212` | Intermediate floor into the external wall | IF + EW | Joist bearing; air barrier continuity at the floor zone | — |
-| `D-213` | Wall to foundation | FD + EW | Cavity fill below DPC; substructure to superstructure change | — |
+| `D-212` | Intermediate floor into the external wall | IF + EW | Joist bearing; air barrier continuity at the floor zone | **drawn** |
+| `D-213` | Wall to foundation | FD + EW | Cavity fill below DPC; substructure to superstructure change | **drawn** |
 | `D-214` | Party wall at the ground floor | SW + GF | Party wall thermal bypass; sound flanking at the floor | — |
 | `D-215` | Basement wall to basement floor | BW + BF | Waterproofing continuity at the corner; drainage to the sump | — |
 | `D-216` | Basement wall to the ground floor over | BW + GF | Waterproofing termination; thermal bridge at the head | — |
-| `D-217` | Dormer cheek to main roof | EW + RF | Insulation continuity around the dormer; weathering at the abutment | — |
-| `D-218` | Door threshold, level access | EW + GF | Thermal bridge at the threshold; water and accessibility together | — |
+| `D-217` | Dormer cheek to main roof | EW + RF | Insulation continuity around the dormer; weathering at the abutment | next |
+| `D-218` | Door threshold, level access | EW + GF | Thermal bridge at the threshold; water and accessibility together | **drawn** |
 
 ## Which project types need which
 

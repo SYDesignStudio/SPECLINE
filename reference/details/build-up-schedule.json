@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-08T03:01:32+00:00",
+ "generated": "2026-09-08T03:55:20+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [

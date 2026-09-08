@@ -99,6 +99,10 @@ BUILDUPS = {
     "EW1": ("extension", "Full Fill Cavity Wall"),
     "GF1": ("extension", "Solid Floor — Insulation Over Slab (Screed Finish)"),
     "RF1": ("extension", "Warm Deck Flat Roof"),
+    "RF2": ("extension", "Pitched Roof — Insulation at Rafter Level"),
+    "RF3": ("extension", "Pitched Roof — Insulation at Rafter Level"),
+    "IF1": ("extension", "Intermediate Floor — Solid Timber Joists"),
+    "FD1": ("extension", "Trench Fill Foundation"),
 }
 
 LAYERS = [
@@ -492,6 +496,14 @@ def build(sheet, schedule, paper):
                 for sub in subs:
                     pts = [flip(sub[0][1])] + [flip(s[2] if s[0] == "l" else s[3]) for s in sub]
                     fill_material(msp, pts, mat)
+                    q = list(pts)
+                    if len(q) > 1 and math.hypot(q[-1][0] - q[0][0],
+                                                 q[-1][1] - q[0][1]) < 0.01:
+                        q.pop()
+                    if len(q) == 4:          # a band: its thickness is its short edge
+                        notes.append((mat, min(
+                            math.hypot(q[(i + 1) % 4][0] - q[i][0],
+                                       q[(i + 1) % 4][1] - q[i][1]) for i in range(4))))
             ticked = ("tick" in st.get("marker-start", "")
                       and "tick" in st.get("marker-end", ""))
             if layer == "S-DIM" and ticked and len(subs) == 1:
