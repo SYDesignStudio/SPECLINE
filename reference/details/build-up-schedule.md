@@ -217,21 +217,22 @@ Stainless steel wall ties to be provided at 450mm vertical and 900mm horizontal 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | suitable facing brick | **103** | `brick` |
-| 2 | Kingspan Kooltherm K108 partial fill cavity board retained against the | **100** | `ins` |
-| 3 | clear residual cavity maintained | **50** | `void` |
-| 4 | lightweight block inner leaf | **100** | `block` |
+| 2 | residual cavity | **50** | `void` |
+| 3 | Kingspan Kooltherm K108 partial fill cavity board ret | **100** | `ins` |
+| 4 | aircrete block inner leaf | **100** | `block` |
 | 5 | plasterboard | **12.5** | `pboard` |
 | | **Extracted total** | **365.5** | |
 
+- ⚠ not a layer — 50mm restates a cavity already read: 'clear residual cavity maintained'
 - ⚠ not a layer — 450mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'vertical and 900mm horizontal centres and an air'
 
 <details><summary>Clause</summary>
 
 
-Where a residual cavity is required, new cavity wall to comprise of 103mm suitable facing brick, 100mm Kingspan Kooltherm K108 partial fill cavity board retained against the inner leaf with proprietary retaining clips, minimum 50mm clear residual cavity maintained, 100mm lightweight block inner leaf, 0.15 W/mK, and 12.5mm plasterboard on dabs.
+Where a residual cavity is required, new cavity wall to comprise of 103mm suitable facing brick, a 150mm cavity with 100mm Kingspan Kooltherm K108 partial fill cavity board retained against the inner leaf with proprietary retaining clips and a minimum 50mm clear residual cavity maintained, a 100mm aircrete block inner leaf of 0.11 W/mK thermal conductivity (Celcon Solar, Thermalite Turbo or equivalent, 2.9N with the strength grade confirmed by the structural engineer), and 12.5mm plasterboard on dabs.
 
 
-This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for mortar joints in the inner leaf, stainless steel wall ties at 450mm vertical and 900mm horizontal centres and an air-gap correction at level 1. Insulation thickness to be confirmed by U-value calculation for the build-up adopted where the inner leaf or the board differs from the above.
+This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for mortar joints in the inner leaf, stainless steel wall ties at 450mm vertical and 900mm horizontal centres and an air-gap correction at level 1; with a 0.15 W/mK block (Celcon Standard, Thermalite Shield) it also calculates at 0.16, but the 0.11 W/mK block is what gives a 0.022 W/mK board of the same thickness the margin to meet 0.18. Insulation thickness to be confirmed by U-value calculation for the build-up adopted where the inner leaf or the board differs from the above.
 
 
 </details>
@@ -4271,4 +4272,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T15:33:03+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T15:36:28+00:00*

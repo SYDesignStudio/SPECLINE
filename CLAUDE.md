@@ -236,7 +236,10 @@ Two things this repo has been caught out by before, both now covered by tests:
   On 9 September 2026 the extension's timber frame wall gained the 37.5mm K118 lining the
   other framed walls already carry (0.18 with no margin → 0.15): with 12.5mm plasterboard alone
   no other manufacturer's 0.022 board could reach 0.18 at 140mm, and the clause now says the
-  board is not to be omitted.
+  board is not to be omitted. The same day the extension's partial fill wall moved to the
+  0.11 W/mK aircrete block its full fill neighbour already uses (0.163 → 0.158, both 0.16):
+  partial-fill boards stop at 100mm, so with the 0.15 block every 0.022 substitute came out at
+  0.181 and the only room to move was the inner leaf.
 
 ## Insulation manufacturers — `src/mfr.js`
 
