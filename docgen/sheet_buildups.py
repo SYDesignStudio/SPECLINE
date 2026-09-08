@@ -269,8 +269,52 @@ def layer_fill(parts, i, mat, t, across):
 
 
 MEMBER_IN = re.compile(r"\bstuds?\b|\bjoists?\b|\brafters?\b", re.I)
-AT_CENTRES = re.compile(r"\bat\s+(\d{3,4})\s*mm\s+centres", re.I)
+# "at 400mm centres", and also "at 400mm or 600mm centres" — a clause that offers two spacings
+# is drawn at the closer one, which is the base case and the one that shows the structure.
+AT_CENTRES = re.compile(r"\bat\s+(\d{3,4})\s*mm\s+(?:or\s+\d{3,4}\s*mm\s+)?"
+                        r"(?:rafter\s+|joist\s+|stud\s+)?centres", re.I)
 CORE_W = 100.0          # drawing width for a stud zone the clause does not size. Never printed.
+
+# A zone that merge_member_fill() folded a member into: "mineral wool between 47 x 220mm C24
+# joists at 400mm centres". The breadth and the depth are both there, and the centres either
+# there or in the clause.
+MEMBER_ZONE = re.compile(r"between\s+(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)\s*mm\s+(.{0,24})", re.I)
+
+
+def member_run(layer, clause):
+    """The members inside a merged zone: breadth, centres and what to draw them with.
+
+    A floor or roof is cut ACROSS its joists, so each one reads as a rectangle of the member's
+    breadth at its centres. Without them the band is a solid slab of quilt where the structure
+    is, which is not what anyone opening the drawing needs to see.
+    """
+    mat = layer.get("material") or ""
+    m = MEMBER_ZONE.search(mat)
+    if not m:
+        return None
+    c = AT_CENTRES.search(mat) or next((x for p in clause for x in [AT_CENTRES.search(p)] if x), None)
+    if not c:
+        return None
+    # "47 x 220mm C24 solid joists or engineered metal web joists" is a timber floor offering a
+    # metal alternative. What follows the size is the member actually specified.
+    metal = bool(re.match(r"\s*(?:metal|steel|galvanised|light gauge)", m.group(3), re.I))
+    return {"breadth": float(m.group(1)), "centres": float(c.group(1)),
+            "hatch": "metal" if metal else "timber"}
+
+
+def members_across(run, y, depth, breadth, centres, hatch):
+    """Members drawn where a section cuts them, at their real centres along the run."""
+    out, x = [], centres * 0.5
+    while x < run - breadth:
+        if hatch == "metal":
+            out.append('<path d="M%.1f %.1f h%.1f M%.1f %.1f h%.1f M%.1f %.1f v%.1f" fill="none" '
+                       'stroke="#1B1B1B" stroke-width="4" stroke-linecap="square"/>'
+                       % (x, y, breadth, x, y + depth, breadth, x + breadth / 2, y, depth))
+        else:
+            out.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="url(#p-timber)" '
+                       'stroke="#1B1B1B" stroke-width="3"/>' % (x, y, breadth, depth))
+        x += centres
+    return out
 
 
 def stud_zone(rec):
@@ -453,6 +497,9 @@ def floor_svg(rec, sents):
         mat = l["hatch"] or "void"
         parts.append('<rect x="0" y="%.1f" width="%.1f" height="%.1f" fill="%s" stroke="#1B1B1B" stroke-width="2.6"/>'
                      % (y, W, t, layer_fill(parts, i, mat, t, True)))
+        run = member_run(l, rec["clause"])
+        if run:
+            parts += members_across(W, y, t, run["breadth"], run["centres"], run["hatch"])
         tops.append(y + t / 2)
         pos += t
     for x in (0, W):
@@ -601,6 +648,12 @@ def pitched_svg(rec, sents):
         mat = l["hatch"] or "void"
         g.append('<rect x="0" y="%.1f" width="%.1f" height="%.1f" fill="%s" stroke="#1B1B1B" '
                  'stroke-width="2.6"/>' % (pos, RUN, t, layer_fill(parts, i, mat, t, True)))
+        # A pitched roof is cut across its rafters exactly as a floor is cut across its joists.
+        # Local x runs along the slope, so the members sit at their centres along it and the
+        # whole group is rotated with everything else.
+        run = member_run(l, rec["clause"])
+        if run:
+            g += members_across(RUN, pos, t, run["breadth"], run["centres"], run["hatch"])
         mids.append(pos + t / 2)
         pos += t
 

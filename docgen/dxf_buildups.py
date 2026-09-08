@@ -64,6 +64,7 @@ MAT = {
     "ins":      (51,  "ANSI37",  12.0, None),    # rigid board: cross hatch
     "wool":     (41,  "INSUL",   14.0, None),    # quilt: the batt symbol
     "timber":   (42,  "ANSI31",  24.0, None),
+    "metal":    (5,   "ANSI32",  18.0, None),    # a steel member, not a timber one
     "conc":     (8,   "AR-CONC",  0.6, None),
     "lean":     (9,   "AR-CONC",  1.0, None),
     "screed":   (254, "AR-SAND",  0.5, None),
@@ -117,6 +118,36 @@ def setup(doc):
     ds.dxf.dimgap = TXT * 0.3
     ds.dxf.dimdec = 0            # millimetres, whole numbers
     ds.dxf.dimlunit = 2
+
+
+# A zone that merge_member_fill() folded a member into: "mineral wool between 47 x 220mm C24
+# joists at 400mm centres". Drawn, because a CAD user dimensioning a floor needs the joists in it
+# and not a solid band of quilt where the structure is. Only floors and roofs: a wall is cut
+# through its thickness and its studs run out of the page, so a vertical section cannot show them.
+MEMBER_ZONE = re.compile(r"between\s+(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)\s*mm\s+(.{0,24})", re.I)
+AT_CENTRES  = re.compile(r"\bat\s+(\d{3,4})\s*mm\s+(?:or\s+\d{3,4}\s*mm\s+)?"
+                         r"(?:rafter\s+|joist\s+|stud\s+)?centres", re.I)
+
+
+def member_run(layer, clause):
+    mat = layer.get("material") or ""
+    m = MEMBER_ZONE.search(mat)
+    if not m:
+        return None
+    c = AT_CENTRES.search(mat) or next((x for p in clause for x in [AT_CENTRES.search(p)] if x), None)
+    if not c:
+        return None
+    metal = bool(re.match(r"\s*(?:metal|steel|galvanised|light gauge)", m.group(3), re.I))
+    return {"breadth": float(m.group(1)), "centres": float(c.group(1)),
+            "hatch": "metal" if metal else "timber"}
+
+
+def members(msp, run, y0, y1, breadth, centres, hatch):
+    """The members inside a zone, at their real centres along the run."""
+    x = centres * 0.5
+    while x < run - breadth:
+        band(msp, x, y0, x + breadth, y1, hatch)
+        x += centres
 
 
 def band(msp, x0, y0, x1, y1, mat):
@@ -225,6 +256,9 @@ def draw(doc, rec, type_name):
             band(msp, pos, 0, pos + t, SECTION, l["hatch"] or "void")
         else:
             band(msp, 0, pos, SECTION, pos + t, l["hatch"] or "void")
+            run = member_run(l, rec["clause"])
+            if run:
+                members(msp, SECTION, pos, pos + t, run["breadth"], run["centres"], run["hatch"])
         pos += t
 
     # the element continues past the cut

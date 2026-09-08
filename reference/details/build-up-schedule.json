@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-08T01:02:29+00:00",
+ "generated": "2026-09-08T01:11:01+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [
@@ -1647,7 +1647,7 @@
       },
       {
        "t": 220,
-       "material": "mineral wool between 47 x 220mm joists and to be confirmed on site",
+       "material": "mineral wool between 47 x 220mm joists at 400mm centres and to be confirmed on site",
        "hatch": "wool",
        "read_from": "100mm mineral wool of minimum density 10 kg/m³"
       },
@@ -1672,15 +1672,16 @@
      ],
      "total_mm": 294.5,
      "extraction_notes": [
+      "not treated as a layer: 'centres and to be confirmed on site'",
       "not treated as a layer: 'fire-resisting board'",
       "not treated as a layer: 'ceiling is sufficient only where 30 minutes applies'",
-      "merged 220mm '47 x 220mm joists and to be confirmed on sit' into the zone it fills — one band, not two",
+      "merged 220mm '47 x 220mm joists at 400mm centres and to be' into the zone it fills — one band, not two",
       "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Existing timber floor to be upgraded to comprise, from the top: a platform floating floor of 18mm tongued and grooved board on 19mm plank flooring, laid on a resilient layer of 25mm mineral wool board, isolated from all abutting walls by a resilient flanking strip carried up behind the skirting; the existing joists, drawn as 47mm x 220mm joists and to be confirmed on site, with the void between them filled with 100mm mineral wool of minimum density 10 kg/m³; and an independent ceiling below.",
+      "Existing timber floor to be upgraded to comprise, from the top: a platform floating floor of 18mm tongued and grooved board on 19mm plank flooring, laid on a resilient layer of 25mm mineral wool board, isolated from all abutting walls by a resilient flanking strip carried up behind the skirting; the existing joists, drawn as 47mm x 220mm joists at 400mm centres and to be confirmed on site, with the void between them filled with 100mm mineral wool of minimum density 10 kg/m³; and an independent ceiling below.",
       "Independent ceiling to be supported on resilient bars fixed to the underside of the joists, or on an independent joist system carried on the walls and not in contact with the existing floor joists, lined with two layers of 12.5mm plasterboard of minimum total mass 20 kg/m², joints staggered, taped, filled and sealed at all perimeters.",
       "Where the floor is a compartment floor requiring 60 minutes fire resistance (top storey more than 5m above ground), the independent ceiling is to be a tested 60 minute system of two layers of 15mm fire-resisting board (which also exceeds the 20 kg/m² acoustic mass) with the joists protected as the test requires, so that one build-up satisfies both Part B and Part E; the 2 x 12.5mm ceiling is sufficient only where 30 minutes applies. No rigid connection is to be made between the floating floor and the structural floor, or between the ceiling and the joists other than through the resilient bars. Downlighters are not to be installed in the separating ceiling; where lighting is required it is to be surface mounted or installed within a lowered secondary ceiling below the separating construction."
      ]
@@ -4406,22 +4407,23 @@
       },
       {
        "t": 220,
-       "material": "mineral wool between 47 x 220mm joists and the existing size to be confirmed on site",
+       "material": "mineral wool between 47 x 220mm joists at 400mm centres and the existing size to be confir",
        "hatch": "wool",
        "read_from": "100mm mineral wool of not less than 10 kg/m³ laid between the joists"
       }
      ],
      "total_mm": 232.5,
      "extraction_notes": [
+      "not treated as a layer: 'centres and the existing size to be confirmed o'",
       "not a layer — 15mm is the alternative to the figure before it: 'Type F fire-resisting board'",
       "not a layer - 100mm is in a sentence offering another way to build it: 'concrete slab may be used and gives the fire'",
-      "merged 220mm '47 x 220mm joists and the existing size to b' into the zone it fills — one band, not two",
+      "merged 220mm '47 x 220mm joists at 400mm centres and the e' into the zone it fills — one band, not two",
       "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Existing timber ground floor over the basement to be retained where the joists are sound and adequate to the structural engineer's inspection, the detail drawn on 47mm x 220mm joists and the existing size to be confirmed on site, with any joist affected by rot or beetle cut back and spliced or replaced and all timber bearing on the basement walls isolated from the masonry by a damp proof course or joist hangers. New ceiling to the basement of two layers of 12.5mm plasterboard, or one layer of 15mm Type F fire-resisting board, with joints staggered and taped, fixed to resilient bars across the joists where sound insulation between the basement and the room above is wanted, and 100mm mineral wool of not less than 10 kg/m³ laid between the joists.",
+      "Existing timber ground floor over the basement to be retained where the joists are sound and adequate to the structural engineer's inspection, the detail drawn on 47mm x 220mm joists at 400mm centres and the existing size to be confirmed on site, with any joist affected by rot or beetle cut back and spliced or replaced and all timber bearing on the basement walls isolated from the masonry by a damp proof course or joist hangers. New ceiling to the basement of two layers of 12.5mm plasterboard, or one layer of 15mm Type F fire-resisting board, with joints staggered and taped, fixed to resilient bars across the joists where sound insulation between the basement and the room above is wanted, and 100mm mineral wool of not less than 10 kg/m³ laid between the joists.",
       "Downlighters are not to be installed in the basement ceiling unless they are fire-rated fittings tested in the ceiling construction, and services passing through the ceiling are to be fire stopped. As an alternative, where the floor over the basement is concrete, a 100mm concrete slab may be used and gives the fire resistance without a ceiling.",
       "NOTE — A basement with a habitable room is reached by a stair that may be the only way out, and the floor above it is the barrier between a basement fire and the sleeping accommodation above. The 30 minute ceiling is not optional and is to be inspected before it is decorated."
      ]
