@@ -277,7 +277,7 @@ NOTE — Internal insulation of a solid wall moves the dew point into the existi
 *External walls · External Walls*
 
 
-**Target** 0.18 W/m²K · **Achieved** 0.18 W/m²K
+**Target** 0.18 W/m²K · **Achieved** 0.15 W/m²K
 
 
 | # | Layer | mm | Hatch |
@@ -286,16 +286,18 @@ NOTE — Internal insulation of a solid wall moves the dew point into the existi
 | 2 | clear ventilated | **50** | `void` |
 | 3 | OSB3 racking board | **9** | `timber` |
 | 4 | Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 600mm centres to the | **140** | `ins` |
-| 5 | plasterboard internal finish | **12.5** | `pboard` |
-| | **Extracted total** | **314.5** | |
+| 5 | Kingspan Kooltherm K118 insulated plasterboard | **37.5** | `ins` |
+| | **Extracted total** | **339.5** | |
 
 - ⚠ not treated as a layer: 'centres to the frame designer's specification'
+- ⚠ not a layer - 600mm is in a sentence about what a construction complies with, not about this one: 'centres and an air-gap correction of 0'
+- ⚠ not a layer - 12.5mm is in a sentence about what a construction complies with, not about this one: 'plasterboard alone in place of the insulated'
 - ⚠ not a layer — 450mm reads as a spacing, a level, working or an alternative construction: 'vertical centres and at every stud horizontally'
 
 <details><summary>Clause</summary>
 
 
-Timber frame external wall to comprise 103mm suitable facing brick or proprietary render system outer leaf, minimum 50mm clear ventilated and drained cavity, breather membrane, 9mm OSB3 racking board, 140mm x 38mm C16 studs at 600mm centres to the frame designer's specification with the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer on the warm side, and 12.5mm plasterboard internal finish.
+Timber frame external wall to comprise 103mm suitable facing brick or proprietary render system outer leaf, minimum 50mm clear ventilated and drained cavity, breather membrane, 9mm OSB3 racking board, 140mm x 38mm C16 studs at 600mm centres to the frame designer's specification with the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer on the warm side, and 37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped as the internal finish. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 by the combined method, allowing for the studs bridging the insulation at 6.3% of the area at 600mm centres and an air-gap correction of 0.01; with 12.5mm plasterboard alone in place of the insulated board it calculates at 0.18 and meets the standard with no margin, so the insulated board is not to be omitted.
 
 
 Stainless steel wall ties fixed to the studs at 450mm vertical centres and at every stud horizontally. Cavity barriers to be provided in accordance with Approved Document B. All timber to be treated and isolated from masonry by a damp proof course.
@@ -4269,4 +4271,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T04:17:21+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T15:33:03+00:00*

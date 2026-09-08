@@ -233,6 +233,10 @@ Two things this repo has been caught out by before, both now covered by tests:
   floor (0.16 → 0.17); and the flats' concrete-deck warm roof, where 200mm TR26 is 0.11 on a
   concrete deck, not 0.10 — now 220mm in two layers of 110mm at 0.10. The two basement clauses
   reproduce only with the lining and the block leaf they describe counted (`wallExtra`).
+  On 9 September 2026 the extension's timber frame wall gained the 37.5mm K118 lining the
+  other framed walls already carry (0.18 with no margin → 0.15): with 12.5mm plasterboard alone
+  no other manufacturer's 0.022 board could reach 0.18 at 140mm, and the clause now says the
+  board is not to be omitted.
 
 ## Insulation manufacturers — `src/mfr.js`
 

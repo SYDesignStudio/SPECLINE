@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-08T04:17:21+00:00",
+ "generated": "2026-09-08T15:33:03+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [
@@ -321,9 +321,9 @@
      "group_name": "External walls",
      "category": "External Walls",
      "title": "Timber Frame External Wall",
-     "u_achieved": "0.18",
+     "u_achieved": "0.15",
      "u_target": "0.18",
-     "standard": "0.18 W/m²K",
+     "standard": "0.15 W/m²K",
      "layers": [
       {
        "t": 103,
@@ -350,22 +350,24 @@
        "read_from": "140mm Kingspan Kooltherm K112 Framing Board "
       },
       {
-       "t": 12.5,
-       "material": "plasterboard internal finish",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard internal finish"
+       "t": 37.5,
+       "material": "Kingspan Kooltherm K118 insulated plasterboard",
+       "hatch": "ins",
+       "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped as the"
       }
      ],
      "edge": [],
-     "total_mm": 314.5,
+     "total_mm": 339.5,
      "extraction_notes": [
       "not treated as a layer: 'centres to the frame designer's specification'",
+      "not a layer - 600mm is in a sentence about what a construction complies with, not about this one: 'centres and an air-gap correction of 0'",
+      "not a layer - 12.5mm is in a sentence about what a construction complies with, not about this one: 'plasterboard alone in place of the insulated'",
       "not a layer — 450mm reads as a spacing, a level, working or an alternative construction: 'vertical centres and at every stud horizontally'"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Timber frame external wall to comprise 103mm suitable facing brick or proprietary render system outer leaf, minimum 50mm clear ventilated and drained cavity, breather membrane, 9mm OSB3 racking board, 140mm x 38mm C16 studs at 600mm centres to the frame designer's specification with the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer on the warm side, and 12.5mm plasterboard internal finish.",
+      "Timber frame external wall to comprise 103mm suitable facing brick or proprietary render system outer leaf, minimum 50mm clear ventilated and drained cavity, breather membrane, 9mm OSB3 racking board, 140mm x 38mm C16 studs at 600mm centres to the frame designer's specification with the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer on the warm side, and 37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped as the internal finish. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 by the combined method, allowing for the studs bridging the insulation at 6.3% of the area at 600mm centres and an air-gap correction of 0.01; with 12.5mm plasterboard alone in place of the insulated board it calculates at 0.18 and meets the standard with no margin, so the insulated board is not to be omitted.",
       "Stainless steel wall ties fixed to the studs at 450mm vertical centres and at every stud horizontally. Cavity barriers to be provided in accordance with Approved Document B. All timber to be treated and isolated from masonry by a damp proof course."
      ]
     },
