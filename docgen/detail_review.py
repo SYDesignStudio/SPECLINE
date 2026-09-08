@@ -42,6 +42,15 @@ FINISH_LAST = {"EW", "SW", "BW"}
 # decimals exactly - a conductivity of 0.019 and a perimeter ratio of 0.7 are not U-values.
 CALCULATES = re.compile(r"\bat (\d\.\d{2})\b")
 
+# A clause that names structure, a layer that accounts for it, and the wording that says the
+# members are inside a band rather than beside it.
+NAMES_MEMBER    = re.compile(r"\b(joists?|rafters?|beams?|trusses|trussed)\b", re.I)
+MEMBER_HELD     = re.compile(r"between\s+\d+(?:\.\d+)?\s*x\s*\d+(?:\.\d+)?\s*mm|"
+                             r"\b(?:joists?|rafters?|beams?|ceiling ties)\b", re.I)
+BETWEEN_MEMBERS = re.compile(r"between (?:and under )?(?:the )?(?:\w+\s+)?"
+                             r"(?:joists|rafters|studs|ties)", re.I)
+STRUCTURAL      = ("timber", "conc", "dense", "block", "brick", "metal")
+
 
 def stated_u_values(clause):
     out = []
@@ -117,6 +126,22 @@ def review(doc, only=None):
                 add("FAIL", tk, b, "drawn %gmm thick: a floor between two storeys has lost its "
                                    "structure — the clause states no joist or slab depth"
                     % sum(float(L["t"]) for L in ls))
+
+            # 5c. a clause that names structure and a drawing with none in it
+            #
+            # The block and beam floor drew its ventilated void and nothing else — no beams, no
+            # blocks, no insulation, no screed — and the dormer flat roof drew a deck and a board
+            # with no joists under either. Both passed every other check: what they drew was
+            # right, there was just almost none of it. A clause that names joists, rafters or
+            # beams has to put one of them in the section, unless the insulation is laid BETWEEN
+            # them, in which case the members are inside a band that is drawn.
+            if g in ("IF", "SF", "BF", "GF", "RF") and NAMES_MEMBER.search(clause):
+                held = any(MEMBER_HELD.search((L.get("material") or "") + " "
+                                              + (L.get("read_from") or "")) for L in ls)
+                thick = any(L.get("hatch") in STRUCTURAL and float(L["t"]) >= 89 for L in ls)
+                if not (held or thick or BETWEEN_MEMBERS.search(clause)):
+                    add("FAIL", tk, b, "the clause names joists, rafters or beams and the section "
+                                       "draws none of them")
 
             # 6. does it finish anywhere sensible
             if g in INSIDE and not any(L.get("hatch") in INSIDE[g] for L in ls):

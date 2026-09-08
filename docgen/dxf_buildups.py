@@ -125,6 +125,9 @@ def setup(doc):
 # and not a solid band of quilt where the structure is. Only floors and roofs: a wall is cut
 # through its thickness and its studs run out of the page, so a vertical section cannot show them.
 MEMBER_ZONE = re.compile(r"between\s+(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)\s*mm\s+(.{0,24})", re.I)
+BARE_MEMBER = re.compile(r"^\s*(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)\s*mm\s+(.{0,30})", re.I)
+NOT_REPEATING = re.compile(r"wall plate|sole plate|head plate|ridge board|purlin", re.I)
+MEMBER_IN = re.compile(r"studs?|joists?|rafters?", re.I)
 AT_CENTRES  = re.compile(r"\bat\s+(\d{3,4})\s*mm\s+(?:or\s+\d{3,4}\s*mm\s+)?"
                          r"(?:rafter\s+|joist\s+|stud\s+)?centres", re.I)
 
@@ -149,15 +152,22 @@ def zone_bands(layer, inner_first):
 
 def member_run(layer, clause):
     mat = layer.get("material") or ""
+    bare = False
     m = MEMBER_ZONE.search(mat)
     if not m:
-        return None
+        # The members themselves, with nothing between them - the joists of a warm deck, where
+        # all the insulation is above the deck. Only where the member repeats at centres: a wall
+        # plate or a ridge board appears once and is not drawn every 400mm along the roof.
+        m = BARE_MEMBER.match(mat)
+        if not m or NOT_REPEATING.search(mat) or not MEMBER_IN.search(mat):
+            return None
+        bare = True
     c = AT_CENTRES.search(mat) or next((x for p in clause for x in [AT_CENTRES.search(p)] if x), None)
     if not c:
         return None
     metal = bool(re.match(r"\s*(?:metal|steel|galvanised|light gauge)", m.group(3), re.I))
     return {"breadth": float(m.group(1)), "centres": float(c.group(1)),
-            "hatch": "metal" if metal else "timber"}
+            "hatch": "metal" if metal else "timber", "bare": bare}
 
 
 def members(msp, run, y0, y1, breadth, centres, hatch):
@@ -276,9 +286,10 @@ def draw(doc, rec, type_name):
                 band(msp, pos + off, 0, pos + off + wd, SECTION, hm)
         else:
             # a floor or roof reads bottom to top, and the bottom is the ceiling
-            for off, ht, hm in zone_bands(l, True):
-                band(msp, 0, pos + off, SECTION, pos + off + ht, hm)
             run = member_run(l, rec["clause"])
+            for off, ht, hm in zone_bands(l, True):
+                band(msp, 0, pos + off, SECTION, pos + off + ht,
+                     "void" if (run and run["bare"]) else hm)
             if run:
                 members(msp, SECTION, pos, pos + t, run["breadth"], run["centres"], run["hatch"])
         pos += t

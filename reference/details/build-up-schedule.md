@@ -405,26 +405,28 @@ Provide proprietary fixing plates or timber pattresses at all fixings for sanita
 *Ground floors · Ground Floors*
 
 
-**Target** 0.18 W/m²K · **Achieved** 0.18 W/m²K
+**Target** 0.18 W/m²K · **Achieved** 0.17 W/m²K
 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | clear ventilated void beneath the beams | **150** | `void` |
-| | **Extracted total** | **150** | |
-
-- ⚠ not a layer — 65mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'minimum sand/cement screed or a floating floor d'
+| 1 | clear ventilated void | **150** | `void` |
+| 2 | infill blocks laid between | **100** | `dense` |
+| 3 | Kingspan Kooltherm K103 Floorboard | **90** | `ins` |
+| 4 | perimeter upstand | **25** | `ins` |
+| 5 | minimum sand/cement screed | **65** | `screed` |
+| | **Extracted total** | **430** | |
 
 <details><summary>Clause</summary>
 
 
-Precast prestressed concrete beams to the manufacturer's design, spanning to loadbearing walls, with infill blocks laid between and the joints grouted or a dry sand and cement mix brushed in and wetted.
+Precast prestressed concrete beams to the manufacturer's design, spanning to loadbearing walls over a minimum 150mm clear ventilated void, with 100mm infill blocks laid between and the joints grouted or a dry sand and cement mix brushed in and wetted.
 
 
-Provide a minimum 150mm clear ventilated void beneath the beams, with through ventilation to opposing external walls by proprietary air bricks and telescopic ducts carried through the cavity. Oversite to be treated to prevent plant growth.
+Ventilate the void through to opposing external walls by proprietary air bricks and telescopic ducts carried through the cavity. Oversite to be treated to prevent plant growth.
 
 
-Lay a damp proof membrane over the beam and block deck, followed by rigid insulation to achieve the target U-value, a vapour control layer where required by the insulation manufacturer, and a 65mm minimum sand/cement screed or a floating floor deck.
+Lay a polyethylene damp proof membrane of not less than 1200 gauge over the beam and block deck, lapped and taped and linked to the damp proof course, then 90mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) with a 25mm perimeter upstand, a vapour control layer where required by the insulation manufacturer, and a 65mm minimum sand/cement screed or a floating floor deck. This build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a perimeter/area ratio of 0.7 on clay.
 
 
 Beam layout, bearing and any trimming to openings to the manufacturer's design, coordinated with the structural engineer.
@@ -443,13 +445,14 @@ Beam layout, bearing and any trimming to openings to the manufacturer's design, 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | clear ventilated void beneath | **150** | `void` |
-| | **Extracted total** | **150** | |
+| 1 | clear ventilated void | **150** | `void` |
+| 2 | slab | **150** | `conc` |
+| | **Extracted total** | **300** | |
 
 <details><summary>Clause</summary>
 
 
-Reinforced in-situ concrete slab to the structural engineer's design, spanning to loadbearing walls or beams over a ventilated void, with reinforcement, cover and concrete grade as the engineer's specification.
+Reinforced in-situ concrete slab to the structural engineer's design, spanning to loadbearing walls or beams over a minimum 150mm clear ventilated void, with reinforcement, cover and concrete grade as the engineer's specification. The detail is drawn on a 150mm slab; the engineer's design governs the thickness actually built.
 
 
 Provide a minimum 150mm clear ventilated void beneath with through ventilation to opposing external walls. Damp proof membrane, rigid insulation to achieve the target U-value and finish as the section drawing.
@@ -721,10 +724,12 @@ Provide a continuous vapour control layer on the warm side of the insulation, wi
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | external quality plywood decking | **18** | `timber` |
-| 2 | Kingspan Thermaroof TR27 insulation | **150** | `ins` |
-| | **Extracted total** | **168** | |
+| 1 | 47 x 200mm C24 joists at 400mm centres | **200** | `timber` |
+| 2 | external quality plywood decking | **18** | `timber` |
+| 3 | Kingspan Thermaroof TR27 insulation | **150** | `ins` |
+| | **Extracted total** | **368** | |
 
+- ⚠ not treated as a layer: 'centres'
 - ⚠ not a layer — 120mm reads as a spacing, a level, working or an alternative construction: 'and over'
 - ⚠ not a layer — 160mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'is to be used instead'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'at all abutments'
@@ -732,7 +737,7 @@ Provide a continuous vapour control layer on the warm side of the insulation, wi
 <details><summary>Clause</summary>
 
 
-Warm deck flat roof to comprise timber joists to the structural engineer's design, 18mm external quality plywood decking or OSB3 laid to falls, vapour control layer fully bonded to the deck with all laps sealed, 150mm Kingspan Thermaroof TR27 insulation (thermal conductivity 0.024 W/mK at 120mm and over) laid break-bonded in two layers and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where the insulation is mechanically fixed the fastener correction takes it to 0.16 and 160mm is to be used instead.
+Warm deck flat roof to comprise timber joists to the structural engineer's design, drawn here as 47mm x 200mm C24 joists at 400mm centres, 18mm external quality plywood decking or OSB3 laid to falls, vapour control layer fully bonded to the deck with all laps sealed, 150mm Kingspan Thermaroof TR27 insulation (thermal conductivity 0.024 W/mK at 120mm and over) laid break-bonded in two layers and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where the insulation is mechanically fixed the fastener correction takes it to 0.16 and 160mm is to be used instead.
 
 
 Falls to be a minimum finished 1:40, achieved by a design fall of 1:80 or firrings as detailed, to allow for construction tolerance and deflection. Cold deck flat roof construction is not to be used.
@@ -1125,10 +1130,12 @@ All perimeters and service penetrations to be sealed. Where the existing ceiling
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | external quality plywood | **18** | `timber` |
-| 2 | Kingspan Thermaroof TR27 insulation | **150** | `ins` |
-| | **Extracted total** | **168** | |
+| 1 | 47 x 200mm C24 joists at 400mm centres | **200** | `timber` |
+| 2 | external quality plywood | **18** | `timber` |
+| 3 | Kingspan Thermaroof TR27 insulation | **150** | `ins` |
+| | **Extracted total** | **368** | |
 
+- ⚠ not treated as a layer: 'centres'
 - ⚠ not a layer — 120mm reads as a spacing, a level, working or an alternative construction: 'and over'
 - ⚠ not a layer — 160mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'is to be used instead'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'at all abutments'
@@ -1136,7 +1143,7 @@ All perimeters and service penetrations to be sealed. Where the existing ceiling
 <details><summary>Clause</summary>
 
 
-Dormer roof to comprise timber joists to the structural engineer's design, 18mm external quality plywood or OSB3 decking laid to falls, vapour control layer fully bonded to the deck with all laps sealed, 150mm Kingspan Thermaroof TR27 insulation (thermal conductivity 0.024 W/mK at 120mm and over) laid break-bonded in two layers and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where the insulation is mechanically fixed the fastener correction takes it to 0.16 and 160mm is to be used instead.
+Dormer roof to comprise timber joists to the structural engineer's design, drawn here as 47mm x 200mm C24 joists at 400mm centres, 18mm external quality plywood or OSB3 decking laid to falls, vapour control layer fully bonded to the deck with all laps sealed, 150mm Kingspan Thermaroof TR27 insulation (thermal conductivity 0.024 W/mK at 120mm and over) laid break-bonded in two layers and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where the insulation is mechanically fixed the fastener correction takes it to 0.16 and 160mm is to be used instead.
 
 
 Falls to be a minimum finished 1:40. Cold deck construction is not to be used. Provide proprietary edge trims and upstands of not less than 150mm at all abutments, with cavity trays and stepped flashings where the dormer abuts masonry.
@@ -1575,17 +1582,18 @@ NOTE — Renovating more than 50 per cent of the floor's surface, or more than 2
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K103 Floorboard | **150** | `ins` |
+| 1 | Kingspan Kooltherm K103 Floorboard between 47 x 150mm joists at 400mm centres and to be co | **150** | `ins` |
 | 2 | P5 chipboard deck | **22** | `timber` |
 | | **Extracted total** | **172** | |
 
+- ⚠ not treated as a layer: 'centres and to be confirmed on site'
 - ⚠ not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'joist centres'
 - ⚠ not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
 
 <details><summary>Clause</summary>
 
 
-Where the ground floor flat has a suspended timber floor, lift the boards, inspect the joists, wall plates and sleeper walls for rot and beetle and treat or replace as the engineer directs, and clear the oversite of debris. Fit 150mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) tightly between the joists on treated battens or breathable netting stapled to the joist sides so the board is flush with the top of the joists, seal the joints with foil tape, lay a breathable membrane or vapour control layer over the joists lapped up the walls behind the skirting, and relay the boards or a new 22mm P5 chipboard deck.
+Where the ground floor flat has a suspended timber floor, lift the boards, inspect the joists, wall plates and sleeper walls for rot and beetle and treat or replace as the engineer directs, and clear the oversite of debris. Fit 150mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) tightly between the joists, drawn here as 47mm x 150mm joists at 400mm centres and to be confirmed on site, on treated battens or breathable netting stapled to the joist sides so the board is flush with the top of the joists, seal the joints with foil tape, lay a breathable membrane or vapour control layer over the joists lapped up the walls behind the skirting, and relay the boards or a new 22mm P5 chipboard deck.
 
 
 The void beneath is to remain ventilated by air bricks on opposite walls giving not less than 1500mm² per metre run, cleared and added to where blocked, and the insulation is not to be pushed down to obstruct the air path. This build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a perimeter/area ratio of 0.6 on clay at 400mm joist centres, allowing for the joists and the ventilated void; 100mm calculates at 0.23 and also meets the renovated-floor standard.
@@ -1605,9 +1613,11 @@ The void beneath is to remain ventilated by air bricks on opposite walls giving 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | exterior grade plywood | **18** | `timber` |
-| 2 | Kingspan Thermaroof TR26 LPC/FM | **130** | `ins` |
-| | **Extracted total** | **148** | |
+| 2 | 47 x 200mm joists at 400mm centres and to be confirmed on site | **200** | `timber` |
+| 3 | Kingspan Thermaroof TR26 LPC/FM | **130** | `ins` |
+| | **Extracted total** | **348** | |
 
+- ⚠ not treated as a layer: 'centres and to be confirmed on site'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands and new edge trims and outlets'
 - ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'joists'
 - ⚠ not a layer — 120mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
@@ -1615,7 +1625,7 @@ The void beneath is to remain ventilated by air bricks on opposite walls giving 
 <details><summary>Clause</summary>
 
 
-Where an existing flat roof over a flat is re-covered, strip the existing covering, replace any soft or delaminated decking with 18mm exterior grade plywood or OSB3 laid to falls, lay a vapour control layer fully bonded to the deck with laps sealed, 130mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands and new edge trims and outlets. Existing soffit vents to the joist void are to be sealed once the warm deck is complete.
+Where an existing flat roof over a flat is re-covered, strip the existing covering, replace any soft or delaminated decking with 18mm exterior grade plywood or OSB3 laid to falls over the existing joists, drawn here as 47mm x 200mm joists at 400mm centres and to be confirmed on site, lay a vapour control layer fully bonded to the deck with laps sealed, 130mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands and new edge trims and outlets. Existing soffit vents to the joist void are to be sealed once the warm deck is complete.
 
 
 This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered on 150mm joists; 120mm calculates at 0.17 and does not meet the 0.16 renovation standard. Where the roof is a separating element between a top-floor flat and the open air only, no sound requirement applies, but where a roof terrace is formed over another flat the floor beneath the terrace is a separating floor and is to be treated as one.
@@ -2285,9 +2295,11 @@ NOTE — Building control will normally accept a cold roof only where the coveri
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | exterior grade plywood | **18** | `timber` |
-| 2 | Kingspan Thermaroof TR26 LPC/FM | **130** | `ins` |
-| | **Extracted total** | **148** | |
+| 2 | 47 x 200mm joists at 400mm centres and to be confirmed on site | **200** | `timber` |
+| 3 | Kingspan Thermaroof TR26 LPC/FM | **130** | `ins` |
+| | **Extracted total** | **348** | |
 
+- ⚠ not treated as a layer: 'centres and to be confirmed on site'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'at all abutments and new edge trims'
 - ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'joists'
 - ⚠ not a layer — 120mm reads as a spacing, a level, working or an alternative construction: 'calculates at 0'
@@ -2296,7 +2308,7 @@ NOTE — Building control will normally accept a cold roof only where the coveri
 <details><summary>Clause</summary>
 
 
-Strip the existing felt or replace the decking where it is soft, delaminated or sagging; existing chipboard decks are to be replaced with 18mm exterior grade plywood or OSB3 laid to falls. Lay a vapour control layer fully bonded to the deck with all laps sealed, 130mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate, with upstands of not less than 150mm at all abutments and new edge trims.
+Strip the existing felt or replace the decking where it is soft, delaminated or sagging; existing chipboard decks are to be replaced with 18mm exterior grade plywood or OSB3 laid to falls over the existing joists, drawn here as 47mm x 200mm joists at 400mm centres and to be confirmed on site. Lay a vapour control layer fully bonded to the deck with all laps sealed, 130mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate, with upstands of not less than 150mm at all abutments and new edge trims.
 
 
 Where the roof joists are undersized for the new loads or the room below, they are to be strengthened to the structural engineer's design. Existing cross ventilation to the joist void is to be sealed once the warm deck is complete so the void is enclosed on the warm side of the insulation.
@@ -2698,25 +2710,24 @@ Where a partition carries a floor or roof load it is to be to the structural eng
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
-| 2 | perimeter upstand insulation | **25** | `ins` |
-| 3 | sand | **75** | `screed` |
-| 4 | clear ventilated void beneath the beams | **150** | `void` |
-| 5 | concrete | **100** | `conc` |
-| 6 | of concrete | **50** | `conc` |
-| | **Extracted total** | **530** | |
+| 1 | clear ventilated void | **150** | `void` |
+| 2 | infill blocks to the manufacturer's design | **100** | `dense` |
+| 3 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
+| 4 | perimeter upstand insulation | **25** | `ins` |
+| 5 | sand | **75** | `screed` |
+| | **Extracted total** | **480** | |
 
-- ⚠ not treated as a layer: 'infill blocks to the manufacturer's design'
-- ⚠ not a layer — 50mm is the alternative to the figure before it: 'concrete on a damp proof membrane'
+- ⚠ not a layer - 100mm is in a sentence offering another way to build it: 'concrete on hardcore may be used to cover it'
+- ⚠ not a layer - 50mm is in a sentence offering another way to build it: 'concrete on a damp proof membrane where grou'
 - ⚠ not a layer — 130mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'and at 0'
 
 <details><summary>Clause</summary>
 
 
-Precast prestressed concrete beams and 100mm infill blocks to the manufacturer's design, grouted and brushed with a sand and cement slurry, a polyethylene damp proof membrane of not less than 1200 gauge lapped and taped and linked to the damp proof course, 130mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) with 25mm perimeter upstand insulation, a 500 gauge separating layer, and a 75mm sand and cement screed with underfloor heating pipes where specified.
+Over a minimum 150mm clear ventilated void, precast prestressed concrete beams and 100mm infill blocks to the manufacturer's design, grouted and brushed with a sand and cement slurry, a polyethylene damp proof membrane of not less than 1200 gauge lapped and taped and linked to the damp proof course, 130mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) with 25mm perimeter upstand insulation, a 500 gauge separating layer, and a 75mm sand and cement screed with underfloor heating pipes where specified.
 
 
-A minimum 150mm clear ventilated void beneath the beams, with telescopic ventilators through the external walls giving not less than 1500mm² per metre run of wall or 500mm² per square metre of floor, whichever is the greater, on at least two opposite sides and continuous around the building. The oversite is to be cleared of vegetable matter and covered with 100mm concrete on hardcore, or 50mm concrete on a damp proof membrane, and covered with 50mm of concrete on a damp proof membrane where ground gas is a risk.
+Ventilate the void beneath the beams with telescopic ventilators through the external walls giving not less than 1500mm² per metre run of wall or 500mm² per square metre of floor, whichever is the greater, on at least two opposite sides and continuous around the building. The oversite is to be cleared of vegetable matter; 100mm concrete on hardcore may be used to cover it, or 50mm concrete on a damp proof membrane where ground gas is a risk.
 
 
 This build-up calculates at 0.12 W/m²K to BS EN ISO 13370 for a floor with a perimeter/area ratio of 0.5 on clay, typical of a detached house of 8m x 8m; a semi-detached house with a ratio of 0.6 calculates at 0.13 with 130mm and at 0.11 with 150mm. The perimeter/area ratio for the actual footprint is to be entered in the calculation before the thickness is confirmed.
@@ -2936,9 +2947,10 @@ This build-up calculates at 0.11 W/m²K to BS EN ISO 6946 allowing for the joist
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | exterior grade plywood | **18** | `timber` |
-| 2 | Kingspan Thermaroof TR26 LPC/FM between 47 x 200mm C24 joists at 400mm centres to the engi | **200** | `ins` |
-| | **Extracted total** | **218** | |
+| 1 | 47 x 200mm C24 joists at 400mm centres to the engineer's design | **200** | `timber` |
+| 2 | exterior grade plywood | **18** | `timber` |
+| 3 | Kingspan Thermaroof TR26 LPC/FM | **200** | `ins` |
+| | **Extracted total** | **418** | |
 
 - ⚠ not treated as a layer: 'centres to the engineer's design'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands'
@@ -4088,8 +4100,9 @@ This build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a pe
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | mineral wool between ceiling joists between 47 x 100mm C16 rafters at 400mm centres for cl | **100** | `wool` |
-| | **Extracted total** | **100** | |
+| 1 | 50 x 100mm wall plate bedded and strapped at not more than 2m centres  | **100** | `timber` |
+| 2 | mineral wool between ceiling joists between 47 x 100mm C16 rafters at 400mm centres for cl | **100** | `wool` |
+| | **Extracted total** | **200** | |
 
 - ⚠ not treated as a layer: 'centres for clear spans up to 2'
 - ⚠ not treated as a layer: 'x 175mm'
@@ -4202,4 +4215,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T01:40:10+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T01:58:34+00:00*

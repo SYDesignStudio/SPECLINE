@@ -313,6 +313,13 @@ def zone_bands(layer, inner_first):
             else [(0.0, t - f, "void"), (t - f, f, mat)])
 
 
+# A layer that IS the members, with nothing filling the space between them: the joists of a warm
+# deck, where all the insulation sits above the deck. Drawn as a solid band it reads as 200mm of
+# timber, which is not what a warm deck roof is made of.
+BARE_MEMBER = re.compile(r"^\s*(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)\s*mm\s+(.{0,30})", re.I)
+NOT_REPEATING = re.compile(r"wall plate|sole plate|head plate|ridge board|purlin", re.I)
+
+
 def member_run(layer, clause):
     """The members inside a merged zone: breadth, centres and what to draw them with.
 
@@ -321,9 +328,16 @@ def member_run(layer, clause):
     is, which is not what anyone opening the drawing needs to see.
     """
     mat = layer.get("material") or ""
+    bare = False
     m = MEMBER_ZONE.search(mat)
     if not m:
-        return None
+        # A bare member layer: the joists themselves, with nothing between them. Only where the
+        # member repeats at centres — a wall plate or a ridge board appears once and is not drawn
+        # every 400mm along the roof.
+        m = BARE_MEMBER.match(mat)
+        if not m or NOT_REPEATING.search(mat) or not MEMBER_IN.search(mat):
+            return None
+        bare = True
     c = AT_CENTRES.search(mat) or next((x for p in clause for x in [AT_CENTRES.search(p)] if x), None)
     if not c:
         return None
@@ -331,7 +345,7 @@ def member_run(layer, clause):
     # metal alternative. What follows the size is the member actually specified.
     metal = bool(re.match(r"\s*(?:metal|steel|galvanised|light gauge)", m.group(3), re.I))
     return {"breadth": float(m.group(1)), "centres": float(c.group(1)),
-            "hatch": "metal" if metal else "timber"}
+            "hatch": "metal" if metal else "timber", "bare": bare}
 
 
 def members_across(run, y, depth, breadth, centres, hatch):
@@ -531,11 +545,13 @@ def floor_svg(rec, sents):
         y = total - pos - t
         mat = l["hatch"] or "void"
         # bottom of the drawing is the ceiling, so the band runs inner face first
+        run = member_run(l, rec["clause"])
         for off, ht, hm in zone_bands(l, True):
+            if run and run["bare"]:
+                hm = "void"      # nothing fills the space between the joists of a warm deck
             parts.append('<rect x="0" y="%.1f" width="%.1f" height="%.1f" fill="%s" '
                          'stroke="#1B1B1B" stroke-width="2.6"/>'
                          % (y + t - off - ht, W, ht, layer_fill(parts, i, hm, ht, True)))
-        run = member_run(l, rec["clause"])
         if run:
             parts += members_across(W, y, t, run["breadth"], run["centres"], run["hatch"])
         tops.append(y + t / 2)
@@ -685,14 +701,16 @@ def pitched_svg(rec, sents):
         t = float(l["t"])
         mat = l["hatch"] or "void"
         # y=0 is the outside face, so the band runs outer face first
+        run = member_run(l, rec["clause"])
         for off, ht, hm in zone_bands(l, False):
+            if run and run["bare"]:
+                hm = "void"
             g.append('<rect x="0" y="%.1f" width="%.1f" height="%.1f" fill="%s" stroke="#1B1B1B" '
                      'stroke-width="2.6"/>'
                      % (pos + off, RUN, ht, layer_fill(parts, i, hm, ht, True)))
         # A pitched roof is cut across its rafters exactly as a floor is cut across its joists.
         # Local x runs along the slope, so the members sit at their centres along it and the
         # whole group is rotated with everything else.
-        run = member_run(l, rec["clause"])
         if run:
             g += members_across(RUN, pos, t, run["breadth"], run["centres"], run["hatch"])
         mids.append(pos + t / 2)

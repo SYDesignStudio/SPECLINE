@@ -93,7 +93,7 @@ MEMBER = re.compile(r"^x\s*(\d+(?:\.\d+)?)\s*mm\s+(.+)$", re.I)
 # two are one band and not two: drawing both counted a single 150mm rafter zone as 300mm and a
 # 220mm joist zone as 420mm. A partial fill still leaves the zone at the member's depth.
 FILLS_THE_ZONE = re.compile(
-    r"between (?:and under )?(?:the )?(?:joists|rafters|studs)|fitted tightly between|"
+    r"between (?:and under )?(?:the )?(?:\w+\s+)?(?:joists|rafters|studs)|fitted tightly between|"
     r"fully filling|full (?:stud|rafter|joist) depth", re.I)
 
 # material phrase -> the hatch to draw it with. Names match the patterns in the detail sheets.
@@ -101,7 +101,10 @@ HATCH = [
     (r"facing brick|brick outer|brickwork outer|facing brickwork|brick-on-edge|engineering brick|"
      r"solid brick|brick wall|brickwork", "brick"),
     (r"aircrete|thermalite|celcon|blockwork inner|block inner|aerated block", "block"),
-    (r"dense concrete block|dense block|concrete block|block wall|blockwork|\bblock\b", "dense"),
+    # "100mm infill blocks laid between" — the plural was falling past every masonry rule and the
+    # beam and block deck was hatched as screed.
+    (r"dense concrete blocks?|dense blocks?|concrete blocks?|block wall|blockwork|"
+     r"infill blocks?|\bblocks?\b", "dense"),
     (r"mineral wool|rockwool|dritherm|knauf|glass wool|quilt|cavity barrier|acoustic (?:roll|quilt)", "wool"),
     (r"kooltherm|celotex|sopratherm|xtratherm|unilin|ecotherm|thermaroof|thermafloor|thermawall|"
      r"pir\b|phenolic|rigid (?:urethane )?insulation|insulation board|insulated plasterboard|"
@@ -794,7 +797,14 @@ def layers_from(text, state=None):
     # roof, not two, so a member is folded into the layer that fills it — by an equal thickness
     # where the fill is full depth, or by the clause saying so where it is not.
     for mb in members:
-        same = next((L for L in layers if abs(float(L["t"]) - mb["depth"]) < 0.51), None)
+        # Equal thickness is not on its own a reason to merge. A warm deck flat roof has 200mm of
+        # insulation ABOVE the deck and 47 x 200 joists below it, and folding them together drew
+        # that roof at 218mm against a real 418. The clause has to say the one fills the other.
+        same = next((L for L in layers
+                     if abs(float(L["t"]) - mb["depth"]) < 0.51
+                     and FILLS_THE_ZONE.search((L.get("_after", "") or "")
+                                               + " " + (L.get("_before", "") or "")
+                                               + " " + (L.get("read_from") or ""))), None)
         if same is None:
             # What fills the space between joists is insulation, never a deck. The candidate used
             # to be the first layer whose run-on mentioned the joists at all, and on the new build
