@@ -1,0 +1,885 @@
+<title>Loft Conversion Junction Details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#F4F3F0; --surface:#FBFAF8; --sunk:#EAE8E2;
+  --ink:#10191F; --ink2:#3C4A54; --ink3:#6B7A85;
+  --line:#DAD7D0; --line2:#BCB8AF;
+  --petrol:#0E6E85; --petrol-soft:#E0EEF2;
+  --fail:#B3352B; --fail-soft:#F8E8E6;
+  --sans:"IBM Plex Sans",-apple-system,"Segoe UI",Arial,sans-serif;
+  --cond:"IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  /* drawing inks — deliberately fixed, a drawing is a drawing in either theme */
+  --d-cut:#10191F; --d-thin:#5C6871; --d-hatch:#9AA4AC; --d-paper:#FFFFFF;
+  --d-dpc:#B3352B; --d-ins:#F2E4C4; --d-ins-line:#C9A94E; --d-key:#0E6E85;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#10191F; --surface:#17222A; --sunk:#0B1319;
+  --ink:#EDEAE4; --ink2:#A8B4BC; --ink3:#78868F;
+  --line:#263239; --line2:#38464E;
+  --petrol:#3FA6BE; --petrol-soft:#0F323C;
+  --fail:#E1766B; --fail-soft:#2E1815;
+}}
+:root[data-theme="dark"]{
+  --paper:#10191F; --surface:#17222A; --sunk:#0B1319;
+  --ink:#EDEAE4; --ink2:#A8B4BC; --ink3:#78868F;
+  --line:#263239; --line2:#38464E;
+  --petrol:#3FA6BE; --petrol-soft:#0F323C;
+  --fail:#E1766B; --fail-soft:#2E1815;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 80px}
+@media(max-width:700px){.wrap{padding:0 14px 48px}}
+
+.intro{padding:40px 0 26px;border-bottom:2px solid var(--ink)}
+.intro h1{margin:0 0 10px;font-size:27px;font-weight:600;letter-spacing:-.015em}
+.intro p{margin:0 0 10px;max-width:66ch;color:var(--ink2)}
+.eyebrow{font-family:var(--cond);font-weight:600;font-size:11px;letter-spacing:.10em;
+  text-transform:uppercase;color:var(--ink3)}
+
+/* ---- sheet ---- */
+.sheet{background:var(--surface);border:1px solid var(--line);margin-top:34px;
+  page-break-after:always;break-after:page}
+.sheet-head{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;
+  padding:16px 20px;border-bottom:2px solid var(--ink)}
+.sheet-ref{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--petrol)}
+.sheet-head h2{margin:0;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.sheet-head .sc{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--ink3)}
+@media(max-width:640px){.sheet-head .sc{margin-left:0;flex-basis:100%}}
+
+.sheet-body{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0}
+@media(max-width:860px){.sheet-body{grid-template-columns:1fr}}
+.dwg{padding:22px 18px;background:var(--d-paper);display:flex;align-items:flex-start;
+  justify-content:center;overflow-x:auto}
+.dwg svg{max-width:100%;height:auto}
+.side{padding:20px;border-left:1px solid var(--line)}
+@media(max-width:860px){.side{border-left:0;border-top:1px solid var(--line)}}
+.side h3{margin:0 0 8px;font-family:var(--cond);font-size:11px;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ink3)}
+.side p{margin:0 0 12px;font-size:13px;color:var(--ink2)}
+.side p:last-child{margin-bottom:0}
+
+.check{margin-top:16px;background:var(--fail-soft);border-left:3px solid var(--fail);
+  padding:12px 14px}
+.check h3{color:var(--fail);margin-bottom:6px}
+.check p{color:var(--ink2);font-size:12.5px;margin-bottom:8px}
+
+.tblock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  border-top:1px solid var(--line)}
+.tblock div{padding:9px 14px 11px;border-right:1px solid var(--line)}
+.tblock div:last-child{border-right:0}
+.tblock dt{font-family:var(--cond);font-size:9.5px;font-weight:600;letter-spacing:.10em;
+  text-transform:uppercase;color:var(--ink3);margin:0 0 3px}
+.tblock dd{margin:0;font-family:var(--mono);font-size:11.5px;color:var(--ink2)}
+@media(max-width:640px){.tblock{grid-template-columns:1fr 1fr}
+  .tblock div:nth-child(2){border-right:0}
+  .tblock div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+
+.key{display:flex;flex-wrap:wrap;gap:6px 18px;padding:12px 20px;border-top:1px solid var(--line);
+  font-size:11.5px;color:var(--ink3)}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.key i{width:15px;height:11px;border:1px solid var(--d-thin);display:inline-block}
+.key svg{width:19px;height:13px;border:1px solid var(--d-thin);display:inline-block;
+  vertical-align:middle;background:#fff}
+
+footer{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
+  font-family:var(--mono);font-size:11.5px;color:var(--ink3);
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+
+@media print{
+  body{background:#fff;color:#000}
+  .wrap{max-width:none;padding:0}
+  .intro,.tog,footer{display:none}
+  .sheet{border:0;margin:0;background:#fff}
+  .sheet-body{grid-template-columns:auto 72mm}
+  .dwg{padding:3mm 2mm;overflow:visible}
+  /* The scale on the title block has to be the scale on the paper. --pw is the viewBox
+     width at 1:10, so the drawing measures true and can be scaled off with a rule. */
+  .dwg svg{width:var(--pw);max-width:none;height:auto}
+  @page{size:A3 landscape;margin:10mm}
+}
+.tog{position:fixed;top:12px;right:12px;z-index:9;font-family:var(--cond);font-size:10.5px;
+  font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);
+  background:var(--surface);border:1px solid var(--line2);border-radius:100px;
+  padding:7px 13px;cursor:pointer}
+.tog:hover{color:var(--ink);border-color:var(--ink3)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<button class="tog" id="tog" type="button">Light / Dark</button>
+
+<!-- shared hatch definitions, in real-world millimetres -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <!-- ============================================================================
+       Materials as they appear CUT IN SECTION, not in elevation. Every pattern is in
+       real millimetres (1 user unit = 1mm), so the coursing is true: brick at 75mm
+       centres is 65mm of brick and a 10mm bed joint, blockwork at 225mm is 215 and 10.
+
+       The y offsets are deliberate. The damp proof course in D-201 sits at y=350, and
+       masonry is set out from the DPC on site, so the tiles are phased to put a bed
+       joint exactly there — brick 350 = 50 + 4x75, block 350 = 125 + 1x225. Without
+       that the courses land arbitrarily and the detail looks drawn rather than set out.
+       ============================================================================ -->
+
+  <!-- Facing brickwork, 102.5mm leaf. Bed joints only: the cut is through the wall, so
+       perpends are not seen. -->
+  <pattern id="brick" width="112.5" height="75" y="50" patternUnits="userSpaceOnUse">
+    <rect width="112.5" height="75" fill="#E7D8CB"/>
+    <rect width="112.5" height="10" fill="#D9D2C8"/>
+    <path d="M0 0h112.5M0 10h112.5" stroke="#A08D7D" stroke-width="1.3"/>
+  </pattern>
+
+  <!-- Aircrete blockwork inner leaf, 100mm. 215mm block, 10mm bed joint. -->
+  <pattern id="block" width="225" height="225" y="125" patternUnits="userSpaceOnUse">
+    <rect width="225" height="225" fill="#EFEFEC"/>
+    <rect width="225" height="10" fill="#DFDFD9"/>
+    <path d="M0 0h225M0 10h225" stroke="#9AA093" stroke-width="1.3"/>
+    <circle cx="46" cy="70" r="2.2" fill="#C4C9BE"/><circle cx="150" cy="52" r="1.9" fill="#C4C9BE"/>
+    <circle cx="92" cy="128" r="2.4" fill="#C4C9BE"/><circle cx="186" cy="150" r="2" fill="#C4C9BE"/>
+    <circle cx="36" cy="186" r="2.1" fill="#C4C9BE"/><circle cx="130" cy="196" r="1.8" fill="#C4C9BE"/>
+  </pattern>
+
+  <!-- Dense concrete blockwork below the DPC. Same coursing, heavier and closed. -->
+  <pattern id="dense" width="225" height="225" y="125" patternUnits="userSpaceOnUse">
+    <rect width="225" height="225" fill="#DDDCD6"/>
+    <rect width="225" height="10" fill="#CBCAC3"/>
+    <path d="M0 0h225M0 10h225" stroke="#8A8F86" stroke-width="1.3"/>
+    <path d="M0 60 L225 60" stroke="#CFCEC7" stroke-width="1"/>
+    <circle cx="60" cy="96" r="3" fill="#C0BFB7"/><circle cx="160" cy="80" r="2.4" fill="#C0BFB7"/>
+    <circle cx="110" cy="150" r="3.2" fill="#C0BFB7"/><circle cx="196" cy="176" r="2.6" fill="#C0BFB7"/>
+    <circle cx="40" cy="190" r="2.6" fill="#C0BFB7"/>
+  </pattern>
+
+  <!-- Rigid insulation board (PIR). Cross-hatched, so it reads as board and never as quilt. -->
+  <pattern id="ins" width="30" height="30" patternUnits="userSpaceOnUse">
+    <rect width="30" height="30" fill="#FAF0D8"/>
+    <path d="M0 30 L30 0 M-6 6 L6 -6 M24 36 L36 24 M0 0 L30 30 M-6 24 L6 36 M24 -6 L36 6"
+          stroke="#D5B45B" stroke-width="1.15"/>
+  </pattern>
+
+  <!-- Mineral wool: looped fibre, deliberately unlike the board above. Cavity barriers,
+       cavity closers and any quilt. -->
+  <pattern id="wool" width="64" height="26" patternUnits="userSpaceOnUse">
+    <rect width="64" height="26" fill="#F4EAE8"/>
+    <path d="M0 18 q8 -16 16 0 t16 0 t16 0 t16 0" fill="none" stroke="#B58E86" stroke-width="1.4"/>
+    <path d="M0 8 q8 -16 16 0 t16 0 t16 0 t16 0" fill="none" stroke="#CDAAA3" stroke-width="1.1"/>
+  </pattern>
+
+  <!-- Sawn softwood cut across the grain: wall plates, joists, firrings, fascia. -->
+  <pattern id="timber" width="90" height="90" patternUnits="userSpaceOnUse">
+    <rect width="90" height="90" fill="#EFE1C8"/>
+    <path d="M-10 78 q45 -30 100 0 M-10 58 q45 -30 100 0 M-10 38 q45 -30 100 0 M-10 18 q45 -30 100 0"
+          fill="none" stroke="#C8A874" stroke-width="1.2"/>
+  </pattern>
+
+  <!-- In-situ concrete: aggregate and fines. -->
+  <pattern id="conc" width="44" height="44" patternUnits="userSpaceOnUse">
+    <rect width="44" height="44" fill="#E9E8E4"/>
+    <path d="M20 14 l7 9 -14 0 z M33 30 l6 7 -11 1 z" fill="#B9BDBF"/>
+    <circle cx="9" cy="12" r="2.4" fill="#B9BDBF"/><circle cx="30" cy="7" r="1.8" fill="#B9BDBF"/>
+    <circle cx="7" cy="33" r="2" fill="#B9BDBF"/><circle cx="40" cy="18" r="1.6" fill="#B9BDBF"/>
+    <circle cx="21" cy="38" r="1.7" fill="#B9BDBF"/>
+  </pattern>
+
+  <!-- Lean mix cavity fill: coarser and looser than structural concrete. -->
+  <pattern id="lean" width="38" height="38" patternUnits="userSpaceOnUse">
+    <rect width="38" height="38" fill="#E2E0DA"/>
+    <circle cx="10" cy="10" r="3" fill="#B4B7B2"/><circle cx="27" cy="21" r="2.5" fill="#B4B7B2"/>
+    <circle cx="17" cy="31" r="2.2" fill="#B4B7B2"/><circle cx="33" cy="6" r="1.9" fill="#B4B7B2"/>
+  </pattern>
+
+  <!-- Sand and cement screed: fine, even. -->
+  <pattern id="screed" width="20" height="20" patternUnits="userSpaceOnUse">
+    <rect width="20" height="20" fill="#F2F1EE"/>
+    <circle cx="4" cy="5" r="1" fill="#AFB3B5"/><circle cx="14" cy="12" r="1" fill="#AFB3B5"/>
+    <circle cx="9" cy="17" r=".9" fill="#AFB3B5"/><circle cx="17" cy="3" r=".8" fill="#AFB3B5"/>
+  </pattern>
+
+  <!-- Compacted hardcore: angular broken stone. -->
+  <pattern id="hard" width="60" height="60" patternUnits="userSpaceOnUse">
+    <rect width="60" height="60" fill="#E6E4DE"/>
+    <path d="M5 16 l11 -8 8 10 -10 8 z M31 5 l13 4 -4 11 -11 -5 z M14 40 l11 -5 7 10 -11 6 z
+             M40 34 l11 6 -6 11 -10 -8 z M50 12 l8 6 -5 7 -6 -6 z"
+          fill="#D4D1C9" stroke="#A9A79F" stroke-width="1.2"/>
+  </pattern>
+
+  <!-- Undisturbed subsoil. -->
+  <pattern id="earth" width="30" height="30" patternUnits="userSpaceOnUse">
+    <rect width="30" height="30" fill="#EFEDE7"/>
+    <path d="M0 30 L30 0 M-8 8 L8 -8 M22 38 L38 22" stroke="#BFC4C6" stroke-width="1.3"/>
+  </pattern>
+
+  <!-- Plasterboard and skim. -->
+  <pattern id="pboard" width="30" height="30" patternUnits="userSpaceOnUse">
+    <rect width="30" height="30" fill="#F7F6F3"/>
+    <circle cx="8" cy="9" r=".9" fill="#C9CBC8"/><circle cx="22" cy="20" r=".9" fill="#C9CBC8"/>
+  </pattern>
+
+  <marker id="tick" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+    <path d="M2 10 L10 2" stroke="#5C6871" stroke-width="1.6"/>
+  </marker>
+  <marker id="dot" markerWidth="8" markerHeight="8" refX="4" refY="4">
+    <circle cx="4" cy="4" r="2.6" fill="#10191F"/>
+  </marker>
+</defs></svg>
+
+<div class="wrap">
+
+<div class="intro">
+  <div class="eyebrow">Specline · detail library</div>
+  <h1>Loft conversion junction details</h1>
+  <p>Construction details for a loft conversion: the dormer cheek where it lands on the main roof,
+  the dormer flat roof at the cheek head, the eaves where the sloping ceiling meets the dwarf wall,
+  the new loft floor into the existing wall, and the existing gable where it becomes part of the
+  thermal envelope. Every dimension is taken from a clause already verified in the specification
+  library, so the drawings and the specification agree. Where a detail and a clause ever disagree,
+  the clause is right and the drawing is wrong.</p>
+  <p><strong>These are library details, not project details.</strong> Status is For Building Control
+  Approval. Foundations, beams and lintels are indicative and to the structural engineer's design.
+  Print to A3 landscape; each sheet is one page and measures true at 1:10.</p>
+</div>
+
+<!-- ============================================================ D-217 -->
+<section class="sheet">
+  <div class="sheet-head">
+    <span class="sheet-ref">D-217</span>
+    <h2>Dormer cheek to the main roof</h2>
+    <span class="sc">Vertical section square to the main roof slope &middot; 1:10 @ A3 landscape</span>
+  </div>
+  <div class="sheet-body">
+    <div class="dwg">
+      <svg viewBox="-700 -820 2100 1500" width="600" style="--pw:210mm" role="img"
+           aria-label="Section square to the main roof slope where a dormer cheek lands on it, showing the doubled trimmer, the insulation packed round it and the lead soakers">
+        <g stroke-linecap="square">
+          <!-- main roof: covering, then the rafter zone -->
+          <rect x="-560" y="-65" width="900" height="15" fill="#EDEBE6" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="-560" y="-50" width="900" height="25" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <rect x="-517" y="-25" width="47" height="25" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <rect x="-517" y="0" width="47" height="150" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="-117" y="-25" width="47" height="25" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <rect x="-117" y="0" width="47" height="150" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <path d="M-560 0 H340" fill="none" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="-560" y="0" width="43" height="125" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="-470" y="0" width="353" height="125" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="-70" y="0" width="410" height="125" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="-560" y="150" width="900" height="72.5" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <path d="M-560 150 H340" fill="none" stroke="#0E6E85" stroke-width="2.8"/>
+          <!-- trimmer under the cheek, doubled, and the cheek sole plate -->
+          <rect x="383" y="0" width="94" height="150" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="383" y="-50" width="140" height="50" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <!-- the piece that makes the cheek insulation meet the roof insulation -->
+          <rect x="340" y="-50" width="43" height="200" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <!-- EW1 dormer cheek, standing on the trimmer -->
+          <rect x="300" y="-700" width="40" height="630" fill="url(#timber)" stroke="#10191F" stroke-width="1.8"/>
+          <rect x="365" y="-700" width="18" height="650" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="383" y="-700" width="140" height="650" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="523" y="-700" width="37.5" height="700" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <path d="M383 -700 V-50" fill="none" stroke="#0E6E85" stroke-width="2.8"/>
+          <!-- cavity barrier at the foot of the cheek cavity -->
+          <rect x="340" y="-70" width="25" height="20" fill="url(#wool)" stroke="#B3352B" stroke-width="2.2"/>
+          <!-- Code 4 lead soaker, dressed up the cheek and over the covering -->
+          <path d="M300 -220 L300 -60 L180 -50" fill="none" stroke="#10191F" stroke-width="3.8"/>
+          <!-- tilting fillet at the foot -->
+          <path d="M300 -50 L240 -50 L300 -85 Z" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <path d="M-560 -700 V222.5" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <path d="M560.5 -700 V222.5" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <g stroke="#5C6871" stroke-width="1.3" fill="none" marker-start="url(#tick)" marker-end="url(#tick)">
+            <path d="M383 -760 h140"/><path d="M340 -730 h25"/><path d="M-610 0 v125"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="24" fill="#10191F">
+            <text x="453" y="-772" text-anchor="middle">140</text>
+            <text x="352" y="-742" text-anchor="middle">25 min</text>
+            <text x="-626" y="70" text-anchor="end">125</text>
+          </g>
+          <g stroke="#10191F" stroke-width="1.3" fill="none" marker-start="url(#dot)">
+            <path d="M450 -560 L640 -640 L700 -640"/>
+            <path d="M390 -380 L640 -420 L700 -420"/>
+            <path d="M300 -160 L640 -200 L700 -200"/>
+            <path d="M352 -60 L640 -20 L700 -20"/>
+            <path d="M361 80 L640 200 L700 200"/>
+            <path d="M-200 60 L640 420 L700 420"/>
+            <path d="M430 100 L640 600 L700 600"/>
+          </g>
+          <g font-family="IBM Plex Sans, sans-serif" font-size="24" fill="#10191F">
+            <text x="716" y="-676">EW1 dormer cheek — cladding on battens,</text>
+            <text x="716" y="-648">25 ventilated and drained cavity, 18 ply,</text>
+            <text x="716" y="-620">140 K112 between 140 x 38 studs at 400,</text>
+            <text x="716" y="-592">37.5 K118 to the room face</text>
+            <text x="716" y="-428">Continuous vapour control layer on the</text>
+            <text x="716" y="-400">warm side of the cheek insulation</text>
+            <text x="716" y="-208">Code 4 lead soakers to each course,</text>
+            <text x="716" y="-180">upstand not less than 150, on a tilting</text>
+            <text x="716" y="-152">fillet; patination oil on completion</text>
+            <text x="716" y="-28">Cavity barrier at the perimeter of the</text>
+            <text x="716" y="0">cheek and at the junction with the main</text>
+            <text x="716" y="28">roof — fire, not thermal</text>
+            <text x="716" y="192">Insulation packed round the sole plate</text>
+            <text x="716" y="220">and the trimmer, so the cheek insulation</text>
+            <text x="716" y="248">meets the roof insulation. This is the</text>
+            <text x="716" y="276">piece that gets left out</text>
+            <text x="716" y="412">RF1 — 125 K107 between rafters, 25</text>
+            <text x="716" y="440">residual gap under a breathable underlay,</text>
+            <text x="716" y="468">72.5 K118 beneath, vapour control over</text>
+            <text x="716" y="592">Trimmer doubled and the cheek sole plate</text>
+            <text x="716" y="620">over it, both to the engineer’s design</text>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="22" fill="#0E6E85" font-weight="600">
+            <text x="404" y="-330">EW1</text><text x="-300" y="90">RF1</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="side">
+      <h3>What this sheet is for</h3>
+      <p>Where the dormer cheek lands on the main roof, three things meet: the cheek insulation, the
+      roof insulation, and a doubled trimmer sitting between them. It is also the junction where the
+      weathering has to be soakers rather than a single flashing.</p>
+      <h3>Sequence</h3>
+      <p>Trimmer doubled to the engineer's design. Sole plate over it. Insulation packed round the
+      plate and the trimmer before the cheek is sheathed — it cannot be done afterwards. Cheek
+      framed and fully filled, vapour control layer, sheathing, breather membrane, 25 cavity,
+      cladding. Soakers built in course by course as the covering goes on.</p>
+      <div class="check">
+        <h3>Critical check</h3>
+        <p>The sole plate and the trimmer are 190mm of solid timber sitting exactly where the
+        cheek insulation and the roof insulation want to meet. Insulate round them and the line is
+        continuous; leave it and the cheek is bridged along its whole length.</p>
+        <p>Soakers, not a raking flashing. And the cavity barrier at the perimeter of the cheek is
+        Approved Document B, not a thermal component — draw it separately and label it separately.</p>
+      </div>
+    </div>
+  </div>
+  <div class="key">
+    <span><svg viewBox="0 20 130 89" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#brick)"/></svg> Facing brick</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#block)"/></svg> Aircrete block</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#dense)"/></svg> Dense block</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#ins)"/></svg> Rigid board</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#wool)"/></svg> Mineral wool</span>
+    <span><svg viewBox="0 0 100 68" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#timber)"/></svg> Sawn timber</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#conc)"/></svg> Concrete</span>
+    <span><svg viewBox="0 0 50 34" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#screed)"/></svg> Screed</span>
+    <span><svg viewBox="0 0 90 62" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#hard)"/></svg> Hardcore</span>
+    <span><svg viewBox="0 0 60 41" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#earth)"/></svg> Subsoil</span>
+    <span><i style="background:#B3352B;border-color:#B3352B"></i> DPC / DPM</span>
+    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control / air barrier</span>
+  </div>
+  <dl class="tblock">
+    <div><dt>Drawing no</dt><dd>[XX-XXX]-D-217</dd></div>
+    <div><dt>Scale</dt><dd>1:10 @ A4L</dd></div>
+    <div><dt>Status</dt><dd>For BC approval</dd></div>
+    <div><dt>Rev</dt><dd>P01</dd></div>
+  </dl>
+</section>
+<!-- ============================================================ D-222 -->
+<section class="sheet">
+  <div class="sheet-head">
+    <span class="sheet-ref">D-222</span>
+    <h2>Existing gable to the new roof</h2>
+    <span class="sc">Vertical section square to the roof slope &middot; 1:10 @ A3 landscape</span>
+  </div>
+  <div class="sheet-body">
+    <div class="dwg">
+      <svg viewBox="-160 -560 2060 1360" width="600" style="--pw:206mm" role="img"
+           aria-label="Section square to the roof slope where an internally insulated existing gable meets the new room-in-roof insulation, showing the lining carried up to meet it">
+        <g stroke-linecap="square">
+          <!-- main roof: covering, then the rafter zone -->
+          <rect x="215" y="-65" width="885" height="15" fill="#EDEBE6" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="215" y="-50" width="885" height="25" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <rect x="262" y="-25" width="47" height="25" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <rect x="262" y="0" width="47" height="150" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="662" y="-25" width="47" height="25" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <rect x="662" y="0" width="47" height="150" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <path d="M215 0 H1100" fill="none" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="309" y="0" width="353" height="125" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="709" y="0" width="391" height="125" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="215" y="150" width="885" height="72.5" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <path d="M215 150 H1100" fill="none" stroke="#0E6E85" stroke-width="2.8"/>
+          <!-- existing gable, 215 solid brick assumed and to be confirmed on site -->
+          <rect x="0" y="-300" width="215" height="1000" fill="url(#brick)" stroke="#10191F" stroke-width="2.4"/>
+          <!-- EW3 internal lining, carried up behind the roof lining to meet RF1 -->
+          <rect x="215" y="222.5" width="72.5" height="477.5" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="215" y="0" width="47" height="222.5" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <path d="M287.5 700 V222.5 H1100" fill="none" stroke="#0E6E85" stroke-width="2.8"/>
+          <path d="M0 -300 H215" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <path d="M0 700 H287.5" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <path d="M1100 -65 V222.5" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <g stroke="#5C6871" stroke-width="1.3" fill="none" marker-start="url(#tick)" marker-end="url(#tick)">
+            <path d="M0 620 h215"/><path d="M1160 0 v125"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="24" fill="#10191F">
+            <text x="107" y="596" text-anchor="middle">215</text>
+            <text x="1178" y="70">125</text>
+          </g>
+          <g stroke="#10191F" stroke-width="1.3" fill="none" marker-start="url(#dot)">
+            <path d="M600 -40 L900 -300 L960 -300"/>
+            <path d="M700 60 L900 -160 L960 -160"/>
+            <path d="M700 186 L900 -20 L960 -20"/>
+            <path d="M238 110 L500 -440 L960 -440"/>
+            <path d="M251 400 L600 400 L960 400"/>
+            <path d="M107 200 L500 560 L960 560"/>
+          </g>
+          <g font-family="IBM Plex Sans, sans-serif" font-size="24" fill="#10191F">
+            <text x="976" y="-308">Covering on battens seen along their</text>
+            <text x="976" y="-280">length; counter-battens and rafters cut</text>
+            <text x="976" y="-168">RF1 — 125 K107 between rafters, 25</text>
+            <text x="976" y="-140">residual gap, breathable underlay over</text>
+            <text x="976" y="-28">72.5 K118 beneath the rafters, vapour</text>
+            <text x="976" y="0">control layer on the warm side</text>
+            <text x="976" y="-448">Lining carried up between the gable and</text>
+            <text x="976" y="-420">the last rafter to meet the roof</text>
+            <text x="976" y="-392">insulation — without it the top of the</text>
+            <text x="976" y="-364">gable is a cold path the whole length</text>
+            <text x="976" y="392">EW3 — 72.5 K118 on dabs or battens,</text>
+            <text x="976" y="420">joints butted and taped. 0.26 W/m²K on</text>
+            <text x="976" y="448">215 solid brick: a renovated element to</text>
+            <text x="976" y="476">0.30, not a new element to 0.18</text>
+            <text x="976" y="552">Existing wall drawn as 215 solid brick —</text>
+            <text x="976" y="580">confirm on site. Inspect for damp,</text>
+            <text x="976" y="608">pointing and cracked render and make</text>
+            <text x="976" y="636">good before lining</text>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="22" fill="#0E6E85" font-weight="600">
+            <text x="310" y="330">EW3</text><text x="800" y="80">RF1</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="side">
+      <h3>What this sheet is for</h3>
+      <p>The gable becomes part of the thermal envelope when the loft is converted, and it meets a
+      roof built to a different standard: the gable is a renovated element at 0.30, the roof is a
+      new element at 0.15. The junction between two different standards is where the bridge sits.</p>
+      <h3>Sequence</h3>
+      <p>Existing wall inspected and made good. Lining set out so it runs up between the gable and
+      the last rafter, not stopped at the ceiling line. Roof insulation cut tight to it. Vapour
+      control layer continuous round the corner.</p>
+      <div class="check">
+        <h3>Critical check</h3>
+        <p>Stop the gable lining at the sloping ceiling and the top 222mm of the gable is
+        uninsulated for the full length of the room. Carry it up between the gable and the last
+        rafter until it meets the K107, and draw the two touching.</p>
+        <p>Internal insulation on existing masonry raises the risk of interstitial condensation.
+        Inspect the wall first; where 0.18 cannot reasonably be reached, Approved Document L allows
+        a lesser standard on feasibility grounds — state the achieved value and the reasoning
+        rather than leaving it unaddressed.</p>
+      </div>
+    </div>
+  </div>
+  <div class="key">
+    <span><svg viewBox="0 20 130 89" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#brick)"/></svg> Facing brick</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#block)"/></svg> Aircrete block</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#dense)"/></svg> Dense block</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#ins)"/></svg> Rigid board</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#wool)"/></svg> Mineral wool</span>
+    <span><svg viewBox="0 0 100 68" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#timber)"/></svg> Sawn timber</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#conc)"/></svg> Concrete</span>
+    <span><svg viewBox="0 0 50 34" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#screed)"/></svg> Screed</span>
+    <span><svg viewBox="0 0 90 62" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#hard)"/></svg> Hardcore</span>
+    <span><svg viewBox="0 0 60 41" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#earth)"/></svg> Subsoil</span>
+    <span><i style="background:#B3352B;border-color:#B3352B"></i> DPC / DPM</span>
+    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control / air barrier</span>
+  </div>
+  <dl class="tblock">
+    <div><dt>Drawing no</dt><dd>[XX-XXX]-D-222</dd></div>
+    <div><dt>Scale</dt><dd>1:10 @ A4L</dd></div>
+    <div><dt>Status</dt><dd>For BC approval</dd></div>
+    <div><dt>Rev</dt><dd>P01</dd></div>
+  </dl>
+</section>
+<!-- ============================================================ D-219 -->
+<section class="sheet">
+  <div class="sheet-head">
+    <span class="sheet-ref">D-219</span>
+    <h2>Dormer flat roof at the cheek head</h2>
+    <span class="sc">Vertical section between joists &middot; 1:10 @ A3 landscape</span>
+  </div>
+  <div class="sheet-body">
+    <div class="dwg">
+      <svg viewBox="240 -780 1880 1300" width="600" style="--pw:188mm" role="img"
+           aria-label="Vertical section at the head of a dormer cheek showing the warm deck roof, the vapour control layer under the deck and the insulation carried down past the head plate">
+        <g stroke-linecap="square">
+          <!-- RF2 warm deck: waterproofing, TR27 in two layers, VCL, deck -->
+          <path d="M1100 -418 L340 -418 L306 -400 L306 -300" fill="none" stroke="#10191F" stroke-width="3.8"/>
+          <rect x="340" y="-418" width="760" height="75" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="340" y="-343" width="760" height="75" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <path d="M680 -418 v75 M520 -343 v75 M880 -343 v75" fill="none" stroke="#C9A94E" stroke-width="1.6"/>
+          <path d="M340 -268 h760" fill="none" stroke="#0E6E85" stroke-width="3.2"/>
+          <rect x="340" y="-268" width="760" height="18" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <!-- joists beyond the cut, and the ceiling under them -->
+          <path d="M383 -250 h717 v200 h-717" fill="none" stroke="#5C6871" stroke-width="1.3" stroke-dasharray="22 12"/>
+          <rect x="383" y="-50" width="717" height="12.5" fill="url(#pboard)" stroke="#10191F" stroke-width="2"/>
+          <!-- head plate on the cheek, and the insulation that gets it round the plate -->
+          <rect x="383" y="-50" width="140" height="50" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="340" y="-268" width="43" height="268" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <!-- EW1 dormer cheek below -->
+          <rect x="300" y="-300" width="40" height="700" fill="url(#timber)" stroke="#10191F" stroke-width="1.8"/>
+          <rect x="365" y="0" width="18" height="400" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="383" y="0" width="140" height="400" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="523" y="0" width="37.5" height="400" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <path d="M383 0 V400" fill="none" stroke="#0E6E85" stroke-width="2.8"/>
+          <path d="M300 400 H560.5" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <path d="M1100 -418 V-37.5" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <path d="M600 -470 h300" fill="none" stroke="#0E6E85" stroke-width="2.2" marker-end="url(#tick)"/>
+          <text x="750" y="-486" font-family="IBM Plex Mono, monospace" font-size="23" fill="#0E6E85" text-anchor="middle">FALL 1:40 min</text>
+          <g stroke="#5C6871" stroke-width="1.3" fill="none" marker-start="url(#tick)" marker-end="url(#tick)">
+            <path d="M1160 -418 v150"/><path d="M1160 -250 v200"/><path d="M383 300 h140"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="24" fill="#10191F">
+            <text x="1178" y="-335">150</text><text x="1178" y="-142">200</text>
+            <text x="453" y="276" text-anchor="middle">140</text>
+          </g>
+          <g stroke="#10191F" stroke-width="1.3" fill="none" marker-start="url(#dot)">
+            <path d="M700 -380 L1240 -560 L1300 -560"/>
+            <path d="M700 -268 L1240 -260 L1300 -260"/>
+            <path d="M700 -150 L1240 -120 L1300 -120"/>
+            <path d="M320 -350 L1240 -680 L1300 -680"/>
+            <path d="M361 -120 L1240 60 L1300 60"/>
+            <path d="M450 200 L1240 240 L1300 240"/>
+          </g>
+          <g font-family="IBM Plex Sans, sans-serif" font-size="24" fill="#10191F">
+            <text x="1316" y="-688">Single ply or high performance built-up</text>
+            <text x="1316" y="-660">felt to the BBA certificate, dressed over</text>
+            <text x="1316" y="-632">an edge trim projecting not less than 25</text>
+            <text x="1316" y="-568">RF2 — 150 Thermaroof TR27 in two layers,</text>
+            <text x="1316" y="-540">break bonded and fully adhered. Mechanically</text>
+            <text x="1316" y="-512">fixed instead takes it to 0.16: use 160</text>
+            <text x="1316" y="-268">Vapour control layer fully bonded to the</text>
+            <text x="1316" y="-240">deck, all laps sealed. Warm deck only —</text>
+            <text x="1316" y="-212">cold deck is not to be used</text>
+            <text x="1316" y="-128">Joists to the engineer’s design, drawn</text>
+            <text x="1316" y="-100">47 x 200 C24 at 400 centres</text>
+            <text x="1316" y="52">Insulation carried down past the head</text>
+            <text x="1316" y="80">plate to meet the cheek insulation —</text>
+            <text x="1316" y="108">the plate is 50mm of solid timber sitting</text>
+            <text x="1316" y="136">exactly where the two lines want to meet</text>
+            <text x="1316" y="232">EW1 dormer cheek — 140 K112 between</text>
+            <text x="1316" y="260">140 x 38 studs, 37.5 K118, vapour control</text>
+            <text x="1316" y="288">layer on the warm side</text>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="22" fill="#0E6E85" font-weight="600">
+            <text x="800" y="-300">RF2</text><text x="404" y="180">EW1</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="side">
+      <h3>What this sheet is for</h3>
+      <p>The head of the dormer cheek, where the warm deck meets the cheek and the head plate sits
+      between them. The waterproofing is straightforward; the insulation line is not.</p>
+      <h3>Sequence</h3>
+      <p>Head plate fixed, joists hung or bearing, deck laid to a finished fall not flatter than
+      1:40. Vapour control layer fully bonded to the deck. Insulation carried out over the plate and
+      turned down its face to meet the cheek before the two layers are laid break bonded and fully
+      adhered. Edge trim, then the waterproofing dressed over it.</p>
+      <div class="check">
+        <h3>Critical check</h3>
+        <p>Cold deck construction is not to be used. The insulation goes above the deck, the
+        vapour control layer below it, and both are continuous — a dormer roof built cold will fail
+        on condensation whatever the U-value says.</p>
+        <p>The head plate is 50mm of solid timber directly between the roof insulation and the cheek
+        insulation. Carry the insulation down its outer face; the falls, the trim and the upstands
+        are all easier to get right than this and all get more attention.</p>
+      </div>
+    </div>
+  </div>
+  <div class="key">
+    <span><svg viewBox="0 20 130 89" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#brick)"/></svg> Facing brick</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#block)"/></svg> Aircrete block</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#dense)"/></svg> Dense block</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#ins)"/></svg> Rigid board</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#wool)"/></svg> Mineral wool</span>
+    <span><svg viewBox="0 0 100 68" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#timber)"/></svg> Sawn timber</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#conc)"/></svg> Concrete</span>
+    <span><svg viewBox="0 0 50 34" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#screed)"/></svg> Screed</span>
+    <span><svg viewBox="0 0 90 62" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#hard)"/></svg> Hardcore</span>
+    <span><svg viewBox="0 0 60 41" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#earth)"/></svg> Subsoil</span>
+    <span><i style="background:#B3352B;border-color:#B3352B"></i> DPC / DPM</span>
+    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control / air barrier</span>
+  </div>
+  <dl class="tblock">
+    <div><dt>Drawing no</dt><dd>[XX-XXX]-D-219</dd></div>
+    <div><dt>Scale</dt><dd>1:10 @ A4L</dd></div>
+    <div><dt>Status</dt><dd>For BC approval</dd></div>
+    <div><dt>Rev</dt><dd>P01</dd></div>
+  </dl>
+</section>
+<!-- ============================================================ D-221 -->
+<section class="sheet">
+  <div class="sheet-head">
+    <span class="sheet-ref">D-221</span>
+    <h2>New loft floor into the existing wall</h2>
+    <span class="sc">Vertical section between joists &middot; 1:10 @ A3 landscape</span>
+  </div>
+  <div class="sheet-body">
+    <div class="dwg">
+      <svg viewBox="-160 -520 2060 1400" width="600" style="--pw:206mm" role="img"
+           aria-label="Vertical section where a new loft floor meets the existing external wall, showing the new beam at wall plate level and the two-layer plasterboard ceiling">
+        <g stroke-linecap="square">
+          <!-- existing external wall, 215 solid brick assumed -->
+          <rect x="0" y="-400" width="215" height="1000" fill="url(#brick)" stroke="#10191F" stroke-width="2.4"/>
+          <!-- padstone and new steel beam at wall plate level, both engineer’s design -->
+          <rect x="100" y="150" width="215" height="100" fill="url(#conc)" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="140" y="-50" width="150" height="200" fill="url(#metal)" stroke="#10191F" stroke-width="2.4"/>
+          <!-- IF1 new loft floor, cut between joists -->
+          <rect x="290" y="-72" width="710" height="22" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="290" y="70" width="710" height="100" fill="url(#wool)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="290" y="170" width="710" height="12.5" fill="url(#pboard)" stroke="#10191F" stroke-width="2"/>
+          <rect x="290" y="182.5" width="710" height="12.5" fill="url(#pboard)" stroke="#10191F" stroke-width="2"/>
+          <path d="M645 170 v12.5 M470 182.5 v12.5 M820 182.5 v12.5" fill="none" stroke="#5C6871" stroke-width="1.4"/>
+          <path d="M290 -50 h710 v220 h-710" fill="none" stroke="#5C6871" stroke-width="1.3" stroke-dasharray="22 12"/>
+          <path d="M290 -60 h130 v240 h-130" fill="none" stroke="#5C6871" stroke-width="1.3" stroke-dasharray="22 12"/>
+          <!-- existing ceiling retained below, spanning independently -->
+          <rect x="215" y="420" width="785" height="12.5" fill="url(#pboard)" stroke="#5C6871" stroke-width="1.6"/>
+          <path d="M300 320 h94 v100 h-94 M700 320 h94 v100 h-94" fill="none" stroke="#5C6871" stroke-width="1.3" stroke-dasharray="22 12"/>
+          <path d="M1000 -72 V432.5" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <path d="M0 -400 H215" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <path d="M0 600 H215" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <g stroke="#5C6871" stroke-width="1.3" fill="none" marker-start="url(#tick)" marker-end="url(#tick)">
+            <path d="M1060 -50 v220"/><path d="M1160 70 v100"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="24" fill="#10191F">
+            <text x="1078" y="68">220</text><text x="1178" y="128">100</text>
+          </g>
+          <g stroke="#10191F" stroke-width="1.3" fill="none" marker-start="url(#dot)">
+            <path d="M700 -61 L900 -300 L960 -300"/>
+            <path d="M700 120 L900 -160 L960 -160"/>
+            <path d="M700 188 L900 -20 L960 -20"/>
+            <path d="M215 100 L620 -420 L960 -420"/>
+            <path d="M600 426 L900 560 L960 560"/>
+            <path d="M107 300 L620 700 L960 700"/>
+          </g>
+          <g font-family="IBM Plex Sans, sans-serif" font-size="24" fill="#10191F">
+            <text x="976" y="-428">New steel beam at wall plate level on a</text>
+            <text x="976" y="-400">padstone, to the engineer’s design. The new</text>
+            <text x="976" y="-372">floor spans independently of the existing</text>
+            <text x="976" y="-344">ceiling joists</text>
+            <text x="976" y="-308">22 moisture resistant t&amp;g deck, glued</text>
+            <text x="976" y="-280">and screwed; joists drawn 47 x 220 C24</text>
+            <text x="976" y="-252">at 400 centres, engineer’s design governs</text>
+            <text x="976" y="-168">100 mineral wool of minimum density</text>
+            <text x="976" y="-140">10 kg/m³ between the joists, for airborne</text>
+            <text x="976" y="-112">sound to Requirement E2</text>
+            <text x="976" y="-28">Two layers of 12.5 plasterboard, joints</text>
+            <text x="976" y="0">staggered, taped and filled, for REI 30</text>
+            <text x="976" y="552">Existing ceiling retained below — its</text>
+            <text x="976" y="580">condition and fire resistance to be</text>
+            <text x="976" y="608">confirmed on site</text>
+            <text x="976" y="692">Existing wall drawn as 215 solid brick —</text>
+            <text x="976" y="720">confirm the construction on site. All</text>
+            <text x="976" y="748">perimeters and service penetrations sealed</text>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="22" fill="#0E6E85" font-weight="600">
+            <text x="500" y="40">IF1</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="side">
+      <h3>What this sheet is for</h3>
+      <p>The new floor is a fire floor and a sound floor before it is a structural one. The beam and
+      the joist size are the engineer's; REI 30, Requirement E2 and the sealing of the perimeter are
+      what building control checks here.</p>
+      <h3>Sequence</h3>
+      <p>Padstone, beam, joists hung or bearing at wall plate level, spanning independently of the
+      existing ceiling joists. Quilt between the joists. Two layers of plasterboard with the joints
+      staggered, taped and filled. Deck glued and screwed. Perimeters and penetrations sealed.</p>
+      <div class="check">
+        <h3>Critical check</h3>
+        <p>Two layers of 12.5 with staggered joints, not one layer of 25. The fire resistance
+        comes from the layering and the joint treatment, and a single board does not give it however
+        thick it is.</p>
+        <p>Where the existing ceiling stays below the new floor, its condition and fire resistance
+        are confirmed on site — it is not assumed to contribute, and a lath and plaster ceiling in
+        poor condition is a finding, not a detail.</p>
+      </div>
+    </div>
+  </div>
+  <div class="key">
+    <span><svg viewBox="0 20 130 89" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#brick)"/></svg> Facing brick</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#block)"/></svg> Aircrete block</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#dense)"/></svg> Dense block</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#ins)"/></svg> Rigid board</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#wool)"/></svg> Mineral wool</span>
+    <span><svg viewBox="0 0 100 68" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#timber)"/></svg> Sawn timber</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#conc)"/></svg> Concrete</span>
+    <span><svg viewBox="0 0 50 34" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#screed)"/></svg> Screed</span>
+    <span><svg viewBox="0 0 90 62" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#hard)"/></svg> Hardcore</span>
+    <span><svg viewBox="0 0 60 41" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#earth)"/></svg> Subsoil</span>
+    <span><i style="background:#B3352B;border-color:#B3352B"></i> DPC / DPM</span>
+    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control / air barrier</span>
+  </div>
+  <dl class="tblock">
+    <div><dt>Drawing no</dt><dd>[XX-XXX]-D-221</dd></div>
+    <div><dt>Scale</dt><dd>1:10 @ A4L</dd></div>
+    <div><dt>Status</dt><dd>For BC approval</dd></div>
+    <div><dt>Rev</dt><dd>P01</dd></div>
+  </dl>
+</section>
+<!-- ============================================================ D-220 -->
+<section class="sheet">
+  <div class="sheet-head">
+    <span class="sheet-ref">D-220</span>
+    <h2>Eaves at a room in roof — dwarf wall and eaves void</h2>
+    <span class="sc">Vertical section between rafters &middot; 1:10 @ A3 landscape</span>
+  </div>
+  <div class="sheet-body">
+    <div class="dwg">
+      <svg viewBox="-1180 -1500 3060 2600" width="600" style="--pw:306mm" role="img"
+           aria-label="Vertical section at the eaves of a room in roof showing the dwarf wall, the eaves void behind it and the insulation carried across the void floor">
+        <g stroke-linecap="square">
+          <!-- covering: counter-battens along the slope, battens cut, tiles over -->
+          <path d="M-230.5 433.3 L1593.9 -1391" fill="none" stroke="#10191F" stroke-width="2.4"/>
+          <path d="M-188.1 390.9 L1593.9 -1391 L1576.2 -1408.7 L-205.7 373.2 Z" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <path d="M-191.6 359.1 L-164.7 332.2 L-182.4 314.6 L-209.3 341.4 Z" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <path d="M91.3 76.3 L118.1 49.4 L100.4 31.7 L73.6 58.6 Z" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <path d="M374.1 -206.6 L401 -233.5 L383.3 -251.1 L356.4 -224.3 Z" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <path d="M656.9 -489.4 L683.8 -516.3 L666.1 -534 L639.3 -507.1 Z" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <path d="M939.8 -772.3 L966.7 -799.1 L949 -816.8 L922.1 -789.9 Z" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <path d="M1222.6 -1055.1 L1249.5 -1082 L1231.8 -1099.7 L1204.9 -1072.8 Z" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <path d="M1505.5 -1338 L1532.3 -1364.8 L1514.7 -1382.5 L1487.8 -1355.6 Z" fill="url(#timber)" stroke="#10191F" stroke-width="1.6"/>
+          <path d="M-265.8 398 L1558.5 -1426.3 L1547.9 -1437 L-276.4 387.4 Z" fill="#EDEBE6" stroke="#10191F" stroke-width="2.4"/>
+          <path d="M-67.8 200 L-78.4 189.4" fill="none" stroke="#5C6871" stroke-width="1.4"/>
+          <path d="M215 -82.8 L204.4 -93.4" fill="none" stroke="#5C6871" stroke-width="1.4"/>
+          <path d="M497.8 -365.7 L487.2 -376.3" fill="none" stroke="#5C6871" stroke-width="1.4"/>
+          <path d="M780.7 -648.5 L770.1 -659.1" fill="none" stroke="#5C6871" stroke-width="1.4"/>
+          <path d="M1063.5 -931.4 L1052.9 -942" fill="none" stroke="#5C6871" stroke-width="1.4"/>
+          <path d="M1346.4 -1214.2 L1335.8 -1224.8" fill="none" stroke="#5C6871" stroke-width="1.4"/>
+          <!-- RF1: 125 K107 tight to the underlay, 25 residual gap, 72.5 K118 under -->
+          <path d="M1447.3 -1067.7 L1682.2 -1302.6 L1593.9 -1391 L1359 -1156.1 Z" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <path d="M1516.3 -998.8 L1751.2 -1233.7 L1699.9 -1284.9 L1465 -1050 Z" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <path d="M1465 -1050 L1699.9 -1284.9" fill="none" stroke="#0E6E85" stroke-width="2.8"/>
+          <!-- existing wall, plate, and the eaves -->
+          <rect x="0" y="250" width="215" height="650" fill="url(#brick)" stroke="#10191F" stroke-width="2.4"/>
+          <rect x="115" y="200" width="100" height="50" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="-126" y="432" width="22" height="180" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="-104" y="520" width="104" height="20" fill="url(#timber)" stroke="#10191F" stroke-width="1.8"/>
+          <rect x="-60" y="520" width="60" height="20" fill="url(#wool)" stroke="#B3352B" stroke-width="1.8"/>
+          <!-- new loft floor: deck, joist zone, two layers of plasterboard -->
+          <rect x="215" y="0" width="1585" height="22" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="215" y="242" width="1585" height="12.5" fill="url(#pboard)" stroke="#10191F" stroke-width="2"/>
+          <rect x="215" y="254.5" width="1585" height="12.5" fill="url(#pboard)" stroke="#10191F" stroke-width="2"/>
+          <path d="M215 22 h1585 v220 h-1585" fill="none" stroke="#5C6871" stroke-width="1.3" stroke-dasharray="22 12"/>
+          <!-- insulation across the floor of the eaves void, lapped to the dwarf wall -->
+          <rect x="215" y="22" width="1250" height="220" fill="url(#wool)" stroke="#C9A94E" stroke-width="1.6"/>
+          <!-- EW2 dwarf wall on its sole plate, head plate to the rafters -->
+          <rect x="1465" y="-50" width="89" height="50" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="1465" y="-1050" width="89" height="50" fill="url(#timber)" stroke="#10191F" stroke-width="2"/>
+          <rect x="1465" y="-1000" width="89" height="950" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <rect x="1554" y="-1050" width="62.5" height="1050" fill="url(#ins)" stroke="#C9A94E" stroke-width="1.6"/>
+          <path d="M1554 0 V-1050" fill="none" stroke="#0E6E85" stroke-width="2.8"/>
+          <!-- break lines -->
+          <path d="M1751.2 -1233.7 L1547.9 -1437" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <path d="M1800 0 V267" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <path d="M0 900 H215" fill="none" stroke="#5C6871" stroke-width="1.6" stroke-dasharray="22 12"/>
+          <g stroke="#5C6871" stroke-width="1.3" fill="none" marker-start="url(#tick)" marker-end="url(#tick)">
+            <path d="M1640 -1050 v1050"/><path d="M1465 120 h89"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="24" fill="#10191F">
+            <text x="1658" y="-516">1050</text>
+            <text x="1509" y="96" text-anchor="middle">89</text>
+          </g>
+          <g stroke="#10191F" stroke-width="1.3" fill="none" marker-start="url(#dot)">
+            <path d="M900 -560 L520 -1180 L-120 -1180"/>
+            <path d="M1500 -600 L900 -1000 L-120 -1000"/>
+            <path d="M800 130 L520 -820 L-120 -820"/>
+            <path d="M1500 -30 L900 -640 L-120 -640"/>
+            <path d="M700 -60 L520 -460 L-120 -460"/>
+            <path d="M-30 530 L-60 700 L-120 700"/>
+            <path d="M600 250 L520 860 L-120 860"/>
+          </g>
+          <g font-family="IBM Plex Sans, sans-serif" font-size="24" fill="#10191F">
+            <text x="-140" y="-1188" text-anchor="end">RF1 — 125 K107 between rafters,</text>
+            <text x="-140" y="-1160" text-anchor="end">tight to a breathable underlay, 25</text>
+            <text x="-140" y="-1132" text-anchor="end">residual gap, 72.5 K118 beneath</text>
+            <text x="-140" y="-1008" text-anchor="end">Sloping ceiling lining stops at the</text>
+            <text x="-140" y="-980" text-anchor="end">dwarf wall head plate — the insulation</text>
+            <text x="-140" y="-952" text-anchor="end">must not</text>
+            <text x="-140" y="-828" text-anchor="end">Insulation carried across the floor of</text>
+            <text x="-140" y="-800" text-anchor="end">the eaves void, filling the joist zone,</text>
+            <text x="-140" y="-772" text-anchor="end">lapped and sealed to the dwarf wall</text>
+            <text x="-140" y="-744" text-anchor="end">insulation at the foot</text>
+            <text x="-140" y="-648" text-anchor="end">EW2 dwarf wall — 89 K112 filling the</text>
+            <text x="-140" y="-620" text-anchor="end">stud depth, 62.5 K118 to the room face,</text>
+            <text x="-140" y="-592" text-anchor="end">vapour control layer on the warm side.</text>
+            <text x="-140" y="-564" text-anchor="end">37.5 board gives 0.21 and fails</text>
+            <text x="-140" y="-468" text-anchor="end">The eaves void behind the wall stays</text>
+            <text x="-140" y="-440" text-anchor="end">outside the envelope and is cross</text>
+            <text x="-140" y="-412" text-anchor="end">ventilated; insulated, draught sealed</text>
+            <text x="-140" y="-384" text-anchor="end">access hatch to each isolated section</text>
+            <text x="-140" y="692" text-anchor="end">Ventilated soffit to the eaves void</text>
+            <text x="-140" y="852" text-anchor="end">New floor per IF1 — see D-221. Existing</text>
+            <text x="-140" y="880" text-anchor="end">wall drawn as 215 solid brick, confirm</text>
+            <text x="-140" y="908" text-anchor="end">the construction on site</text>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="22" fill="#0E6E85" font-weight="600">
+            <text x="1000" y="-480">RF1</text><text x="1580" y="-560">EW2</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="side">
+      <h3>What this sheet is for</h3>
+      <p>The eaves of a room in roof, where the sloping ceiling, the dwarf wall and the new floor
+      all meet and the thermal envelope has to turn two corners in about a metre. It is the loft
+      junction that gets marked up most often.</p>
+      <h3>Sequence</h3>
+      <p>Floor built through to the wall. Insulation laid across the eaves void floor before the
+      dwarf wall goes up — it cannot be done afterwards. Sole plate, studs fully filled, head plate
+      to the rafters. Vapour control layer taken round both corners. Access hatch formed, insulated
+      and draught sealed.</p>
+      <div class="check">
+        <h3>Critical check</h3>
+        <p>The insulation has to run in an unbroken line from the sloping ceiling, down the face
+        of the dwarf wall, and across the floor of the eaves void behind it, lapped and sealed at
+        the foot. Two corners, and the one behind the wall is the one that gets missed because
+        nobody can see it once the wall is up.</p>
+        <p>The void itself stays outside the envelope and is cross ventilated. Insulating the dwarf
+        wall and then leaving the void floor open makes the ceiling below it the coldest surface in
+        the house.</p>
+      </div>
+    </div>
+  </div>
+  <div class="key">
+    <span><svg viewBox="0 20 130 89" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#brick)"/></svg> Facing brick</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#block)"/></svg> Aircrete block</span>
+    <span><svg viewBox="0 95 250 171" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#dense)"/></svg> Dense block</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#ins)"/></svg> Rigid board</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#wool)"/></svg> Mineral wool</span>
+    <span><svg viewBox="0 0 100 68" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#timber)"/></svg> Sawn timber</span>
+    <span><svg viewBox="0 0 70 48" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#conc)"/></svg> Concrete</span>
+    <span><svg viewBox="0 0 50 34" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#screed)"/></svg> Screed</span>
+    <span><svg viewBox="0 0 90 62" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#hard)"/></svg> Hardcore</span>
+    <span><svg viewBox="0 0 60 41" preserveAspectRatio="xMidYMid slice"><rect x="-20" y="-20" width="400" height="400" fill="url(#earth)"/></svg> Subsoil</span>
+    <span><i style="background:#B3352B;border-color:#B3352B"></i> DPC / DPM</span>
+    <span><i style="background:#0E6E85;border-color:#0E6E85"></i> Vapour control / air barrier</span>
+  </div>
+  <dl class="tblock">
+    <div><dt>Drawing no</dt><dd>[XX-XXX]-D-220</dd></div>
+    <div><dt>Scale</dt><dd>1:10 @ A4L</dd></div>
+    <div><dt>Status</dt><dd>For BC approval</dd></div>
+    <div><dt>Rev</dt><dd>P01</dd></div>
+  </dl>
+</section>
+@@SHEETS@@
+
+<footer>
+  <span>Specline detail library · D-217 to D-222 · P01</span>
+  <span>Dimensions in millimetres. Do not scale from these drawings.</span>
+</footer>
+</div>
+
+<script>
+(function(){
+  var b=document.getElementById('tog');
+  b.addEventListener('click',function(){
+    var r=document.documentElement, cur=r.getAttribute('data-theme');
+    if(!cur){ cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light'; }
+    r.setAttribute('data-theme', cur==='dark' ? 'light':'dark');
+  });
+})();
+</script>

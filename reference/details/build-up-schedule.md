@@ -474,14 +474,14 @@ Provide a minimum 150mm clear ventilated void beneath with through ventilation t
 *Ground floors · Ground Floors*
 
 
-**Target** 0.18 W/m²K · **Achieved** 0.18 W/m²K
+**Target** 0.18 W/m²K · **Achieved** 0.17 W/m²K
 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | minimum well-compacted hardcore blinded | **150** | `hard` |
 | 2 | sand | **50** | `screed` |
-| 3 | Kingspan Thermafloor TF70 below the slab | **100** | `ins` |
+| 3 | Kingspan Thermafloor TF70 | **100** | `ins` |
 | 4 | minimum GEN1 ground-bearing concrete slab over | **100** | `conc` |
 | | **Extracted total** | **400** | |
 | e | perimeter insulation upstand to the full depth *(at the floor edge, not in the total)* | 25 | `ins` |
@@ -491,7 +491,7 @@ Provide a minimum 150mm clear ventilated void beneath with through ventilation t
 <details><summary>Clause</summary>
 
 
-Where the slab is to be power floated and left exposed, or where underfloor heating is laid within the slab, provide 150mm minimum well-compacted hardcore blinded with 50mm sand, polyethylene damp proof membrane not less than 1200 gauge, 100mm Kingspan Thermafloor TF70 below the slab, and 100mm minimum GEN1 ground-bearing concrete slab over.
+Where the slab is to be power floated and left exposed, or where underfloor heating is laid within the slab, provide 150mm minimum well-compacted hardcore blinded with 50mm sand, polyethylene damp proof membrane not less than 1200 gauge, 100mm Kingspan Thermafloor TF70 (thermal conductivity 0.022 W/mK) below the slab, and 100mm minimum GEN1 ground-bearing concrete slab over. This build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a perimeter/area ratio of 0.7 on clay.
 
 
 Continue 25mm perimeter insulation upstand to the full depth of the slab at all abutments with external and internal walls.
@@ -872,23 +872,26 @@ NOTE — Timber cladding weathers to grey within two years unless coated and mai
 *External walls · Dwarf / Ashlar Walls*
 
 
-**Target** 0.18 W/m²K · **Achieved** 0.18 W/m²K
+**Target** 0.18 W/m²K · **Achieved** 0.17 W/m²K
 
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K112 Framing Board between 38 x 89mm C16 studs at 400mm centres between | **89** | `ins` |
-| 2 | Kingspan Kooltherm K118 insulated plast | **37.5** | `ins` |
-| | **Extracted total** | **126.5** | |
+| 2 | Kingspan Kooltherm K118 insulated plasterboard to the room face | **62.5** | `ins` |
+| | **Extracted total** | **151.5** | |
 
 - ⚠ skipped 1050mm to 1200mm high as the sections — too thick to be a layer
 - ⚠ not treated as a layer: 'high as the sections'
 - ⚠ not a layer — 400mm reads as a spacing, a level, working or an alternative construction: 'centres between sole plate'
+- ⚠ not a layer - 400mm is in a sentence about what a construction complies with, not about this one: 'centres and an air-gap correction of 0'
+- ⚠ not a layer - 37.5mm is in a sentence about what a construction complies with, not about this one: 'board on the room face it calculates at 0'
+- ⚠ not a layer - 52.5mm is in a sentence about what a construction complies with, not about this one: 'calculates at 0'
 
 <details><summary>Clause</summary>
 
 
-Dwarf wall to the eaves generally 1050mm to 1200mm high as the sections, comprising 89mm x 38mm C16 studs at 400mm centres between sole plate and head plate, fixed to the new floor structure and to the rafters. Infill the full stud depth with 89mm Kingspan Kooltherm K112 Framing Board and add 37.5mm Kingspan Kooltherm K118 insulated plasterboard to the room face, with a continuous vapour control layer on the warm side.
+Dwarf wall to the eaves generally 1050mm to 1200mm high as the sections, comprising 89mm x 38mm C16 studs at 400mm centres between sole plate and head plate, fixed to the new floor structure and to the rafters. Infill the full stud depth with 89mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK) and add 62.5mm Kingspan Kooltherm K118 insulated plasterboard to the room face, with a continuous vapour control layer on the warm side. This build-up calculates at 0.17 W/m²K to BS EN ISO 6946 by the combined method, allowing for the studs bridging the insulation at 400mm centres and an air-gap correction of 0.01; with 37.5mm board on the room face it calculates at 0.21 and does not meet the standard for a new thermal element, and 52.5mm calculates at 0.18 with no margin.
 
 
 Insulation is to run continuously from the sloping ceiling, down the face of the dwarf wall, and across the floor of the eaves void behind it, so that the thermal envelope is unbroken at both the head and the foot of the wall. The insulation line at the foot is to be lapped and sealed to the floor insulation.
@@ -1308,6 +1311,9 @@ Fill the frame depth with 60mm mineral wool of minimum density 10 kg/m³ in the 
 
 
 Where an existing timber stud or lath and plaster partition is to become a separating wall to the common hall or the maisonette stair, it is to be upgraded on the flat side with two layers of 15mm fire-resisting board on resilient bars over 50mm mineral wool, or replaced by the new twin frame wall, so that the wall gives the compartment period of fire resistance and the 43 dB standard; a single layer of plasterboard on an existing stud wall meets neither. The existing masonry is to be inspected and any open perpends, missing mortar or air paths made good before lining. Where the existing wall is of unknown construction, open up and confirm before the design is finalised.
+
+
+Piped services are not to pass through the separating wall except where unavoidable, and then each pipe is enclosed for its full height in a duct or boxing lined on both faces as Approved Document E describes, the space around the pipe fire stopped and sealed on both sides with a flexible sealant, and no socket, switch or recess cut back to back with one on the other side; soil stacks and rising mains are to be kept off the separating wall wherever the layout allows.
 
 
 </details>
@@ -2258,7 +2264,7 @@ This build-up calculates at 0.18 W/m²K to BS EN ISO 13370 for a perimeter/area 
 *Ground floors · Ground Floors*
 
 
-**Target** 0.18 W/m²K · **Achieved** 0.16 W/m²K
+**Target** 0.18 W/m²K · **Achieved** 0.17 W/m²K
 
 
 | # | Layer | mm | Hatch |
@@ -2279,7 +2285,7 @@ This build-up calculates at 0.18 W/m²K to BS EN ISO 13370 for a perimeter/area 
 Where the existing slab is broken out, excavate to formation, remove all vegetable matter and lay 150mm minimum well compacted hardcore blinded with 50mm sand. Lay a polyethylene damp proof membrane of not less than 1200 gauge with all joints lapped and taped, linked to the damp proof course in the walls, 100mm Kingspan Thermafloor TF70 with 25mm perimeter upstands, and a 100mm minimum GEN1 concrete slab reinforced with A142 mesh, finished with a 65mm screed or a timber deck as GF2.
 
 
-The new slab is to be set out so the finished floor matches the adjoining house floor level. This build-up calculates at 0.16 W/m²K to BS EN ISO 13370 for a perimeter/area ratio of 0.8 on clay.
+The new slab is to be set out so the finished floor matches the adjoining house floor level. This build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a perimeter/area ratio of 0.8 on clay.
 
 
 </details>
@@ -2561,6 +2567,9 @@ The wall is to be carried up tight to the underside of the roof covering with th
 
 
 NOTE — Impact sound insulation is not a requirement for the separating walls of houses. The 45 dB standard is 2 dB more onerous than for a conversion; do not use the conversion detail on a new build.
+
+
+Piped services are not to pass through the separating wall except where unavoidable, and then each pipe is enclosed for its full height in a duct or boxing lined on both faces as Approved Document E describes, the space around the pipe fire stopped and sealed on both sides with a flexible sealant, and no socket, switch or recess cut back to back with one on the other side; soil stacks and rising mains are to be kept off the separating wall wherever the layout allows.
 
 
 </details>
@@ -3116,6 +3125,9 @@ The cavity is to be closed at the external wall with a flexible cavity closer so
 Where the wall is built to a Robust Detail, the plots are to be registered with Robust Details Ltd before work begins; otherwise pre-completion testing on one set of tests per ten flats of each construction type is required.
 
 
+Piped services are not to pass through the separating wall except where unavoidable, and then each pipe is enclosed for its full height in a duct or boxing lined on both faces as Approved Document E describes, the space around the pipe fire stopped and sealed on both sides with a flexible sealant, and no socket, switch or recess cut back to back with one on the other side; soil stacks and rising mains are to be kept off the separating wall wherever the layout allows.
+
+
 </details>
 
 
@@ -3518,19 +3530,23 @@ The separating walls between the top-floor flats are to be carried up tight to t
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Thermaroof TR26 LPC/FM | **200** | `ins` |
-| | **Extracted total** | **200** | |
+| 1 | Kingspan Thermaroof TR26 LPC/FM | **220** | `ins` |
+| | **Extracted total** | **220** | |
 
+- ⚠ 110mm is two layers of it, so the band is 220mm
+- ⚠ not treated as a layer: 'break-bonded and fully adhered or mechanically fixed wit'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands'
 - ⚠ not a layer — 300mm reads as a spacing, a level, working or an alternative construction: 'is to be used in that zone'
+- ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'concrete deck'
+- ⚠ not a layer — 200mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'
 
 <details><summary>Clause</summary>
 
 
-Warm deck flat roof of a concrete slab or profiled metal deck to the structural engineer's design laid to falls of not less than 1:80 finished, a vapour control layer fully bonded with laps sealed, 200mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) in two layers break-bonded and fully adhered or mechanically fixed with the fastener correction included, and a single ply or reinforced bitumen membrane waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands, outlets, overflows and edge trims. Where the building has a storey more than 11m above ground the roof insulation within 1.5m of a boundary or a higher external wall is to be Class A2-s1, d0 or better, and mineral wool or cellular glass of 0.038 W/mK at 300mm is to be used in that zone.
+Warm deck flat roof of a concrete slab or profiled metal deck to the structural engineer's design laid to falls of not less than 1:80 finished, a vapour control layer fully bonded with laps sealed, 220mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) in two layers of 110mm break-bonded and fully adhered or mechanically fixed with the fastener correction included, and a single ply or reinforced bitumen membrane waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands, outlets, overflows and edge trims. Where the building has a storey more than 11m above ground the roof insulation within 1.5m of a boundary or a higher external wall is to be Class A2-s1, d0 or better, and mineral wool or cellular glass of 0.038 W/mK at 300mm is to be used in that zone.
 
 
-This build-up calculates at 0.10 W/m²K to BS EN ISO 6946 fully adhered on a concrete deck. Roof-mounted plant, photovoltaics and access routes are to be on paving supports or a proprietary system, with the waterproofing protected and a guarded access route where maintenance is regular.
+This build-up calculates at 0.10 W/m²K to BS EN ISO 6946 fully adhered on a 150mm concrete deck; 200mm calculates at 0.11 on a concrete deck, meeting the notional value with no margin. Roof-mounted plant, photovoltaics and access routes are to be on paving supports or a proprietary system, with the waterproofing protected and a guarded access route where maintenance is regular.
 
 
 </details>
@@ -3725,7 +3741,7 @@ Where an existing cellar wall of brick or stone is retained, remove any existing
 Type C cavity drainage system of a studded high-density polyethylene membrane fixed to the wall with sealed plugs at the manufacturer's centres, all joints sealed with the proprietary tape, carried down into a perimeter drainage channel at the wall and floor junction with rodding and jetting access at every corner, and connected to a sump as BF1. Where the existing wall is a party wall, the membrane and channel run continuously along it and the neighbouring owner's cellar is not to be affected.
 
 
-Insulated lining of independent 70mm metal studs set 25mm clear of the membrane with 70mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK) between and a 37.5mm insulated plasterboard lining with a vapour control layer, joints taped, or a timber stud lining of the same depth on a damp proof course. This build-up calculates at 0.14 W/m²K to BS EN ISO 13370 as a below-ground wall for a 2.7m deep basement; 100mm of the framing board calculates at 0.12.
+Insulated lining of independent 70mm metal studs set 25mm clear of the membrane with 70mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK) between and a 37.5mm insulated plasterboard lining with a vapour control layer, joints taped, or a timber stud lining of the same depth on a damp proof course. This build-up calculates at 0.14 W/m²K to BS EN ISO 13370 as a below-ground wall for a 2.7m deep basement, allowing for the insulated lining; 100mm of the framing board calculates at 0.11.
 
 
 NOTE — A cavity drainage system depends on the drainage channel and pumps being maintained. The membrane manufacturer's maintenance schedule, the rodding point locations and the pump service interval are to be handed to the client and recorded in the operation and maintenance information. A basement that is sold on with the sump inaccessible is a basement that will flood.
@@ -4253,4 +4269,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T03:55:20+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T04:17:21+00:00*

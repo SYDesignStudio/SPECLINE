@@ -55,6 +55,8 @@ src/
   ucalc3.js             UC.frame: studded walls, combined method for stud bridging
   ucalc.js              UC: materials with verified conductivities + wall calculations
   ucalc2.js             floors (BS EN ISO 13370), heated basements, three roof types
+  ucalc4.js             roofOverRafter, lined (internal linings), concrete-deck warm roof, Recticel
+  mfr.js                insulation manufacturer substitution — see "Insulation manufacturers"
   docx.js               DOCX: a dependency-free .docx writer (ZIP + OOXML), used by the app
   logos.js              SPECLINE_ICON (app chrome, favicons). No practice logo — build.py enforces it
   vendor/jspdf.local.js local jsPDF, used only by dist/preview.html for offline tests
@@ -64,7 +66,7 @@ docgen/               Word + PDF generation (python-docx, LibreOffice for the PD
   brand_inhouse.py      SY Design Studio's own profile; reached only by asking for it
   brand.py, build_spec.py   cover page, headers, house typography
   plancheck_report.py, dedupe_report.py   the two QA reports already issued
-tests/                seven Playwright suites, 192 assertions
+tests/                eight Playwright suites, 227 assertions
 reference/            FACTS.md (verified figures) and the per-type review notes
 dist/                 build output — git-ignored
 output/               generated .docx/.pdf — git-ignored
@@ -74,7 +76,7 @@ output/               generated .docx/.pdf — git-ignored
 
 ```bash
 python build.py                 # merge + assemble + structural check   (seconds)
-python build.py --test          # ... and run all 192 Playwright assertions   (~4 min)
+python build.py --test          # ... and run all 227 Playwright assertions   (~5 min)
 python build.py --docs          # ... and regenerate all 16 Word/PDF files
 python build.py --docs loft     # regenerate one type only
 python build.py --all           # everything
@@ -116,6 +118,16 @@ SPECS.<type> = {
   `BW` basement wall, `BF` basement floor, `FD` foundation. `FD` is first in `GORDER`, so
   foundations head the schedule. References are **per job, sequential in selection order**
   (EW1, EW2 …) — they are not fixed library codes, so never hard-code a reference in prose.
+- **`m4` on a note** (`"1"`, `"2"` or `"3"`) marks it as the Access (Part M) note for that
+  category. A new build or new build flats job carries `S.data.m4` (default `"1"`: M4(1) applies
+  unless the planning permission imposes M4(2) or M4(3)); `applyM4()` turns the matching notes
+  on and the others off, and the category prints on the cover. The notes were written from
+  AD M Volume 1 (2015 incorporating 2016 amendments) on 8 September 2026, section by section,
+  with the diagram and table numbers cited so a plan checker can go straight to them. The
+  earlier notes carried figures that are not in the document; check any figure against
+  `reference/approved-documents/m4-*.txt` before touching them.
+- **`mf` on a build-up** is its manufacturer-substitution descriptor — see "Insulation
+  manufacturers" below. It is data, not prose, and the app ignores a build-up without one.
 - A paragraph beginning `"NOTE — "` prints in grey as an instruction to the designer, not to the
   builder. Use it for genuine "check this on this job" prompts, never to defer a figure that is
   already known.
@@ -210,10 +222,57 @@ Two things this repo has been caught out by before, both now covered by tests:
   build-up through `UC` before writing its `u`** — and where two types carry the same
   construction, they must carry the same number.
 
-  `UC` has no mode for insulation between AND over the rafters (the warm roof / sarking board
-  build-up). It was checked by hand against `roofRafter`'s own conventions — Rse 0.10 for the
-  ventilated batten space, 47/spacing bridging, the Annex F gap correction scaled by
-  (R insulation / R total)². Worth adding as `roofOverRafter()`.
+  `UC.roofOverRafter()` (src/ucalc4.js, 8 September 2026) now covers insulation between AND
+  over the rafters with exactly those conventions — Rse 0.10 for the ventilated batten space,
+  47/spacing bridging, the Annex F gap correction scaled by (R insulation / R total)² — and
+  `UC.lined()` covers an insulated plasterboard or insulated stud lining on an existing wall.
+  Writing the manufacturer descriptors (below) meant reproducing every insulated figure in the
+  library through `UC`; four more did not reproduce and were corrected the same day: the
+  extension floor insulated below the slab (0.18 → 0.17, never calculated); the loft dwarf wall
+  (0.21 as written with a 37.5mm lining — failed; now 62.5mm at 0.17); the garage below-slab
+  floor (0.16 → 0.17); and the flats' concrete-deck warm roof, where 200mm TR26 is 0.11 on a
+  concrete deck, not 0.10 — now 220mm in two layers of 110mm at 0.10. The two basement clauses
+  reproduce only with the lining and the block leaf they describe counted (`wallExtra`).
+
+## Insulation manufacturers — `src/mfr.js`
+
+The library is written with Kingspan. A job carries a default manufacturer (`S.data.mfr`, on
+the job record) and any build-up card can override it (`S.ovr[i]`); `allBU()` passes every
+library build-up through `mfrApply()`, so every consumer of a build-up — cards, preview, PDF,
+Word, review, working page — sees the substituted one without knowing. Kingspan never
+substitutes: with the default every document is byte-for-byte what it was.
+
+Each of the 65 insulated build-ups carries `mf:{k, p, s, lim}` — the `UC` calculation `k` and
+parameters `p` that **reproduce the clause's own stated figure** (all 65 verified to ±0.005 on
+8 September 2026, and `tests/mfr_verify.js` re-verifies every one on every `build.py` run), the phrases `s`
+in the clause that name a product and the role each fills (`cavfull`, `cavpart`, `floor`,
+`rafter`, `flat`, `frame`, `lining`), and the target `lim`. `mfrSubstitute()` swaps the product
+for the chosen manufacturer's product in the same role at the same thickness, recalculates,
+and if the target is missed steps the thickness up through **that product's published
+thicknesses** (two layers allowed on floors, flat roofs and between rafters) until it is met,
+growing the cavity, stud or rafter depth with it; then it rewrites the product phrase, the
+first "calculates at" figure, the target line and `u`, appends a closing paragraph that says
+exactly what was substituted and why, and attaches `calc` so the working prints in section
+4.0 like a configured build-up's.
+
+Three rules that are load-bearing:
+
+- **No figure is typed.** Every substituted U-value comes out of `UC`, and every product it can
+  reach for has a verified conductivity **and** thickness list (FACTS.md). A manufacturer with
+  no verified product for a role keeps the Kingspan board and the clause says so (Recticel has
+  no partial-fill, flat-roof or lining product here; Knauf and ROCKWOOL are cavity-only).
+- **A shortfall is a NOTE, never silence.** Where the substitute cannot reach the target at its
+  greatest thickness — Celotex, Unilin and EcoTherm partial fill in the extension's 150mm
+  cavity, mineral wool in a 100mm block gable, PL4000 on a party wall — the build-up prints
+  with a NOTE giving the three-decimal figure and saying it is not to be issued as it stands.
+- **Descriptors are verified, not assumed.** A new descriptor, or an edited clause with one, is
+  run through the verify script before commit; a descriptor that does not reproduce the stated
+  figure means either the descriptor or the clause is wrong, and the answer is never to move
+  the figure to match.
+
+`tests/test8.py` covers the defaults, the note switching, the substitution, the override, the
+working section, the kept-product and shortfall paths, a sweep of every manufacturer across
+every descriptor, and reload.
 - The cladding on a framed wall sits outside a ventilated cavity, so BS EN ISO 6946 §6.9.3
   requires it and the cavity to be disregarded with the external surface resistance taken as still
   air. The outer finish therefore changes the prose and the boundary check, not the U-value.

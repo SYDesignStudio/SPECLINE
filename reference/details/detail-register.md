@@ -29,8 +29,12 @@ data in machine-readable form is in `build-up-schedule.json`.
 | `D-214` | Party wall at the ground floor | SW + GF | Party wall thermal bypass; sound flanking at the floor | — |
 | `D-215` | Basement wall to basement floor | BW + BF | Waterproofing continuity at the corner; drainage to the sump | — |
 | `D-216` | Basement wall to the ground floor over | BW + GF | Waterproofing termination; thermal bridge at the head | — |
-| `D-217` | Dormer cheek to main roof | EW + RF | Insulation continuity around the dormer; weathering at the abutment | next |
+| `D-217` | Dormer cheek to main roof | EW + RF | Insulation continuity around the dormer; weathering at the abutment | **drawn** |
 | `D-218` | Door threshold, level access | EW + GF | Thermal bridge at the threshold; water and accessibility together | **drawn** |
+| `D-219` | Dormer flat roof at the cheek head | EW + RF | Warm deck to cheek insulation over the head plate; falls and the VCL | **drawn** |
+| `D-220` | Eaves at a room in roof — dwarf wall | EW + RF | Insulation round two corners; the eaves void kept outside the envelope | **drawn** |
+| `D-221` | New loft floor into the existing wall | IF + EW | REI 30 and Requirement E2; new floor spanning clear of the existing ceiling | **drawn** |
+| `D-222` | Existing gable to the new roof | EW + RF | A renovated element meeting a new one; lining carried up to the roof insulation | **drawn** |
 
 ## Which project types need which
 
@@ -56,8 +60,12 @@ joins. This is worked out from the library, so it follows the library.
 | `D-214` |  |  | • |  | • | • |  | • |
 | `D-215` |  |  |  |  |  |  | • |  |
 | `D-216` |  |  |  |  |  |  |  |  |
-| `D-217` | • | • | • | • | • | • |  | • |
+| `D-217` |  | • |  |  |  |  |  |  |
 | `D-218` | • |  | • | • | • | • |  | • |
+| `D-219` |  | • |  |  |  |  |  |  |
+| `D-220` |  | • |  |  |  |  |  |  |
+| `D-221` |  | • |  |  |  |  |  |  |
+| `D-222` |  | • |  |  |  |  |  |  |
 
 ## Build-ups available in each type, by group
 

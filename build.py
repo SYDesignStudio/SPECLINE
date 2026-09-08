@@ -158,6 +158,11 @@ def check():
     if bad:
         sys.exit("library check FAILED (%d problems)" % bad)
     print("library check passed")
+    # every manufacturer descriptor must reproduce its clause's own figure through UC
+    r = subprocess.run(["node", os.path.join(ROOT, "tests", "mfr_verify.js")], capture_output=True, text=True, cwd=ROOT)
+    print("  " + (r.stdout.strip().splitlines() or ["mfr_verify produced no output"])[-1])
+    if r.returncode != 0:
+        print(r.stdout[-2000:]); sys.exit("manufacturer descriptors do not verify")
 
 
 def test():
