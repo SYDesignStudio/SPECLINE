@@ -103,6 +103,29 @@ with sync_playwright() as p:
     ok("T9 job number restored", "1140" in pg.inner_text("#paper"))
     ok("T9 EW numbering restored", "EW1" in pg.inner_text("#paper .sched"))
 
+    # T10 review and issue: the summary and the schedule are separate views; the actions are not
+    pg.evaluate("S.sel=spec().buildups.map((_,i)=>i); renderSteps(); setStep('review');"); pg.wait_for_timeout(400)
+    labs=[t.strip().splitlines()[0] for t in pg.locator(".stab").all_inner_texts()]
+    ok("T10 review splits into summary and build-ups", labs==["Summary","Build-ups"], str(labs))
+    stage=pg.inner_text("#stage")
+    ok("T10 the summary opens first", "Cover page complete" in stage or "fields not set" in stage)
+    ok("T10 the issue actions stay out of the tabs",
+       pg.is_visible("#issue") and pg.is_visible("#finish") and pg.is_visible("#finishDocx"))
+    nsum=pg.locator("#stage .rows .row").count()
+    pg.locator('.stab:has-text("Build-ups")').click(); pg.wait_for_timeout(250)
+    nbus=pg.locator("#stage .rows .row").count()
+    ok("T10 the build-up rows are their own view",
+       nbus==len(pg.evaluate("orderedSel()")) and nbus!=nsum, "%d summary, %d build-ups" % (nsum, nbus))
+    ok("T10 the actions are still there behind the tab", pg.is_visible("#issue"))
+    # a build-up over its target names itself on the tab rather than hiding behind it
+    pg.evaluate("""S.custom=[{g:'EW',cat:'__wall__',t:'Over target for the test',u:'0.30 W/m2K',tgt:'x',p:['test'],
+        calc:{params:{limit:0.18},result:{U:0.30,layers:[{n:'x',d:100,R:1}],src:[]}}}];
+        S.sel.push(allBU().length-1); renderReview();"""); pg.wait_for_timeout(300)
+    tabtext=pg.locator('.stab:has-text("Build-ups")').inner_text()
+    ok("T10 a failing check is named on the tab", "over target" in tabtext, " ".join(tabtext.split()))
+    ok("T10 and it is marked, not merely coloured",
+       "bad" in (pg.locator('.stab:has-text("Build-ups") .stn').get_attribute("class") or ""))
+
     print(json.dumps([{"r":a,"t":b,"x":c} for a,b,c in R],indent=0))
     print("PAGE ERRORS:", errs[:5])
     b.close()

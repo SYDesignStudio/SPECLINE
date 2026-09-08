@@ -509,18 +509,29 @@ function renderReview(){
   const sel=orderedSel(), r=refs(), ns=noteSections(), calcs=calcsOnJob();
   let notes=0; ns.forEach(v=>notes+=v.length);
   const missing=FIELDS.filter(f=>!S.data[f[0]]).map(f=>f[1]);
-  const rows=[
+  /* the job in summary, and the schedule checked build-up by build-up. On a full new build that
+     was 23 rows under the buttons, so they are two views — but the actions stay above the strip:
+     the point of this step is to issue, and an Issue button behind a tab is a hidden control. */
+  const sumRows=[
     ["Job", `${esc(S.data.job||"—")} · ${esc(S.data.rev||"P01")} · ${esc(S.data.address||"no site address")}`, missing.length?["bad",`${missing.length} of ${FIELDS.length} fields not set`]:["ok","Cover page complete"]],
     ["Type", `${esc(spec().name)} · ${esc(spec().region)}`, ["ok","Set"]],
     ["Insulation", esc(mfrLabel()), ["dim", (S.data.mfr||"kingspan")==="kingspan"?"Library products":"Substituted and recalculated"]],
     ...(m4Notes()?[["Access", esc(m4Label()), ["dim","Approved Document M Volume 1"]]]:[]),
-    ...sel.map(i=>{ const b=allBU()[i]; let f=["dim",b.u||"Library build-up"];
-      if(b.calc){ const lim=b.calc.params&&b.calc.params.limit; const pass=lim?b.calc.result.U<=lim+1e-9:true; f=[pass?"ok":"bad",`${b.calc.result.U.toFixed(2)} against ${lim?lim.toFixed(2):"—"}`]; }
-      return [r[i], esc(b.t), f]; }),
+    ["Build-ups", sel.length?`${sel.length} in the schedule`:"None selected", [sel.length?"ok":"bad", sel.length?"Part A ready":"Part A empty"]],
     ["Notes", `${notes} notes in ${ns.size} of ${cats().length} categories`, [notes?"ok":"bad", notes?"Part B ready":"No notes selected"]],
     ["Working", calcs.length?`${calcs.length} calculated build-up${calcs.length>1?"s":""} carried into section 4.0`:"No calculated build-ups on this job", ["dim", calcs.length?"BS EN ISO 6946 / 13370":"Optional"]],
     ["Regulatory flag", "AD L1 / F1 2026 editions in force 24 March 2027", ["dim","Carried on the last page"]]
   ];
+  const buRows=sel.map(i=>{ const b=allBU()[i]; let f=["dim",b.u||"Library build-up"];
+      if(b.calc){ const lim=b.calc.params&&b.calc.params.limit; const pass=lim?b.calc.result.U<=lim+1e-9:true; f=[pass?"ok":"bad",`${b.calc.result.U.toFixed(2)} against ${lim?lim.toFixed(2):"—"}`]; }
+      return [r[i], esc(b.t), f]; });
+  const toFix=sumRows.filter(x=>x[2][0]==="bad").length, over=buRows.filter(x=>x[2][0]==="bad").length;
+  /* a check that fails must say so ON the tab, or a tab becomes somewhere for a failure to hide */
+  const tabs=[{id:"sum", n:"Summary",   c:toFix?`${toFix} to fix`:"", bad:!!toFix},
+              {id:"bus", n:"Build-ups", c:over?`${over} over target`:String(buRows.length), bad:!!over}];
+  const strip=buRows.length>0;
+  const cur=(strip && tabs.some(t=>t.id===S.tab)) ? S.tab : "sum";
+  const rows=cur==="bus"?buRows:sumRows;
   el("stage").innerHTML=`<div class="stagehead">
       <p class="crumb">Review and issue &nbsp;·&nbsp; ${esc(spec().name)}</p>
       <h2>Ready to issue ${esc(S.data.rev||"P01")}?</h2>
@@ -533,8 +544,11 @@ function renderReview(){
       <div class="xcard"><span class="eyebrow">Issue</span><b>Issue ${esc(S.data.rev||"P01")}</b><p>Downloads the PDF, records the issue against this job and sets the working revision to ${esc(nextRev(S.data.rev))}.</p><button class="btn btn-accent" id="issue">Issue ${esc(S.data.rev||"P01")}</button></div>
       <div class="xcard"><span class="eyebrow">Read</span><b>Specification</b><p>Read the whole document as it will print before you send it.</p><button class="btn" id="readSpec">Open specification</button></div>
     </div>
+    ${strip?`<div class="stagetabs" role="tablist">`+tabs.map(t=>
+      `<button class="stab${cur===t.id?" cur":""}" data-stab="${t.id}" role="tab" aria-selected="${cur===t.id}">${esc(t.n)}${t.c?` <span class="stn${t.bad?" bad":""}">${esc(t.c)}</span>`:""}</button>`).join("")+`</div>`:""}
     <div class="rows">${rows.map(([l,v,f])=>`<div class="row"><span class="rl">${esc(l)}</span><span class="rv">${v}</span><span class="rf ${f[0]}">${esc(f[1])}</span></div>`).join("")}</div>
     <div class="navbar"><button class="btn" id="prev">← Back</button><span class="prog"><span style="width:100%"></span></span></div>`;
+  el("stage").querySelectorAll("[data-stab]").forEach(t=>t.onclick=()=>{ S.tab=t.dataset.stab; renderReview(); });
   el("finish").onclick=makePdf;
   el("finishDocx").onclick=makeDocx;
   el("issue").onclick=issue;

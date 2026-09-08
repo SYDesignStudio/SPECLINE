@@ -713,6 +713,15 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
   `S.tab` is UI state, not job state — it is not in `snapshot()`, and `setStep()` clears it so
   each category opens on its first view. A tab id that does not exist in the category you move
   to falls back to the first, so `nts` on a build-ups-only category cannot strand the page.
+- **Review and issue splits the same way, with one deliberate exception.** `Summary · Build-ups
+  16` — the job's own rows against the schedule checked build-up by build-up, which on a full
+  new build was 23 rows under the buttons. **The actions stay above the strip**: the point of
+  the step is to issue, and an Issue button behind a tab is a hidden control. Two rules keep the
+  split honest: **a failing check names itself on the tab** — `Summary 1 to fix`,
+  `Build-ups 1 over target`, in the warn colour *and* in words, so a tab never becomes somewhere
+  for a failure to hide; and the summary gained a **Build-ups** row of its own (`16 in the
+  schedule · Part A ready`) so the count is on the page you land on. The strip appears only when
+  there is a schedule to check.
 - **Two configurators can share a category.** External Walls carries the cavity wall and the
   framed wall. Their selects are namespaced — `data-cf="cavity"` against `data-cf="fr_*"` — and
   each binder scopes itself to the card holding its own Add button. Do not reintroduce a bare

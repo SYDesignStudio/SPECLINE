@@ -79,6 +79,8 @@ with sync_playwright() as p:
     pg.evaluate("setStep('review')"); pg.wait_for_timeout(300)
     rev=pg.inner_text("#stage")
     ok("M7 review names the manufacturer", "Celotex" in rev and "Substituted and recalculated" in rev)
+    pg.locator('.stab:has-text("Build-ups")').click(); pg.wait_for_timeout(250)
+    rev=pg.inner_text("#stage")
     ok("M7 review passes the recalculated wall", re.search(r"0\.\d\d against 0\.18", rev) is not None)
 
     # M8 a manufacturer with no product for the role keeps Kingspan and says so
