@@ -713,6 +713,13 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
   `S.tab` is UI state, not job state — it is not in `snapshot()`, and `setStep()` clears it so
   each category opens on its first view. A tab id that does not exist in the category you move
   to falls back to the first, so `nts` on a build-ups-only category cannot strand the page.
+- **The desk splits too**: `Jobs 6 · Project types 8`, with the headline, the two buttons and
+  the U-value card above the strip. With **nothing saved there is no strip** — the eight types
+  stand alone under their own heading, because an empty list is not a view worth a tab and the
+  first thing a new practice sees should be the way in. That is also why every suite can still
+  click `.tile[data-k="…"]` on a fresh desk: they clear `localStorage` first, so they land on
+  the types. With jobs saved, the way to start one is the hero's **Start a new job** button,
+  which opens the chooser — the tiles behind a tab are a second route, not the only one.
 - **Review and issue splits the same way, with one deliberate exception.** `Summary · Build-ups
   16` — the job's own rows against the schedule checked build-up by build-up, which on a full
   new build was 23 rows under the buttons. **The actions stay above the strip**: the point of

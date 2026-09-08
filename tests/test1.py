@@ -126,6 +126,22 @@ with sync_playwright() as p:
     ok("T10 and it is marked, not merely coloured",
        "bad" in (pg.locator('.stab:has-text("Build-ups") .stn').get_attribute("class") or ""))
 
+    # T11 the desk: what is on it, and what a new job can start from
+    pg.evaluate("go('home')"); pg.wait_for_timeout(500)
+    labs=[t.strip().splitlines()[0] for t in pg.locator("#home .stab").all_inner_texts()]
+    ok("T11 the desk splits into jobs and project types", labs==["Jobs","Project types"], str(labs))
+    ok("T11 the jobs list opens first",
+       pg.locator(".jobrow").count()>=1 and pg.locator("#hometiles").count()==0,
+       "%d rows" % pg.locator(".jobrow").count())
+    ok("T11 a new job can still be started with the list open", pg.is_visible("#homeNew"))
+    pg.locator('#home .stab:has-text("Project types")').click(); pg.wait_for_timeout(300)
+    ok("T11 the types tab brings the eight tiles back",
+       pg.locator("#hometiles .tile").count()==8 and pg.locator(".jobrow").count()==0)
+    pg.locator('#home .stab:has-text("Jobs")').click(); pg.wait_for_timeout(300)
+    ok("T11 and back to the jobs", pg.locator(".jobrow").count()>=1)
+    pg.locator(".jobrow").first.click(); pg.wait_for_timeout(600)
+    ok("T11 a job row still opens its job", pg.is_visible("#stage") and not pg.is_visible("#home"))
+
     print(json.dumps([{"r":a,"t":b,"x":c} for a,b,c in R],indent=0))
     print("PAGE ERRORS:", errs[:5])
     b.close()

@@ -4383,7 +4383,7 @@ function renderHome(){
   const n=jobs.length, issued=jobs.filter(j=>(j.history||[]).length).length;
   const head = n===0 ? `Nothing on the desk yet.` : `${word(n)} ${n===1?"job":"jobs"} in hand. <em>${issued?word(issued)+" issued.":"None issued yet."}</em>`;
   const sub = n===0 ? "Start the first job from a project type below. It is saved as you go, and comes back here to be reopened, revised and issued."
-                    : "Open a job to carry on where you left off, or start another from a project type below.";
+                    : "Open a job to carry on where you left off, or start another from a project type.";
   /* the card: the newest calculated build-up on the desk, or the library's default cavity wall */
   let card;
   const withCalc=jobs.map(j=>({j,c:(j.custom||[]).find(b=>b.calc)})).find(x=>x.c);
@@ -4393,6 +4393,12 @@ function renderHome(){
   } else { const r=UC.wall(CFG_DEFAULT);
     card={kicker:"Library default · full fill cavity wall", U:r.U, tgt:CFG_DEFAULT.limit, pass:r.U<=CFG_DEFAULT.limit+1e-9, layers:r.layers, note:"The default the External Walls configurator opens with. Every job calculates its own."};
   }
+  /* the desk holds two lists: what is on it, and what a new job can be started from. With
+     nothing saved there is no choice to make, so the types stand alone under their own heading
+     and the hero says so — an empty list is not a view worth a tab. */
+  const deskTabs=[{id:"jobs", n:"Jobs", c:String(n)}, {id:"types", n:"Project types", c:String(TYPES.length)}];
+  const strip=n>0;
+  const cur=strip ? (S.tab==="types"?"types":"jobs") : "types";
   el("home").innerHTML=`
     <section class="desk">
       <div>
@@ -4409,19 +4415,20 @@ function renderHome(){
       </div>
     </section>
     <section class="section">
-      <div class="sechead"><h2>Jobs</h2><span class="aside">${n?n+" saved":"none saved"}</span></div>
-      <div class="joblist">${n?jobs.map(jobRow).join(""):`<div class="empty"><b>No jobs yet.</b>Start one from a project type below. The job record, the build-ups you choose and the notes you keep are saved as you work.</div>`}</div>
-    </section>
-    <section class="section">
-      <div class="sechead"><h2>Start a new job</h2><span class="aside">Eight project types · England</span></div>
-      <div class="tiles" id="hometiles">${typeTiles()}</div>
+      ${strip?`<div class="stagetabs" role="tablist">`+deskTabs.map(t=>
+        `<button class="stab${cur===t.id?" cur":""}" data-stab="${t.id}" role="tab" aria-selected="${cur===t.id}">${esc(t.n)} <span class="stn">${esc(t.c)}</span></button>`).join("")+`</div>`
+        :`<div class="sechead"><h2>Start a new job</h2><span class="aside">Eight project types · England</span></div>`}
+      ${cur==="jobs" ? `<div class="joblist">${jobs.map(jobRow).join("")}</div>`
+                     : `<div class="tiles" id="hometiles">${typeTiles()}</div>`}
     </section>
     <div class="regflag"><span class="chip dim">AD L1 / F1 2026</span>
       <p>The 2026 editions of Approved Documents L1 and F1 were published on 24 March 2026 and come into force on 24 March 2027, with transitional relief for new dwellings commenced before 24 March 2028. Every specification carries the flag.</p></div>`;
   el("homeNew").onclick=()=>showChooser("new");
   const ho=el("homeOpen"); if(ho) ho.onclick=()=>openJob(jobs[0].id);
-  el("hometiles").querySelectorAll("button:not(:disabled)").forEach(b=>b.onclick=()=>newJob(b.dataset.k));
+  const ht=el("hometiles");
+  if(ht) ht.querySelectorAll("button:not(:disabled)").forEach(b=>b.onclick=()=>newJob(b.dataset.k));
   el("home").querySelectorAll(".jobrow").forEach(b=>b.onclick=()=>openJob(b.dataset.id));
+  el("home").querySelectorAll("[data-stab]").forEach(t=>t.onclick=()=>{ S.tab=t.dataset.stab; renderHome(); });
 }
 function jobRow(j){
   const t=typeOf(j.type), hist=j.history||[];
