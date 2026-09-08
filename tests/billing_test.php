@@ -171,6 +171,27 @@ stripe_handle_event(['id' => 'evt_c', 'type' => 'customer.subscription.deleted',
                      'data' => ['object' => ['id' => 'sub_1', 'customer' => 'cus_123', 'metadata' => ['practice_id' => (string)$pid]]]]);
 ok('a cancelled subscription ends the entitlement', !entitlement($pid)['live']);
 
+/* --- the renewal date, wherever this API version keeps it --- */
+/* The webhook destination created on 9 September 2026 is API version 2026-06-24.dahlia, which
+   carries current_period_end on the subscription ITEM, not the subscription. Read both. */
+$soon = time() + 86400 * 30;
+ok('the renewal date is read from the subscription item (2025+ versions)',
+   stripe_period_end(['items' => ['data' => [['current_period_end' => $soon]]]]) === $soon);
+ok('and still from the subscription itself (older versions)',
+   stripe_period_end(['current_period_end' => $soon]) === $soon);
+ok('the latest item wins where a subscription has several',
+   stripe_period_end(['items' => ['data' => [['current_period_end' => $soon - 100], ['current_period_end' => $soon]]]]) === $soon);
+ok('and neither present returns nothing rather than a guessed date',
+   stripe_period_end(['id' => 'sub_x']) === null);
+
+q('DELETE FROM entitlements WHERE practice_id = ?', [$pid]);
+stripe_handle_event(['id' => 'evt_period', 'type' => 'customer.subscription.updated', 'data' => ['object' => [
+    'id' => 'sub_2', 'customer' => 'cus_123', 'status' => 'active', 'metadata' => ['practice_id' => (string)$pid],
+    'items' => ['data' => [['current_period_end' => $soon, 'price' => ['id' => 'price_practice_monthly']]]]]]]);
+$e = entitlement($pid);
+ok('an event in the new shape still sets the renewal date',
+   $e['live'] && substr((string)$e['ends_at'], 0, 10) === gmdate('Y-m-d', $soon), (string)$e['ends_at']);
+
 /* --- an event with no practice on it must write nothing --- */
 $orphan = stripe_handle_event(['id' => 'evt_d', 'type' => 'customer.subscription.updated',
     'data' => ['object' => ['id' => 'sub_x', 'customer' => 'cus_unknown', 'status' => 'active',

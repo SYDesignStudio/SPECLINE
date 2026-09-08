@@ -69,6 +69,32 @@ returns one array; keep any keys that are already in it:
 That file is never deployed, never committed and never served. If it is missing, the site runs
 exactly as it does today and simply cannot charge anyone.
 
+## Where this got to on 9 September 2026
+
+Steps 1, 2 and 4 are **done in test mode**. The three products and five prices exist, the webhook
+destination `Specline` is Active on `https://specline.co.uk/webhook.php` listening to the six
+events, and the admin page reads **Prices set up 5 of 5**. The test-mode identifiers saved there:
+
+| | Price |
+|---|---|
+| Solo monthly | `price_1UDXzVKGvzcMFbObWc5vzmYi` |
+| Solo annual | `price_1UDY1HKGvzcMFbObYfgIqYrA` |
+| Practice monthly | `price_1UDY2HKGvzcMFbObwI3qe0OM` |
+| Practice annual | `price_1UDY30KGvzcMFbObrOKMuPPs` |
+| Specification credit | `price_1UDY40KGvzcMFbObaJbsus5S` |
+
+**Step 3 is yours, and is the only thing between here and a working test payment**: the secret key
+and the webhook signing secret into `specline-config.php`. The signing secret is on the
+destination's own page in Stripe, behind the reveal icon beside *Signing secret*. Until both are
+there the admin page reads `Secret key NOT SET` and `Webhook secret NOT SET`, and nothing can be
+charged.
+
+The destination was created on API version **2026-06-24.dahlia**, which carries
+`current_period_end` on the subscription ITEM rather than on the subscription. `stripe_period_end()`
+reads both shapes and returns nothing rather than a guess when neither is present.
+
+---
+
 ## 4. Paste the price identifiers
 
 **Administration → Billing → Stripe.** Paste each `price_…` into its row and save. Anything that

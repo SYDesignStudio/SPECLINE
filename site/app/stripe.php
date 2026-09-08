@@ -164,6 +164,26 @@ function stripe_verify(string $payload, string $sigHeader, string $secret, ?int 
     return false;
 }
 
+/**
+ * When the current period ends, from wherever this API version puts it.
+ *
+ * Stripe moved `current_period_end` off the subscription and onto each subscription ITEM in the
+ * 2025 versions, and the webhook destination created for Specline is on 2026-06-24.dahlia. Read
+ * both, newest shape first, and return null rather than a guess if neither is there — a null
+ * simply means the entitlement runs until Stripe says otherwise, which is safe. Inventing a
+ * renewal date would put a figure in front of a subscriber that nothing supports.
+ */
+function stripe_period_end(array $sub): ?int {
+    $items = $sub['items']['data'] ?? [];
+    if (is_array($items)) {
+        $ends = [];
+        foreach ($items as $it) if (!empty($it['current_period_end'])) $ends[] = (int)$it['current_period_end'];
+        if ($ends) return max($ends);
+    }
+    if (!empty($sub['current_period_end'])) return (int)$sub['current_period_end'];
+    return null;
+}
+
 /** Which practice an event is about. Metadata first, then the customer we already know. */
 function stripe_practice_of(array $obj): int {
     $meta = $obj['metadata'] ?? [];
@@ -236,7 +256,8 @@ function stripe_handle_event(array $ev): string {
         $price  = (string)($obj['items']['data'][0]['price']['id'] ?? '');
         $found  = stripe_plan_for_price($price);
         $plan   = $found['plan'] ?: (string)($obj['metadata']['plan'] ?? 'solo');
-        $ends   = !empty($obj['current_period_end']) ? gmdate('c', (int)$obj['current_period_end']) : null;
+        $pe     = stripe_period_end($obj);
+        $ends   = $pe ? gmdate('c', $pe) : null;
         if ($pid <= 0) { $note = 'no practice on the event; nothing written'; break; }
         if (in_array($status, ['active', 'trialing', 'past_due'], true)) {
             grant_entitlement($pid, $plan, $status === 'trialing' ? 'trialing' : ($status === 'past_due' ? 'past_due' : 'active'),
