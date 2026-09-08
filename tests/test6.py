@@ -4,6 +4,11 @@ ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 URL="file://"+os.path.join(ROOT,"dist","preview.html").replace("\\","/")
 R=[]
 def ok(n,c,x=""): R.append((("PASS" if c else "FAIL"),n,x))
+def calc(pg,label):
+    """open a calculator tab in the current category — the calculators sit behind tabs"""
+    t=pg.locator('.stab:has-text("%s")' % label)
+    if t.count(): t.first.click(); pg.wait_for_timeout(250)
+    return t.count()
 os.makedirs("dl",exist_ok=True)
 NEW=[("garage","Garage Conversion",18),("newbuild","New Build",28),("nbflats","New Build Flats",30),("basement","Basement Conversion",21),("garagebld","Garage Build",16)]
 with sync_playwright() as p:
@@ -43,6 +48,7 @@ with sync_playwright() as p:
     pg.goto(URL); pg.wait_for_timeout(500); pg.evaluate("try{localStorage.clear()}catch(e){}"); pg.goto(URL); pg.wait_for_timeout(700)
     pg.click('.tile[data-k="basement"]'); pg.wait_for_timeout(500)
     pg.locator('button.step:has-text("Basement Floors")').click(); pg.wait_for_timeout(300)
+    ok("B1 the basement calculator is offered as a tab", calc(pg,"Basement calculator")==1)
     ok("B1 basement configurator present", pg.locator("#addFloor").count()==1 and "heated basement" in pg.inner_text(".cfgcard h3").lower(), pg.inner_text(".cfgcard h3") if pg.locator(".cfgcard h3").count() else "none")
     u=pg.inner_text(".uval b").strip(); ok("B2 default 100 K103 floor + 100 wall, 2.7m, P/A 0.5 ≈ 0.13", u in ("0.13","0.12"), u)
     pg.select_option('select[data-cf="depth"]',"1.5"); pg.wait_for_timeout(300)
@@ -57,9 +63,12 @@ with sync_playwright() as p:
     pg.goto(URL); pg.wait_for_timeout(500); pg.evaluate("try{localStorage.clear()}catch(e){}"); pg.goto(URL); pg.wait_for_timeout(700)
     pg.click('.tile[data-k="newbuild"]'); pg.wait_for_timeout(500)
     pg.locator('button.step:has-text("Additional Notes for Walls")').click(); pg.wait_for_timeout(300)
-    ok("N1 no roof configurator under Additional Notes", pg.locator("#addRoof").count()==0)
+    ok("N1 no roof calculator under Additional Notes",
+       pg.locator('.stab:has-text("Roof calculator")').count()==0 and pg.locator("#addRoof").count()==0)
     pg.locator('button.step:has-text("Roofs")').first.click(); pg.wait_for_timeout(300)
+    calc(pg,"Roof calculator")
     ok("N2 roof configurator under Roofs", pg.locator("#addRoof").count()==1)
     pg.locator('button.step:has-text("Ground Floors")').click(); pg.wait_for_timeout(300)
+    calc(pg,"Ground floor calculator")
     ok("N3 ground floor configurator is solid kind (not basement)", "ground floor" in pg.inner_text(".cfgcard h3").lower(), pg.inner_text(".cfgcard h3"))
     print(json.dumps([{"r":a,"t":b,"x":c} for a,b,c in R])); print("PAGE ERRORS:",errs[:4]); b.close()

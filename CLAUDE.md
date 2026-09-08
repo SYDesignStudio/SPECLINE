@@ -694,12 +694,24 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
 - The chrome lockup is brackets as inline SVG and the wordmark as text (`.lockup`), per the
   identity sheet. Archivo 700 for the wordmark only; `--brand-ink` / `--bracket` carry its colours
   in both themes. `src/logos.js` holds the Specline icon data URIs and nothing else.
+- **A category's views are tabs** (`stageTabs()` in `app_js.js`, 9 September 2026). The library
+  list and each calculator the category offers are one strip under the heading — `Library 2/6 ·
+  Cavity wall calculator · Framed wall calculator` — and one view shows at a time. Before this,
+  External Walls stacked two calculators on top of twenty cards and the page was unusable.
+  Three things hold it together: the strip appears **only where there is a calculator**, so most
+  categories are unchanged; the foundation tab is called **Foundation check**, because that is
+  what it does (Table 10 is not held here and it calculates nothing); and adding a build-up from
+  a calculator **returns to the library**, because the new numbered card is the thing to look at
+  and a toast alone leaves the page looking untouched. `S.tab` is UI state, not job state — it
+  is not in `snapshot()`, and `setStep()` resets it.
 - **Two configurators can share a category.** External Walls carries the cavity wall and the
   framed wall. Their selects are namespaced — `data-cf="cavity"` against `data-cf="fr_*"` — and
   each binder scopes itself to the card holding its own Add button. Do not reintroduce a bare
   `document.querySelector(".cfgcard")`; test4 scopes its chip assertions with
-  `.cfgcard:has(#addWall)`.
-- Test selectors that must survive a restyle: `.tile[data-k]`, `button.step` (`.st`, `.sc`),
+  `.cfgcard:has(#addWall)`. They are now on separate tabs, so only one renders at a time — but
+  keep the namespacing: it is what makes the tabs safe to remove or rearrange.
+- Test selectors that must survive a restyle: `.stagetabs`, `.stab` (`.cur`, `[data-stab]`),
+  `.tile[data-k]`, `button.step` (`.st`, `.sc`),
   `#stepJob`, `.crumb`, `#fields input[data-k]`, `#typename`, `#stage .card` (`.tag`, `.more`,
   `.rm`), `#paper .sched`, `#btnPdf`, `#btnPrev`, `#btnType`, `.viewer`, `.cfgcard`, `.uval`,
   `#addWall/#addFloor/#addRoof`, `select[data-cf]`, `table.wk`, `.cfgwarn`.

@@ -108,7 +108,7 @@ const STANDARDS = [
   {item:"Building control", value:"Lower case in prose. ‘The Building Control Officer’ for the person.", flag:""}
 ];
 
-let S = {route:"home", type:null, id:null, data:{}, sel:[], notes:{}, step:-1, open:{}, custom:[], cfg:null, cfgF:null, cfgR:null, history:[], created:0, updated:0, ovr:{}};
+let S = {route:"home", type:null, id:null, data:{}, sel:[], notes:{}, step:-1, open:{}, custom:[], cfg:null, cfgF:null, cfgR:null, history:[], created:0, updated:0, ovr:{}, tab:"lib"};
 FIELDS.forEach(f=>S.data[f[0]]=f[2]);
 
 const el = id => document.getElementById(id);
@@ -140,7 +140,7 @@ function catCount(cat){
 function catTotal(cat){ const {bus,nts}=catItems(cat); return bus.length+nts.length; }
 
 function defaults(){
-  S.sel=[]; S.notes={}; S.step=-1; S.open={}; S.custom=[]; S.cfg=null; S.cfgF=null; S.cfgR=null; S.visited={}; S.ovr={};
+  S.sel=[]; S.notes={}; S.step=-1; S.open={}; S.custom=[]; S.cfg=null; S.cfgF=null; S.cfgR=null; S.visited={}; S.ovr={}; S.tab="lib";
   if(!S.data.mfr) S.data.mfr="kingspan";
   spec().notes.forEach((n,i)=>S.notes[i]=true);
   applyM4();
@@ -346,10 +346,24 @@ function renderSteps(){
 }
 function setStep(s){
   if(typeof S.step==="number" && S.step>=0){ S.visited=S.visited||{}; S.visited[S.step]=1; }
-  S.step=s; renderStage(); renderSteps(); save();
+  S.step=s; S.tab="lib"; renderStage(); renderSteps(); save();
 }
 
 /* ---------------- workspace: stage ---------------- */
+/* A category can carry the library list and one or more calculators. Stacked, that put two
+   calculators above twenty cards on the same page, so they are tabs: one view at a time. The
+   strip appears only where there is a calculator to open — most categories are the list alone.
+   The foundation one CHECKS rather than calculates (Approved Document A Table 10 is not held
+   here), so it is named for what it does. */
+function stageTabs(cat){
+  const t=[];
+  if(isWallCat(cat))       t.push({id:"cavity", n:"Cavity wall calculator",  f:()=>renderConfigurator()});
+  if(isFrameCat(cat))      t.push({id:"frame",  n:"Framed wall calculator",  f:()=>renderFrameConfigurator(cat)});
+  if(isFloorCat(cat))      t.push({id:"floor",  n:isBasementCat(cat)?"Basement calculator":"Ground floor calculator", f:()=>renderFloorConfigurator(cat)});
+  if(isRoofCat(cat))       t.push({id:"roof",   n:"Roof calculator",         f:()=>renderRoofConfigurator()});
+  if(isFoundationCat(cat)) t.push({id:"fdn",    n:"Foundation check",        f:()=>renderFoundationConfigurator()});
+  return t;
+}
 function renderStage(){
   if(S.step===-1) return renderJobRecord();
   if(S.step==="review") return renderReview();
@@ -357,17 +371,27 @@ function renderStage(){
   if(cat===undefined){ S.step=-1; return renderJobRecord(); }
   const {bus,nts} = catItems(cat);
   const r = refs();
-  let h = `<div class="stagehead">
+  const tabs = stageTabs(cat);
+  const cur = tabs.some(t=>t.id===S.tab) ? S.tab : "lib";
+  const onLib = cur==="lib";
+  const lede = bus.length ? "Tick the build-ups used on this job. They number themselves in the order you tick them."
+                          : "Every note is on to begin with. Untick what does not apply to this job.";
+  let h = `<div class="stagehead${tabs.length?" tabbed":""}">
       <p class="crumb">Step ${S.step+1} of ${cats().length} &nbsp;·&nbsp; ${esc(spec().name)}</p>
       <h2>${esc(cat)}</h2>
-      <p class="lede">${bus.length?"Tick the build-ups used on this job. They number themselves in the order you tick them.":"Every note is on to begin with. Untick what does not apply to this job."}</p>
+      ${tabs.length?"":`<p class="lede">${lede}</p>`}
     </div>`;
-  if(isWallCat(cat)) h += renderConfigurator();
-  if(isFloorCat(cat)) h += renderFloorConfigurator(cat);
-  if(isRoofCat(cat)) h += renderRoofConfigurator();
-  if(isFoundationCat(cat)) h += renderFoundationConfigurator();
-  if(isFrameCat(cat)) h += renderFrameConfigurator(cat);
-  if(bus.length){
+  if(tabs.length){
+    /* the switcher first, then the copy for whichever view is open: the calculators speak for
+       themselves once open, so only the list carries an instruction */
+    h += `<div class="stagetabs" role="tablist">
+      <button class="stab${onLib?" cur":""}" data-stab="lib" role="tab" aria-selected="${onLib}">Library <span class="stn">${catCount(cat)}/${catTotal(cat)}</span></button>`
+      + tabs.map(t=>`<button class="stab${cur===t.id?" cur":""}" data-stab="${t.id}" role="tab" aria-selected="${cur===t.id}">${esc(t.n)}</button>`).join("")
+      + `</div>`;
+    if(onLib) h += `<p class="lede stagelede">${lede}</p>`;
+  }
+  if(!onLib) h += tabs.find(t=>t.id===cur).f();
+  if(onLib && bus.length){
     h += `<p class="grouplabel">Construction build-ups</p>`;
     h += bus.map(({b,i})=>{
       const on=S.sel.includes(i), opened=S.open["b"+i];
@@ -385,7 +409,7 @@ function renderStage(){
       </div>`;
     }).join("");
   }
-  if(nts.length){
+  if(onLib && nts.length){
     if(bus.length) h += `<p class="grouplabel">Specification notes</p>`;
     h += nts.map(({n,i})=>{
       const on=!!S.notes[i], opened=S.open["n"+i];
@@ -397,7 +421,7 @@ function renderStage(){
       </div>`;
     }).join("");
   }
-  if(!bus.length && !nts.length) h += `<p class="lede">Nothing in this category for this project type.</p>`;
+  if(onLib && !bus.length && !nts.length) h += `<p class="lede">Nothing in this category for this project type.</p>`;
 
   const last = S.step===cats().length-1;
   h += `<div class="navbar">
@@ -416,6 +440,7 @@ function renderStage(){
     renderStage(); renderSteps(); renderPaper(); save();
   });
   bindConfigurator3(); bindConfigurator4(); bindConfigurator(); bindConfigurator2();
+  el("stage").querySelectorAll("[data-stab]").forEach(t=>t.onclick=()=>{ S.tab=t.dataset.stab; renderStage(); });
   el("stage").querySelectorAll("select[data-mo]").forEach(s=>s.onchange=()=>{
     const i=+s.dataset.mo; S.ovr=S.ovr||{}; if(s.value) S.ovr[i]=s.value; else delete S.ovr[i];
     renderStage(); renderSteps(); renderPaper(); save();
@@ -1138,6 +1163,13 @@ async function deleteJob(id){
 }
 
 /* ---------------- header and chrome ---------------- */
+/* Adding a build-up from a calculator puts a card in the library list, so go back to it: the
+   new reference is the thing to see, and a toast alone leaves the page looking unchanged.
+   Capture, so this runs before the configurator's own handler re-renders the stage. */
+el("stage").addEventListener("click", e=>{
+  if(e.target && e.target.closest && e.target.closest("#addWall,#addFrame,#addFloor,#addRoof,#addFound")) S.tab="lib";
+}, true);
+
 el("btnPdf").onclick=makePdf;
 el("btnPdf2").onclick=makePdf;
 el("btnDocx").onclick=makeDocx;

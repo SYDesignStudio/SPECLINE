@@ -5,14 +5,21 @@ URL="file://"+os.path.join(ROOT,"dist","preview.html").replace("\\","/")
 os.makedirs(os.path.join(ROOT,"dist","dl"),exist_ok=True)
 R=[]
 def ok(n,c,x=""): R.append((("PASS" if c else "FAIL"),n,x))
+def calc(pg,label):
+    """open a calculator tab in the current category — the calculators sit behind tabs"""
+    t=pg.locator('.stab:has-text("%s")' % label)
+    if t.count(): t.first.click(); pg.wait_for_timeout(250)
+    return t.count()
 with sync_playwright() as p:
     b=p.chromium.launch(); c=b.new_context(viewport={'width':1500,'height':1000},accept_downloads=True)
     pg=c.new_page(); errs=[]; pg.on("pageerror",lambda e:errs.append(str(e)))
     pg.goto(URL); pg.wait_for_timeout(800); pg.click('.tile[data-k="extension"]'); pg.wait_for_timeout(500)
     # floor
     pg.locator('button.step:has-text("Ground Floors")').click(); pg.wait_for_timeout(300)
+    ok("F1 the ground floor calculator is offered as a tab", calc(pg,"Ground floor calculator")==1)
     ok("F1 floor configurator present", pg.locator("#addFloor").count()==1)
-    ok("F1 wall configurator absent here", pg.locator("#addWall").count()==0)
+    ok("F1 no cavity wall calculator here", pg.locator('.stab:has-text("Cavity wall")').count()==0
+       and pg.locator("#addWall").count()==0)
     u=pg.inner_text(".uval b").strip(); ok("F2 default 100 TF70 P/A 0.5 clay = 0.16", u=="0.16", u)
     pg.select_option('select[data-cf="pa"]',"1"); pg.wait_for_timeout(250)
     u2=pg.inner_text(".uval b").strip(); ok("F3 P/A 1.0 raises U", float(u2)>float(u), f"{u}->{u2}")
@@ -25,6 +32,7 @@ with sync_playwright() as p:
     ok("F5 ISO 13370 steps in preview", "Characteristic dimension" in pg.inner_text("#paper"))
     # roof
     pg.locator('button.step:has-text("Roofs")').click(); pg.wait_for_timeout(300)
+    calc(pg,"Roof calculator")
     ok("R1 roof configurator present", pg.locator("#addRoof").count()==1)
     u=pg.inner_text(".uval b").strip(); ok("R2 default warm deck 150 TR27 = 0.15", u=="0.15", u)
     pg.select_option('select[data-cf="kind"]',"rafter"); pg.wait_for_timeout(300)
@@ -45,13 +53,15 @@ with sync_playwright() as p:
     with pg.expect_download(timeout=40000) as d: pg.click("#btnPdf")
     dd=d.value; path="dl/fr.pdf"; dd.save_as(path)
     ok("X2 PDF with floor+roof working", os.path.getsize(path)>40000, f"{os.path.getsize(path)} bytes")
-    # wall configurator still works alongside
+    # the cavity wall calculator, on its own tab in another category, is unaffected
     pg.locator('button.step:has-text("External Walls")').click(); pg.wait_for_timeout(300)
+    calc(pg,"Cavity wall calculator")
     pg.select_option('select[data-cf="gapLevel"]',"0"); pg.wait_for_timeout(250)
     ok("X3 wall configurator unaffected", pg.inner_text(".uval b").strip()=="0.17")
 
     # ---- foundations: the configurator appears, and the projection rule bites ----
     pg.locator('button.step:has-text("Foundations")').first.click(); pg.wait_for_timeout(300)
+    ok("FD1 the foundation tab is named for what it does, a check", calc(pg,"Foundation check")==1)
     ok("FD1 foundation configurator present under Foundations",
        pg.locator("#addFound").count()==1 and "foundation" in pg.inner_text(".cfgcard h3").lower(),
        pg.inner_text(".cfgcard h3") if pg.locator(".cfgcard h3").count() else "none")
@@ -78,6 +88,7 @@ with sync_playwright() as p:
     pg.evaluate("try{localStorage.clear()}catch(e){}"); pg.goto(URL); pg.wait_for_timeout(700)
     pg.click('.tile[data-k="loft"]'); pg.wait_for_timeout(600)
     pg.locator('button.step:has-text("Dormer Construction (Walls)")').first.click(); pg.wait_for_timeout(400)
+    calc(pg,"Framed wall calculator")
     ok("FR1 framed wall configurator present on a dormer cheek category",
        pg.locator("#addFrame").count()==1 and "framed wall" in pg.inner_text(".cfgcard h3").lower(),
        pg.inner_text(".cfgcard h3") if pg.locator(".cfgcard h3").count() else "none")

@@ -4,24 +4,41 @@ ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 URL="file://"+os.path.join(ROOT,"dist","preview.html").replace("\\","/")
 R=[]
 def ok(n,c,x=""): R.append((("PASS" if c else "FAIL"),n,x))
+def calc(pg,label):
+    """open a calculator tab in the current category — the calculators sit behind tabs"""
+    t=pg.locator('.stab:has-text("%s")' % label)
+    if t.count(): t.first.click(); pg.wait_for_timeout(250)
+    return t.count()
 os.makedirs("dl",exist_ok=True)
 with sync_playwright() as p:
     b=p.chromium.launch(); c=b.new_context(viewport={'width':1500,'height':1000},accept_downloads=True)
     pg=c.new_page(); errs=[]; pg.on("pageerror",lambda e:errs.append(str(e)))
     pg.goto(URL); pg.wait_for_timeout(800); pg.click('.tile[data-k="extension"]'); pg.wait_for_timeout(500)
     pg.locator('button.step:has-text("External Walls")').click(); pg.wait_for_timeout(300)
-    # External Walls carries two configurators: a cavity wall and a framed wall. Their selects are
-    # namespaced (data-cf="cavity" vs data-cf="fr_*") so neither suite can pick up the other's.
-    ok("C1 configurator present in External Walls", pg.locator("#addWall").count()==1)
-    ok("C1 the framed wall configurator sits alongside it",
-       pg.locator("#addFrame").count()==1 and pg.locator(".cfgcard").count()==2,
+    # External Walls carries two calculators, a cavity wall and a framed wall, each behind its own
+    # tab. Their selects are namespaced (data-cf="cavity" vs data-cf="fr_*") so neither suite can
+    # pick up the other's, and only one renders at a time.
+    tabs=[t.strip().split("\n")[0] for t in pg.locator(".stab").all_inner_texts()]
+    ok("C1 the category offers the library and both calculators as tabs",
+       tabs==["Library","Cavity wall calculator","Framed wall calculator"], str(tabs))
+    ok("C1 the library list is what opens first",
+       pg.locator("#addWall").count()==0 and pg.locator('#stage .card input[data-t="b"]').count()>0)
+    calc(pg,"Cavity wall")
+    ok("C1 the cavity tab opens the cavity calculator alone",
+       pg.locator("#addWall").count()==1 and pg.locator("#addFrame").count()==0 and pg.locator(".cfgcard").count()==1,
        str(pg.locator(".cfgcard").count()))
+    ok("C1 no library cards behind a calculator",
+       pg.locator('#stage .card input[data-t="b"]').count()==0)
     ok("C1 the two do not share select names",
-       pg.locator('select[data-cf="insulation"]').count()==1 and pg.locator('select[data-cf="fr_insulation"]').count()==1,
-       f'cavity {pg.locator(chr(39)+"select[data-cf=" + chr(34) + "insulation" + chr(34) + "]"+chr(39)).count()}')
-    ok("C1 wall configurator absent in Roofs", (pg.locator('button.step:has-text("Roofs")').click(), pg.wait_for_timeout(200), pg.locator("#addWall").count()==0)[2])
+       pg.locator('select[data-cf="insulation"]').count()==1 and pg.locator('select[data-cf="fr_insulation"]').count()==0)
+    calc(pg,"Framed wall")
+    ok("C1 the framed tab opens the framed calculator alone",
+       pg.locator("#addFrame").count()==1 and pg.locator("#addWall").count()==0 and
+       pg.locator('select[data-cf="fr_insulation"]').count()==1)
+    ok("C1 no calculator tab in Roofs for a wall", (pg.locator('button.step:has-text("Roofs")').click(), pg.wait_for_timeout(200),
+       pg.locator('.stab:has-text("Cavity wall")').count()==0)[2])
     pg.locator('button.step:has-text("External Walls")').click(); pg.wait_for_timeout(300)
-    # scoped to the cavity card: a framed wall configurator renders alongside it
+    calc(pg,"Cavity wall")
     CAV = ".cfgcard:has(#addWall) "
     u=pg.inner_text(CAV+".uval b").strip()
     ok("C2 default (90 K106 / 0.15 block, level 1) reads 0.18", u=="0.18", u)
@@ -48,9 +65,10 @@ with sync_playwright() as p:
     # add as build-up -> back to K106 default first
     pg.select_option('select[data-cf="fill"]',"full"); pg.wait_for_timeout(200)
     pg.select_option('select[data-cf="insulation"]',"k106"); pg.select_option('select[data-cf="thickness"]',"90"); pg.select_option('select[data-cf="cavity"]',"100"); pg.wait_for_timeout(250)
-    before=pg.locator('#stage .card input[data-t="b"]').count()
+    before=pg.evaluate("allBU().length")
     pg.click("#addWall"); pg.wait_for_timeout(400)
-    after=pg.locator('#stage .card input[data-t="b"]').count()
+    ok("C7 adding returns to the library so the new card is visible", pg.evaluate("S.tab")=="lib")
+    after=pg.evaluate("allBU().length")
     ok("C7 add creates a new build-up card", after==before+1, f"{before}->{after}")
     ok("C7 new build-up is selected and numbered", pg.locator('#stage .card.on .tag:not(.off)').count()>=1)
     tags=[t.strip() for t in pg.locator('#stage .card.on .tag').all_inner_texts()]

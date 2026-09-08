@@ -24,6 +24,11 @@ DL = os.path.join(ROOT, "dist", "dl")
 os.makedirs(DL, exist_ok=True)
 R = []
 def ok(n, c, x=""): R.append((("PASS" if c else "FAIL"), n, x))
+def calc(pg,label):
+    """open a calculator tab in the current category — the calculators sit behind tabs"""
+    t=pg.locator('.stab:has-text("%s")' % label)
+    if t.count(): t.first.click(); pg.wait_for_timeout(250)
+    return t.count()
 
 with sync_playwright() as p:
     b = p.chromium.launch()
@@ -53,6 +58,7 @@ with sync_playwright() as p:
 
     # add a calculated wall so section 4.0 has working in it
     pg.locator('button.step:has-text("External Walls")').click(); pg.wait_for_timeout(300)
+    calc(pg,"Cavity wall calculator")
     if pg.locator("#addWall").count():
         pg.click("#addWall"); pg.wait_for_timeout(400)
     ok("W2 a calculated build-up is on the job", pg.evaluate("calcsOnJob().length") >= 1,
