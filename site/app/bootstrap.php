@@ -63,7 +63,13 @@ if (PHP_SAPI !== 'cli') {
     header('X-Content-Type-Options: nosniff');
     header('X-Frame-Options: DENY');
     header('Referrer-Policy: strict-origin-when-cross-origin');
-    header("Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'");
+    /* form-action must name Stripe. Chrome and Safari apply this directive to the WHOLE redirect
+       chain of a form submission, not just its action: with 'self' alone, posting to a page that
+       answers 302 https://checkout.stripe.com is blocked, silently, after the request has already
+       been made. Twelve checkout sessions were created that way in thirty-six seconds before the
+       console gave it away. checkout.stripe.com is the till; billing.stripe.com is the portal
+       where a subscriber changes a card or cancels. */
+    header("Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; form-action 'self' https://checkout.stripe.com https://billing.stripe.com; frame-ancestors 'none'; base-uri 'self'");
     header('Cache-Control: no-store');
 }
 

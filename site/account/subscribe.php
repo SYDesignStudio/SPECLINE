@@ -127,8 +127,16 @@ page_start('Plans');
    buttons say what is happening and refuse a second press; the form still works without this
    script, it just goes back to being silent. */
 document.querySelectorAll('form').forEach(function (f) {
-  f.addEventListener('submit', function () {
-    var pressed = f.querySelector('button:focus') || f.querySelector('button');
+  f.addEventListener('submit', function (ev) {
+    var pressed = ev.submitter || f.querySelector('button:focus') || f.querySelector('button');
+    /* A disabled button is not submitted, and Monthly/Annual IS the button — disabling it before
+       the browser serialises the form would drop `period` and quietly sell the monthly plan to
+       someone who asked for the annual one. Copy it into the form first. */
+    if (pressed && pressed.name) {
+      var h = document.createElement('input');
+      h.type = 'hidden'; h.name = pressed.name; h.value = pressed.value;
+      f.appendChild(h);
+    }
     f.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
     if (pressed) { pressed.dataset.was = pressed.textContent; pressed.textContent = 'Opening Stripe…'; }
     /* If the redirect never comes — a network drop, Stripe refusing — give the page back rather
