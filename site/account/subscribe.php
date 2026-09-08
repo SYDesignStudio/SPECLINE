@@ -23,8 +23,12 @@ if (is_post()) {
         flash('Payment is not connected yet, so nothing can be bought. Nothing was charged.', 'hold');
         redirect('/account/subscribe.php');
     }
-    if (!throttle('checkout:' . $u['id'], 12, 3600)) {
-        flash('That is a lot of checkouts in an hour. Try again later, or ask us.', 'hold');
+    /* A limit on how often we may ask Stripe to open a checkout, not on how often someone may
+       change their mind. Twelve an hour blocked a first evening of testing, so: thirty, and the
+       message says what to do rather than telling someone off. The key is versioned because
+       raising the limit does nothing for a window that has already filled. */
+    if (!throttle('checkout2:' . $u['id'], 30, 3600)) {
+        flash('Thirty checkouts have been opened from this account in the last hour, so this one was not. Nothing is charged for an abandoned checkout. Wait an hour, or ask us and we will clear it.', 'hold');
         redirect('/account/subscribe.php');
     }
     if ($a === 'subscribe') {
@@ -116,4 +120,24 @@ page_start('Plans');
   <p class="small muted">Terms are at <a href="/terms.html">specline.co.uk/terms.html</a>. They are drafted in house and say so; a solicitor has not reviewed them yet, and that is stated on the page rather than hidden.</p>
   <p><a href="/account/">Back to your account</a></p>
 </div>
+<script>
+/* The button posts here, this page asks Stripe for a checkout, and only then does the browser
+   move — a second or two in which the page looks untouched and invites another click. Twelve
+   sessions were opened in thirty-six seconds that way on the first evening of testing. So the
+   buttons say what is happening and refuse a second press; the form still works without this
+   script, it just goes back to being silent. */
+document.querySelectorAll('form').forEach(function (f) {
+  f.addEventListener('submit', function () {
+    var pressed = f.querySelector('button:focus') || f.querySelector('button');
+    f.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+    if (pressed) { pressed.dataset.was = pressed.textContent; pressed.textContent = 'Opening Stripe…'; }
+    /* If the redirect never comes — a network drop, Stripe refusing — give the page back rather
+       than leaving a dead form behind. */
+    setTimeout(function () {
+      f.querySelectorAll('button').forEach(function (b) { b.disabled = false; });
+      if (pressed && pressed.dataset.was) pressed.textContent = pressed.dataset.was;
+    }, 12000);
+  });
+});
+</script>
 <?php page_end(); ?>
