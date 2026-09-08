@@ -166,7 +166,8 @@ REACHES_INSTEAD = re.compile(
 # about the studs and then name a separate lining board inboard of them, and merging that would
 # swallow a real layer.
 INFILLING = re.compile(r"(?:stud|rafter|joist)s?\s+depth\s+(?:filled|infilled|insulated)|"
-                       r"filled with|infilled with|\binfill\b|between the (?:studs|joists|rafters)",
+                       r"filled with|infilled with|\binfill\b|between the (?:studs|joists|rafters)|"
+                       r"in the (?:stud|joist|rafter) void",
                        re.I)
 
 
@@ -339,6 +340,8 @@ def _rescue(window, layers, notes, context="", outer=None, limit=None):
 # its plasterboard on the weather side. Reversing the list orders what the clause already states
 # and invents nothing; it is recorded in extraction_notes so it can be checked.
 INSIDE_FACE = ("pboard",)
+# A clause that spells out which way up it is reading.
+TOP_DOWN = re.compile(r"from the top", re.I)
 
 # A lining, as opposed to insulation that belongs on the outside of a wall. An internally
 # insulated wall clause states the work first and the wall it goes on second - "provide 72.5mm
@@ -429,6 +432,40 @@ def merge_member_fill(layers, notes):
     filling the rafter depth". Both then survive and the roof is drawn 150mm too thick, which the
     sloping drawing made obvious.
     """
+    # The two need not be adjacent. An intermediate floor names the joists, then the deck that
+    # goes on them, and only then the quilt between them — "47mm x 220mm C24 joists ... 22mm
+    # chipboard ... 100mm mineral wool laid between the joists" — and with the deck in between,
+    # the adjacent-pairs pass below never saw them. Three floors were drawn a full joist depth
+    # thicker than they are.
+    out = list(layers)
+    for i, member in enumerate(out):
+        if member is None or member.get("hatch") not in ("timber", "metal"):
+            continue
+        if not MEMBER_WORD.search(member.get("material") or ""):
+            continue
+        for j, fill in enumerate(out):
+            if j == i or fill is None or fill.get("hatch") not in ("ins", "wool"):
+                continue
+            if float(fill["t"]) > float(member["t"]):
+                continue
+            # read_from, not material: the label is trimmed at the next thickness, and the words
+            # that prove it is a fill are usually in the part that was trimmed off — "100mm
+            # mineral wool of not less than 10 kg/m³ laid between the joists" labels a layer
+            # called just "mineral wool".
+            if not INFILLING.search((fill.get("_before", "") or "") + " "
+                                    + (fill.get("read_from") or "") + " "
+                                    + (fill.get("material") or "") + " "
+                                    + (fill.get("_after", "") or "")):
+                continue
+            notes.append("merged %gmm '%s' into the zone it fills — one band, not two"
+                         % (float(member["t"]), (member["material"] or "")[:44]))
+            out[i] = dict(fill, t=member["t"],
+                          material=("%s between %s"
+                                    % (fill["material"], member["material"]))[:90])
+            out[j] = None
+            break
+    layers = [l for l in out if l is not None]
+
     out = []
     for l in layers:
         if out:
@@ -462,9 +499,16 @@ def merge_member_fill(layers, notes):
     return out
 
 
-def face_order(group, layers, notes):
+def face_order(group, layers, notes, clause=()):
     if len(layers) < 2:
         return layers
+
+    # A clause that says so states its build-up the other way up. Floors and roofs are drawn
+    # bottom to top - hardcore, slab, insulation, screed - so a floor described "from the top"
+    # comes out with its ceiling above its deck unless it is turned over.
+    if group in ("IF", "SF", "BF", "GF", "RF") and TOP_DOWN.search(" ".join(clause)):
+        notes.append("layers reversed — the clause states this build-up from the top down")
+        layers = list(reversed(layers))
 
     if group in ("EW", "SW", "BW"):
         # A wall is drawn outside to inside. Where the clause opens with the lining and the
@@ -480,19 +524,35 @@ def face_order(group, layers, notes):
 
     if group not in ("RF", "SF", "IF"):
         return layers
+    # Layer one is the BOTTOM of the drawing — the ground floor proves it, with its hardcore
+    # drawn at the bottom and the screed at the top. The ceiling of a roof or of a floor is at
+    # the bottom too, so the ceiling finish goes FIRST. It used to be pushed last, which drew
+    # every flat-read roof and floor upside down: a plasterboard ceiling above 400mm of loft
+    # quilt, and above the deck of an intermediate floor.
     first, last = (layers[0].get("hatch") or ""), (layers[-1].get("hatch") or "")
-    if first in INSIDE_FACE and last not in INSIDE_FACE:
-        notes.append("layers reversed so the ceiling finish reads as the inside face — the clause "
-                     "states this build-up from the inside out")
+    if last in INSIDE_FACE and first not in INSIDE_FACE:
+        notes.append("layers reversed so the ceiling finish reads at the bottom — the clause "
+                     "states this build-up from the outside in")
         layers = list(reversed(layers))
 
-    # The inside face is the last layer of a vertical element, so a lift laid OVER another sits
-    # further from it — earlier in the list. Three of the ceiling-level roofs had the 300mm
-    # over-joist lift next to the ceiling and the 100mm between-joist lift on the outside, which
-    # is the wrong way round for anyone dimensioning the two apart.
+    # A floor clause is not written as a stack. "Floor joists ... Deck with 18mm board ... line
+    # the underside with 12.5mm plasterboard" names the structure, then what goes on top of it,
+    # then what goes under it, and no reversal of that list is the section. Only the roles are
+    # fixed: the ceiling is at the bottom, the joist zone sits on it, and the deck goes on top.
+    if group in ("IF", "SF") and (layers[0].get("hatch") or "") in INSIDE_FACE:
+        zone = next((l for l in layers[1:] if " between " in (l.get("material") or "")), None)
+        if zone is not None and layers.index(zone) != 1:
+            notes.append("the joist zone placed on the ceiling — a floor clause names its parts "
+                         "by what they do, not in the order they stack")
+            layers = [layers[0], zone] + [l for l in layers[1:] if l is not zone]
+
+    # The ceiling is the first layer, so a lift laid OVER another sits further from it — later in
+    # the list. Three of the ceiling-level roofs had the 300mm over-joist lift next to the
+    # ceiling and the 100mm between-joist lift outside it, the wrong way round for anyone
+    # dimensioning the two apart.
     for i in range(len(layers) - 1):
         a, b = layers[i], layers[i + 1]
-        if b.get("_laid_over") and not a.get("_laid_over") and a.get("hatch") == b.get("hatch"):
+        if a.get("_laid_over") and not b.get("_laid_over") and a.get("hatch") == b.get("hatch"):
             layers[i], layers[i + 1] = b, a
     return layers
 
@@ -642,7 +702,14 @@ def layers_from(text, state=None):
     for mb in members:
         same = next((L for L in layers if abs(float(L["t"]) - mb["depth"]) < 0.51), None)
         if same is None:
+            # What fills the space between joists is insulation, never a deck. The candidate used
+            # to be the first layer whose run-on mentioned the joists at all, and on the new build
+            # intermediate floor that was the chipboard: "22mm tongued and grooved P5 chipboard
+            # ... screwed to the joists, 100mm mineral wool laid between the joists". An 18mm
+            # board was promoted to the 220mm zone and the quilt drawn below it, a floor 78mm
+            # thicker than it is with its deck missing.
             same = next((L for L in layers if float(L["t"]) <= mb["depth"]
+                         and (L.get("hatch") in ("wool", "ins", "void"))
                          and FILLS_THE_ZONE.search(L.get("_after", ""))), None)
             if same is not None:      # a partial fill: the zone is still the member's depth
                 same["t"] = int(mb["depth"]) if mb["depth"] == int(mb["depth"]) else mb["depth"]
@@ -676,7 +743,8 @@ def layers_from(text, state=None):
             notes.append("not a layer — %gmm restates a cavity already read: '%s'"
                          % (float(L["t"]), (L.get("material") or "")[:48]))
             continue
-        L.pop("_after", None)
+        # _after is kept: merge_member_fill needs it to see "laid between the joists", which
+        # follows the figure. The caller drops it with _before once the merges are done.
         keep.append(L)
     return keep, notes
 
@@ -735,10 +803,11 @@ def build():
                         continue
                     seen.add(k)
                     layers.append(l)
-            layers = face_order(b["g"], merge_member_fill(layers, notes), notes)
+            layers = face_order(b["g"], merge_member_fill(layers, notes), notes, b["p"])
             layers = line_both_faces(b["g"], layers, b["p"], notes)
             for l in layers:                     # context kept only for the merges and the order
                 l.pop("_before", None)
+                l.pop("_after", None)
                 l.pop("_laid_over", None)
             got, tgt = uvals(b)
             unmatched += sum(1 for l in layers if l["hatch"] is None)

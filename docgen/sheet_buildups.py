@@ -580,7 +580,9 @@ def pitched_svg(rec, sents):
     upright, and the key sits beneath, unrotated, as it does for a flat build-up.
     """
     import math
-    layers = rec["layers"]
+    # The schedule reads bottom first, so for a roof that is the ceiling. On the slope y=0 is the
+    # OUTSIDE face, so the same list is walked the other way.
+    layers = list(reversed(rec["layers"]))
     total = sum(float(l["t"]) for l in layers)
     RUN = 1350.0
     a = math.radians(PITCH)

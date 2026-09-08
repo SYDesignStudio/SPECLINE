@@ -106,6 +106,18 @@ def review(doc, only=None):
                 if not lined_both and hs[0] == "pboard" and                         any(h in ("brick", "block", "dense") for h in hs[1:]):
                     add("FAIL", tk, b, "drawn inside-out: the internal finish is the outer layer")
 
+            # 5b. a floor between two storeys, drawn without its structure
+            #
+            # The intermediate floor in the extension set was drawn 30.5mm thick — an 18mm deck
+            # and a 12.5mm ceiling, no joists at all — because its clause left the joist size to
+            # the engineer and there was nothing to read. Nothing else caught it: every layer it
+            # drew was real, correctly hatched and in the right order. Only the total gave it
+            # away. No floor between two storeys is thinner than this.
+            if g in ("IF", "SF", "BF") and sum(float(L["t"]) for L in ls) < 150:
+                add("FAIL", tk, b, "drawn %gmm thick: a floor between two storeys has lost its "
+                                   "structure — the clause states no joist or slab depth"
+                    % sum(float(L["t"]) for L in ls))
+
             # 6. does it finish anywhere sensible
             if g in INSIDE and not any(L.get("hatch") in INSIDE[g] for L in ls):
                 add("note", tk, b, "no internal finish among the layers (%s)"

@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-08T00:35:31+00:00",
+ "generated": "2026-09-08T01:02:29+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [
@@ -687,15 +687,39 @@
      "u_achieved": null,
      "u_target": null,
      "standard": "",
-     "layers": [],
-     "total_mm": null,
-     "extraction_notes": [],
+     "layers": [
+      {
+       "t": 12.5,
+       "material": "plasterboard to the underside",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard to the underside"
+      },
+      {
+       "t": 250,
+       "material": "mineral wool between open web joists",
+       "hatch": "wool",
+       "read_from": "100mm mineral wool of not less than 10 kg/m³ laid between the joists"
+      },
+      {
+       "t": 18,
+       "material": "moisture resistant tongued and grooved flooring grade board",
+       "hatch": "timber",
+       "read_from": "18mm moisture resistant tongued and grooved flooring grade board"
+      }
+     ],
+     "total_mm": 280.5,
+     "extraction_notes": [
+      "not treated as a layer: 'centres'",
+      "merged 250mm 'open web joists' into the zone it fills — one band, not two",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in",
+      "the joist zone placed on the ceiling — a floor clause names its parts by what they do, not in the order they stack"
+     ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Proprietary engineered open web or I-section joists to the manufacturer's design and the structural engineer's approval, at centres as scheduled, with web stiffeners, hangers and bearing details strictly to the manufacturer's instructions.",
+      "Proprietary engineered open web or I-section joists to the manufacturer's design and the structural engineer's approval, at centres as scheduled, with web stiffeners, hangers and bearing details strictly to the manufacturer's instructions. The detail is drawn on 250mm open web joists at 400mm centres; the manufacturer's design governs the depth and the centres for the span actually built.",
       "No engineered joist is to be notched, drilled or cut other than at the positions and sizes expressly permitted by the manufacturer. Services to be run through the open webs or the manufacturer's designated service holes.",
-      "Deck and line as the solid joist floor. Where the underside is exposed or forms part of a fire resisting element, the protection to the joists is to be to the manufacturer's tested specification — an engineered joist has less inherent fire resistance than a solid timber joist of the same depth."
+      "Deck as the solid joist floor with 18mm moisture resistant tongued and grooved flooring grade board, 100mm mineral wool of not less than 10 kg/m³ laid between the joists, and 12.5mm plasterboard to the underside. Where the underside is exposed or forms part of a fire resisting element, the protection to the joists is to be to the manufacturer's tested specification — an engineered joist has less inherent fire resistance than a solid timber joist of the same depth."
      ]
     },
     {
@@ -708,26 +732,37 @@
      "standard": "",
      "layers": [
       {
-       "t": 18,
-       "material": "moisture resistant tongued and grooved flooring grade board",
-       "hatch": "timber",
-       "read_from": "18mm or 22mm moisture resistant tongued and grooved flooring grade board"
-      },
-      {
        "t": 12.5,
        "material": "plasterboard to satisfy Requirement E2",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard to satisfy Requirement E2 where the floor separates a bedr"
+      },
+      {
+       "t": 220,
+       "material": "mineral wool between 47 x 220mm C24 joists at 400mm centres",
+       "hatch": "wool",
+       "read_from": "100mm mineral wool of not less than 10 kg/m³ laid between the joists"
+      },
+      {
+       "t": 18,
+       "material": "moisture resistant tongued and grooved flooring grade board",
+       "hatch": "timber",
+       "read_from": "18mm or 22mm moisture resistant tongued and grooved flooring grade board"
       }
      ],
-     "total_mm": 30.5,
-     "extraction_notes": [],
+     "total_mm": 250.5,
+     "extraction_notes": [
+      "not treated as a layer: 'centres'",
+      "merged 220mm '47 x 220mm C24 joists at 400mm centres' into the zone it fills — one band, not two",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in",
+      "the joist zone placed on the ceiling — a floor clause names its parts by what they do, not in the order they stack"
+     ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Floor joists of solid structural timber to the structural engineer's design and span, at centres as scheduled, with herringbone strutting or solid blocking at not more than 1.8m centres and at mid-span.",
+      "Floor joists of solid structural timber to the structural engineer's design and span, at centres as scheduled, with herringbone strutting or solid blocking at not more than 1.8m centres and at mid-span. The detail is drawn on 47mm x 220mm C24 joists at 400mm centres; the engineer's design governs the size and the centres for the span actually built.",
       "Notching and drilling to be within the limits given in the engineer's specification: notches only in the top of the joist between 0.07 and 0.25 of the span and not deeper than 0.125 of the joist depth; holes only on the neutral axis, not more than 0.25 of the depth in diameter, spaced not less than three diameters apart, and between 0.25 and 0.4 of the span. No notch or hole in an engineered member.",
-      "Deck with 18mm or 22mm moisture resistant tongued and grooved flooring grade board, glued and screwed. Infill the joist void with mineral wool and line the underside with 12.5mm plasterboard to satisfy Requirement E2 where the floor separates a bedroom or a room containing a WC from other rooms.",
+      "Deck with 18mm or 22mm moisture resistant tongued and grooved flooring grade board, glued and screwed. Infill the joist void with 100mm mineral wool of not less than 10 kg/m³ laid between the joists, and line the underside with 12.5mm plasterboard to satisfy Requirement E2 where the floor separates a bedroom or a room containing a WC from other rooms.",
       "Provide galvanised lateral restraint straps to walls at not more than 2m centres, carried over a minimum of three joists with solid noggins."
      ]
     },
@@ -741,10 +776,10 @@
      "standard": "0.11 W/m²K",
      "layers": [
       {
-       "t": 300,
-       "material": "mineral wool quilt laid cross-wise over the joists",
-       "hatch": "wool",
-       "read_from": "300mm mineral wool quilt laid cross-wise over the joists"
+       "t": 12.5,
+       "material": "plasterboard",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard with skim"
       },
       {
        "t": 100,
@@ -753,10 +788,10 @@
        "read_from": "100mm mineral wool quilt between ceiling joists and 300mm mineral wool quilt "
       },
       {
-       "t": 12.5,
-       "material": "plasterboard",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard with skim"
+       "t": 300,
+       "material": "mineral wool quilt laid cross-wise over the joists",
+       "hatch": "wool",
+       "read_from": "300mm mineral wool quilt laid cross-wise over the joists"
       }
      ],
      "total_mm": 412.5,
@@ -764,7 +799,8 @@
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'",
       "not a layer — 300mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'total calculates at 0'",
       "not a layer — 10mm is a ventilation free area, not a thickness: 'gap at the eaves on two opposite sides'",
-      "not a layer — 5mm reads as a spacing, a level, working or an alternative construction: 'at the ridge where the pitch exceeds 35° or the span'"
+      "not a layer — 5mm reads as a spacing, a level, working or an alternative construction: 'at the ridge where the pitch exceeds 35° or the span'",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -1270,30 +1306,35 @@
      "standard": "",
      "layers": [
       {
-       "t": 22,
-       "material": "moisture resistant tongued and grooved flooring grade board",
-       "hatch": "timber",
-       "read_from": "22mm moisture resistant tongued and grooved flooring grade board"
-      },
-      {
-       "t": 100,
-       "material": "mineral wool quilt",
-       "hatch": "wool",
-       "read_from": "100mm mineral wool quilt of minimum density 10 kg/m³ between the joists for a"
-      },
-      {
        "t": 12.5,
        "material": "plasterboard",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard with joints staggered"
+      },
+      {
+       "t": 220,
+       "material": "mineral wool quilt between 47 x 220mm C24 joists at 400mm centres",
+       "hatch": "wool",
+       "read_from": "100mm mineral wool quilt of minimum density 10 kg/m³ between the joists for a"
+      },
+      {
+       "t": 22,
+       "material": "moisture resistant tongued and grooved flooring grade board",
+       "hatch": "timber",
+       "read_from": "22mm moisture resistant tongued and grooved flooring grade board"
       }
      ],
-     "total_mm": 134.5,
-     "extraction_notes": [],
+     "total_mm": 254.5,
+     "extraction_notes": [
+      "not treated as a layer: 'centres'",
+      "merged 220mm '47 x 220mm C24 joists at 400mm centres' into the zone it fills — one band, not two",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in",
+      "the joist zone placed on the ceiling — a floor clause names its parts by what they do, not in the order they stack"
+     ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "New floor to comprise floor joists to the structural engineer's design, generally spanning independently of the existing ceiling joists and supported on new steel beams at wall plate level. Deck with 22mm moisture resistant tongued and grooved flooring grade board, glued and screwed.",
+      "New floor to comprise floor joists to the structural engineer's design, generally spanning independently of the existing ceiling joists and supported on new steel beams at wall plate level. The detail is drawn on 47mm x 220mm C24 joists at 400mm centres; the engineer's design governs the size and the centres for the span actually built. Deck with 22mm moisture resistant tongued and grooved flooring grade board, glued and screwed.",
       "Provide 100mm mineral wool quilt of minimum density 10 kg/m³ between the joists for airborne sound resistance, and line the underside with two layers of 12.5mm plasterboard with joints staggered, taped and filled, to achieve a minimum REI 30 fire resistance and to satisfy Requirement E2.",
       "All perimeters and service penetrations to be sealed. Where the existing ceiling is retained below the new floor, its condition and fire resistance are to be confirmed on site."
      ]
@@ -1423,16 +1464,16 @@
      "standard": "0.11 W/m²K",
      "layers": [
       {
-       "t": 300,
-       "material": "mineral wool quilt laid cross-wise over the joists",
-       "hatch": "wool",
-       "read_from": "300mm mineral wool quilt laid cross-wise over the joists"
-      },
-      {
        "t": 100,
        "material": "mineral wool quilt between ceiling joists",
        "hatch": "wool",
        "read_from": "100mm mineral wool quilt between ceiling joists and 300mm mineral wool quilt "
+      },
+      {
+       "t": 300,
+       "material": "mineral wool quilt laid cross-wise over the joists",
+       "hatch": "wool",
+       "read_from": "300mm mineral wool quilt laid cross-wise over the joists"
       }
      ],
      "total_mm": 400,
@@ -1539,6 +1580,12 @@
      "standard": "43 / 64 dB",
      "layers": [
       {
+       "t": 150,
+       "material": "concrete slab",
+       "hatch": "conc",
+       "read_from": "150mm concrete slab"
+      },
+      {
        "t": 10,
        "material": "or more closed-cell foam or 25mm mineral wool board with the edges tur",
        "hatch": "wool",
@@ -1549,28 +1596,17 @@
        "material": "sand",
        "hatch": "screed",
        "read_from": "65mm sand and cement screed reinforced with mesh"
-      },
-      {
-       "t": 18,
-       "material": "tongued and grooved chipboard glued at the joints on 19mm plasterboard",
-       "hatch": "timber",
-       "read_from": "18mm tongued and grooved chipboard glued at the joints on 19mm plasterboard "
-      },
-      {
-       "t": 19,
-       "material": "plasterboard plank",
-       "hatch": "pboard",
-       "read_from": "19mm plasterboard plank"
       }
      ],
-     "total_mm": 112,
+     "total_mm": 225,
      "extraction_notes": [
-      "not a layer — 25mm is an alternative or a continuation: 'mineral wool board with the edges turned up at every'"
+      "not a layer — 25mm is an alternative or a continuation: 'mineral wool board with the edges turned up at every'",
+      "not a layer - 18mm is in a sentence offering another way to build it: 'tongued and grooved chipboard glued at the j'"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Where the existing separating floor is a concrete slab, hollow pot or beam and block floor, its mass will normally satisfy the airborne standard and the treatment is for impact sound: lay a resilient layer of 10mm or more closed-cell foam or 25mm mineral wool board with the edges turned up at every wall, and over it either a 65mm sand and cement screed reinforced with mesh, or a floating timber deck of 18mm tongued and grooved chipboard glued at the joints on 19mm plasterboard plank, isolated from every wall and from the skirting by a flanking strip. No screed, batten, pipe or threshold is to bridge the resilient layer.",
+      "Where the existing separating floor is a concrete slab, hollow pot or beam and block floor, its mass will normally satisfy the airborne standard and the treatment is for impact sound. The detail is drawn on a 150mm concrete slab, whose thickness and construction are to be confirmed on site. Lay a resilient layer of 10mm or more closed-cell foam or 25mm mineral wool board with the edges turned up at every wall, and over it a 65mm sand and cement screed reinforced with mesh, isolated from every wall and from the skirting by a flanking strip. As an alternative to the screed a floating timber deck of 18mm tongued and grooved chipboard glued at the joints on 19mm plasterboard plank may be used, isolated in the same way. No screed, batten, pipe or threshold is to bridge the resilient layer.",
       "Where the soffit is to be lined, a plasterboard ceiling on resilient bars or a metal furring system with mineral wool in the void improves airborne performance; a plasterboard ceiling fixed direct to the soffit adds little. The existing floor is to be inspected for cracks, service holes and missing grout, and every hole through the slab made good in full with concrete or a fire-stopping mortar before the resilient layer is laid.",
       "NOTE — A concrete floor that fails the impact test has almost always been bridged at the edges. The flanking strip is to stand proud of the finished screed and be trimmed after the skirting is fixed, not before the screed is poured."
      ]
@@ -1604,10 +1640,22 @@
      "standard": "43 / 64 dB",
      "layers": [
       {
-       "t": 18,
-       "material": "tongued and grooved board on 19mm plank flooring",
-       "hatch": "timber",
-       "read_from": "18mm tongued and grooved board on 19mm plank flooring"
+       "t": 12.5,
+       "material": "plasterboard",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard of minimum total mass 20 kg/m²"
+      },
+      {
+       "t": 220,
+       "material": "mineral wool between 47 x 220mm joists and to be confirmed on site",
+       "hatch": "wool",
+       "read_from": "100mm mineral wool of minimum density 10 kg/m³"
+      },
+      {
+       "t": 25,
+       "material": "mineral wool board",
+       "hatch": "wool",
+       "read_from": "25mm mineral wool board"
       },
       {
        "t": 19,
@@ -1616,21 +1664,23 @@
        "read_from": "19mm plank flooring"
       },
       {
-       "t": 12.5,
-       "material": "plasterboard",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard of minimum total mass 20 kg/m²"
+       "t": 18,
+       "material": "tongued and grooved board on 19mm plank flooring",
+       "hatch": "timber",
+       "read_from": "18mm tongued and grooved board on 19mm plank flooring"
       }
      ],
-     "total_mm": 49.5,
+     "total_mm": 294.5,
      "extraction_notes": [
       "not treated as a layer: 'fire-resisting board'",
-      "not treated as a layer: 'ceiling is sufficient only where 30 minutes applies'"
+      "not treated as a layer: 'ceiling is sufficient only where 30 minutes applies'",
+      "merged 220mm '47 x 220mm joists and to be confirmed on sit' into the zone it fills — one band, not two",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Existing timber floor to be upgraded to comprise, from the top: a platform floating floor of 18mm tongued and grooved board on 19mm plank flooring, laid on a resilient layer of mineral wool board, isolated from all abutting walls by a resilient flanking strip carried up behind the skirting; the existing joists with the void between them filled with mineral wool of minimum density 10 kg/m³; and an independent ceiling below.",
+      "Existing timber floor to be upgraded to comprise, from the top: a platform floating floor of 18mm tongued and grooved board on 19mm plank flooring, laid on a resilient layer of 25mm mineral wool board, isolated from all abutting walls by a resilient flanking strip carried up behind the skirting; the existing joists, drawn as 47mm x 220mm joists and to be confirmed on site, with the void between them filled with 100mm mineral wool of minimum density 10 kg/m³; and an independent ceiling below.",
       "Independent ceiling to be supported on resilient bars fixed to the underside of the joists, or on an independent joist system carried on the walls and not in contact with the existing floor joists, lined with two layers of 12.5mm plasterboard of minimum total mass 20 kg/m², joints staggered, taped, filled and sealed at all perimeters.",
       "Where the floor is a compartment floor requiring 60 minutes fire resistance (top storey more than 5m above ground), the independent ceiling is to be a tested 60 minute system of two layers of 15mm fire-resisting board (which also exceeds the 20 kg/m² acoustic mass) with the joists protected as the test requires, so that one build-up satisfies both Part B and Part E; the 2 x 12.5mm ceiling is sufficient only where 30 minutes applies. No rigid connection is to be made between the floating floor and the structural floor, or between the ceiling and the joists other than through the resilient bars. Downlighters are not to be installed in the separating ceiling; where lighting is required it is to be surface mounted or installed within a lowered secondary ceiling below the separating construction."
      ]
@@ -1943,16 +1993,16 @@
      "standard": "0.11 W/m²K",
      "layers": [
       {
-       "t": 300,
-       "material": "mineral wool quilt laid cross-wise over them",
-       "hatch": "wool",
-       "read_from": "300mm mineral wool quilt laid cross-wise over them"
-      },
-      {
        "t": 100,
        "material": "mineral wool quilt between the ceiling joists",
        "hatch": "wool",
        "read_from": "100mm mineral wool quilt between the ceiling joists and 300mm mineral wool qu"
+      },
+      {
+       "t": 300,
+       "material": "mineral wool quilt laid cross-wise over them",
+       "hatch": "wool",
+       "read_from": "300mm mineral wool quilt laid cross-wise over them"
       }
      ],
      "total_mm": 400,
@@ -2702,10 +2752,10 @@
      "standard": "0.15 W/m²K",
      "layers": [
       {
-       "t": 200,
-       "material": "mineral wool quilt",
-       "hatch": "wool",
-       "read_from": "200mm laid cross-wise over the joists"
+       "t": 12.5,
+       "material": "plasterboard",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard with a vapour control layer where none exists"
       },
       {
        "t": 100,
@@ -2714,10 +2764,10 @@
        "read_from": "100mm mineral wool quilt of 0"
       },
       {
-       "t": 12.5,
-       "material": "plasterboard",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard with a vapour control layer where none exists"
+       "t": 200,
+       "material": "mineral wool quilt",
+       "hatch": "wool",
+       "read_from": "200mm laid cross-wise over the joists"
       }
      ],
      "total_mm": 312.5,
@@ -2726,8 +2776,7 @@
       "not treated as a layer: 'ventilation path at the eaves with proprietary eaves ven'",
       "not a layer — 10mm is a ventilation free area, not a thickness: 'gap along two opposite eaves'",
       "not a layer — 25mm is the alternative to the figure before it: 'where the pitch is below 15 degrees'",
-      "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'",
-      "layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out"
+      "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -3350,28 +3399,31 @@
      "standard": "40 dB Rw",
      "layers": [
       {
-       "t": 220,
-       "material": "tongued and grooved P5 chipboard glued at all joints and screwed to th between 47 x 220mm ",
-       "hatch": "timber",
-       "read_from": "22mm tongued and grooved P5 chipboard glued at all joints and screwed to the"
-      },
-      {
-       "t": 100,
-       "material": "mineral wool",
-       "hatch": "wool",
-       "read_from": "100mm mineral wool of not less than 10 kg/m³ laid between the joists"
-      },
-      {
        "t": 12.5,
        "material": "plasterboard ceiling",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard ceiling of not less than 10 kg/m²"
+      },
+      {
+       "t": 220,
+       "material": "mineral wool between 47 x 220mm C24 solid joists or engineered metal web joists at 400mm o",
+       "hatch": "wool",
+       "read_from": "100mm mineral wool of not less than 10 kg/m³ laid between the joists"
+      },
+      {
+       "t": 22,
+       "material": "tongued and grooved P5 chipboard glued at all joints and screwed to th",
+       "hatch": "timber",
+       "read_from": "22mm tongued and grooved P5 chipboard glued at all joints and screwed to the"
       }
      ],
-     "total_mm": 332.5,
+     "total_mm": 254.5,
      "extraction_notes": [
       "not a layer — 400mm is an alternative or a continuation: 'or 600'",
-      "not a layer — 15mm is the alternative to the figure before it: 'where the floor requires 30 minutes fire resista'"
+      "not a layer — 15mm is the alternative to the figure before it: 'where the floor requires 30 minutes fire resista'",
+      "merged 220mm '47 x 220mm C24 solid joists or engineered me' into the zone it fills — one band, not two",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in",
+      "the joist zone placed on the ceiling — a floor clause names its parts by what they do, not in the order they stack"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -3390,10 +3442,10 @@
      "standard": "0.10 W/m²K",
      "layers": [
       {
-       "t": 100,
-       "material": "K107 laid over the rafters as a continuous sarking layer",
-       "hatch": "ins",
-       "read_from": "100mm K107 laid over the rafters as a continuous sarking layer with the joint"
+       "t": 12.5,
+       "material": "plasterboard",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard with a vapour control layer beneath the rafters or the raf"
       },
       {
        "t": 150,
@@ -3402,17 +3454,18 @@
        "read_from": "150mm Kingspan Kooltherm K107 Pitched Roof Board "
       },
       {
-       "t": 12.5,
-       "material": "plasterboard",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard with a vapour control layer beneath the rafters or the raf"
+       "t": 100,
+       "material": "K107 laid over the rafters as a continuous sarking layer",
+       "hatch": "ins",
+       "read_from": "100mm K107 laid over the rafters as a continuous sarking layer with the joint"
       }
      ],
      "total_mm": 262.5,
      "extraction_notes": [
       "not treated as a layer: 'centres'",
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres allowing for rafter bridging and '",
-      "not a layer — 75mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'over the rafters calculates at 0'"
+      "not a layer — 75mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'over the rafters calculates at 0'",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -3473,10 +3526,10 @@
      "standard": "0.11 W/m²K",
      "layers": [
       {
-       "t": 300,
-       "material": "mineral wool quilt",
-       "hatch": "wool",
-       "read_from": "300mm laid cross-wise over"
+       "t": 12.5,
+       "material": "plasterboard",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard with a vapour control layer"
       },
       {
        "t": 100,
@@ -3485,10 +3538,10 @@
        "read_from": "100mm mineral wool quilt of 0"
       },
       {
-       "t": 12.5,
-       "material": "plasterboard",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard with a vapour control layer"
+       "t": 300,
+       "material": "mineral wool quilt",
+       "hatch": "wool",
+       "read_from": "300mm laid cross-wise over"
       }
      ],
      "total_mm": 412.5,
@@ -3499,8 +3552,7 @@
       "not treated as a layer: 'proprietary eaves ventilators and insulation stops to ke'",
       "not a layer — 5mm is a ventilation free area, not a thickness: 'continuous gap where the underlay is not vapour '",
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'",
-      "not a layer — 300mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'total calculates at 0'",
-      "layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out"
+      "not a layer — 300mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'total calculates at 0'"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -3735,16 +3787,10 @@
      "standard": "45 / 62 dB / REI 60",
      "layers": [
       {
-       "t": 150,
-       "material": "precast prestressed concrete beams",
-       "hatch": "conc",
-       "read_from": "150mm or 225mm precast prestressed concrete beams with dense aggregate infill"
-      },
-      {
-       "t": 50,
-       "material": "structural or levelling screed where the detail requires it",
-       "hatch": "screed",
-       "read_from": "50mm structural or levelling screed where the detail requires it"
+       "t": 12.5,
+       "material": "plasterboard",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard on a metal furring system or timber battens with 100mm min"
       },
       {
        "t": 65,
@@ -3753,15 +3799,22 @@
        "read_from": "65mm minimum sand and cement screed with mesh"
       },
       {
-       "t": 12.5,
-       "material": "plasterboard",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard on a metal furring system or timber battens with 100mm min"
+       "t": 50,
+       "material": "structural or levelling screed where the detail requires it",
+       "hatch": "screed",
+       "read_from": "50mm structural or levelling screed where the detail requires it"
+      },
+      {
+       "t": 150,
+       "material": "precast prestressed concrete beams",
+       "hatch": "conc",
+       "read_from": "150mm or 225mm precast prestressed concrete beams with dense aggregate infill"
       }
      ],
      "total_mm": 277.5,
      "extraction_notes": [
-      "not a layer — 100mm is an alternative or a continuation: 'mineral wool in the void'"
+      "not a layer — 100mm is an alternative or a continuation: 'mineral wool in the void'",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -3832,9 +3885,9 @@
      "layers": [
       {
        "t": 220,
-       "material": "47 x 220mm minimum solid or engineered joists at 400mm or 600mm centre",
-       "hatch": "timber",
-       "read_from": "47mm x 220mm minimum solid or engineered joists at 400mm or 600mm centres to"
+       "material": "mineral wool between 47 x 220mm minimum solid or engineered joists at 400mm or 600mm centr",
+       "hatch": "wool",
+       "read_from": "100mm mineral wool of 10 kg/m³ or more in the joist void"
       },
       {
        "t": 18,
@@ -3850,26 +3903,21 @@
       },
       {
        "t": 25,
-       "material": "or more or a proprietary resilient batten system",
-       "hatch": "timber",
-       "read_from": "25mm or more or a proprietary resilient batten system"
-      },
-      {
-       "t": 100,
-       "material": "mineral wool",
+       "material": "mineral wool board",
        "hatch": "wool",
-       "read_from": "100mm mineral wool of 10 kg/m³ or more in the joist void"
+       "read_from": "25mm mineral wool board or more"
       }
      ],
-     "total_mm": 382,
+     "total_mm": 282,
      "extraction_notes": [
       "not a layer — 400mm is an alternative or a continuation: 'or 600mm centres to'",
-      "not treated as a layer: 'tongued and grooved chipboard on a resilient layer of mi'"
+      "not treated as a layer: 'tongued and grooved chipboard on a resilient layer of 25'",
+      "merged 220mm '47 x 220mm minimum solid or engineered joist' into the zone it fills — one band, not two"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Separating floor of 47mm x 220mm minimum solid or engineered joists at 400mm or 600mm centres to the designer's specification, 18mm tongued and grooved OSB3 or plywood deck, a platform floor of 19mm gypsum-based board and 18mm tongued and grooved chipboard on a resilient layer of mineral wool board of 25mm or more or a proprietary resilient batten system, isolated from all walls by a flanking strip, 100mm mineral wool of 10 kg/m³ or more in the joist void, and a ceiling of two layers of plasterboard of total mass not less than 20 kg/m² on resilient bars fixed across the joists, all as a registered Robust Detail or a tested system.",
+      "Separating floor of 47mm x 220mm minimum solid or engineered joists at 400mm or 600mm centres to the designer's specification, 18mm tongued and grooved OSB3 or plywood deck, a platform floor of 19mm gypsum-based board and 18mm tongued and grooved chipboard on a resilient layer of 25mm mineral wool board or more, or a proprietary resilient batten system, isolated from all walls by a flanking strip, 100mm mineral wool of 10 kg/m³ or more in the joist void, and a ceiling of two layers of plasterboard of total mass not less than 20 kg/m² on resilient bars fixed across the joists, all as a registered Robust Detail or a tested system.",
       "For 60 minutes fire resistance the ceiling is to be the tested two-layer system with the joints staggered and the resilient bars at the tested centres, and downlighters are not to be installed in the separating ceiling. The floor is only to be used where the building height and the fire strategy permit a timber compartment floor; where the building has a storey more than 11m above ground a concrete floor is to be used.",
       "NOTE — Timber separating floors rely on every layer being present and unbridged. Where the finishes contractor is separate from the main contractor, the platform floor and flanking strips are to be inspected before the finishes are laid."
      ]
@@ -4133,28 +4181,31 @@
      "standard": "40 dB Rw",
      "layers": [
       {
-       "t": 220,
-       "material": "tongued and grooved P5 chipboard glued and screwed between 47 x 220mm C24 solid joists or ",
-       "hatch": "timber",
-       "read_from": "22mm tongued and grooved P5 chipboard glued and screwed"
-      },
-      {
-       "t": 100,
-       "material": "mineral wool",
-       "hatch": "wool",
-       "read_from": "100mm mineral wool of not less than 10 kg/m³ between the joists"
-      },
-      {
        "t": 12.5,
        "material": "plasterboard ceiling",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard ceiling of not less than 10 kg/m² "
+      },
+      {
+       "t": 220,
+       "material": "mineral wool between 47 x 220mm C24 solid joists or metal web joists at 400mm or 600mm cen",
+       "hatch": "wool",
+       "read_from": "100mm mineral wool of not less than 10 kg/m³ between the joists"
+      },
+      {
+       "t": 22,
+       "material": "tongued and grooved P5 chipboard glued and screwed",
+       "hatch": "timber",
+       "read_from": "22mm tongued and grooved P5 chipboard glued and screwed"
       }
      ],
-     "total_mm": 332.5,
+     "total_mm": 254.5,
      "extraction_notes": [
       "not a layer — 400mm is an alternative or a continuation: 'or 600mm centres'",
-      "not treated as a layer: 'or two layers where 30 minutes fire resistance is requir'"
+      "not treated as a layer: 'or two layers where 30 minutes fire resistance is requir'",
+      "merged 220mm '47 x 220mm C24 solid joists or metal web joi' into the zone it fills — one band, not two",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in",
+      "the joist zone placed on the ceiling — a floor clause names its parts by what they do, not in the order they stack"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -4172,10 +4223,10 @@
      "standard": "0.11 W/m²K",
      "layers": [
       {
-       "t": 300,
-       "material": "mineral wool",
-       "hatch": "wool",
-       "read_from": "300mm laid over"
+       "t": 12.5,
+       "material": "plasterboard",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard with a vapour control layer"
       },
       {
        "t": 100,
@@ -4184,18 +4235,17 @@
        "read_from": "100mm mineral wool of 0"
       },
       {
-       "t": 12.5,
-       "material": "plasterboard",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard with a vapour control layer"
+       "t": 300,
+       "material": "mineral wool",
+       "hatch": "wool",
+       "read_from": "300mm laid over"
       }
      ],
      "total_mm": 412.5,
      "extraction_notes": [
       "300mm continues the wool laid below it: 'laid over'",
       "not a layer — 10mm is a ventilation free area, not a thickness: 'continuous gap at two opposite eaves with eaves '",
-      "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'",
-      "layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out"
+      "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -4349,34 +4399,30 @@
      "standard": "REI 30",
      "layers": [
       {
-       "t": 100,
-       "material": "concrete slab gives the fire resistance without a ceiling",
-       "hatch": "conc",
-       "read_from": "100mm concrete slab gives the fire resistance without a ceiling"
-      },
-      {
-       "t": 100,
-       "material": "mineral wool",
-       "hatch": "wool",
-       "read_from": "100mm mineral wool of not less than 10 kg/m³ laid between the joists"
-      },
-      {
        "t": 12.5,
        "material": "plasterboard",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard"
+      },
+      {
+       "t": 220,
+       "material": "mineral wool between 47 x 220mm joists and the existing size to be confirmed on site",
+       "hatch": "wool",
+       "read_from": "100mm mineral wool of not less than 10 kg/m³ laid between the joists"
       }
      ],
-     "total_mm": 212.5,
+     "total_mm": 232.5,
      "extraction_notes": [
       "not a layer — 15mm is the alternative to the figure before it: 'Type F fire-resisting board'",
-      "layers reversed so the ceiling finish reads as the inside face — the clause states this build-up from the inside out"
+      "not a layer - 100mm is in a sentence offering another way to build it: 'concrete slab may be used and gives the fire'",
+      "merged 220mm '47 x 220mm joists and the existing size to b' into the zone it fills — one band, not two",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Existing timber ground floor over the basement to be retained where the joists are sound and adequate to the structural engineer's inspection, with any joist affected by rot or beetle cut back and spliced or replaced and all timber bearing on the basement walls isolated from the masonry by a damp proof course or joist hangers. New ceiling to the basement of two layers of 12.5mm plasterboard, or one layer of 15mm Type F fire-resisting board, with joints staggered and taped, fixed to resilient bars across the joists where sound insulation between the basement and the room above is wanted, and 100mm mineral wool of not less than 10 kg/m³ laid between the joists.",
-      "Downlighters are not to be installed in the basement ceiling unless they are fire-rated fittings tested in the ceiling construction, and services passing through the ceiling are to be fire stopped. Where the floor over the basement is concrete, a 100mm concrete slab gives the fire resistance without a ceiling.",
+      "Existing timber ground floor over the basement to be retained where the joists are sound and adequate to the structural engineer's inspection, the detail drawn on 47mm x 220mm joists and the existing size to be confirmed on site, with any joist affected by rot or beetle cut back and spliced or replaced and all timber bearing on the basement walls isolated from the masonry by a damp proof course or joist hangers. New ceiling to the basement of two layers of 12.5mm plasterboard, or one layer of 15mm Type F fire-resisting board, with joints staggered and taped, fixed to resilient bars across the joists where sound insulation between the basement and the room above is wanted, and 100mm mineral wool of not less than 10 kg/m³ laid between the joists.",
+      "Downlighters are not to be installed in the basement ceiling unless they are fire-rated fittings tested in the ceiling construction, and services passing through the ceiling are to be fire stopped. As an alternative, where the floor over the basement is concrete, a 100mm concrete slab may be used and gives the fire resistance without a ceiling.",
       "NOTE — A basement with a habitable room is reached by a stair that may be the only way out, and the floor above it is the barrier between a basement fire and the sleeping accommodation above. The 30 minute ceiling is not optional and is to be inspected before it is decorated."
      ]
     },
@@ -5041,16 +5087,10 @@
      "standard": "0.15 W/m²K",
      "layers": [
       {
-       "t": 200,
-       "material": "47 x 200mm C24 joists at 400mm centres to the engineer's design",
-       "hatch": "timber",
-       "read_from": "47mm x 200mm C24 joists at 400mm centres to the engineer's design"
-      },
-      {
-       "t": 18,
-       "material": "exterior grade plywood",
-       "hatch": "timber",
-       "read_from": "18mm exterior grade plywood or OSB3 decking laid to finished falls of not le"
+       "t": 12.5,
+       "material": "plasterboard ceiling below",
+       "hatch": "pboard",
+       "read_from": "12.5mm plasterboard ceiling below"
       },
       {
        "t": 150,
@@ -5059,17 +5099,24 @@
        "read_from": "150mm Kingspan Thermaroof TR27 LPC/FM "
       },
       {
-       "t": 12.5,
-       "material": "plasterboard ceiling below",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard ceiling below"
+       "t": 18,
+       "material": "exterior grade plywood",
+       "hatch": "timber",
+       "read_from": "18mm exterior grade plywood or OSB3 decking laid to finished falls of not le"
+      },
+      {
+       "t": 200,
+       "material": "47 x 200mm C24 joists at 400mm centres to the engineer's design",
+       "hatch": "timber",
+       "read_from": "47mm x 200mm C24 joists at 400mm centres to the engineer's design"
       }
      ],
      "total_mm": 380.5,
      "extraction_notes": [
       "not treated as a layer: 'centres to the engineer's design'",
       "not a layer — 120mm reads as a spacing, a level, working or an alternative construction: 'and over'",
-      "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands'"
+      "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands'",
+      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in"
      ],
      "verified_table": null,
      "stud_core": null,
