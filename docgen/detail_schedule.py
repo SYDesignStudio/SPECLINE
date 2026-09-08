@@ -170,7 +170,7 @@ REACHES_INSTEAD = re.compile(
 # the words immediately around the fill itself: a clause can say "the full stud depth insulated"
 # about the studs and then name a separate lining board inboard of them, and merging that would
 # swallow a real layer.
-INFILLING = re.compile(r"(?:stud|rafter|joist)s?\s+depth\s+(?:filled|infilled|insulated)|"
+INFILLING = re.compile(r"(?:stud|rafter|joist)s?\s+depth\s+(?:filled|infilled|insulated|with)|"
                        r"filled with|infilled with|\binfill\b|between the (?:studs|joists|rafters)|"
                        r"in the (?:stud|joist|rafter) void|in each frame|in the frames?\b",
                        re.I)
@@ -902,6 +902,11 @@ def build():
             # across several sentences and the first alone gives a third of the build-up.
             layers, notes, seen, state = [], [], set(), {}
             for para in b["p"]:
+                # A NOTE is commentary on the build-up, not the build-up. The one on the hip to
+                # gable wall explains that "a 90mm board in a 100mm cavity leaves only a 10mm
+                # residual cavity", and that sentence was drawn as 90mm of cavity.
+                if para.lstrip().startswith("NOTE"):
+                    continue
                 ls, ns = layers_from(para, state)
                 notes += ns
                 for l in ls:

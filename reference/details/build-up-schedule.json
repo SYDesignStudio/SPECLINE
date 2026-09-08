@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-08T02:07:11+00:00",
+ "generated": "2026-09-08T02:25:33+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [
@@ -65,7 +65,6 @@
       "not a layer — 40mm reads as a spacing, a level, working or an alternative construction: 'cover to the concrete'",
       "not treated as a layer: 'and sealed at all joints and linked to the wall damp pro'",
       "not a layer — 65mm is the alternative to the figure before it: 'where reinforced'",
-      "not a layer — 90mm reads as a spacing, a level, working or an alternative construction: 'calculates at 0'",
       "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
      ],
      "verified_table": null,
@@ -120,10 +119,7 @@
       "skipped 750mm thick — too thick to be a layer",
       "not a layer — 300mm reads as a spacing, a level, working or an alternative construction: 'and in no case less than 450mm'",
       "not a layer — 1000mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level and cast against undistu'",
-      "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'",
-      "not treated as a layer: 'can fall below the 450mm minimum for trench fill'",
-      "not treated as a layer: 'minimum for trench fill'",
-      "not treated as a layer: 'governs'"
+      "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -377,9 +373,9 @@
       },
       {
        "t": 89,
-       "material": "38 x 89mm C16 studs at 400mm centres with head and sole plates",
-       "hatch": "timber",
-       "read_from": "89mm x 38mm C16 studs at 400mm centres with head and sole plates"
+       "material": "acoustic mineral wool insulation between 38 x 89mm C16 studs at 400mm centres with head an",
+       "hatch": "wool",
+       "read_from": "89mm acoustic mineral wool insulation"
       },
       {
        "t": 12.5,
@@ -397,7 +393,7 @@
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Internal stud partition to comprise 89mm x 38mm C16 studs at 400mm centres with head and sole plates, solid noggins at board joints and at all fixings for sanitaryware, radiators and wall-hung items. Infill the full stud depth with acoustic mineral wool insulation. Line both faces with 12.5mm plasterboard with joints staggered and all perimeters sealed."
+      "Internal stud partition to comprise 89mm x 38mm C16 studs at 400mm centres with head and sole plates, solid noggins at board joints and at all fixings for sanitaryware, radiators and wall-hung items. Infill the full stud depth with 89mm acoustic mineral wool insulation. Line both faces with 12.5mm plasterboard with joints staggered and all perimeters sealed."
      ]
     },
     {
@@ -1014,16 +1010,16 @@
      "standard": "0.16 W/m²K",
      "layers": [
       {
-       "t": 140,
-       "material": "38 x 140mm C16 studs at 400mm centres with the full depth filled with ",
-       "hatch": "timber",
-       "read_from": "140mm x 38mm C16 studs at 400mm centres with the full depth filled with 140mm"
-      },
-      {
        "t": 18,
        "material": "plywood sheathing",
        "hatch": "timber",
        "read_from": "18mm plywood sheathing"
+      },
+      {
+       "t": 140,
+       "material": "Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres with t",
+       "hatch": "ins",
+       "read_from": "140mm Kingspan Kooltherm K112 Framing Board "
       },
       {
        "t": 37.5,
@@ -1035,14 +1031,14 @@
      "edge": [],
      "total_mm": 195.5,
      "extraction_notes": [
-      "not treated as a layer: 'centres with the full depth filled with 140mm'",
+      "not treated as a layer: 'centres with the full stud depth filled with'",
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
       "Dormer cheek as the tile-hung cheek but finished in a through-coloured silicone or polymer render system applied to a proprietary render carrier board on treated battens over the breather membrane, with a drained and ventilated cavity behind the board, stainless steel beads, a bell cast drip at the base and movement beads at not more than 5m centres and at changes of substrate. Render system to be installed by the system manufacturer's approved contractor to the BBA certificate.",
-      "Framing of 140mm x 38mm C16 studs at 400mm centres with the full depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), 18mm plywood sheathing, a continuous vapour control layer and 37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped. This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for the stud fraction at 400mm centres and an air-gap correction of 0.01.",
+      "Framing of 18mm plywood sheathing, 140mm x 38mm C16 studs at 400mm centres with the full stud depth filled with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer and 37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped. This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for the stud fraction at 400mm centres and an air-gap correction of 0.01.",
       "Where the cheek is within 1m of the boundary the render system and carrier board are to achieve the fire performance for an external wall within 1m of the relevant boundary and the unprotected area limited to 1m²; cavity barriers at the perimeter of the cheek and at the junction with the main roof."
      ]
     },
@@ -1104,15 +1100,15 @@
      "layers": [
       {
        "t": 89,
-       "material": "38 x 89mm C16 studs at 400mm centres between sole plate and head plate",
-       "hatch": "timber",
-       "read_from": "89mm x 38mm C16 studs at 400mm centres between sole plate and head plate"
+       "material": "Kingspan Kooltherm K112 Framing Board between 38 x 89mm C16 studs at 400mm centres between",
+       "hatch": "ins",
+       "read_from": "89mm Kingspan Kooltherm K112 Framing Board and add 37"
       },
       {
        "t": 37.5,
-       "material": "Kingspan Kooltherm K118 insulated plasterboard to the room face",
+       "material": "Kingspan Kooltherm K118 insulated plast",
        "hatch": "ins",
-       "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard to the room face"
+       "read_from": "37.5mm Kingspan Kooltherm K118 insulated plast"
       }
      ],
      "edge": [],
@@ -1125,7 +1121,7 @@
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Dwarf wall to the eaves generally 1050mm to 1200mm high as the sections, comprising 89mm x 38mm C16 studs at 400mm centres between sole plate and head plate, fixed to the new floor structure and to the rafters. Infill the full stud depth with Kingspan Kooltherm and add 37.5mm Kingspan Kooltherm K118 insulated plasterboard to the room face, with a continuous vapour control layer on the warm side.",
+      "Dwarf wall to the eaves generally 1050mm to 1200mm high as the sections, comprising 89mm x 38mm C16 studs at 400mm centres between sole plate and head plate, fixed to the new floor structure and to the rafters. Infill the full stud depth with 89mm Kingspan Kooltherm K112 Framing Board and add 37.5mm Kingspan Kooltherm K118 insulated plasterboard to the room face, with a continuous vapour control layer on the warm side.",
       "Insulation is to run continuously from the sloping ceiling, down the face of the dwarf wall, and across the floor of the eaves void behind it, so that the thermal envelope is unbroken at both the head and the foot of the wall. The insulation line at the foot is to be lapped and sealed to the floor insulation.",
       "The eaves void behind the dwarf wall remains outside the thermal envelope and is to be cross-ventilated. Provide an insulated and draught-sealed access hatch to each isolated section of void. Where services run in the void they are to be insulated."
      ]
@@ -1174,9 +1170,9 @@
      "group_name": "External walls",
      "category": "Upgrading Existing Party Wall",
      "title": "Existing Party or Separating Wall — Upgrade",
-     "u_achieved": null,
+     "u_achieved": "0.26",
      "u_target": null,
-     "standard": "",
+     "standard": "0.26 W/m²K",
      "layers": [
       {
        "t": 215,
@@ -1219,6 +1215,12 @@
      "standard": "0.18 W/m²K",
      "layers": [
       {
+       "t": 103,
+       "material": "brick outer leaf to match existing",
+       "hatch": "brick",
+       "read_from": "103mm brick outer leaf to match existing"
+      },
+      {
        "t": 10.0,
        "material": "residual cavity",
        "hatch": "void",
@@ -1241,24 +1243,16 @@
        "material": "plasterboard",
        "hatch": "pboard",
        "read_from": "12.5mm plasterboard on dabs"
-      },
-      {
-       "t": 90,
-       "material": "board in a 100mm cavity leaves only a 10mm residual cavity",
-       "hatch": "void",
-       "read_from": "90mm board in a 100mm cavity leaves only a 10mm residual cavity"
       }
      ],
      "edge": [],
-     "total_mm": 302.5,
-     "extraction_notes": [
-      "not a layer — 100mm restates a cavity already read: 'cavity'"
-     ],
+     "total_mm": 315.5,
+     "extraction_notes": [],
      "verified_table": null,
      "stud_core": null,
      "clause": [
       "Where the roof is converted from hip to gable, the hip rafters and jack rafters are to be removed and a new gable wall constructed, all to the structural engineer's design. The new gable is to be built off the existing flank wall, whose adequacy — together with that of the foundation beneath it — is to be confirmed by the engineer before the hip is removed.",
-      "New gable in masonry to comprise outer leaf to match existing, 100mm cavity with 90mm Kingspan Kooltherm K106 Cavity Board (thermal conductivity 0.019 W/mK) retained against the inner leaf, and 100mm lightweight block inner leaf (0.15 W/mK) with 12.5mm plasterboard on dabs. Alternatively in timber frame, with an outer leaf of tile hanging or render to match the elevations.",
+      "New gable in masonry to comprise a 103mm brick outer leaf to match existing, 100mm cavity with 90mm Kingspan Kooltherm K106 Cavity Board (thermal conductivity 0.019 W/mK) retained against the inner leaf, and 100mm lightweight block inner leaf (0.15 W/mK) with 12.5mm plasterboard on dabs. Alternatively in timber frame, with an outer leaf of tile hanging or render to match the elevations.",
       "The new gable is to be tied into the existing flank wall and to the new roof structure, with a new wall plate bedded and strapped. Provide lateral restraint straps at not more than 2m centres at roof and floor level. Cavity trays, damp proof courses and cavity barriers to be continued through the new work.",
       "Temporary support to the roof is to be designed and installed before the hip is cut, and is not to be struck until the new gable and roof structure are complete and have gained adequate strength.",
       "NOTE — A 90mm board in a 100mm cavity leaves only a 10mm residual cavity, less than the board's certificate normally allows for partial fill. Confirm the actual cavity width on site and the residual cavity the BBA certificate permits before ordering; where it cannot be achieved, widen the cavity to the engineer's approval or use the timber frame gable build-up."
@@ -1274,20 +1268,14 @@
      "standard": "0.16 W/m²K",
      "layers": [
       {
-       "t": 140,
-       "material": "38 x 140mm C16 studs at 400mm centres with head and sole plates and no",
-       "hatch": "timber",
-       "read_from": "140mm x 38mm C16 studs at 400mm centres with head and sole plates and noggins"
-      },
-      {
        "t": 9,
-       "material": "OSB3 sheathing externally",
+       "material": "OSB3 sheathing externally over",
        "hatch": "timber",
-       "read_from": "9mm OSB3 sheathing externally"
+       "read_from": "9mm OSB3 sheathing externally over 140mm x 38mm C16 studs"
       },
       {
        "t": 140,
-       "material": "Kingspan Kooltherm K112 Framing Board",
+       "material": "Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres with h",
        "hatch": "ins",
        "read_from": "140mm Kingspan Kooltherm K112 Framing Board "
       },
@@ -1299,16 +1287,18 @@
       }
      ],
      "edge": [],
-     "total_mm": 326.5,
+     "total_mm": 186.5,
      "extraction_notes": [
+      "not a layer — 140mm is a member named inside another phrase: 'x 38mm C16 studs'",
       "not treated as a layer: 'centres with head and sole plates and noggins'",
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'",
-      "not a layer - 12.5mm is in a sentence about what a construction complies with, not about this one: 'plasterboard alone in place of the insulated'"
+      "not a layer - 12.5mm is in a sentence about what a construction complies with, not about this one: 'plasterboard alone in place of the insulated'",
+      "merged 140mm '38 x 140mm C16 studs at 400mm centres with h' into the zone it fills — one band, not two"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Where the existing flank wall or its foundation will not carry a new masonry gable, or where the gable is to be clad to match tile hanging or render on the elevations, the new gable is to be a timber frame panel built off a treated softwood sole plate bedded on a damp proof course on the head of the existing wall and fixed with resin anchors or straps to the engineer's design. Panel of 140mm x 38mm C16 studs at 400mm centres with head and sole plates and noggins, 9mm OSB3 sheathing externally, breather membrane, treated battens and counter-battens, and tile hanging, slate hanging or render on a carrier board to match the elevations.",
+      "Where the existing flank wall or its foundation will not carry a new masonry gable, or where the gable is to be clad to match tile hanging or render on the elevations, the new gable is to be a timber frame panel of 9mm OSB3 sheathing externally over 140mm x 38mm C16 studs, built off a treated softwood sole plate bedded on a damp proof course on the head of the existing wall and fixed with resin anchors or straps to the engineer's design. Panel of 140mm x 38mm C16 studs at 400mm centres with head and sole plates and noggins, 9mm OSB3 sheathing externally, breather membrane, treated battens and counter-battens, and tile hanging, slate hanging or render on a carrier board to match the elevations.",
       "Fill the full stud depth with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK), a continuous vapour control layer on the warm side taped at all laps, and 37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped and skimmed. The panel calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for the studs bridging the insulation at 9.5% of the area at 400mm centres and an air-gap correction of 0.01. With 12.5mm plasterboard alone in place of the insulated board the same panel calculates at 0.21 and does not meet the standard for a new thermal element.",
       "The existing wall below is to be assessed by the engineer for the new loads and for its lateral stability without the hip, and the new gable is to be strapped to the new roof structure and to the loft floor at not more than 2m centres. Cavity barriers at the junction with the existing wall and at the eaves, and a cavity tray or flashing at the junction between the timber frame and the masonry below with weep holes to the outer cladding.",
       "NOTE — Where the existing wall is a single-leaf solid wall, the new gable above it is exposed to more weather than the wall below and the cladding, membrane and flashing at the base of the panel are the details that keep the loft dry. Draw them."
@@ -1331,9 +1321,9 @@
       },
       {
        "t": 89,
-       "material": "38 x 89mm C16 studs at 400mm centres",
-       "hatch": "timber",
-       "read_from": "89mm x 38mm C16 studs at 400mm centres"
+       "material": "mineral wool infill between 38 x 89mm C16 studs at 400mm centres",
+       "hatch": "wool",
+       "read_from": "89mm mineral wool infill"
       },
       {
        "t": 12.5,
@@ -1346,12 +1336,13 @@
      "total_mm": 114.0,
      "extraction_notes": [
       "not treated as a layer: 'centres'",
+      "merged 89mm '38 x 89mm C16 studs at 400mm centres' into the zone it fills — one band, not two",
       "lining mirrored to the other face - the clause lines both faces with it"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Partitions enclosing the protected stairway to achieve 30 minutes fire resistance (EI 30, or REI 30 where the partition is loadbearing). Construction to comprise 89mm x 38mm C16 studs at 400mm centres, mineral wool infill, and one layer of 12.5mm fire-rated plasterboard each face with all joints taped and filled and all perimeters sealed with an intumescent or fire-rated sealant.",
+      "Partitions enclosing the protected stairway to achieve 30 minutes fire resistance (EI 30, or REI 30 where the partition is loadbearing). Construction to comprise 89mm x 38mm C16 studs at 400mm centres, 89mm mineral wool infill, and one layer of 12.5mm fire-rated plasterboard each face with all joints taped and filled and all perimeters sealed with an intumescent or fire-rated sealant.",
       "Where the existing enclosure to the stair is retained, it is to be inspected and upgraded as necessary to achieve the same standard. Lath and plaster in sound condition may be acceptable subject to the Building Control Officer's agreement."
      ]
     },
@@ -1372,9 +1363,9 @@
       },
       {
        "t": 89,
-       "material": "38 x 89mm C16 studs at 400mm centres with head and sole plates and sol",
-       "hatch": "timber",
-       "read_from": "89mm x 38mm C16 studs at 400mm centres with head and sole plates and solid n"
+       "material": "acoustic mineral wool between 38 x 89mm C16 studs at 400mm centres with head and sole plat",
+       "hatch": "wool",
+       "read_from": "89mm acoustic mineral wool"
       },
       {
        "t": 12.5,
@@ -1392,7 +1383,7 @@
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Internal stud partition to comprise 89mm x 38mm C16 studs at 400mm centres with head and sole plates and solid noggins at board joints and at all fixings. Infill the full stud depth with acoustic mineral wool. Line both faces with 12.5mm plasterboard with joints staggered and all perimeters sealed."
+      "Internal stud partition to comprise 89mm x 38mm C16 studs at 400mm centres with head and sole plates and solid noggins at board joints and at all fixings. Infill the full stud depth with 89mm acoustic mineral wool. Line both faces with 12.5mm plasterboard with joints staggered and all perimeters sealed."
      ]
     },
     {
@@ -2246,10 +2237,7 @@
       "skipped 750mm thick — too thick to be a layer",
       "not a layer — 300mm reads as a spacing, a level, working or an alternative construction: 'and in no case less than 450mm'",
       "not a layer — 1000mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level and cast against undistu'",
-      "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'",
-      "not treated as a layer: 'can fall below the 450mm minimum for trench fill'",
-      "not treated as a layer: 'minimum for trench fill'",
-      "not treated as a layer: 'governs'"
+      "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -2466,8 +2454,7 @@
       "not a layer — 102mm is an alternative or a continuation: 'brick wall as the outer leaf and build a new 100mm a'",
       "not a layer — 450mm reads as a spacing, a level, working or an alternative construction: 'vertical and 900mm horizontal centres'",
       "not treated as a layer: 'horizontal centres'",
-      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'cavity with 150mm of the 0'",
-      "not treated as a layer: 'of room width each side'"
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'cavity with 150mm of the 0'"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -2628,32 +2615,26 @@
      "standard": "0.16 W/m²K",
      "layers": [
       {
-       "t": 140,
-       "material": "38 x 140mm C16 studs at 400mm centres with head and sole plates and no",
-       "hatch": "timber",
-       "read_from": "140mm x 38mm C16 studs at 400mm centres with head and sole plates and noggins"
-      },
-      {
-       "t": 9,
-       "material": "OSB3 sheathing externally",
-       "hatch": "timber",
-       "read_from": "9mm OSB3 sheathing externally"
+       "t": 103,
+       "material": "facing brick outer leaf",
+       "hatch": "brick",
+       "read_from": "103mm facing brick outer leaf tied to the frame"
       },
       {
        "t": 50,
        "material": "clear cavity",
        "hatch": "void",
-       "read_from": "50mm clear cavity and a 103mm facing brick outer leaf tied to the frame with"
+       "read_from": "50mm clear cavity"
       },
       {
-       "t": 103,
-       "material": "facing brick outer leaf",
-       "hatch": "brick",
-       "read_from": "103mm facing brick outer leaf tied to the frame with stainless stee"
+       "t": 9,
+       "material": "OSB3 sheathing",
+       "hatch": "timber",
+       "read_from": "9mm OSB3 sheathing"
       },
       {
        "t": 140,
-       "material": "Kingspan Kooltherm K112 Framing Board",
+       "material": "Kingspan Kooltherm K112 Framing Board between 38 x 140mm C16 studs at 400mm centres with h",
        "hatch": "ins",
        "read_from": "140mm Kingspan Kooltherm K112 Framing Board "
       },
@@ -2665,17 +2646,18 @@
       }
      ],
      "edge": [],
-     "total_mm": 479.5,
+     "total_mm": 339.5,
      "extraction_notes": [
       "not treated as a layer: 'centres with head and sole plates and noggins'",
       "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'centres horizontally and 375mm vertically'",
       "not treated as a layer: 'vertically'",
-      "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'"
+      "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres and an air-gap correction of 0'",
+      "merged 140mm '38 x 140mm C16 studs at 400mm centres with h' into the zone it fills — one band, not two"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Where the infill is to be built quickly or the foundation will only carry a light panel, form the infill as a timber frame panel: 140mm x 38mm C16 studs at 400mm centres with head and sole plates and noggins, sole plate on a damp proof course and fixed to the slab or new plinth with resin anchors, 9mm OSB3 sheathing externally, breather membrane, 50mm clear cavity and a 103mm facing brick outer leaf tied to the frame with stainless steel flexible ties at 600mm centres horizontally and 375mm vertically.",
+      "Where the infill is to be built quickly or the foundation will only carry a light panel, form the infill as a timber frame panel behind a 103mm facing brick outer leaf tied to the frame, a 50mm clear cavity, breather membrane and 9mm OSB3 sheathing, on 140mm x 38mm C16 studs at 400mm centres with head and sole plates and noggins, the sole plate on a damp proof course and fixed to the slab or new plinth with resin anchors with stainless steel flexible ties at 600mm centres horizontally and 375mm vertically.",
       "Fill the full stud depth with 140mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK) and line internally with 37.5mm insulated plasterboard incorporating a vapour control layer, joints taped. This build-up calculates at 0.16 W/m²K to BS EN ISO 6946 by the combined method, allowing for the studs bridging the insulation at 9.5% of the area at 400mm centres and an air-gap correction of 0.01. Mineral wool of 0.035 W/mK in place of the phenolic board calculates at 0.20 and does not meet the standard for this panel.",
       "NOTE — A timber frame infill panel behind a brick skin is not a substitute for a foundation. The plinth and sole plate still need bearing below the level of frost and root action, and the engineer is to confirm the arrangement."
      ]
@@ -2720,7 +2702,6 @@
       "not a layer — 72.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'insulated plasterboard at 0'",
       "not a layer — 140mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'studs filled with Kingspan Kooltherm K112 with 3'",
       "not a layer — 89mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'studs with K112 and 52'",
-      "not treated as a layer: 'step at the connecting door may be removed and the floor'",
       "lining mirrored to the other face - the clause lines both faces with it",
       "stud zone drawn undimensioned — the clause gives the centres and leaves the depth to the system manufacturer"
      ],
@@ -2771,8 +2752,6 @@
      "total_mm": 165,
      "extraction_notes": [
       "not a layer — 10mm reads as a spacing, a level, working or an alternative construction: 'over 3m and free of oil contamination'",
-      "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'below the house floor and were rarely laid on a damp'",
-      "not treated as a layer: 'added by this build-up usually brings the finished floor'",
       "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
      ],
      "verified_table": null,
@@ -3149,10 +3128,7 @@
       "skipped 750mm thick — too thick to be a layer",
       "not a layer — 300mm reads as a spacing, a level, working or an alternative construction: 'and in no case less than 450mm'",
       "not a layer — 1000mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level and cast against undistu'",
-      "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'",
-      "not treated as a layer: 'can fall below the 450mm minimum for trench fill'",
-      "not treated as a layer: 'minimum for trench fill'",
-      "not treated as a layer: 'governs'"
+      "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -3906,10 +3882,7 @@
       "skipped 750mm thick — too thick to be a layer",
       "not a layer — 300mm reads as a spacing, a level, working or an alternative construction: 'and in no case less than 450mm'",
       "not a layer — 1000mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level and cast against undistu'",
-      "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'",
-      "not treated as a layer: 'can fall below the 450mm minimum for trench fill'",
-      "not treated as a layer: 'minimum for trench fill'",
-      "not treated as a layer: 'governs'"
+      "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -5062,10 +5035,7 @@
       "skipped 750mm thick — too thick to be a layer",
       "not a layer — 300mm reads as a spacing, a level, working or an alternative construction: 'and in no case less than 450mm'",
       "not a layer — 1000mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level and cast against undistu'",
-      "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'",
-      "not treated as a layer: 'can fall below the 450mm minimum for trench fill'",
-      "not treated as a layer: 'minimum for trench fill'",
-      "not treated as a layer: 'governs'"
+      "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'"
      ],
      "verified_table": null,
      "stud_core": null,
