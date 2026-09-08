@@ -1886,8 +1886,9 @@ Cutting into, raising or lining a shared wall is notifiable under the Party Wall
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | expanded polystyrene | **100** | `ins` |
-| | **Extracted total** | **100** | |
+| 1 | single-leaf block wall | **100** | `dense` |
+| 2 | expanded polystyrene | **100** | `ins` |
+| | **Extracted total** | **200** | |
 
 - ⚠ not a layer — 100mm is the alternative to the figure before it: 'mineral wool of 0'
 - ⚠ not a layer — 100mm reads as a spacing, a level, working or an alternative construction: 'expanded polystyrene system on a 100mm dense block w'
@@ -1897,7 +1898,7 @@ Cutting into, raising or lining a shared wall is notifiable under the Party Wall
 <details><summary>Clause</summary>
 
 
-Where internal space is critical and the elevation is not constrained by planning, insulate the existing single-leaf or cavity wall externally with 100mm expanded polystyrene of 0.032 W/mK or 100mm mineral wool of 0.036 W/mK mechanically fixed and adhered to the prepared masonry, a base coat with alkali-resistant mesh and a through-coloured silicone render finish, as a complete BBA-certificated system installed by the system holder's approved contractor, with a starter track and drip above the damp proof course, beads at corners and openings, sills extended to give a drip over the new face, and the eaves, verge and rainwater goods extended to clear the added thickness.
+Where internal space is critical and the elevation is not constrained by planning, insulate the existing wall externally, drawn here as a 100mm single-leaf block wall and to be confirmed on site, with 100mm expanded polystyrene of 0.032 W/mK or 100mm mineral wool of 0.036 W/mK mechanically fixed and adhered to the prepared masonry, a base coat with alkali-resistant mesh and a through-coloured silicone render finish, as a complete BBA-certificated system installed by the system holder's approved contractor, with a starter track and drip above the damp proof course, beads at corners and openings, sills extended to give a drip over the new face, and the eaves, verge and rainwater goods extended to clear the added thickness.
 
 
 The 100mm expanded polystyrene system on a 100mm dense block wall calculates at 0.29 W/m²K to BS EN ISO 6946 and on a 215mm brick wall at 0.27; the 100mm mineral wool version calculates at 0.32 on the block wall and fails, and 0.30 on the brick wall with no margin, so where mineral wool is required (within 1m of the boundary) it is to be 120mm. External wall insulation to a house or garage elevation is development needing planning permission on most elevations and is not to be specified without it.
@@ -1917,17 +1918,18 @@ The 100mm expanded polystyrene system on a 100mm dense block wall calculates at 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | block | **100** | `dense` |
-| 2 | Kingspan Kooltherm K112 Framing Board | **90** | `ins` |
-| 3 | plasterboard skimmed | **12.5** | `pboard` |
-| 4 | Kingspan Kooltherm K118 insulated plasterboard fixed | **72.5** | `ins` |
-| | **Extracted total** | **275** | |
+| 2 | clear gap behind them | **25** | `void` |
+| 3 | Kingspan Kooltherm K112 Framing Board | **90** | `ins` |
+| 4 | plasterboard skimmed | **12.5** | `pboard` |
+| | **Extracted total** | **227.5** | |
 
 - ⚠ not a layer — 215mm is an alternative or a continuation: 'brick single-leaf wall to be retained'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above external ground level'
-- ⚠ not treated as a layer: 'centres set 25mm clear of the wall on a damp proof cour'
+- ⚠ not treated as a layer: 'centres'
 - ⚠ not a layer — 600mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'
 - ⚠ not a layer - 89mm is in a sentence about what a construction complies with, not about this one: 'stud calculates at 0'
 - ⚠ not a layer - 140mm is in a sentence about what a construction complies with, not about this one: 'deep and fully filled'
+- ⚠ not a layer - 72.5mm is in a sentence offering another way to build it: 'Kingspan Kooltherm K118 insulated plasterboa'
 
 <details><summary>Clause</summary>
 
@@ -1935,10 +1937,10 @@ The 100mm expanded polystyrene system on a 100mm dense block wall calculates at 
 Existing 100mm block or 215mm brick single-leaf wall to be retained. Inspect externally for cracked, hollow or missing pointing and render and make good; the external face is the only rain screen the wall has. Apply a liquid damp proof membrane or a proprietary tanking slurry to the internal face from floor level to 150mm above external ground level, lapped with the floor membrane.
 
 
-Line internally with treated softwood studs of 89mm x 38mm at 600mm centres set 25mm clear of the wall on a damp proof course strip, with 90mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK) between the studs, a continuous vapour control layer on the warm side with laps taped, and 12.5mm plasterboard skimmed. Carry the insulation and vapour control layer behind the floor deck and up to the ceiling line without breaks.
+Line internally with treated softwood studs of 89mm x 38mm at 600mm centres, set clear of the wall on a damp proof course strip with a 25mm clear gap behind them, and 90mm Kingspan Kooltherm K112 Framing Board (thermal conductivity 0.019 W/mK) between the studs, a continuous vapour control layer on the warm side with laps taped, and 12.5mm plasterboard skimmed. Carry the insulation and vapour control layer behind the floor deck and up to the ceiling line without breaks.
 
 
-This build-up calculates at 0.24 W/m²K to BS EN ISO 6946 allowing for the stud fraction at 600mm centres. Mineral wool of 0.035 W/mK in the same 89mm stud calculates at 0.34 and does not meet the standard; where mineral wool is preferred the studs are to be 140mm deep and fully filled, which calculates at 0.27. Where floor area is critical, 72.5mm Kingspan Kooltherm K118 insulated plasterboard fixed on battens over the damp proofed wall calculates at 0.27 W/m²K.
+This build-up calculates at 0.24 W/m²K to BS EN ISO 6946 allowing for the stud fraction at 600mm centres. Mineral wool of 0.035 W/mK in the same 89mm stud calculates at 0.34 and does not meet the standard; where mineral wool is preferred the studs are to be 140mm deep and fully filled, which calculates at 0.27. As an alternative where floor area is critical, 72.5mm Kingspan Kooltherm K118 insulated plasterboard fixed on battens over the damp proofed wall calculates at 0.27 W/m²K.
 
 
 NOTE — A single-leaf garage wall was never designed to keep a habitable room dry. Where the wall is exposed to driving rain or the ground is high on the outside, the lining is to be a cavity drainage or ventilated system and the client advised in writing before construction.
@@ -1959,10 +1961,10 @@ NOTE — A single-leaf garage wall was never designed to keep a habitable room d
 |---|---|---|---|
 | 1 | block | **100** | `dense` |
 | 2 | Knauf DriTherm Cavity Slab 32 | **100** | `wool` |
-| 3 | plasterboard | **12.5** | `pboard` |
-| | **Extracted total** | **212.5** | |
+| 3 | aircrete inner leaf | **100** | `block` |
+| 4 | plasterboard | **12.5** | `pboard` |
+| | **Extracted total** | **312.5** | |
 
-- ⚠ not a layer — 102mm is an alternative or a continuation: 'brick wall as the outer leaf and build a new 100mm a'
 - ⚠ not a layer — 450mm reads as a spacing, a level, working or an alternative construction: 'vertical and 900mm horizontal centres'
 - ⚠ not treated as a layer: 'horizontal centres'
 - ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'cavity with 150mm of the 0'
@@ -1970,7 +1972,7 @@ NOTE — A single-leaf garage wall was never designed to keep a habitable room d
 <details><summary>Clause</summary>
 
 
-Where floor area allows and the client wants a masonry room rather than a lined one, retain the existing 100mm block or 102mm brick wall as the outer leaf and build a new 100mm aircrete inner leaf of 0.11 W/mK on a thickening to the existing slab or a new strip footing to the engineer's design, leaving a 100mm cavity fully filled with 100mm Knauf DriTherm Cavity Slab 32 or ROCKWOOL Full Fill Cavity Batt of 0.037 W/mK, tied to the existing wall with stainless steel remedial ties drilled and resin fixed at 450mm vertical and 900mm horizontal centres, and finished with 12.5mm plasterboard on dabs.
+Where floor area allows and the client wants a masonry room rather than a lined one, retain the existing wall as the outer leaf, drawn here as 100mm block, leave a 100mm cavity fully filled with 100mm Knauf DriTherm Cavity Slab 32 or ROCKWOOL Full Fill Cavity Batt, and build a new 100mm aircrete inner leaf of 0.11 W/mK on a thickening to the existing slab or a new strip footing to the engineer's design of 0.037 W/mK, tied to the existing wall with stainless steel remedial ties drilled and resin fixed at 450mm vertical and 900mm horizontal centres, and finished with 12.5mm plasterboard on dabs.
 
 
 Damp proof course in the new leaf at the level of the existing damp proof course or the new floor membrane, whichever is higher, cavity trays and stop ends over openings, insulated cavity closers at the jambs, and the cavity closed at the head with a cavity barrier. With the 0.032 W/mK slab the wall calculates at 0.24 W/m²K and with the 0.037 batt at 0.26 to BS EN ISO 6946, both meeting the retained-element standard; a 150mm cavity with 150mm of the 0.032 slab calculates at 0.18 where the new-wall value is wanted.
@@ -1992,9 +1994,11 @@ NOTE — The new leaf costs about 200mm of room width each side. On a single gar
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | or wider cavity | **50** | `void` |
-| 2 | insulated plasterboard | **52.5** | `ins` |
-| | **Extracted total** | **102.5** | |
+| 1 | brick outer leaf | **103** | `brick` |
+| 2 | blown mineral wool cavity fill | **50** | `wool` |
+| 3 | dense block inner leaf | **100** | `block` |
+| 4 | insulated plasterboard | **52.5** | `ins` |
+| | **Extracted total** | **305.5** | |
 
 - ⚠ not a layer — 12.5mm is the alternative to the figure before it: 'plasterboard on dabs where the cavity is 100mm o'
 - ⚠ not a layer - 103mm is in a sentence about what a construction complies with, not about this one: 'brick'
@@ -2007,7 +2011,7 @@ NOTE — The new leaf costs about 200mm of room width each side. On a single gar
 <details><summary>Clause</summary>
 
 
-Where the garage was built with a clear 50mm or wider cavity in sound condition, have the cavity surveyed with a borescope and, where it is clean, dry and free of bridging and the wall is not in a severely exposed location, fill it with a blown mineral wool, bonded polystyrene bead or urea-formaldehyde foam system holding a BBA certificate for the wall type, installed by a registered installer to BS EN 14064 or the certificate, with a CIGA or equivalent guarantee, injection holes made good and vents and flues sleeved before filling. Line internally with 52.5mm insulated plasterboard on dabs where the cavity is 50mm, or 12.5mm plasterboard on dabs where the cavity is 100mm or more.
+Where the garage was built with a clear cavity in sound condition, drawn here as a 103mm brick outer leaf, a 50mm blown mineral wool cavity fill and a 100mm dense block inner leaf, have the cavity surveyed with a borescope and, where it is clean, dry and free of bridging and the wall is not in a severely exposed location, fill it with a blown mineral wool, bonded polystyrene bead or urea-formaldehyde foam system holding a BBA certificate for the wall type, installed by a registered installer to BS EN 14064 or the certificate, with a CIGA or equivalent guarantee, injection holes made good and vents and flues sleeved before filling. Line internally with 52.5mm insulated plasterboard on dabs where the cavity is 50mm, or 12.5mm plasterboard on dabs where the cavity is 100mm or more.
 
 
 A 103mm brick, 50mm blown bead (0.033 W/mK) and 100mm dense block wall with plain plasterboard on dabs calculates at 0.47 W/m²K and does not meet the standard on its own; with 37.5mm insulated plasterboard it calculates at 0.31 and still fails, and with 52.5mm insulated plasterboard at 0.25 and passes. A 100mm cavity blown full with plain plasterboard on dabs calculates at 0.28. The installer's survey is to be kept with the completion certificate.
@@ -2188,9 +2192,10 @@ NOTE — This separation is only required where a garage remains. Where the whol
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Thermafloor TF70 | **100** | `ins` |
-| 2 | sand | **65** | `screed` |
-| | **Extracted total** | **165** | |
+| 1 | concrete | **100** | `conc` |
+| 2 | Kingspan Thermafloor TF70 | **100** | `ins` |
+| 3 | sand | **65** | `screed` |
+| | **Extracted total** | **265** | |
 | e | perimeter upstand insulation to all external walls *(at the floor edge, not in the total)* | 25 | `ins` |
 
 - ⚠ not a layer — 10mm reads as a spacing, a level, working or an alternative construction: 'over 3m and free of oil contamination'
@@ -2199,7 +2204,7 @@ NOTE — This separation is only required where a garage remains. Where the whol
 <details><summary>Clause</summary>
 
 
-Existing garage slab to be retained where it is sound, level within 10mm over 3m and free of oil contamination. Clean back to a bare surface, remove any laitance and make good cracks and spalls with a cementitious repair mortar. Where the slab is fractured, sunken or contaminated it is to be broken out and replaced as GF3.
+Existing garage slab, drawn here as 100mm concrete and to be confirmed on site, to be retained where it is sound, level within 10mm over 3m and free of oil contamination. Clean back to a bare surface, remove any laitance and make good cracks and spalls with a cementitious repair mortar. Where the slab is fractured, sunken or contaminated it is to be broken out and replaced as GF3.
 
 
 Lay a polyethylene damp proof membrane of not less than 1200 gauge over the existing slab, lapped and taped at all joints and turned up the perimeter walls to lap with the damp proof course in the wall by not less than 100mm. Where no damp proof course exists in the garage walls, provide a new chemical or physical damp proof course at the correct level before the floor is laid.
@@ -2224,17 +2229,19 @@ NOTE — Garage slabs are commonly 100 to 150mm below the house floor and were r
 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
-| 1 | Kingspan Kooltherm K103 Floorboard | **80** | `ins` |
-| 2 | tongued and grooved moisture resistant chipboard | **22** | `timber` |
-| 3 | expansion gap | **10** | `void` |
-| | **Extracted total** | **112** | |
+| 1 | concrete | **100** | `conc` |
+| 2 | Kingspan Kooltherm K103 Floorboard | **80** | `ins` |
+| 3 | tongued and grooved moisture resistant chipboard | **22** | `timber` |
+| | **Extracted total** | **202** | |
+| e | expansion gap *(at the floor edge, not in the total)* | 10 | `void` |
 
 - ⚠ not a layer — 400mm reads as a spacing, a level, working or an alternative construction: 'centres between insulation strips'
+- ⚠ 10mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
 
-Existing slab prepared and damp proof membrane laid as GF1. Provide 80mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) tightly butted over the membrane, a vapour control layer of 500 gauge polyethylene with laps taped, and 22mm tongued and grooved moisture resistant chipboard (P5) glued at all joints and laid as a floating floor with a 10mm expansion gap at the perimeter behind the skirting.
+Existing slab, drawn here as 100mm concrete and to be confirmed on site, prepared and damp proof membrane laid as GF1. Provide 80mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) tightly butted over the membrane, a vapour control layer of 500 gauge polyethylene with laps taped, and 22mm tongued and grooved moisture resistant chipboard (P5) glued at all joints and laid as a floating floor with a 10mm expansion gap at the perimeter behind the skirting.
 
 
 Where the floor is to be raised further to meet the house floor level, use treated softwood battens at 400mm centres between insulation strips, with the deck screwed to the battens, or increase the insulation thickness; do not make up level with loose fill.
@@ -4246,4 +4253,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T02:49:34+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T03:01:32+00:00*

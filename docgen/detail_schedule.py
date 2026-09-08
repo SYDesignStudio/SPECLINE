@@ -103,7 +103,7 @@ HATCH = [
     # insulation" as insulation, because a word further along the phrase reached a rule first.
     # The lookahead keeps a cavity BOARD out of it: that is a board, and it is named as one.
     (r"^(?:[a-z]+\s+){0,4}(?:void|gap|cavity)\b"
-     r"(?!\s+(?:board|batt|barrier|wall|insulation|fill|slab|tray))", "void"),
+     r"(?!\s+(?:board|batt|barrier|wall|insulation|fill|filled|of|slab|tray))", "void"),
     (r"facing brick|brick outer|brickwork outer|facing brickwork|brick-on-edge|engineering brick|"
      r"solid brick|brick wall|brickwork", "brick"),
     (r"aircrete|thermalite|celcon|blockwork inner|block inner|aerated block", "block"),
@@ -131,7 +131,9 @@ HATCH = [
     (r"subsoil|ground|earth|topsoil", "earth"),
     (r"sand blinding|blinding|\bsand\b", "screed"),
     (r"membrane|dpm|dpc|vapour control|vcl|breather|underlay|radon", "membrane"),
-    (r"cavity|\bgap\b|void|air space|ventilated", "void"),
+    # Last resort, and a cavity that is FILLED is not one: the blown-fill garage wall drew its
+    # insulated cavity as an empty one. What fills it is named right there in the clause.
+    (r"cavity(?!\s+(?:filled|of\b|fully))|\bgap\b|void|air space|ventilated", "void"),
 ]
 
 
@@ -192,6 +194,8 @@ LAYERS_OF = re.compile(r"\b(two|three|2|3)\s+layers\s+of\s+$", re.I)
 # Insulation at the floor edge rather than across it.
 PERIMETER = re.compile(r"perimeter (?:insulation|upstands?|gaps?)|perimeter[^.]{0,20}upstand|"
                        r"insulation around floor edges|edge insulation", re.I)
+# A movement gap around the edge of a floating floor: at the perimeter, like the upstand.
+EDGE_GAP = re.compile(r"^\d+(?:\.\d+)?mm (?:expansion|movement|perimeter) gap", re.I)
 # A wall built as two of something with a gap between: two frames, or two masonry leaves.
 TWIN = re.compile(r"two independent frames|two leaves of", re.I)
 # A member being made deeper, not a layer being added.
@@ -943,7 +947,13 @@ def build():
             # layer of the floor and it is not part of its thickness: counted as one it made the
             # block and beam floor 430mm when the floor is 405mm with a 25mm upstand at its edge,
             # and drew a band of insulation right across a section it does not cross.
-            edge = [l for l in layers if PERIMETER.search(l.get("material") or "")]
+            # The material is the test. read_from is a 90-character window that runs on past
+            # the layer, and searching it wholesale moved a 100mm floor insulation to the
+            # edge because the words "perimeter upstands" appeared later in the sentence.
+            # Only the expansion gap needs the wider look, and only for its own words.
+            edge = [l for l in layers
+                    if PERIMETER.search(l.get("material") or "")
+                    or EDGE_GAP.search(l.get("read_from") or "")]
             if edge:
                 layers = [l for l in layers if l not in edge]
                 notes.append("%s taken out of the layers and drawn at the edge — a perimeter "
