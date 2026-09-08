@@ -694,16 +694,25 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
 - The chrome lockup is brackets as inline SVG and the wordmark as text (`.lockup`), per the
   identity sheet. Archivo 700 for the wordmark only; `--brand-ink` / `--bracket` carry its colours
   in both themes. `src/logos.js` holds the Specline icon data URIs and nothing else.
-- **A category's views are tabs** (`stageTabs()` in `app_js.js`, 9 September 2026). The library
-  list and each calculator the category offers are one strip under the heading — `Library 2/6 ·
-  Cavity wall calculator · Framed wall calculator` — and one view shows at a time. Before this,
-  External Walls stacked two calculators on top of twenty cards and the page was unusable.
-  Three things hold it together: the strip appears **only where there is a calculator**, so most
-  categories are unchanged; the foundation tab is called **Foundation check**, because that is
-  what it does (Table 10 is not held here and it calculates nothing); and adding a build-up from
-  a calculator **returns to the library**, because the new numbered card is the thing to look at
-  and a toast alone leaves the page looking untouched. `S.tab` is UI state, not job state — it
-  is not in `snapshot()`, and `setStep()` resets it.
+- **A category's views are tabs** (`renderStage()` and `stageTabs()` in `app_js.js`,
+  9 September 2026). Its build-ups, its notes and each calculator it offers are one strip under
+  the heading — `Build-ups 1/2 · Notes 3/3 · Foundation check` — and one view shows at a time.
+  Before this, External Walls stacked two calculators on top of twenty cards, and every category
+  holding both put its notes below the build-ups where they were rarely scrolled to.
+  Four things hold it together:
+  - **A strip appears only where there is a choice**, so a category of notes alone is still one
+    page of notes with no tab to press. Where there is no strip the old `grouplabel` still names
+    the list; where there is one the tab is the label, so it is dropped.
+  - The **counts are per view** (`2/5` build-ups ticked, `3/4` notes on), which is what the step
+    rail's own badge adds together — so the badge and the tabs can never disagree.
+  - The **foundation tab is `Foundation check`**, because that is what it does: Table 10 is not
+    held here and it calculates nothing.
+  - **Adding from a calculator returns to the build-ups**, because the new numbered card is the
+    thing to look at and a toast alone leaves the page looking untouched.
+
+  `S.tab` is UI state, not job state — it is not in `snapshot()`, and `setStep()` clears it so
+  each category opens on its first view. A tab id that does not exist in the category you move
+  to falls back to the first, so `nts` on a build-ups-only category cannot strand the page.
 - **Two configurators can share a category.** External Walls carries the cavity wall and the
   framed wall. Their selects are namespaced — `data-cf="cavity"` against `data-cf="fr_*"` — and
   each binder scopes itself to the card holding its own Add button. Do not reintroduce a bare

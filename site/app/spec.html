@@ -3554,7 +3554,7 @@ const STANDARDS = [
   {item:"Building control", value:"Lower case in prose. ‘The Building Control Officer’ for the person.", flag:""}
 ];
 
-let S = {route:"home", type:null, id:null, data:{}, sel:[], notes:{}, step:-1, open:{}, custom:[], cfg:null, cfgF:null, cfgR:null, history:[], created:0, updated:0, ovr:{}, tab:"lib"};
+let S = {route:"home", type:null, id:null, data:{}, sel:[], notes:{}, step:-1, open:{}, custom:[], cfg:null, cfgF:null, cfgR:null, history:[], created:0, updated:0, ovr:{}, tab:null};
 FIELDS.forEach(f=>S.data[f[0]]=f[2]);
 
 const el = id => document.getElementById(id);
@@ -3586,7 +3586,7 @@ function catCount(cat){
 function catTotal(cat){ const {bus,nts}=catItems(cat); return bus.length+nts.length; }
 
 function defaults(){
-  S.sel=[]; S.notes={}; S.step=-1; S.open={}; S.custom=[]; S.cfg=null; S.cfgF=null; S.cfgR=null; S.visited={}; S.ovr={}; S.tab="lib";
+  S.sel=[]; S.notes={}; S.step=-1; S.open={}; S.custom=[]; S.cfg=null; S.cfgF=null; S.cfgR=null; S.visited={}; S.ovr={}; S.tab=null;
   if(!S.data.mfr) S.data.mfr="kingspan";
   spec().notes.forEach((n,i)=>S.notes[i]=true);
   applyM4();
@@ -4455,7 +4455,7 @@ function renderSteps(){
 }
 function setStep(s){
   if(typeof S.step==="number" && S.step>=0){ S.visited=S.visited||{}; S.visited[S.step]=1; }
-  S.step=s; S.tab="lib"; renderStage(); renderSteps(); save();
+  S.step=s; S.tab=null; renderStage(); renderSteps(); save();
 }
 
 /* ---------------- workspace: stage ---------------- */
@@ -4480,28 +4480,36 @@ function renderStage(){
   if(cat===undefined){ S.step=-1; return renderJobRecord(); }
   const {bus,nts} = catItems(cat);
   const r = refs();
-  const tabs = stageTabs(cat);
-  const cur = tabs.some(t=>t.id===S.tab) ? S.tab : "lib";
-  const onLib = cur==="lib";
-  const lede = bus.length ? "Tick the build-ups used on this job. They number themselves in the order you tick them."
-                          : "Every note is on to begin with. Untick what does not apply to this job.";
-  let h = `<div class="stagehead${tabs.length?" tabbed":""}">
+  /* the views this category can show: its build-ups, its notes, and any calculator it offers.
+     A strip appears only where there is a choice to make — a category holding notes alone is
+     still one page of notes. */
+  const views = [];
+  if(bus.length) views.push({id:"bus", n:"Build-ups", c:`${bus.filter(x=>S.sel.includes(x.i)).length}/${bus.length}`});
+  if(nts.length) views.push({id:"nts", n:"Notes",     c:`${nts.filter(x=>S.notes[x.i]).length}/${nts.length}`});
+  const calcs = stageTabs(cat);
+  const tabs = views.concat(calcs);
+  const strip = tabs.length>1;
+  const cur = tabs.some(t=>t.id===S.tab) ? S.tab : ((tabs[0]&&tabs[0].id) || "bus");
+  const LEDE = {bus:"Tick the build-ups used on this job. They number themselves in the order you tick them.",
+                nts:"Every note is on to begin with. Untick what does not apply to this job."};
+  let h = `<div class="stagehead${strip?" tabbed":""}">
       <p class="crumb">Step ${S.step+1} of ${cats().length} &nbsp;·&nbsp; ${esc(spec().name)}</p>
       <h2>${esc(cat)}</h2>
-      ${tabs.length?"":`<p class="lede">${lede}</p>`}
+      ${strip?"":(LEDE[cur]?`<p class="lede">${LEDE[cur]}</p>`:"")}
     </div>`;
-  if(tabs.length){
-    /* the switcher first, then the copy for whichever view is open: the calculators speak for
-       themselves once open, so only the list carries an instruction */
-    h += `<div class="stagetabs" role="tablist">
-      <button class="stab${onLib?" cur":""}" data-stab="lib" role="tab" aria-selected="${onLib}">Library <span class="stn">${catCount(cat)}/${catTotal(cat)}</span></button>`
-      + tabs.map(t=>`<button class="stab${cur===t.id?" cur":""}" data-stab="${t.id}" role="tab" aria-selected="${cur===t.id}">${esc(t.n)}</button>`).join("")
+  if(strip){
+    /* the switcher first, then the copy for whichever view is open: a calculator speaks for
+       itself once open, so only the two lists carry an instruction */
+    h += `<div class="stagetabs" role="tablist">`
+      + tabs.map(t=>`<button class="stab${cur===t.id?" cur":""}" data-stab="${t.id}" role="tab" aria-selected="${cur===t.id}">${esc(t.n)}${t.c?` <span class="stn">${t.c}</span>`:""}</button>`).join("")
       + `</div>`;
-    if(onLib) h += `<p class="lede stagelede">${lede}</p>`;
+    if(LEDE[cur]) h += `<p class="lede stagelede">${LEDE[cur]}</p>`;
   }
-  if(!onLib) h += tabs.find(t=>t.id===cur).f();
-  if(onLib && bus.length){
-    h += `<p class="grouplabel">Construction build-ups</p>`;
+  const openCalc = calcs.find(t=>t.id===cur);
+  if(openCalc) h += openCalc.f();
+  if(cur==="bus" && bus.length){
+    /* with a strip the tab is the label; without one it is the only thing naming the list */
+    if(!strip) h += `<p class="grouplabel">Construction build-ups</p>`;
     h += bus.map(({b,i})=>{
       const on=S.sel.includes(i), opened=S.open["b"+i];
       return `<div class="card ${on?"on":""}">
@@ -4518,8 +4526,7 @@ function renderStage(){
       </div>`;
     }).join("");
   }
-  if(onLib && nts.length){
-    if(bus.length) h += `<p class="grouplabel">Specification notes</p>`;
+  if(cur==="nts" && nts.length){
     h += nts.map(({n,i})=>{
       const on=!!S.notes[i], opened=S.open["n"+i];
       return `<div class="card ${on?"on":""}">
@@ -4530,7 +4537,7 @@ function renderStage(){
       </div>`;
     }).join("");
   }
-  if(onLib && !bus.length && !nts.length) h += `<p class="lede">Nothing in this category for this project type.</p>`;
+  if(!tabs.length) h += `<p class="lede">Nothing in this category for this project type.</p>`;
 
   const last = S.step===cats().length-1;
   h += `<div class="navbar">
@@ -5276,7 +5283,7 @@ async function deleteJob(id){
    new reference is the thing to see, and a toast alone leaves the page looking unchanged.
    Capture, so this runs before the configurator's own handler re-renders the stage. */
 el("stage").addEventListener("click", e=>{
-  if(e.target && e.target.closest && e.target.closest("#addWall,#addFrame,#addFloor,#addRoof,#addFound")) S.tab="lib";
+  if(e.target && e.target.closest && e.target.closest("#addWall,#addFrame,#addFloor,#addRoof,#addFound")) S.tab="bus";
 }, true);
 
 el("btnPdf").onclick=makePdf;

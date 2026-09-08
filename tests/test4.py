@@ -19,15 +19,15 @@ with sync_playwright() as p:
     # tab. Their selects are namespaced (data-cf="cavity" vs data-cf="fr_*") so neither suite can
     # pick up the other's, and only one renders at a time.
     tabs=[t.strip().split("\n")[0] for t in pg.locator(".stab").all_inner_texts()]
-    ok("C1 the category offers the library and both calculators as tabs",
-       tabs==["Library","Cavity wall calculator","Framed wall calculator"], str(tabs))
-    ok("C1 the library list is what opens first",
+    ok("C1 the category offers its build-ups and both calculators as tabs",
+       tabs==["Build-ups","Cavity wall calculator","Framed wall calculator"], str(tabs))
+    ok("C1 the build-up list is what opens first",
        pg.locator("#addWall").count()==0 and pg.locator('#stage .card input[data-t="b"]').count()>0)
     calc(pg,"Cavity wall")
     ok("C1 the cavity tab opens the cavity calculator alone",
        pg.locator("#addWall").count()==1 and pg.locator("#addFrame").count()==0 and pg.locator(".cfgcard").count()==1,
        str(pg.locator(".cfgcard").count()))
-    ok("C1 no library cards behind a calculator",
+    ok("C1 no build-up cards behind a calculator",
        pg.locator('#stage .card input[data-t="b"]').count()==0)
     ok("C1 the two do not share select names",
        pg.locator('select[data-cf="insulation"]').count()==1 and pg.locator('select[data-cf="fr_insulation"]').count()==0)
@@ -67,7 +67,7 @@ with sync_playwright() as p:
     pg.select_option('select[data-cf="insulation"]',"k106"); pg.select_option('select[data-cf="thickness"]',"90"); pg.select_option('select[data-cf="cavity"]',"100"); pg.wait_for_timeout(250)
     before=pg.evaluate("allBU().length")
     pg.click("#addWall"); pg.wait_for_timeout(400)
-    ok("C7 adding returns to the library so the new card is visible", pg.evaluate("S.tab")=="lib")
+    ok("C7 adding returns to the build-up list so the new card is visible", pg.evaluate("S.tab")=="bus")
     after=pg.evaluate("allBU().length")
     ok("C7 add creates a new build-up card", after==before+1, f"{before}->{after}")
     ok("C7 new build-up is selected and numbered", pg.locator('#stage .card.on .tag:not(.off)').count()>=1)

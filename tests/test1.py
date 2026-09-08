@@ -61,6 +61,27 @@ with sync_playwright() as p:
     nb.first.check(); pg.wait_for_timeout(200)
     ok("T6 re-adding restores it", "VENTILATION — APPROVED DOCUMENT F" in pg.inner_text("#paper").upper())
 
+    # T6b build-ups and notes are separate views where a category holds both
+    found=None
+    for i in range(pg.locator("button.step").count()):
+        pg.locator("button.step").nth(i).click(); pg.wait_for_timeout(120)
+        labs=[t.strip().splitlines()[0] for t in pg.locator(".stab").all_inner_texts()]
+        if "Build-ups" in labs and "Notes" in labs: found=pg.inner_text(".stagehead h2"); break
+    ok("T6b a category holding both shows them as separate tabs", found is not None, str(found))
+    ok("T6b the build-ups open first, with no notes behind them",
+       pg.locator('#stage .card input[data-t="b"]').count()>0 and pg.locator('#stage .card input[data-t="n"]').count()==0)
+    n0=pg.locator('.stab:has-text("Notes") .stn').inner_text().strip()
+    pg.locator('.stab:has-text("Notes")').click(); pg.wait_for_timeout(250)
+    ok("T6b the notes tab shows the notes alone",
+       pg.locator('#stage .card input[data-t="n"]').count()>0 and pg.locator('#stage .card input[data-t="b"]').count()==0)
+    pg.locator('#stage .card input[data-t="n"]').first.uncheck(); pg.wait_for_timeout(250)
+    n1=pg.locator('.stab:has-text("Notes") .stn').inner_text().strip()
+    ok("T6b the tab count follows the ticks", n1!=n0, f"{n0} -> {n1}")
+    pg.locator('#stage .card input[data-t="n"]').first.check(); pg.wait_for_timeout(200)
+    ok("T6b a category of notes alone keeps its single page",
+       (pg.locator('button.step:has-text("Ventilation")').first.click(), pg.wait_for_timeout(250),
+        pg.locator(".stagetabs").count()==0 and pg.locator('#stage .card input[data-t="n"]').count()>0)[2])
+
     # T7 read full clause toggle
     pg.locator('button.step:has-text("External Walls")').click(); pg.wait_for_timeout(200)
     before=pg.locator("#stage .card .text").first.bounding_box()["height"]
