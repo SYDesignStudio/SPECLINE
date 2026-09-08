@@ -10,7 +10,7 @@
 Outputs go to dist/ (app) and output/ (Word and PDF). Both are git-ignored.
 Nothing here touches the network or any third-party website.
 """
-import os, re, subprocess, sys
+import os, re, shutil, subprocess, sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC  = os.path.join(ROOT, "src")
@@ -165,6 +165,34 @@ def check():
         print(r.stdout[-2000:]); sys.exit("manufacturer descriptors do not verify")
 
 
+def php_billing_test():
+    """The billing rules are PHP, so they get a PHP self-test. Skipped, loudly, where PHP or its
+    SQLite driver is missing — a skipped check must never read as a passed one."""
+    php = shutil.which("php")
+    if not php:
+        print("  billing: SKIPPED — php is not on PATH (the rules are unchecked on this machine)")
+        return 0
+    ext = os.path.join(os.path.dirname(php), "ext")
+    args = [php]
+    if os.path.isdir(ext):
+        args += ["-d", "extension_dir=" + ext, "-d", "extension=php_pdo_sqlite.dll"]
+    r = subprocess.run(args + [os.path.join(ROOT, "tests", "billing_test.php")],
+                       capture_output=True, text=True, cwd=ROOT)
+    out = (r.stdout or "") + (r.stderr or "")
+    m = re.search(r"(\d+) passed, (\d+) failed", out)
+    if not m:
+        print("  billing: DID NOT RUN — no result line")
+        print(out.strip()[-500:])
+        return 1
+    p, f = int(m.group(1)), int(m.group(2))
+    print("  billing: %d passed, %d failed" % (p, f))
+    if f:
+        for line in out.splitlines():
+            if line.strip().startswith("FAIL"):
+                print("   ", line.strip())
+    return f
+
+
 def test():
     fails = 0
     for n in range(1, 9):
@@ -186,6 +214,7 @@ def test():
                 if '"FAIL"' in line or ('"t":' in line and False):
                     print("     ", line.strip())
             print(r.stdout[-1500:])
+    fails += php_billing_test()
     if fails:
         sys.exit("%d test failures" % fails)
     print("all tests passed")

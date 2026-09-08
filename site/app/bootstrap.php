@@ -103,7 +103,7 @@ function db(): PDO {
     }
     return $pdo;
 }
-const SCHEMA_VERSION = 5;
+const SCHEMA_VERSION = 6;
 function db_driver(): string { db(); return $GLOBALS['DB_DRIVER'] ?? '?'; }
 
 function migrate(PDO $pdo): void {
@@ -142,6 +142,18 @@ function migrate(PDO $pdo): void {
         type VARCHAR(24) NOT NULL DEFAULT '', job_no VARCHAR(80) NOT NULL DEFAULT '', title VARCHAR(240) NOT NULL DEFAULT '',
         rev VARCHAR(12) NOT NULL DEFAULT '', payload TEXT NOT NULL, created_at VARCHAR(32) NOT NULL, updated_at VARCHAR(32) NOT NULL)",
      "CREATE TABLE IF NOT EXISTS practice_profile (practice_id INTEGER PRIMARY KEY, payload TEXT NOT NULL, updated_at VARCHAR(32) NOT NULL)",
+     /* Entitlement is NOT practices.plan: that column is what a practice says it wants, typed
+        on its own account page. This is what it may actually use, written only by the owner or
+        (later) a payment processor. One live row per practice; the rest is history. */
+     "CREATE TABLE IF NOT EXISTS entitlements (id $ai, practice_id INTEGER NOT NULL, plan VARCHAR(20) NOT NULL,
+        seats INTEGER NOT NULL DEFAULT 1, status VARCHAR(20) NOT NULL DEFAULT 'active', source VARCHAR(24) NOT NULL DEFAULT 'manual',
+        note TEXT NOT NULL DEFAULT '', ref VARCHAR(120) NOT NULL DEFAULT '', started_at VARCHAR(32) NOT NULL,
+        ends_at VARCHAR(32), ended_at VARCHAR(32), created_at VARCHAR(32) NOT NULL, created_by VARCHAR(254) NOT NULL DEFAULT '')",
+     /* Per-spec purchases as a ledger rather than a counter: a balance you cannot explain is a
+        balance nobody will trust. Positive rows are bought or granted, negative rows are issued. */
+     "CREATE TABLE IF NOT EXISTS spec_credits (id $ai, practice_id INTEGER NOT NULL, delta INTEGER NOT NULL,
+        reason VARCHAR(40) NOT NULL DEFAULT '', ref VARCHAR(120) NOT NULL DEFAULT '', job_id VARCHAR(48) NOT NULL DEFAULT '',
+        at VARCHAR(32) NOT NULL, by_who VARCHAR(254) NOT NULL DEFAULT '')",
      "CREATE TABLE IF NOT EXISTS proposals (id $ai, doc_id INTEGER NOT NULL, event_id INTEGER, kind VARCHAR(20) NOT NULL,
         type_name VARCHAR(80) NOT NULL DEFAULT '', clause_title VARCHAR(300) NOT NULL DEFAULT '', file_rel VARCHAR(120) NOT NULL DEFAULT '',
         find_text TEXT NOT NULL, replace_text TEXT NOT NULL DEFAULT '', evidence TEXT NOT NULL DEFAULT '', figures TEXT,
@@ -158,6 +170,8 @@ function migrate(PDO $pdo): void {
         catch (Throwable $t) { try { $pdo->exec("ALTER TABLE $table ADD COLUMN $col $type"); } catch (Throwable $t2) {} }
     }
 }
+
+require_once __DIR__ . '/billing.php';
 
 function q(string $sql, array $args = []): PDOStatement {
     $st = db()->prepare($sql); $st->execute($args); return $st;
@@ -389,7 +403,7 @@ function page_start(string $title, array $o = []): void {
     echo '<link rel="stylesheet" href="/static/ui.css"></head><body class="' . e($o['body'] ?? '') . '">';
     if (!empty($o['admin'])) {
         $here = basename($_SERVER['SCRIPT_NAME'] ?? '');
-        $nav = [['index.php', 'Overview'], ['signups.php', 'Sign-ups'], ['waitlist.php', 'Waiting list'], ['messages.php', 'Messages'], ['regs.php', 'Regulations watch'], ['proposals.php', 'Proposed edits'], ['settings.php', 'Settings']];
+        $nav = [['index.php', 'Overview'], ['signups.php', 'Sign-ups'], ['waitlist.php', 'Waiting list'], ['messages.php', 'Messages'], ['regs.php', 'Regulations watch'], ['proposals.php', 'Proposed edits'], ['billing.php', 'Billing'], ['settings.php', 'Settings']];
         echo '<div class="admin"><aside class="rail">' . lockup('/admin/') . '<p class="railtag">Administration</p><nav aria-label="Administration">';
         foreach ($nav as [$f, $label]) {
             $n = match ($f) {

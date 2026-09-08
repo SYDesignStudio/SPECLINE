@@ -33,6 +33,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') fail(405, 'Send this by POST.
 $u = current_user();
 if (!$u)                fail(401, 'Not signed in.');
 if (!app_access($u))    fail(403, 'This account cannot open the specification tool yet.');
+/* Same gate as app.php, or the store would stay open to a practice the tool is shut to. */
+$r = open_refusal($u);
+if ($r !== '')          fail(402, $r);
 
 /* CSRF: the token is put into the page by app.php and echoed back as a header. Same-origin
    fetch only, so a cross-site page cannot read it to send one. */
@@ -122,6 +125,21 @@ case 'doc.del': {
     if ($kind !== 'job') fail(400, 'Only a job can be deleted here.');
     q('DELETE FROM jobs WHERE id = ? AND practice_id = ?', [$id, $pid]);
     out(200, ['ok' => true]);
+}
+
+/* Issuing a specification. A subscription simply says yes; per-spec spends one credit, here,
+   at the moment of issue — the app records the revision in its own history either way. The
+   client is told plainly when there is nothing to spend, so it can stop before writing an
+   issue into a job's history that was never paid for. */
+case 'spec.issue': {
+    $jobId = (string)($in['job'] ?? '');
+    if (!preg_match('#^[A-Za-z0-9_-]{1,48}$#', $jobId)) fail(400, 'Which job?');
+    if (!billing_enforced()) out(200, ['ok' => true, 'charged' => false, 'credits' => spec_credit_balance($pid)]);
+    $e = entitlement($pid);
+    if ($e['live'] && $e['plan'] !== 'payg') out(200, ['ok' => true, 'charged' => false, 'credits' => $e['credits']]);
+    if (!consume_spec_credit($pid, $jobId, (string)$u['email']))
+        fail(402, 'There is no specification credit left to issue against. Buy another, or take a subscription.');
+    out(200, ['ok' => true, 'charged' => true, 'credits' => spec_credit_balance($pid)]);
 }
 
 case 'coll.get': {

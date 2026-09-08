@@ -995,8 +995,46 @@ the app. That file is denied to the web by `site/app/.htaccess`.
   also writes name, designer, address and phone back to `practices`, so the account page and the
   specification cover cannot drift apart.
 
-Still not built: billing. A payment processor and a solicitor's look at
-`docs/TERMS-DRAFT.md` are what stand between this and selling a subscription.
+### Billing — `site/app/billing.php`, `site/admin/billing.php`
+
+Built 9 September 2026, without a payment processor and saying so. It answers one question for
+the rest of the site — may this practice use the tool, and may it issue — and four rules keep
+that answer honest.
+
+- **Entitlement is not intention.** `practices.plan` is what a practice types on its own account
+  page; it always could, so it can never be what opens the tool. What it may *use* is a row in
+  `entitlements`, written only by the administrator or (later) a processor's webhook. Those two
+  were the same field until billing existed, which would have let any practice grant itself the
+  Practice tier. `tests/billing_test.php` asserts exactly that.
+- **`billing_enforce` is off by default.** Deploying billing must not shut out the accounts that
+  already exist, so with it off the site behaves as it did before and `open_refusal()` returns
+  an empty string for everyone. With it on, **`app.php` and `api.php` both consult it** — a
+  store left open is a tool left open.
+- **No figure is invented.** `plan_catalogue()` is the only place prices live on this side, and
+  `price_rules()` asserts the relationships the model depends on: annual is ten months, three
+  per-spec purchases cost more than a month of Solo, and Practice costs less per seat than Solo.
+  The admin page shows them checked, so a price that moves cannot quietly break the model.
+- **Per-spec is a ledger, not a counter.** Credits bought or granted are positive rows; an issue
+  is a negative row naming the job. A balance you cannot explain is a balance nobody will trust.
+
+Two things worth knowing. **A lapsed practice is told its subscription ended, not that it never
+had one** — `entitlement()` cannot tell the difference once a row expires, so `open_refusal()`
+asks `last_entitlement()` what was held; telling a paying customer to "choose a plan" reads as
+though the record of their subscription has been lost. And **the owner is never locked out**,
+so a billing mistake cannot lock the administrator out of the administration.
+
+`php tests/billing_test.php` runs 36 assertions against a throwaway database in the temp
+directory; `build.py --test` runs it too, and **says SKIPPED loudly** where PHP or its SQLite
+driver is missing, because a skipped check must never read as a passed one. The gate itself was
+checked end to end over HTTP — sign in, refuse, grant, open, end, refuse — against PHP's built-in
+server. Windows PHP from winget has `pdo_sqlite` present but not enabled, hence the
+`-d extension=php_pdo_sqlite.dll` the runner adds.
+
+Still not built, and the reason a subscription still cannot be sold: **a payment processor**
+(the choice between Stripe and a merchant of record is a tax decision — see `docs/TERMS-DRAFT.md`),
+**the app calling `/api.php` op `spec.issue`** at the moment of issue, without which per-spec
+cannot be enforced, and **a solicitor** on auto-renewal, refunds, the founding-member promise and
+unspent credits — questions 5 to 11 of that brief.
 
 ## Mail — info@specline.co.uk
 

@@ -107,3 +107,58 @@ Open questions for the solicitor, in priority order:
    under clause 2 attach?
 3. Governing law and jurisdiction: England and Wales.
 4. Whether any subscriber could be a consumer, and what that changes.
+5. Auto-renewal. Monthly and annual subscriptions renew unless cancelled. What notice does a
+   subscriber get before an annual renewal is taken, what notice must they give to stop it, and
+   does the answer change if any subscriber turns out to be a consumer (question 4)?
+6. Founding-member pricing is a promise to hold a price "for as long as the subscription is
+   continuous". Is that enforceable as written, what breaks continuity (a lapsed card, a
+   downgrade, a gap of one day), and can it be withdrawn on notice if costs move?
+7. Per-spec credits are paid for in advance and spent on issue. Do unspent credits expire, are
+   they refundable, and what happens to them if the subscriber closes the account or Specline
+   stops trading?
+8. Refunds. Intent is no refund on a monthly period already started, and pro-rata on an annual
+   cancellation — but that intent is not settled and clause 1 says so. What is defensible?
+9. VAT. Prices are quoted excluding VAT throughout. Confirm the display obligation for a B2B
+   product sold from a UK company, and what changes at the registration threshold.
+10. Price rises. Clause 1 says renewal is "at the then-current price". What notice period and
+    what right to cancel does that need beside it?
+11. Failed payment. How long may access continue while a payment is retried, and is suspending
+    the tool (jobs kept, nothing deleted) sound?
+
+---
+
+## Billing, as built — for the solicitor and for whoever maintains it
+
+Written 9 September 2026 alongside `site/app/billing.php`. Nothing here charges anyone: no
+payment processor is connected and no card is held.
+
+- **Entitlement is separate from intention.** `practices.plan` is what a practice says it wants
+  on its own account page. What it may actually use is a row in `entitlements`, written only by
+  the administrator (and later by a processor's webhook). The two were the same field until
+  billing existed, which would have let any practice grant itself the Practice tier.
+- **Enforcement is a switch, off by default** (`billing_enforce`). With it off the site behaves
+  exactly as it did before. With it on, `app.php` and `api.php` both refuse a practice with no
+  entitlement — the tool and the store together, because a store left open is a tool left open.
+- **Nothing is deleted when a subscription ends.** The refusal page says so, and means it: jobs
+  and the practice profile are untouched, which is also what clause 7 of these terms promises.
+- **Per-spec is a ledger.** Credits bought or granted are positive rows, an issue is a negative
+  row naming the job. A balance can always be explained, which is what a customer will ask for.
+- **The vendor's own account is never locked out**, so a billing mistake cannot lock the
+  administrator out of the administration.
+
+Still to do, and stated plainly because a half-built payment path is worse than none:
+
+1. **Choose the processor.** Stripe: more control, lower fee, and SY Design Studio Ltd handles
+   VAT itself. A merchant of record (Paddle, Lemon Squeezy): they are the seller of record,
+   charge and remit VAT, and take a larger cut. For a UK company selling to UK practices below
+   the VAT threshold, Stripe is the simpler answer; the moment there are EU subscribers the
+   merchant of record starts earning its fee. This is a commercial and tax decision, not a
+   technical one.
+2. **The webhook.** Whichever is chosen writes `entitlements` rows on subscription created,
+   renewed, payment failed and cancelled. The interface it must satisfy is the four functions
+   `grant_entitlement`, `end_entitlement`, `add_spec_credits`, `entitlement` — no other part of
+   the site needs to know a processor exists.
+3. **Issuing must spend a credit.** The server side is built (`/api.php` op `spec.issue`, which
+   is honest about whether it charged); the app has still to call it at the moment of issue.
+   Until it does, per-spec cannot be enforced and only subscriptions can be sold.
+4. **The solicitor**, on questions 5 to 11 above, before the first card is charged.

@@ -93,11 +93,29 @@ page_start('Your account');
     <?php endif; ?>
   </div>
 
+  <?php $ent = entitlement((int)$practice['id']); $cat = plan_catalogue(); ?>
   <dl class="defs">
-    <dt>Plan in mind</dt><dd><?= e(['solo' => 'Solo · £39 a month', 'practice' => 'Practice · £89 a month', 'payg' => 'Per specification · £25', 'undecided' => 'Not decided'][$practice['plan']] ?? $practice['plan']) ?></dd>
-    <dt>Seats</dt><dd class="mono"><?= (int)$practice['seats'] ?></dd>
+    <dt>Plan in mind</dt><dd><?= e(['solo' => 'Solo · £39 a month', 'practice' => 'Practice · £89 a month', 'payg' => 'Per specification · £25', 'undecided' => 'Not decided'][$practice['plan']] ?? $practice['plan']) ?><span class="small muted"> — what you have told us you want, not what you are charged for.</span></dd>
+    <dt>Subscription</dt><dd>
+      <?php if ($ent['live']): ?>
+        <?= e($ent['plan_name']) ?><?= $ent['status'] === 'trialing' ? ' · trial' : '' ?>
+        <?= $ent['ends_at'] ? '<span class="small muted"> — until ' . e(substr((string)$ent['ends_at'], 0, 10)) . '</span>' : '<span class="small muted"> — open-ended</span>' ?>
+      <?php else: ?>
+        None. <span class="small muted">Nothing is charged, and nothing is owed.</span>
+      <?php endif; ?>
+    </dd>
+    <?php if ($ent['live']): ?>
+      <dt>Seats</dt><dd class="mono"><?= (int)$ent['seats_used'] ?> of <?= (int)$ent['seats'] ?><?= $ent['over'] ? ' <span class="pill pill-hold">over the limit — nothing is enforced yet</span>' : '' ?></dd>
+    <?php else: ?>
+      <dt>Users on this practice</dt><dd class="mono"><?= (int)$ent['seats_used'] ?></dd>
+    <?php endif; ?>
+    <?php if ($ent['credits'] > 0): ?>
+      <dt>Specification credits</dt><dd class="mono"><?= (int)$ent['credits'] ?><span class="small muted"> — one is spent on each specification you issue.</span></dd>
+    <?php endif; ?>
     <dt>Account created</dt><dd class="mono"><?= e(fmt_when($u['created_at'])) ?></dd>
-    <dt>Billing</dt><dd>None yet. Nothing is charged until Specline opens and you choose a plan.</dd>
+    <dt>Billing</dt><dd><?php $proc = processor_status(); ?>
+      <?= $proc['connected'] ? 'Card billing is connected.' : 'No card is held and no payment method is connected yet.' ?>
+      <span class="small muted">Annual is ten months: Solo £<?= (int)$cat['solo']['year'] ?>, Practice £<?= (int)$cat['practice']['year'] ?>. Prices exclude VAT.</span></dd>
   </dl>
 
   <hr>

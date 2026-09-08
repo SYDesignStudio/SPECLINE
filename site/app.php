@@ -35,6 +35,23 @@ if (!app_access($u)) {
     exit;
 }
 
+/* Billing, once it is enforced. Separate from app_access() above on purpose: that answers
+   "is this account allowed in at all", this answers "is this practice paid up". Off until the
+   administrator switches it on, so deploying billing does not shut anyone out. */
+$refusal = open_refusal($u);
+if ($refusal !== '') {
+    http_response_code(402);
+    page_start('Specline');
+    $e = entitlement((int)$u['practice_id']);
+    echo '<div class="sheet"><h1>The tool is not open for this practice</h1>';
+    echo '<p class="lede">' . e($refusal) . '</p>';
+    if ($e['credits'] > 0) echo '<p class="small">You hold ' . (int)$e['credits'] . ' specification credit' . ($e['credits'] === 1 ? '' : 's') . '.</p>';
+    echo '<p class="small muted">Nothing has been deleted. Every job, and the practice profile that prints on the cover, is exactly as you left it.</p>';
+    echo '<p><a class="btn btn-primary" href="/account/">Your account</a> <a class="btn" href="/contact.php">Ask us</a></p></div>';
+    page_end();
+    exit;
+}
+
 /* The practice as the app knows it: the profile the tool last saved, over the account details.
    Everything the cover page prints comes from here — the name, the address, the logo, the accent
    colour and the named designer in the responsibility statement.
@@ -66,6 +83,9 @@ $boot = [
     'csrf'     => csrf_token(),
     'user'     => ['name' => (string)$u['name'], 'email' => (string)$u['email'], 'role' => (string)$u['role']],
     'practice' => $profile,
+    /* what this practice may do, so the tool can say so rather than fail at the last step */
+    'billing'  => ['enforced' => billing_enforced(), 'issue' => entitled_to_issue((int)$u['practice_id']),
+                   'credits' => spec_credit_balance((int)$u['practice_id'])],
     'account'  => '/account/',
     'signout'  => '/account/logout.php',
 ];
