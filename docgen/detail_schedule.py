@@ -66,7 +66,8 @@ NEVER_A_LAYER = re.compile(
     r"studs? at|either side|each side|in every|at\s|from\b|of the\b|"
     r"overlap|laps?|bearing|cover|diameter|gauge|square|wide|deep|long|high|"
     r"and over\b|and in no case|is to be used|for both|to a minimum|where necessary|"
-    r"openings along|over \d|gap at|gap along|gap on|and free of|so that|stud height)", re.I)
+    r"openings along|over \d|gap at|gap along|gap on|and free of|so that|stud height)"
+    r"|^(?:minimum\s+|maximum\s+)?overall\s+(?:thickness|depth|width)", re.I)
 
 # These may legitimately precede a material — "150mm minimum well-compacted hardcore" is a layer,
 # and so is "50mm clear ventilated and drained cavity". They veto only when nothing follows that
@@ -148,8 +149,9 @@ INNER = re.compile(r"(?<![\d.])(\d+(?:\.\d+)?)\s*mm\s+([A-Za-z][^,;.()—]{2,60}
 
 # "Masonry partitions of 100mm blockwork may be used where the slab is designed for them" offers
 # another way of building the wall, not another layer of this one.
+COMPLIANCE = re.compile(r"meets? Requirement|meets? the standard|without testing", re.I)
 ANOTHER_WAY = re.compile(r"may be used|may be substituted|as an alternative|"
-                         r"achieves? the same", re.I)
+                         r"achieves? the same|or replaced by|or one of", re.I)
 
 # A sentence conditional on reaching some OTHER standard is describing some other build-up:
 # "Where the new-element value of 0.18 is wanted, 112.5mm board or a 90mm insulated stud lining
@@ -167,7 +169,7 @@ REACHES_INSTEAD = re.compile(
 # swallow a real layer.
 INFILLING = re.compile(r"(?:stud|rafter|joist)s?\s+depth\s+(?:filled|infilled|insulated)|"
                        r"filled with|infilled with|\binfill\b|between the (?:studs|joists|rafters)|"
-                       r"in the (?:stud|joist|rafter) void",
+                       r"in the (?:stud|joist|rafter) void|in each frame|in the frames?\b",
                        re.I)
 
 
@@ -175,6 +177,13 @@ INFILLING = re.compile(r"(?:stud|rafter|joist)s?\s+depth\s+(?:filled|infilled|in
 # gap" — the figure that follows is a free area, not a layer.
 VENT_EQUIV = re.compile(r"equivalent to (?:a |an )?(?:continuous )?"
                         r"(?:\d+(?:\.\d+)?\s*mm\s+and\s+)?$", re.I)
+# "two layers of 12.5mm plasterboard" — the band is both of them.
+LAYERS_OF = re.compile(r"\b(two|three|2|3)\s+layers\s+of\s+$", re.I)
+# A wall built as two separate frames with a gap between them.
+# A wall built as two of something with a gap between: two frames, or two masonry leaves.
+TWIN = re.compile(r"two independent frames|two leaves of", re.I)
+# A member being made deeper, not a layer being added.
+DEEPENED = re.compile(r"deepen(?:ed|ing)?\s+(?:to|by)\s*$", re.I)
 # A second lift of insulation laid over the first, named without a material of its own.
 LAID_OVER = re.compile(r"^laid\s+(?:cross-?wise\s+)?over\b", re.I)
 # The same thing where it does name its material: "300mm mineral wool quilt laid cross-wise over
@@ -195,6 +204,22 @@ def _consider(t, phrase, raw, after, layers, notes, before=""):
         notes.append("not a layer — %gmm is a ventilation free area, not a thickness: '%s'"
                      % (t, phrase[:48]))
         return
+    # "rafters deepened to 125mm or 150mm by counter-battens" changes the depth of a member that
+    # is already in the build-up. It is not another layer, and read as one it put 125mm of timber
+    # through the middle of the garage room-in-roof.
+    if DEEPENED.search(before):
+        notes.append("not a layer — %gmm deepens a member already in the build-up: '%s'"
+                     % (t, phrase[:48]))
+        return
+    # "two layers of 12.5mm plasterboard" is 25mm of plasterboard. Read as 12.5 it halves the
+    # lining on both faces of every separating wall and fire-resisting partition in the library —
+    # which is the layer the fire and the sound performance both depend on.
+    n = LAYERS_OF.search(before)
+    if n:
+        mult = {"two": 2, "three": 3, "2": 2, "3": 3}[n.group(1).lower()]
+        notes.append("%gmm is %s layers of it, so the band is %gmm"
+                     % (t, n.group(1), t * mult))
+        t = t * mult
     # The second lift of quilt: "100mm mineral wool between the ceiling ties with a further
     # 300mm laid cross-wise over". It carries no material of its own, so it was either dropped
     # or, where the words ran on into the joists, drawn as 200mm of timber over the ceiling.
@@ -341,7 +366,7 @@ def _rescue(window, layers, notes, context="", outer=None, limit=None):
 # and invents nothing; it is recorded in extraction_notes so it can be checked.
 INSIDE_FACE = ("pboard",)
 # A clause that spells out which way up it is reading.
-TOP_DOWN = re.compile(r"from the top", re.I)
+TOP_DOWN = re.compile(r"from the top", re.I)
 
 # A lining, as opposed to insulation that belongs on the outside of a wall. An internally
 # insulated wall clause states the work first and the wall it goes on second - "provide 72.5mm
@@ -357,7 +382,7 @@ MEMBER_WORD = re.compile(r"\brafters?|joists?|studs?\b", re.I)
 # so every stud partition in the library was drawn with plasterboard on one side only — which is
 # not a partition. The phrase has to sit in the same sentence as the board, or "damp proof courses
 # in both leaves" would mirror a lining that is only ever on one face.
-BOTH_FACES = re.compile(r"both faces|both sides|each side|each face|either side", re.I)
+BOTH_FACES = re.compile(r"both faces|both sides|each side|each face|either side|each leaf", re.I)
 LINING = re.compile(r"plasterboard|lining board|wallboard", re.I)
 
 # A partition whose studs the clause places but does not size. "proprietary galvanised steel
@@ -423,6 +448,33 @@ def line_both_faces(group, layers, clause, notes):
     return ([twin] + layers) if boards[0] == len(layers) - 1 else (layers + [twin])
 
 
+def twin_frame(group, layers, clause, notes):
+    """Two independent frames are two frames, and a clause states one of them.
+
+    "Two independent frames of 70mm metal C studs ... with a 50mm minimum gap between them" names
+    the frame once, because saying it twice would be poor English. The section is not the section
+    until the second one is drawn: the separating wall between flats came out 180mm against the
+    240mm the same clause requires, and a separating wall drawn thinner than it is built is the
+    kind of drawing a sound test settles the hard way.
+    """
+    if group not in ("SW", "IW") or len(layers) < 2:
+        return layers
+    if not TWIN.search(" ".join(clause)):
+        return layers
+    LEAF = ("metal", "timber", "brick", "block", "dense")
+    frame = next((i for i, l in enumerate(layers)
+                  if (l.get("hatch") in LEAF
+                      or MEMBER_WORD.search(l.get("material") or ""))), None)
+    if frame is None:
+        return layers
+    gap = next((j for j in range(frame + 1, len(layers))
+                if (layers[j].get("hatch") or "") == "void"), None)
+    if gap is None or any((l.get("hatch") in LEAF) for l in layers[gap + 1:]):
+        return layers            # no gap, or the second leaf is already there
+    notes.append("the second leaf drawn — the clause states two of them and describes one")
+    return layers[:gap + 1] + [dict(layers[frame])] + layers[gap + 1:]
+
+
 def merge_member_fill(layers, notes):
     """A member zone and the insulation filling it are one band, across paragraph boundaries.
 
@@ -462,6 +514,8 @@ def merge_member_fill(layers, notes):
             out[i] = dict(fill, t=member["t"],
                           material=("%s between %s"
                                     % (fill["material"], member["material"]))[:90])
+            if float(fill["t"]) < float(member["t"]):
+                out[i]["fill_t"] = float(fill["t"])
             out[j] = None
             break
     layers = [l for l in out if l is not None]
@@ -494,9 +548,27 @@ def merge_member_fill(layers, notes):
                     out[-1] = dict(fill, t=member["t"],
                                    material=("%s between %s"
                                              % (fill["material"], member["material"]))[:90])
+                    if float(fill["t"]) < float(member["t"]):
+                        out[-1]["fill_t"] = float(fill["t"])
                     continue
         out.append(l)
-    return out
+
+    # What is left of a partly filled zone IS the void, so a clause that then names that void —
+    # "100mm K107 held tightly between 150mm joists so that a 50mm ventilated void remains" —
+    # is describing it a second time. Drawn as both, the cold roof over the garage came out
+    # 50mm thicker than it is with 100mm of void in a 150mm zone.
+    trimmed = []
+    for i, l in enumerate(out):
+        prev, nxt = (out[i - 1] if i else None), (out[i + 1] if i + 1 < len(out) else None)
+        if (l.get("hatch") == "void" and not l.get("fill_t")
+                and any(z is not None and z.get("fill_t")
+                        and abs(float(z["t"]) - float(z["fill_t"]) - float(l["t"])) < 0.51
+                        for z in (prev, nxt))):
+            notes.append("not a layer — %gmm restates the void left in the zone beside it: '%s'"
+                         % (float(l["t"]), (l.get("material") or "")[:44]))
+            continue
+        trimmed.append(l)
+    return trimmed
 
 
 def face_order(group, layers, notes, clause=()):
@@ -529,11 +601,29 @@ def face_order(group, layers, notes, clause=()):
     # the bottom too, so the ceiling finish goes FIRST. It used to be pushed last, which drew
     # every flat-read roof and floor upside down: a plasterboard ceiling above 400mm of loft
     # quilt, and above the deck of an intermediate floor.
-    first, last = (layers[0].get("hatch") or ""), (layers[-1].get("hatch") or "")
-    if last in INSIDE_FACE and first not in INSIDE_FACE:
+    # An insulated plasterboard lining is a ceiling finish as much as a plain one is, and it is
+    # hatched as insulation, so the hatch alone cannot recognise it: the cold roof over the
+    # garage was drawn with its 72.5mm K118 lining sitting on top of the joists it hangs under.
+    def inside_face(l):
+        return (l.get("hatch") or "") in INSIDE_FACE or bool(LINING.search(l.get("material") or ""))
+
+    first, last = inside_face(layers[0]), inside_face(layers[-1])
+    if last and not first:
         notes.append("layers reversed so the ceiling finish reads at the bottom — the clause "
                      "states this build-up from the outside in")
         layers = list(reversed(layers))
+
+    # A ventilated void in a roof sits between the insulation and the covering — that is what it
+    # is for. The clause names it where it explains the board ("so that a 50mm ventilated gap
+    # remains above the board"), which is the middle of the sentence and not its place in the
+    # section, and three roofs were drawn with the void between the ceiling lining and the
+    # insulation. The covering is not a layer, so the void is the outermost thing drawn.
+    if group == "RF" and any((l.get("hatch") or "") == "void" for l in layers):
+        voids = [l for l in layers if (l.get("hatch") or "") == "void"]
+        rest = [l for l in layers if (l.get("hatch") or "") != "void"]
+        if rest and layers[-len(voids):] != voids:
+            notes.append("the ventilated void moved outside the insulation it ventilates")
+            layers = rest + voids
 
     # A floor clause is not written as a stack. "Floor joists ... Deck with 18mm board ... line
     # the underside with 12.5mm plasterboard" names the structure, then what goes on top of it,
@@ -591,6 +681,10 @@ def layers_from(text, state=None):
         if ANOTHER_WAY.search(sentence):
             notes.append("not a layer - %gmm is in a sentence offering another way to build it: "
                          "'%s'" % (t, phrase[:44]))
+            continue
+        if COMPLIANCE.search(sentence):
+            notes.append("not a layer - %gmm is in a sentence about what a construction complies "
+                         "with, not about this one: '%s'" % (t, phrase[:44]))
             continue
         if REACHES_INSTEAD.search(sentence):
             notes.append("not a layer - %gmm belongs to a sentence about reaching a different "
@@ -712,6 +806,11 @@ def layers_from(text, state=None):
                          and (L.get("hatch") in ("wool", "ins", "void"))
                          and FILLS_THE_ZONE.search(L.get("_after", ""))), None)
             if same is not None:      # a partial fill: the zone is still the member's depth
+                # ...but the insulation is only as thick as the clause says. Keeping that here is
+                # what lets the drawing show 100mm of quilt in a 220mm joist zone rather than a
+                # solid 220mm of it, which overstates the insulation on every partly filled zone.
+                if float(same["t"]) < float(mb["depth"]):
+                    same["fill_t"] = float(same["t"])
                 same["t"] = int(mb["depth"]) if mb["depth"] == int(mb["depth"]) else mb["depth"]
         if same:
             if " between " not in same["material"]:
@@ -805,6 +904,7 @@ def build():
                     layers.append(l)
             layers = face_order(b["g"], merge_member_fill(layers, notes), notes, b["p"])
             layers = line_both_faces(b["g"], layers, b["p"], notes)
+            layers = twin_frame(b["g"], layers, b["p"], notes)
             for l in layers:                     # context kept only for the merges and the order
                 l.pop("_before", None)
                 l.pop("_after", None)

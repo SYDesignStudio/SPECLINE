@@ -281,6 +281,38 @@ CORE_W = 100.0          # drawing width for a stud zone the clause does not size
 MEMBER_ZONE = re.compile(r"between\s+(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)\s*mm\s+(.{0,24})", re.I)
 
 
+def thick_label(l):
+    """What the key prints against a layer.
+
+    A partly filled zone is dimensioned at its full depth but is not that thickness of anything,
+    so the key says so: "220 mm zone" against a note about 100mm of quilt reads correctly, where
+    a bare "220 mm" invites the reader to take it as 220mm of insulation.
+    """
+    return "%g mm zone" % float(l["t"]) if l.get("fill_t") else "%g mm" % float(l["t"])
+
+
+def zone_bands(layer, inner_first):
+    """How a layer divides across its thickness: [(offset, thickness, hatch), ...].
+
+    A zone that is only partly filled is two things, not one. "100mm mineral wool laid between
+    the joists" in a 220mm joist zone is 100mm of quilt and 120mm of nothing, and drawing the
+    whole 220 as quilt overstates the insulation on every partly filled zone in the library —
+    including the ones whose U-value depends on exactly that distinction.
+
+    The fill sits against the INNER face: quilt laid between joists rests on the ceiling below
+    it, and insulation between rafters is held to the warm side with the ventilated gap above.
+    `inner_first` says which end of the band that is, because the drawings do not agree — a
+    floor is drawn from its ceiling up, a slope from its outside face in.
+    """
+    t = float(layer["t"])
+    f = float(layer.get("fill_t") or 0)
+    mat = layer.get("hatch") or "void"
+    if not f or f >= t:
+        return [(0.0, t, mat)]
+    return ([(0.0, f, mat), (f, t - f, "void")] if inner_first
+            else [(0.0, t - f, "void"), (t - f, f, mat)])
+
+
 def member_run(layer, clause):
     """The members inside a merged zone: breadth, centres and what to draw them with.
 
@@ -391,8 +423,11 @@ def wall_svg(rec, sents):
     for i, l in enumerate(layers):
         t = float(l["t"])
         mat = l["hatch"] or "void"
-        parts.append('<rect x="%.1f" y="0" width="%.1f" height="%.1f" fill="%s" stroke="#1B1B1B" stroke-width="2.6"/>'
-                     % (pos, t, H_, layer_fill(parts, i, mat, t, False)))
+        # a wall reads left to right, outside first, so the fill sits at the right of its zone
+        for off, wd, hm in zone_bands(l, False):
+            parts.append('<rect x="%.1f" y="0" width="%.1f" height="%.1f" fill="%s" '
+                         'stroke="#1B1B1B" stroke-width="2.6"/>'
+                         % (pos + off, wd, H_, layer_fill(parts, i, hm, wd, False)))
         if mat in COURSE:
             parts += courses(pos, 0, pos + t, H_, COURSE[mat], False)
         bands.append((pos, pos + t))
@@ -495,8 +530,11 @@ def floor_svg(rec, sents):
         t = float(l["t"])
         y = total - pos - t
         mat = l["hatch"] or "void"
-        parts.append('<rect x="0" y="%.1f" width="%.1f" height="%.1f" fill="%s" stroke="#1B1B1B" stroke-width="2.6"/>'
-                     % (y, W, t, layer_fill(parts, i, mat, t, True)))
+        # bottom of the drawing is the ceiling, so the band runs inner face first
+        for off, ht, hm in zone_bands(l, True):
+            parts.append('<rect x="0" y="%.1f" width="%.1f" height="%.1f" fill="%s" '
+                         'stroke="#1B1B1B" stroke-width="2.6"/>'
+                         % (y + t - off - ht, W, ht, layer_fill(parts, i, hm, ht, True)))
         run = member_run(l, rec["clause"])
         if run:
             parts += members_across(W, y, t, run["breadth"], run["centres"], run["hatch"])
@@ -525,7 +563,7 @@ def floor_svg(rec, sents):
                      % (cx, tops[i]))
         parts.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="%g" fill="#1B1B1B">%d</text>'
                      % (cx, tops[i] + 11, TXT, i + 1))
-        notes.append((i + 1, "%g mm" % l["t"], note_for(l, ctext, used)))
+        notes.append((i + 1, thick_label(l), note_for(l, ctext, used)))
 
     # the key beneath the section
     body = []
@@ -537,7 +575,7 @@ def floor_svg(rec, sents):
                      % (ky + 2, TXT_S, n))
         parts.append('<text x="60" y="%.1f" font-size="%g" font-weight="600" fill="#1B1B1B">%s</text>'
                      % (ky + 2, TXT_S, esc(thick)))
-        body.append((170, ky, note))
+        body.append((235, ky, note))
         ky += max(116, (len(note) // 46 + 1) * TXT_S * 1.34 + 34)
     return parts, body, total, W, (-230, -140, W + 170, ky + 60)
 
@@ -646,8 +684,11 @@ def pitched_svg(rec, sents):
     for i, l in enumerate(layers):
         t = float(l["t"])
         mat = l["hatch"] or "void"
-        g.append('<rect x="0" y="%.1f" width="%.1f" height="%.1f" fill="%s" stroke="#1B1B1B" '
-                 'stroke-width="2.6"/>' % (pos, RUN, t, layer_fill(parts, i, mat, t, True)))
+        # y=0 is the outside face, so the band runs outer face first
+        for off, ht, hm in zone_bands(l, False):
+            g.append('<rect x="0" y="%.1f" width="%.1f" height="%.1f" fill="%s" stroke="#1B1B1B" '
+                     'stroke-width="2.6"/>'
+                     % (pos + off, RUN, ht, layer_fill(parts, i, hm, ht, True)))
         # A pitched roof is cut across its rafters exactly as a floor is cut across its joists.
         # Local x runs along the slope, so the members sit at their centres along it and the
         # whole group is rotated with everything else.
@@ -706,7 +747,7 @@ def pitched_svg(rec, sents):
                      'stroke-width="2.4"/>' % (px, py))
         parts.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="%g" '
                      'fill="#1B1B1B">%d</text>' % (px, py + 11, TXT, i + 1))
-        notes.append((i + 1, "covering" if l is None else "%g mm" % l["t"],
+        notes.append((i + 1, "covering" if l is None else thick_label(l),
                       cover if l is None else note_for(l, ctext, used)))
 
     xs, ys = [], []
@@ -724,7 +765,7 @@ def pitched_svg(rec, sents):
                      'fill="#1B1B1B">%d</text>' % (x0 + 40, ky + 2, TXT_S, n))
         parts.append('<text x="%.1f" y="%.1f" font-size="%g" font-weight="600" '
                      'fill="#1B1B1B">%s</text>' % (x0 + 82, ky + 2, TXT_S, esc(thick)))
-        body.append((x0 + 200, ky, note))
+        body.append((x0 + 265, ky, note))
         ky += max(116, (len(note) // 46 + 1) * TXT_S * 1.34 + 34)
     return parts, body, total, RUN, (x0, y0, x1 - x0, ky - y0 + 60)
 

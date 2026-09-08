@@ -129,6 +129,24 @@ AT_CENTRES  = re.compile(r"\bat\s+(\d{3,4})\s*mm\s+(?:or\s+\d{3,4}\s*mm\s+)?"
                          r"(?:rafter\s+|joist\s+|stud\s+)?centres", re.I)
 
 
+def zone_bands(layer, inner_first):
+    """How a layer divides across its thickness: [(offset, thickness, hatch), ...].
+
+    A partly filled zone is two things. 100mm of quilt in a 220mm joist zone is 100mm of quilt
+    and 120mm of nothing, and a CAD user dimensioning a solid 220mm band of it would specify
+    twice the insulation the clause states. The fill sits against the inner face — quilt rests
+    on the ceiling below it, board between rafters is held to the warm side. The sheets use the
+    same rule; see docgen/sheet_buildups.py.
+    """
+    t = float(layer["t"])
+    f = float(layer.get("fill_t") or 0)
+    mat = layer.get("hatch") or "void"
+    if not f or f >= t:
+        return [(0.0, t, mat)]
+    return ([(0.0, f, mat), (f, t - f, "void")] if inner_first
+            else [(0.0, t - f, "void"), (t - f, f, mat)])
+
+
 def member_run(layer, clause):
     mat = layer.get("material") or ""
     m = MEMBER_ZONE.search(mat)
@@ -253,9 +271,13 @@ def draw(doc, rec, type_name):
     for l in layers:
         t = float(l["t"])
         if horiz:
-            band(msp, pos, 0, pos + t, SECTION, l["hatch"] or "void")
+            # a wall reads left to right, outside first
+            for off, wd, hm in zone_bands(l, False):
+                band(msp, pos + off, 0, pos + off + wd, SECTION, hm)
         else:
-            band(msp, 0, pos, SECTION, pos + t, l["hatch"] or "void")
+            # a floor or roof reads bottom to top, and the bottom is the ceiling
+            for off, ht, hm in zone_bands(l, True):
+                band(msp, 0, pos + off, SECTION, pos + off + ht, hm)
             run = member_run(l, rec["clause"])
             if run:
                 members(msp, SECTION, pos, pos + t, run["breadth"], run["centres"], run["hatch"])
