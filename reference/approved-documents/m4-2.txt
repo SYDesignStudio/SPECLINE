@@ -1,0 +1,608 @@
+[p19]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+11
+M4(2)
+Section 2: Category 2 – Accessible and
+adaptable dwellings
+Section 2A: Approach to the dwelling
+Application
+2.1	 The provisions of Section 2A apply only where a planning condition requires compliance with
+optional requirement M4(2) for accessible and adaptable dwellings (see paragraphs 0.3 to 0.6).
+2.2	 The provisions of Section 2A apply to external and internal areas and elements that form part of
+the approach route to the individual dwelling and fall within the plot (or curtilage) of the dwelling
+or the building containing the dwelling.
+2.3	 The provisions also apply to the approach route between the dwelling and the point, or points, at
+which an occupant or visitor, including a disabled person, would expect to get in and out of a car.
+This point, or points, of access may be within or outside the plot of the dwelling or the building
+containing the dwelling (typically a block of flats). These provisions do not apply beyond the
+curtilage of the development.
+2.4	 Reasonable provision should be made to ensure that the approach route to any communal facilities
+that serve the dwelling meets these provisions. Communal facilities include storage areas, such as
+those used for depositing refuse and recycling, but not plant rooms or other service areas unless
+occupants need regular access, for example for meter reading.
+2.5	 For a house (or other dwelling that sits within its own plot) the approach route will often only
+involve a driveway, or a gate and a path, but for a dwelling within a larger building (typically a block
+of flats) the approach route will usually involve one, or more, communal gates, paths, entrances,
+doors, lobbies, corridors and access decks, as well as communal lifts and stairs.
+Approach routes
+General
+2.6	 The approach route should be safe and convenient, adopt the shallowest gradient that can reasonably
+be achieved and be step-free, irrespective of the storey on which the dwelling is located.
+2.7	 Where it is not reasonable to achieve a step-free approach route to the principal private entrance,
+a step-free approach route should be provided to a suitable alternative private entrance instead.
+The provisions for approach routes (other than those relating specifically to step-free access)
+should still apply to both the route to the principal private entrance and the route to the
+alternative private entrance.
+2.8	 Where a communal ramped approach route is provided and has an overall rise of 300mm or more,
+an additional stepped route meeting the requirements of paragraph 2.11 should also be provided.
+[p20]
+12
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(2)
+2.9	 An approach route for a Category 2 dwelling should comply with all of the following.
+a.	 The approach route is level, gently sloping or, where necessary, ramped.
+b.	 Private parts of the approach route have a minimum clear width of 900mm or 750mm where
+there are localised obstructions.
+c.	 Communal parts of the approach route (except communal stairs) have a minimum clear width
+of 1200mm or 1050mm where there are localised obstructions.
+d.	 Any localised obstruction does not occur opposite or close to a doorway, or at a change of
+direction, and is no longer than 2m in length.
+e.	 All external parts of the approach route have a suitable ground surface.
+f.	 Every gate (or gateway) along the approach route has both:
+•
+a minimum clear opening width of 850mm
+•
+a 300mm nib to the leading edge of the gate.
+External and internal ramps forming part of an approach route
+2.10	 To enable people to use a ramp safely, the ramp should comply with all of the following.
+a.	 The gradient is between 1:20 and 1:12.
+b.	 The length of each flight at a given gradient meets the provisions of Diagram 2.1.
+c.	 Flights within a private approach route have a minimum clear width of 900mm.
+d.	 Flights within a communal approach route have a minimum clear width of 1200mm.
+Gradient
+of ramp
+Rise (mm)
+1:20
+1:19
+1:18
+1:17
+1:16
+1:15
+1:14
+1:13
+1:12
+1:11
+1:10
+0
+1
+83
+166
+2
+3
+231
+4
+286
+5
+6
+7
+8
+9
+10
+Maximum length of ramp flight (m)
+Notes:
+1. Gradient x length of flight = rise
+e.g. 1/20 x 10 = 500mm.
+2. A site  gradient of 1:15 will usually
+require a series of ramps of 1:12
+interspersed with landings where
+necessary.
+steeper
+shallower
+333
+375
+412
+444
+474
+500
+does not comply
+satisfactory
+Diagram 2.1
+Maximum length of ramp at a given gradient
+[p21]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+13
+M4(2)
+e.	 Every flight has a top and bottom landing.
+f.	 An intermediate landing is provided between individual flights and at any change
+of direction.
+g.	 Every landing is a minimum 1200mm long, clear of any door (or gate) swing.
+External steps forming part of an additional route
+2.11	 To enable a wide range of people to use steps safely, a stepped approach should comply with all
+of the following.
+a.	 Steps are uniform with a rise of between 150mm and 170mm and a going of between 280mm
+and 425mm (for tapered steps measured at a point 270mm from the ‘inside’ (narrow end) of
+the step).
+b.	 Steps have suitable tread nosings.
+c.	 No individual flight has a rise between landings of more than 1800mm.
+d.	 Every flight has a minimum clear width of 900mm.
+e.	 Top and bottom and, where necessary, intermediate landings are provided and every landing
+has a minimum length of 900mm.
+f.	 Every flight with three or more risers has a suitable grippable handrail to one side, (or to both
+sides where the flight is wider than 1000mm). This grippable handrail is 850-1000mm above the
+pitch line of the flight and extends a minimum of 300mm beyond the top and bottom nosings.
+Car parking and drop-off
+Parking space
+2.12	 Where a parking space is provided for the dwelling, it should comply with all of the following.
+a.	 Where the parking is within the private curtilage of the dwelling (but not within a carport or
+garage) at least one space is a standard parking bay that can be widened to 3.3m.
+b.	 Where communal parking is provided to blocks of flats, at least one standard parking bay is
+provided close to the communal entrance of each core of the block (or to the lift core where
+the parking bay is internal). The parking bay should have a minimum clear access zone of
+900mm to one side and a dropped kerb in accordance with paragraph 2.13d.
+c.	 Access between the parking bay and the principal private entrance or, where necessary, the
+alternative private entrance to the dwelling is step free.
+d.	 The parking space is level or, where unavoidable, gently sloping.
+e.	 The gradient is as shallow as the site permits.
+f.	 The parking space has a suitable ground surface.
+Drop-off point
+2.13	 Where a drop-off point is provided for the dwelling, it should comply with all of the following.
+a.	 It is located close to the principal communal entrance of the building containing the dwelling.
+b.	 It is level or, where unavoidable, gently sloping.
+c.	 It has a suitable ground surface.
+[p22]
+14
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(2)
+d.	 Where a dropped kerb is provided, it is a minimum of 1000mm wide, reasonably flush with the
+adjoining ground and has a maximum gradient of 1:12.
+Communal entrances
+Principal communal entrance
+2.14	 The principal communal entrance should comply with all of the following.
+a.	 There is a level landing a minimum of 1500mm wide and 1500mm long directly outside the
+entrance and clear of the swing of any door.
+b.	 The landing is covered to a minimum width of 1200mm and depth of 900mm.
+c.	 Lighting is provided which uses fully diffused luminaires activated automatically by a dusk to
+dawn timer or by detecting motion.
+d.	 The entrance door (or gate) has a minimum clear opening width of 850mm, when measured in
+accordance with Diagram 2.2.
+e.	 Where there are double doors (or gates), the main (or leading) leaf provides the required
+minimum clear opening width.
+f.	 A minimum 300mm nib is provided to the leading edge of the door (or gate) and the extra
+width created by this nib is maintained for a minimum distance of 1200mm beyond it.
+g.	 The reveal on the leading side of the door (usually the inside) has a maximum depth of 200mm.
+h.	 The threshold is an accessible threshold.
+i.	 Where there is a lobby or porch, the doors are a minimum of 1500mm apart and there is a
+minimum of 1500mm between door swings.
+j.	 The ground surface (or entrance flooring) does not impede wheelchair movement.
+k.	 Door entry controls, where provided, are mounted 900-1000mm above finished ground level,
+and at least 300mm away from any projecting corner.
+Key:
+a        inside face of door (when open)
+b        inside edge of door frame or stop
+c        leading edge
+d        following edge
+e        nib to leading edge (300mm min)
+f         reveal depth (200mm max to door
+          face when closed)
+c
+a
+b
+distance a-b = clear opening width
+*all dimensions are minimum except where noted
+d
+e
+f
+Notes:
+1. Handles, other door furniture and
+weatherboards may be ignored when
+measuring clear opening width.
+2. Skirting boards may be ignored when
+measuring door nibs (from finished wall
+face to inside edge of door frame).
+Diagram 2.2
+Measurement of clear opening width and other features of external and internal doors
+[p23]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+15
+M4(2)
+Other communal doors
+2.15	 Every communal door, or gate, along the approach route should comply with provisions d. to k. of
+paragraph 2.14.
+Communal lifts and stairs
+Communal lifts
+2.16	 A wide range of people, including accompanied wheelchair users, should be able to access and
+use the lift. Every passenger lift that gives access to the dwelling should comply with all of the
+following.
+a.	 There is a clear landing, a minimum of 1500mm long and 1500mm wide, directly in front of the
+lift door at every floor level.
+b.	 The lift is equivalent to or meets the requirements of BS EN 81-70:2003 for a type 2 lift.
+c.	 The car is a minimum of 1100mm wide and 1400mm deep inside.
+d.	 Doors have a minimum clear opening width of 800mm.
+e.	 Landing and car controls are 900-1200mm above the car floor and a minimum of 400mm
+(measured horizontally) from the inside of the front wall.
+f.	 The lift has an initial dwell time of five seconds before its doors begin to close after they are
+fully open.
+Communal stairs
+2.17	 The principal communal stair that gives access to the dwelling should meet the requirements of
+Part K for a general access stair.
+[p24]
+M4(2)
+16
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+Section 2B: Private entrances and spaces
+within the dwelling
+Application
+2.18	 The provisions of Section 2B apply only where a planning condition requires compliance with
+optional requirement M4(2) for accessible and adaptable dwellings (see paragraphs 0.3 to 0.6).
+2.19	 The provisions of Section 2B apply to private entrances, other external doors and key elements
+within the dwelling.
+Private entrances
+Principal private entrance and alternative entrance
+2.20	The principal private entrance, or the alternative private entrance where step-free access cannot be
+achieved to the principal private entrance, should comply with all of the following.
+a.	 There is a level external landing with a minimum width and depth of 1200mm.
+b.	 The landing is covered for a minimum width of 900mm and a minimum depth of 600mm.
+c.	 Lighting is provided which uses fully diffused luminaires activated automatically by a dusk to
+dawn timer or by detecting motion.
+d.	 The door has a minimum clear opening width of 850mm when measured in accordance with
+Diagram 2.2.
+e.	 Where there are double doors, the main (or leading) leaf provides the required minimum clear
+opening width.
+f.	 A minimum 300m nib is provided to the leading edge of the door and the extra width created
+by this nib is maintained for a minimum distance of 1200mm beyond it.
+g.	 The depth of the reveal on the leading side of the door (usually the inside) is a maximum of
+200mm
+h.	 The threshold is an accessible threshold.
+i.	 Where there is a lobby or porch, the doors are a minimum of 1500mm apart and there is at
+least 1500mm between door swings.
+Other external doors
+2.21	 All other external doors – including doors to and from a private garden, balcony, terrace, garage,
+carport, conservatory or storage area that is integral with, or connected to, the dwelling – should
+comply with provisions d. to i. of paragraph 2.20.
+[p25]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+17
+M4(2)
+Circulation areas and internal doorways
+Door and hall widths
+2.22	To facilitate movement into, and between, rooms throughout the dwelling, doors and corridors
+should comply with all of the following (see Diagram 2.3).
+a.	 The minimum clear width of every hall or landing is 900mm.
+b.	 Any localised obstruction, such as a radiator, does not occur opposite or close to a doorway
+or at a change of direction and is no longer than 2m in length; and the corridor is not reduced
+below a minimum 750mm width at any point.
+c.	 Every door has a minimum clear opening width as set out in Table 2.1.
+d.	 A minimum 300mm nib is provided to the leading edge of every door within the entrance storey.
+*all dimensions are minimum except where noted
+1200mm
+775mm
+1500mm
+1500mm
+1500mm
+1050mm
+750mm
+750mm
+800mm
+300mm
+300mm
+300mm
+800mm
+900mm
+900mm
+2m max.
+Key:
+Localised obstruction not
+permitted in shaded zone
+Permitted obstruction
+Note 1: 300mm nib
+only required where
+door opens inward
+(shown dotted).
+Diagram 2.3
+Minimum door and hall widths and restrictions on localised obstructions
+Table 2.1  Minimum widths of corridors and passageways for a range of doorway widths
+Doorway clear opening width (mm)
+Corridor clear passageway width
+750 or wider
+900 (when approached head on)
+750
+1200 (when approach is not head-on)
+775
+1050 (when approach is not head-on)
+800
+900 (when approach is not head-on)
+NOTE 1: The provisions of paragraph 2.22 do not apply to:
+•
+cupboards unless large enough to be entered, or
+•
+en-suite bathrooms or showers that are additional to the provisions of paragraphs 2.26 to 2.29.
+[p26]
+18
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(2)
+NOTE 2: Double doors effectively provide nibs where each leaf is at least 300mm wide.
+NOTE 3: A standard 826mm door leaf up to 44mm thick will be deemed to satisfy a requirement
+for a clear opening width of 775mm.
+Private stairs and changes of level within the dwelling
+2.23	To allow people to move between storeys, and to allow a stair-lift to be fitted to the stairs from
+the entrance storey to the storey above (or the storey below where this contains the bathroom
+required by the provisions of paragraph 2.29), stairs should comply with all of the following.
+a.	 Access to all rooms and facilities within the entrance storey is step-free.
+b.	 Level changes within every other storey are avoided where possible.
+c.	 The stair from the entrance storey to the storey above (or below) has a minimum clear width
+of 850mm when measured 450mm above the pitch line of the treads (ignoring any newel post).
+d.	 All stairs meet the provisions of Part K for private stairs.
+Habitable rooms
+Living, kitchen and eating areas
+2.24	To provide usable living spaces and easy, step-free access between a living area, a WC and the
+principal private entrance, key accommodation should comply with all of the following.
+a.	 Within the entrance storey there is a living area (which may be a living room, dining room or a
+combined kitchen and dining room).
+b.	 A minimum 1200mm clear space is provided in front of and between all kitchen units and
+appliances.
+c.	 Glazing to the principal window of the principal living area starts a maximum of 850mm above
+floor level or at the minimum height necessary to comply with the requirements of Part K for
+guarding to windows.
+Bedrooms
+2.25	To enable a wide range of people to access and use them, bedrooms should comply with all of
+the following.
+a.	 Every bedroom can provide a clear access route a minimum 750mm wide from the doorway
+to the window.
+b.	 At least one double bedroom (the principal bedroom) can provide a clear access zone a
+minimum 750mm wide to both sides and the foot of the bed.
+c.	 Every other double bedroom can provide a clear access zone a minimum 750mm wide to one
+side and the foot of the bed.
+d.	 All single and twin bedrooms can provide a clear access zone a minimum 750mm wide to one
+side of each bed.
+e.	 It can be demonstrated (for example by providing dimensioned bedroom layouts, similar to the
+example in Diagram 2.4) that the provisions above can be achieved.
+NOTE: For the purpose of demonstrating compliance with these provisions, beds should be of the
+size set out in the furniture schedule in Appendix D.
+[p27]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+19
+M4(2)
+*all dimensions are minimum except where noted
+Notes:
+1. Clear access required to
+window and no localised
+obstructions intruding on
+access zone.
+2. Bedside furniture permitted
+in zone ‘a’.
+3. Bed size in accordance
+with the furniture schedule
+in Appendix D.
+750mm
+750mm
+600mm
+750mm
+a
+a
+Diagram 2.4
+Clear access zones to principal bedroom
+Sanitary facilities
+General provisions
+2.26	All walls, ducts and boxings to the WC/cloakroom, bathroom and shower room should be
+strong enough to support grab rails, seats and other adaptations that could impose a load of up to
+1.5kN/m2. Additional sanitary facilities beyond those required to comply with this guidance need
+not have strengthened walls.
+NOTE: The loading for strengthened walls is considered suitable for many types of adaptations but
+additional localised strengthening may be required if adaptations are fitted that impose high point
+loads.
+WC facilities on the entrance storey
+2.27	To provide step-free access to a WC that is suitable and convenient for some wheelchair users
+and, where reasonable, to make provision for showering, dwellings should comply with all of the
+following.
+a.	 Every dwelling has a room within the entrance storey that provides a WC and basin (which may
+be within a WC/cloakroom or a bathroom).
+b.	 In a two or three storey dwelling with one or two bedrooms, the WC (together with its
+associated clear access zone) meets the provisions of Diagram 1.3 and the basin does not
+impede access to the WC.
+c.	 In a two or three storey dwelling with three or more bedrooms, the room with the WC and
+basin also provides an installed level access shower or a potential level access shower, and the
+shower, WC and basin (together with their associated clear access zones) meet the provisions
+of Diagram 2.5. Examples of compliant WC layouts are shown in Diagram 2.6.
+d.	 The door opens outwards.
+[p28]
+20
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(2)
+*all dimensions are minimum except where noted
+Notes:
+1. Sizes of fittings are minima based on the furniture schedule in Appendix D. Other larger sizes may affect the overall
+size of a bathroom or WC/cloakroom.
+2. Access zones may overlap except where noted.
+3. The access zone to the basin may extend under it as far as any fixed obstruction, such as a vanity unit, pedestal or trap.
+4. In WC/cloakrooms the basin and/or WC may encroach into the shower space but this should be minimised.
+5. Any radiator or towel rail should be clear of all access zones.
+Key:
+a. WC access zone
+b, c, d. Alternative
+permitted locations for
+a wash hand basin (in a
+bathroom) or a hand
+rinse basin (in a WC)
+e. Maximum
+encroachment 200mm
+for a hand rinse
+f. Maximum
+encroachment 300mm
+for a wash hand basin
+1500mm diameter clear turning circle
+- may overlap with shower
+400-500mm
+200mm
+Max
+200mm Max
+350mm
+1000mm
+750mm
+750mm
+1100mm
+1100mm
+500mm
+R750mm
+1100mm
+1000mm
+1000mm
+700mm
+700mm
+a
+e
+f
+b
+c
+d
+Diagram 2.5
+Sanitary fittings, associated clear access zones and permitted encroachment of basins
+[p29]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+21
+M4(2)
+Notes:
+1. Dimensions for
+illustration
+purposes only.
+2. Doors should
+open outwards.
+3. Stack and
+drainage positions
+to be shown clear
+of access zones
+where located
+within WC /
+Cloarkroom.
+Example 2.6A
+Example 2.6B
+1450mm
+450mm
+1000mm
+1000mm
+450mm
+1450mm
+1800mm
+1000mm
+1000mm
+350mm
+1800mm
+350mm
+750mm
+Diagram 2.6
+Examples of WC/cloakroom layouts
+2.28	Where the dwelling provides both an accessible bathroom with a WC and a WC/cloakroom within
+the same storey, the WC/cloakroom may comply with the provisions of Diagram 1.3.
+Bathrooms
+2.29	To provide convenient access to a suitable bathroom, the dwelling should comply with all of the following.
+a.	 Every dwelling has a bathroom that contains a WC, a basin and a bath, that is located on the
+same floor as the double bedroom, described as the principal bedroom in paragraph 2.25b.
+b.	 The WC, basin and bath (together with their associated clear access zones) meet the provisions
+of Diagram 2.5. Examples of bathroom layouts are shown in Diagram 2.7.
+c.	 Provision for a potential level access shower is made within the bathroom if not provided
+elsewhere within the dwelling.
+[p30]
+22
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(2)
+Example 2.7A
+Example 2.7B
+Notes:
+1. Dimensions for illustration purposes only.
+2. Stack and drainage positions to be shown clear of access zones where located
+within WC / Cloakroom.
+3. Alternative door positions shown dotted.
+2150mm
+2150mm
+450mm
+1900mm
+2000mm
+1700mm
+300mm
+450mm
+Diagram 2.7
+Examples of Category 2 bathrooms
+Services and controls
+2.30	To assist people who have reduced reach, services and controls should comply with all of the
+following.
+a.	 Consumer units are mounted so that the switches are between 1350mm and 1450mm above
+floor level.
+b.	 Switches, sockets, stopcocks and controls have their centre line between 450mm and 1200mm
+above floor level and a minimum of 300mm (measured horizontally) from an inside corner.
+c.	 The handle to at least one window in the principal living area is located between 450mm and
+1200mm above floor level, unless the window is fitted with a remote opening device that is
+within this height range.
+d.	 Handles to all other windows are located between 450mm and 1400mm above floor level,
+unless fitted with a remote opening device that is within this height range.
+e.	 Either:
+•
+boiler timer controls and thermostats are mounted between 900mm and 1200mm above
+finished floor level on the boiler, or
+•
+separate controllers (wired or wireless) are mounted elsewhere in an accessible location
+within the same height range.
+NOTE: Controls that are part of a radiator or cooker hood are exempt from these provisions.
+[p31]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+23
+M4(3)
+Optional requirement M4(3): Category 3 –
+Wheelchair user dwellings
+This section of the approved document deals with the following optional requirement from Part M
+of Schedule 1 to the Building Regulations 2010.
+Requirement
+Optional requirement
+Limits on application
+Category 3 – wheelchair user dwellings
+M4(3) optional requirement
+(1)	 Reasonable provision must be made for people to—
+(a)	 gain access to, and
+(b)	 use, the dwelling and its facilities.
+(2)	 The provision made must be sufficient to—
+(a)	 allow simple adaptation of the dwelling to meet
+the needs of occupants who use wheelchairs; or
+(b)	 meet the needs of occupants who use wheelchairs.
+Optional requirement M4(3)—
+(a)	 may apply only in relation to a dwelling that is
+erected;
+(b) 	will apply in substitution for requirement M4(1);
+(c) 	does not apply where optional requirement M4(2)
+applies;
+(d) 	does not apply to any part of a building that is
+used solely to enable the building or any service or
+fitting in the building to be inspected, repaired or
+maintained.
+Optional requirement M4(3) (2)(b) applies only
+where the planning permission under which the
+building work is carried out specifies that it shall
+be complied with.
+Performance
+In the Secretary of State’s view, optional requirement M4(3) will be met where a new dwelling
+makes reasonable provision, either at completion or at a point following completion, for a
+wheelchair user to live in the dwelling and use any associated private outdoor space, parking and
+communal facilities that may be provided for the use of the occupants. Reasonable provision is
+made if the dwelling complies with all of the following.
+a.	 Within the curtilage of the dwelling or of the building containing the dwelling, a wheelchair user
+can approach and gain step-free access to every private entrance to the dwelling and to every
+associated private outdoor space, parking space and communal facility for occupants’ use.
+b.	 Access to the WC and other accommodation within the entrance storey is step-free and the
+dwelling is designed to have the potential for step-free access to all other parts.
+c.	 There is sufficient internal space to make accommodation within the dwelling suitable for a
+wheelchair user.
+d.	 The dwelling is wheelchair adaptable such that key parts of the accommodation, including
+sanitary facilities and kitchens, could be easily altered to meet the needs of a wheelchair user
+or, where required by a local planning authority, the dwelling is wheelchair accessible.
+e.	 Wall-mounted switches, controls and socket outlets are accessible to people who have
+reduced reach.

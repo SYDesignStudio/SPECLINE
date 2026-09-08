@@ -1,0 +1,1293 @@
+[p32]
+24
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+Section 3: Category 3 – Wheelchair user
+dwellings
+Section 3A: Approach to the dwelling
+Application
+3.1	 The provisions of Section 3A apply only where a planning condition requires compliance with
+optional requirement M4(3) for a wheelchair user dwelling (see paragraphs 0.3 to 0.6).
+3.2	 The provisions of Section 3A apply to specific external and internal areas and elements that form
+part of the approach route to the dwelling and fall within the plot (or curtilage) of the individual
+dwelling, or the building containing the dwelling.
+3.3	 The provisions of Section 3A also apply to the approach route between the dwelling and the point,
+or points, at which a wheelchair user, or other disabled occupant or visitor, would expect to get in
+and out of a car. This point, or points, of access may be within or outside the plot of the dwelling,
+or the building containing the dwelling. These provisions do not apply beyond the curtilage of the
+development.
+3.4	 Reasonable provision should also be made to ensure that the approach route to any communal
+facilities intended to serve the dwelling meets these provisions. Communal facilities include
+storage areas, such as those used for depositing refuse and recycling, but not plant rooms or other
+service areas unless occupants need regular access to equipment within these spaces, for example
+for meter reading.
+3.5	 For a house (or other dwelling that sits within its own plot) the approach route will often only
+involve a driveway, or a gate and a path. For a dwelling within a larger building (typically a block of
+flats) the approach route usually involves one, or more, communal gates, paths, entrances, doors,
+lobbies, corridors and access decks, as well as communal lifts and stairs.
+3.6	 All the provisions of Section 3A apply to wheelchair adaptable and wheelchair accessible dwellings.
+Approach routes
+General provisions
+3.7	 The approach route should be safe and convenient for everyone, be at the shallowest gradient that
+can reasonably be achieved, and be step-free, irrespective of the storey on which the dwelling is
+located. Approach routes to dedicated storage for mobility scooters (where provided) should also
+be step-free.
+3.8	 A step-free approach route should be provided to all private entrances. Where a communal ramped
+approach route is provided and has an overall rise of 300mm or more, an additional stepped route
+meeting the requirements of paragraph 3.11 should also be provided.
+[p33]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+25
+M4(3)
+3.9	 An accessible step-free approach route that is specifically suitable for a wheelchair user should
+comply with all of the following.
+a.	 The approach route is level, gently sloping or ramped.
+b.	 The approach route (whether private or communal) has a minimum clear width of 1200mm.
+c.	 Any localised obstruction does not occur opposite or close to a doorway or at a change of
+direction and is no longer than 2m in length.
+d.	 A level space with a minimum width and depth of 1500mm for passing or turning is provided at
+each end of the approach route and at maximum intervals of 10m.
+e.	 External parts of the approach route have a suitable ground surface.
+f.	 External parts of the approach route are illuminated by fully diffused lighting activated
+automatically by a dusk to dawn timer or by detecting motion.
+g.	 Every gate (or gateway) between the footway and the main communal or private entrance has
+all of the following:
+•
+a minimum clear opening width of 850mm
+•
+a minimum 300mm nib to the leading edge
+•
+a minimum 200mm nib to the following edge.
+External and internal ramps forming part of an approach route
+3.10	 External and internal ramps should comply with all of the following.
+a.	 The gradient is between 1:20 and 1:15.
+b.	 The length of each flight at a given gradient meets the provisions of Diagram 3.1.
+c.	 Flights (whether within a private or communal approach route) have a minimum clear width
+of 1200mm.
+d.	 Top and bottom landings are provided to every flight.
+e.	 An intermediate landing is provided between individual flights and at any change of direction.
+f.	 Every landing is level and a minimum of 1200mm clear of any door (or gate) swing.
+[p34]
+26
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+Gradient
+of ramp
+Rise (mm)
+1:20
+1:19
+1:18
+1:17
+1:16
+1:15
+1:14
+1:13
+1:12
+1:11
+1:10
+0
+1
+67
+133
+2
+3
+200
+4
+268
+5
+6
+7
+8
+9
+10
+Maximum length of ramp flight (m)
+steeper
+shallower
+333
+375
+412
+444
+474
+does not comply
+satisfactory
+Notes:
+1. Gradient x length of flight = rise
+e.g. 1/20 x 10 = 500mm.
+500
+Diagram 3.1
+Maximum length of ramp at a given gradient
+External steps forming part of an additional route
+3.11	 To enable a wide range of people to use them safely, external steps should comply with all of the
+following.
+a.	 Steps are uniform with a rise of between 150mm and 170mm and a going of between 280mm and
+425mm (for tapered steps measured at a point 270mm from the ‘inside’ (narrow end) of the step).
+b.	 Steps have suitable tread nosings.
+c.	 No individual flight has a rise of more than 1800mm between landings.
+d.	 Every flight has a minimum clear width of 900mm.
+e.	 Top, bottom and, where necessary, intermediate landings are provided and every landing is a
+minimum 900mm long.
+f.	 Every flight with three or more risers has a suitable grippable handrail on one side of the
+flight (or to both sides where the flight is wider than 1000mm). This grippable handrail is
+850-1000mm above the pitch line of the flight and extends at least 300mm beyond the top
+and bottom nosings.
+g.	 Single steps are avoided.
+[p35]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+27
+M4(3)
+Car parking and drop-off
+Parking space
+3.12	 Where a dwelling has a parking space, to enable a wheelchair user to get into and out of a car from
+both sides and access the boot space, the parking space should comply with all of the following.
+a.	 Where the parking space is within the private curtilage of a dwelling (including a carport or
+garage) it is a standard parking bay with an additional minimum clear access zone of 1200mm to
+one side and to the rear.
+b.	 Where it is within a communal parking area, it is a standard parking bay with an additional
+minimum clear access zone of 1200mm to both sides.
+c.	 The parking space is level.
+d.	 The parking space has a minimum clear headroom of 2200mm.
+e.	 The parking space has a suitable ground surface.
+NOTE: The side access zones in communal parking areas may be shared by two bays.
+Drop-off point
+3.13	 Where a drop-off point (or setting down point) is provided for the dwelling, it should comply with
+all of the following.
+a.	 The drop-off point is located close to the principal communal entrance of the core of the
+building that contains the dwelling.
+b.	 The drop-off point is level.
+c.	 The drop-off point has a suitable ground surface.
+d.	 Where a dropped kerb is provided, it is a minimum of 1000mm wide, is reasonably flush with
+the adjoining ground and has a maximum gradient of 1:15.
+Communal entrances
+Principal communal entrance
+3.14	 To enable a wheelchair user to enter the principal communal entrance, it should comply with all of
+the following.
+a.	 There is a level landing with a minimum width and depth of 1500mm outside the entrance.
+b.	 The landing is covered to a minimum width and depth of 1200mm.
+c.	 Lighting is provided which uses fully diffused luminaires activated automatically by a dusk to
+dawn timer or by detecting motion.
+d.	 A clear turning circle 1500mm in diameter is provided inside the entrance area, behind the
+entrance door when closed.
+e.	 The entrance door (or gate) has a minimum clear opening width of 850mm when measured in
+accordance with Diagram 3.2.
+f.	 Where double doors (or gates) are provided, the main leaf provides the required minimum clear
+opening width.
+g.	 A minimum 300mm nib is provided to the leading edge of the door (or gate) and the extra
+width created by this nib is maintained for a minimum of 1800mm beyond it.
+[p36]
+28
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+h.	 A minimum 200mm nib is provided to the following edge of the door (or gate) and the extra
+width created by this nib is maintained for a distance of a minimum 1800mm beyond it.
+i.	 The door is located reasonably centrally within the thickness of the wall while ensuring
+that the depth of the reveal on the leading face of the door (usually the inside) is a maximum
+of 200mm.
+j.	 The threshold is an accessible threshold.
+k.	 Where there is a lobby or porch, the doors are a minimum of 1500mm apart and there is a
+minimum of 1500mm clear space between door swings.
+l.	 Power assisted opening is provided where the opening force of the door is more than
+30N from 0° to 30° or more than 22.5N from 30° to 60° of the opening cycle.
+m.	 The ground surface (or entrance flooring) does not impede movement by wheelchair users.
+n.	 Door entry controls, where provided, are mounted 900-1000mm above finished ground level a
+minimum of 300mm away from any projecting corner.
+Key:
+a        inside face of door (when open)
+b        inside edge of door frame or stop
+c        leading edge
+d        following edge
+e        nib to leading edge (300mm min)
+f         nib to following edge (200mm min)
+g        reveal depth (200mm max to door
+          face when closed)
+c
+a
+b
+*all dimensions are minimum except where noted
+d
+e
+Notes:
+1. Handles, other door furniture and
+weatherboards may be ignored when
+measuring clear opening width.
+2. Skirting boards may be ignored when
+measuring door nibs (from finished wall
+face to inside edge of door frame).
+f
+g
+distance a-b = clear opening width
+Diagram 3.2
+Measurement of clear opening width and other features of external and internal doors
+Other communal doors
+3.15	 Every communal door, or gate, along the approach route should comply with provisions e. to n. of
+paragraph 3.14.
+Communal lifts and stairs
+Communal lifts
+3.16	 To enable a wide range of people, including accompanied wheelchair users, to access and use the
+lift, every communal passenger lift that gives access to the dwelling should comply with all of the
+following.
+a.	 A clear landing, a minimum of 1500mm long and 1500mm wide, is directly in front of the lift
+door at every floor level.
+[p37]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+29
+M4(3)
+b.	 The lift is equivalent to or complies with requirements of BS EN 81-70:2003 for a type 2 lift.
+c.	 The lift car is a minimum of 1100mm wide and 1400mm deep
+d.	 Doors have a minimum clear opening width of 800mm.
+e.	 Landing and car controls are located 900-1200mm above the car floor and a minimum of
+400mm (measured horizontally) from the inside of the front wall.
+f.	 The lift has an initial dwell time of five seconds before its doors begin to close after they are
+fully open.
+Communal stairs
+3.17	 The principal communal stair that gives access to the dwelling should meet the provisions of Part K
+for a general access stair.
+[p38]
+30
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+Section 3B: Private entrances and spaces
+within, and connected to, the dwelling
+Application
+3.18	 The provisions of Section 3B apply only where a planning condition requires compliance with
+optional requirement M4(3) for a wheelchair user dwelling (see paragraphs 0.3 to 0.6).
+3.19	 The provisions of Section 3B apply to private entrances, other external doors and key elements
+within the dwelling. They also cover any associated private outdoor space, garden, balcony or
+private roof terrace.
+3.20	In order to demonstrate that the dwelling is capable of meeting the functional and spatial
+provisions for a wheelchair adaptable or wheelchair accessible dwelling, furnished plan layouts
+that show the access zones and other provisions of Section 3B and the furniture of the furniture
+schedule included as Appendix D of this approved document should be provided to a scale of at
+least 1:100.
+3.21	 All the provisions of Section 3B apply to wheelchair adaptable and wheelchair accessible dwellings,
+except where noted otherwise.
+Private entrances
+Principal private entrance
+3.22	The principal private entrance to the individual dwelling should comply with all of the following
+(see Diagram 3.3).
+a.	 There is a level external landing with a minimum width and depth of 1500mm and clear of any
+door swing.
+b.	 The landing area is covered for a minimum width and depth of 1200mm.
+c.	 Lighting is provided which uses fully diffused luminaires activated automatically by a dusk to
+dawn timer or by detecting motion.
+d.	 There is a minimum 1500mm clear turning circle inside the entrance area, in front of the door
+when closed.
+e.	 A minimum 300mm nib is provided to the leading edge of the door and the extra width
+created by this nib is maintained for a minimum of 1800mm beyond it. A minimum 150mm nib
+is provided to the hinge side of the door (to allow for the fitting of a cage to the inside face of
+the letter box).
+f.	 The door has a minimum clear opening width of 850mm, when measured in accordance with
+Diagram 3.2.
+g.	 Where there are double doors, the main (or leading) leaf provides the required minimum clear
+opening width. A minimum 200mm nib is provided to the following edge of the door and the
+extra width created by the nib is maintained for a minimum of 1500mm beyond it.
+[p39]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+31
+M4(3)
+*all dimensions are minimum except where noted
+Key:
+a   garden gate (850mm clear opening width)
+b   300mm nib
+c   private approach route (1200mm clear
+     width)
+d   level landing area (1500 x 1500mm)
+e   accessible threshold (see key terms)
+f    private main entrance door (850mm clear
+     opening width)
+g   activated light
+h   canopy (1200 x 1200mm shown dotted)
+i    nib to following edge (200mm)
+j    nib to leading edge (300mm)
+k   recess for letter cage (150mm)
+l    side clearance zone (300 x 1800mm)
+m  1500mm clear turning circle
+n   localised obstruction
+a
+b
+c
+d
+e
+f
+k
+g
+h
+j
+200mm
+300mm
+i
+l
+m
+n
+clear width
+clear opening width
+clear opening width
+850mm
+300mm
+1200mm
+1500mm
+1500mm
+1800mm
+1500mm
+850mm
+Diagram 3.3
+Features associated with principal private entrance
+[p40]
+32
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+h.	 The door is located reasonably centrally within the thickness of the wall while ensuring that the
+depth of the reveal on the leading face of the door (usually the inside) is a maximum of 200mm.
+i.	 The threshold is an accessible threshold.
+j.	 Where there is a lobby or porch, the doors are a minimum of 1500mm apart and there is a
+minimum of 1500mm between door swings.
+k.	 Door entry controls, where provided, are mounted 900-1000mm above finished ground level a
+minimum of 300mm away from any external return corner.
+l.	 A fused spur, suitable for the fitting of a powered door opener, is provided on the hinge side of
+the door.
+Other external doors
+3.23	All other external doors – including doors to and from a private garden, balcony, terrace, garage,
+carport, conservatory or storage area that is integral with, or connected, the dwelling comply with
+provisions f. to k. of paragraph 3.22 and should have a minimum 300m nib to the leading edge of
+the door with the extra width created by this nib extending for a minimum 1800mm beyond it.
+Circulation areas, internal doorways and storage
+Hall and door widths
+3.24	To facilitate wheelchair movement into and between rooms, internal halls and doors should
+comply with all of the following (see Diagram 3.4).
+a.	 The minimum clear width of every hallway, approach or landing is 1050mm.
+b.	 Where the approach to a doorway is not head-on, the minimum clear width of the hallway or
+approach is 1200mm.
+c.	 Any localised obstruction, such as a radiator, does not occur opposite or close to a doorway or
+at a change of direction and is no longer than 2m in length, as shown in Diagram 3.4.
+d.	 Every door has a minimum clear opening width of 850mm, irrespective of the direction of
+entry, when measured in accordance with Diagram 3.2.
+e.	 Where an outward opening door is located close to a corner and another door is located on
+the return wall within 800mm of that corner, the leading edge of the outward opening door is
+a minimum of 800mm from the corner, as shown in Diagram 3.5, unless a 1500mm turning circle
+is provided immediately outside the door.
+f.	 A minimum 300mm nib is provided to the leading edge of every door.
+g.	 A minimum 200mm nib is provided to the following edge of every door.
+NOTE 1: The provisions of paragraph 3.24 do not apply to:
+•
+cupboards unless they are large enough to be entered, or
+•
+en-suite bathrooms or showers that are additional to the provisions of paragraphs 3.41 to 3.43.
+NOTE 2: Double doors effectively provide nibs where each leaf is a minimum of 300mm wide.
+[p41]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+33
+M4(3)
+Key:
+Localised obstruction not
+permitted in shaded zone
+*all dimensions are minimum except where noted
+Hall or landing width dictated
+by position of door and nib
+Permitted obstruction
+a
+a
+200mm
+1200mm
+1500mm
+Obstruction
+2m max.
+1050mm
+1050mm
+850mm
+850mm
+900mm
+300mm
+300mm
+800mm
+1200mm
+Diagram 3.4
+Minimum door and hall widths and restrictions on localised obstructions
+*all dimensions are minimum except where noted
+Circulation area
+Figure 3.5A
+Figure 3.5B
+800mm
+800mm
+Circulation area
+300mm
+Figure 3.5C
+1500mm
+Circulation area
+Diagram 3.5
+Outward opening doors in a corner
+Wheelchair storage and transfer space
+3.25	To enable a person to charge and store up to two wheelchairs and transfer between an outdoor
+and an indoor wheelchair, a dwelling should have a storage and transfer space which complies with
+all of the following.
+a.	 A minimum 1100mm deep by 1700mm wide space is available on the entrance storey, preferably
+close to the principal private entrance.
+b.	 Is accessible from a space that has a minimum clear width of 1200mm, as shown in Diagram 3.6.
+c.	 A power socket is provided within the space.
+[p42]
+34
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+d.	 In wheelchair adaptable dwellings the storage and transfer space may be used for another
+purpose such as general storage (and doors fitted if required) provided that:
+•
+the provisions of paragraph 3.25 can be met without alteration to structure or services, and
+•
+the space is additional to the minimum requirements for storage, living spaces and
+bedrooms set out in paragraphs 3.26, 3.31 and 3.35.
+*all dimensions are minimum except where noted
+Power socket
+1100mm
+1700mm
+1200mm
+Diagram 3.6
+Wheelchair storage and transfer space
+General storage space
+3.26	To make adequate provision for the storage of household items, general built-in storage space
+should comply with Table 3.1.
+Table 3.1  Minimum area of general built-in storage
+Number of bedrooms
+1
+2
+3
+4
+5
+6
+Minimum storage area (m2)
+1.5
+2.0
+2.5
+3.0
+3.5
+4.0
+NOTE: For the purposes of Table 3.1, include areas with reduced headroom as follows:
+•
+headroom between 900mm and 1500mm: at 50% of its area
+•
+lower than 900mm: do not count.
+The full area under a stair that forms part of the storage provision should be counted as 1m2.
+Through-floor lifting device provision
+3.27	To ensure that provision can be made for a wheelchair user to access to all parts of a dwelling on
+more than one floor level, the dwelling should comply with either the requirements of paragraph
+3.28 for a wheelchair adaptable dwelling or 3.29 for a wheelchair accessible dwelling.
+3.28	Where the dwelling is defined as wheelchair adaptable, it should be easy to install a lift. The space
+for the liftway can, however, be used for another purpose (such as storage or part of a habitable
+room) providing it is demonstrated that the dwelling complies with all of the following.
+a.	 Any floors, walls and doors that have been installed to allow the potential liftway to be used
+as storage or for other purposes could be easily removed without structural alteration.
+[p43]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+35
+M4(3)
+b.	 Future provision for the liftway is a minimum of 1100mm wide and 1650mm long internally
+linking circulation areas at every floor level of the dwelling.
+c.	 Where walls forming the liftway enclosure are not initially installed, they can be easily
+reinstated without the need for structural works and would not compromise compliance with
+this or any other part of the Building Regulations.
+d.	 Drawings demonstrate how all the provisions of paragraph 3.29 can be complied with if a
+suitable lifting device is fitted in the future.
+e.	 The space for the future lift installation is not used to meet other requirements and in particular
+is not included in the minimum living, kitchen and eating area set out in paragraph 3.31.
+3.29	Where the dwelling is defined as wheelchair accessible, a suitable through-floor lift or lifting
+platform should be installed and commissioned and the dwelling should comply with all of the
+following.
+a.	 There is a continuous liftway a minimum 1100mm wide and 1650mm long internally linking every
+floor level of the dwelling.
+b.	 The liftway can be entered from the same one of its narrower ends at every floor level.
+c.	 A minimum 1500mm clear turning circle, clear of the liftway door when open at 90 degrees,
+could be provided in front of the liftway door at every floor level, as shown in Diagram 3.7.
+d.	 A power socket, suitable for powering the lifting device, is provided close to the liftway.
+e.	 The shaft is positioned to allow the lift to run between the circulation areas in every storey of
+the dwelling (irrespective of the number of storeys).
+f.	 Lifting devices should be positioned with the end opposite to the entry point located against a
+wall at every floor level.
+g.	 Doors are power operated.
+NOTE: In a two storey dwelling the requirement can typically be met by a home lift to BS 5900
+or lifting platforms to BS EN 81-41. A lifting platform may require a larger liftway than stated in
+paragraph 3.29 and may also require a three-phase power supply.
+*all dimensions are minimum except where noted
+Circulation
+area
+1100mm
+1650mm
+1500mm clear
+turning circle
+Notes:
+1. All doors to be power operated.
+2.Turning circle should be clear of
+top step of any adjacent flight
+of steps.*
+Lift or future
+lift space
+Diagram 3.7
+Access to through floor lift
+[p44]
+36
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+Private stairs and changes of level within the dwelling
+3.30	An ambulant disabled person should be able to move within, and between, storeys. It should
+also be possible to fit a stair-lift to the stairs from the entrance storey to the storey above (or
+the storey below where this contains the bathroom required by the provisions of paragraph 3.41).
+The dwelling should comply with all of the following.
+a.	 Access to all rooms and facilities within the entrance storey is step-free.
+b.	 There are no changes of level within any other storey.
+c.	 The stair from the entrance storey to the storey above (or below) and any stair within the
+storey above (or below) has a minimum clear width of 850mm when measured at 450mm
+above the pitch line of the treads (ignoring any newel post).
+d.	 A power socket suitable for powering a stair-lift is provided close to the foot or head of any
+stair to which a stair lift may be fitted.
+e.	 All stairs meet the provisions of Part K for private stairs.
+Habitable rooms
+Living areas
+3.31	 To provide usable living spaces that have a convenient, step-free relationship between the living
+space, WC and principal private entrance, living areas should comply with all of the following.
+a.	 The principal living area is within the entrance storey.
+b.	 The minimum combined internal floor area of living, dining and kitchen space meets the
+provisions of Table 3.2.
+c.	 Glazing to the principal window of this living area starts a maximum of 850mm above floor
+level or at the minimum height reasonable in achieving compliance with the provisions of
+Part K for guarding to windows.
+Table 3.2  Minimum combined floor area for living, dining, and kitchen space
+Number of bedspaces
+2
+3
+4
+5
+6
+7
+8
+Minimum floor area m2
+25
+27
+29
+31
+33
+35
+37
+Kitchen and eating areas
+3.32	The relationship between the kitchen, dining and living areas should be convenient and step-free.
+Kitchen and eating areas should comply with all of the following.
+a.	 The kitchen and principal eating area are within the same room, or connected to each other,
+and located within the entrance storey.
+b.	 There is a minimum clear access zone 1500mm wide in front of, and between, all kitchen units
+and appliances.
+3.33	 Where the dwelling is defined as wheelchair adaptable, in addition to the provisions of paragraph
+3.32, the kitchen should comply with all of the following.
+a.	 The overall length of kitchen worktop meets at least the provisions of Table 3.3.
+[p45]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+37
+M4(3)
+b.	 Drawings demonstrate how the kitchen could be easily adapted to meet the provisions of
+paragraph 3.34 and Table 3.4 at a future date without compromising the space in any other part
+of the dwelling and without the need to move structural walls, stacks or concealed drainage.
+Table 3.3  Minimum length of kitchen worktop, including fittings and appliances, to be
+fitted at completion for a wheelchair adaptable dwelling
+Number of bedspaces
+2
+3 & 4
+5
+6–8
+Minimum worktop length (mm)
+4330
+4730
+5630
+6730
+*all dimensions are minimum except where noted
+Key:
+a        sink and drainer
+b        hob
+c        suitable space for built-in oven (c/l 800-900mm)
+d        dishwasher
+e        washing machine
+f         fridge freezer
+g        recycling
+h        storage base units (inc. corner units)
+Wheelchair accessible layout
+Minimum 300mm worktop each
+side of corner where height
+adjustable or lowerable section
+is in a corner.
+Notes:
+1. Shaded units represent additional requirements for a
+wheelchair accessible layout over an equivalent wheelchair
+adaptable layout.
+2. Unit length should be measured through mid-line of the
+worktop, not the front or rear edge.
+Height adjustable or lowerable
+section of worktop with open leg
+room below.
+1800mm total
+Height adjustable
+h
+d
+e
+f
+h
+c
+h
+g
+630mm
+600mm
+2200mm
+600mm
+Allow for shallow, insulated sink bowl with swivel, mixer tap  and flexible plumbing and provide a min. 400mm length of
+worktop to at least one side of the oven and fridge/freezer.
+b
+a
+600mm
+800mm 400mm
+Diagram 3.8
+Example of a wheelchair accessible kitchen layout
+[p46]
+38
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+3.34	Where the dwelling is defined as wheelchair accessible, in addition to the provisions of paragraph
+3.32, the kitchen should comply with all of the following (see in Diagram 3.8).
+a.	 The overall length of kitchen worktop meets the provisions of Table 3.4.
+b.	 The worktop includes a continuous section that incorporates a combined sink and drainer unit
+and a hob, and all of the following.
+•
+The section of worktop is a minimum 2200mm long.
+•
+The section of worktop is either a height adjustable worktop, or is a fixed section capable
+of being refixed at alternate heights.
+•
+There are no fixed white goods (appliances) placed beneath this section of worktop.
+•
+This section of worktop provides clear and continuous open leg space underneath
+(capable of achieving a minimum of 700mm clearance above floor level).
+c.	 The sink is not more than 150mm deep with insulation to the underside to prevent scalding
+of a wheelchair user’s legs.
+d.	 Taps should be lever operated and capable of easy operation.
+e.	 A suitable space has been identified for a built-in oven (with its centre line between 800mm
+and 900mm above floor level) to be installed.
+f.	 A pull out shelf is provided beneath the oven enclosure.
+g.	 There is a minimum of 400mm of worktop to at least one side of the oven and fridge or fridge
+freezer where this is taller than the worktop height (or to one side of a pair of tall appliances
+where they are located together at the end of a run).
+h.	 Water supply to sinks includes isolation valves and flexible tails.
+i.	 Drainage is either flexible, or is fixed but easily adaptable to suit worktop heights between
+700mm and 950mm above finished floor level.
+Table 3.4  Minimum length of kitchen worktop, including fittings and appliances, to be
+fitted at completion for a wheelchair accessible dwelling
+Number of bedspaces
+2
+3 & 4
+5
+6–8
+Minimum worktop length (mm)
+6130
+6530
+7430
+8530
+Bedrooms
+3.35	One bedroom should be close to an accessible bathroom suitable for a wheelchair user.
+All other bedrooms should be accessible to a wheelchair user. Bedrooms should comply with all
+of the following.
+a.	 Every bedroom can provide a minimum clear access route, 750mm wide, from the doorway to
+the window.
+b.	 Every bedroom can provide a minimum 1200mm by 1200mm manoeuvring space inside the
+doorway, clear of the bed and the door (when the door is in the closed position).
+c.	 The ceiling structure to every bedroom is strong enough to allow for the fitting of an overhead
+hoist capable of carrying a load of 200kg.
+[p47]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+39
+M4(3)
+d.	 A principal double bedroom is located on the entrance storey, or the storey above (or below)
+the entrance storey, has a minimum floor area of 13.5m2 and is a minimum of 3m wide clear of
+obstructions (e.g. radiators).
+e.	 The principal double bedroom can provide a minimum 1000mm wide clear access zone to both
+sides and the foot of the bed and in front of all furniture, and a minimum 1200mm by 1200mm
+manoeuvring space on both sides of the bed (see Diagram 3.9).
+f.	 Every other double (or twin) bedroom has a minimum floor area of 12.5m2 and is a minimum of
+3m wide.
+g.	 Every other double bedroom can provide a 1000mm wide clear access zone to one side and
+the foot of the bed, and in front of all furniture.
+h.	 All single and twin bedrooms provide a minimum 1000mm clear access zone to one side of
+each bed and in front of all furniture.
+i.	 Every single bedroom has a minimum floor area of 8.5m2 and is at least 2.4m wide.
+NOTE 1: When demonstrating compliance with these provisions, bed sizes and furniture should
+comply with the requirements of the furniture schedule in Appendix D.
+NOTE 2: The loading for strengthened ceilings is considered suitable for many types of adaptations
+but additional localised strengthening may be required to support high point loads at the time that
+adaptations are fitted.
+*all dimensions are minimum except where noted
+Notes:
+1. Furniture may encroach into the
+access zones by up to 600mm, at
+the bedhead end only.
+2. A chair may encroach into any
+part of the access zone.
+3. Clear access required to window;
+and radiator clear of all access
+zones
+4. Bedroom layout and shape is
+illustrative only
+1200 x 1200mm
+1200 x 1200mm
+1200 x 1200mm
+1000mm
+1000mm
+1000mm
+600mm
+Diagram 3.9
+Clear access zones and manoeuvering spaces to principal bedroom
+[p48]
+40
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+Sanitary facilities
+General provisions
+3.36	Dwellings should provide suitable WC and washing facilities. Reasonable provision will vary
+depending on whether dwellings are wheelchair adaptable or wheelchair accessible. To provide
+suitable and convenient sanitary facilities, a dwelling should comply with all of the following.
+a.	 WC facilities are provided which comply with the relevant requirements of paragraphs 3.37
+to 3.40, and bathroom facilities are provided which comply with the relevant requirements of
+paragraphs 3.41 to 3.43.
+b.	 Any dwelling with four or more bedspaces provides access to a minimum of two WCs in
+separate bathrooms or WC/cloakrooms (see Table 3.5).
+c.	 Every room that contains an installed level access shower is constructed as a wet room.
+d.	 All walls, ducts and boxings to every WC/cloakroom, bath and shower room are strong enough
+to support grab rails, seats and other adaptations that could impose a load of 1.5kN/m2.
+e.	 The ceiling structure to bathrooms and WC/cloakrooms required by paragraphs 3.36 to 3.40 is
+strong enough to allow for the fitting of an overhead hoist capable of carrying a load of 200kg.
+f.	 Where sanitary facilities are wheelchair accessible, WC flush controls are positioned on the
+front of the cistern on the transfer side and can be easily gripped, e.g. a lever flush handle.
+g.	 Where sanitary facilities are wheelchair accessible, WC pans should be a minimum of 400mm high.
+h.	 Where sanitary facilities are wheelchair accessible, basins and sinks should be wall hung
+(typically with their rim 770-850mm above finished floor level) and the clear zone beneath
+basins, services and pedestals is maximised to enable wheelchair users to approach. Ideally this
+clear zone should be in the range 400-600mm from finished floor level.
+i.	 Stacks or soil and vent pipes should only be positioned adjacent to WC where there is no
+practical alternative and should always be on the wall side of the WC.
+NOTE 1: The loading for strengthened walls is considered suitable for many types of adaptations
+but additional localised strengthening may be required if adaptations are fitted that impose high
+point loads.
+NOTE 2: The provisions of paragraph 3.36 do not apply to sanitary facilities that are additional
+to the provisions of paragraphs 3.36 to 3.40.
+NOTE 3: For the purposes of establishing number of bedspaces relevant to these requirements,
+a bedroom at or above 8.5m2 and below 12.5m2 in size is counted as one bedspaces, and equal to or
+greater than 12.5m2 as two bedspaces.
+[p49]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+41
+M4(3)
+Table 3.5  Summary of minimum requirements for sanitary provision in typical dwelling
+types (dwellings should also comply with relevant detailed requirements set out in
+paragraphs 3.36-3.43)
+Single storey dwelling (typically a flat or bungalow)
+Occupancy
+Typical minimum sanitary provision
+2 or 3 bedspaces
+Bathroom with level access shower
+4 bedspaces
+Bathroom with level access shower and separate WC/cloakroom
+5 bedspaces or more
+Bathroom with level access shower and separate WC/cloakroom
+(or second bathroom). Wheelchair accessible dwellings must also
+provide both a level access shower and a bath
+Two or three storey dwelling (typically a house or maisonette)
+Occupancy
+Typical minimum sanitary provision
+2 or 3 bedspaces
+Bathroom with level access shower on same level as principal
+bedroom + entrance storey WC/cloakroom (where bathroom not on
+the entrance storey)
+4 bedspaces
+Bathroom with level access shower on same level as principal bedroom
+and entrance storey WC/cloakroom or second bathroom
+5 bedspaces or more
+Bathroom with level access shower on same level as principal
+bedroom and entrance storey WC/cloakroom or second bathroom.
+Wheelchair accessible dwellings must also provide both a level access
+shower and a bath
+WC facilities on the entrance storey
+3.37	To make suitable and convenient provision for a wheelchair user to use a WC, the dwelling should
+comply with all of the following.
+a.	 Every dwelling has, on the entrance storey, a wet room (which may be a WC/cloakroom or a
+bathroom) that contains a WC, a basin and an installed level access shower and complies with
+the requirements of either paragraph 3.38 or 3.39.
+b.	 Where the dwelling provides both a bathroom and a WC/cloakroom on the same storey, the
+WC facility need only comply with the requirements of paragraph 3.40.
+c.	 The door to the WC facility opens outwards.
+3.38	Where the dwelling is defined as wheelchair adaptable, WC facilities should also comply with all
+of the following.
+a.	 The WC, basin and shower (and their associated clear access zones) meet the provisions in
+Diagram 3.10. An example of a compliant design is shown in Diagram 3.12.
+b.	 It is demonstrated how the WC/cloakroom could be easily adapted in future to meet the
+provisions of paragraph 3.39.
+[p50]
+42
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+*all dimensions are minimum except where noted
+Notes:
+1. Sizes of fittings are minima based on the furniture schedule in Appendix D. Other sizes may affect the overall size of a
+bathroom or WC/cloakroom.
+2. Access zones may overlap except where noted.
+3. In WC/cloakrooms the basin and/or WC may encroach into the shower space but this should be minimised.
+4. Any radiator or towel rail should be clear of all access zones.
+1500mm diameter clear turning circle
+- may overlap fully with shower
+Level access shower within bathroom
+1200 x 1200mm (1000 x 1000mm permitted
+in WC/cloakroom)
+Key:
+a. WC access zone
+b, c, d. Alternative
+permitted locations for
+a wash hand basin (in a
+bathroom) or a hand
+rinse basin (in a WC)
+e. Maximum
+encroachment 200mm
+for a hand rinse basin
+f. Maximum
+encroachment 300mm
+for a wash hand basin
+700mm
+700mm
+500mm
+1100mm
+1100mm
+R750mm
+450-500mm
+200mm
+Max
+200mm Max
+200mm
+750mm
+1000mm
+350mm
+750mm
+a
+b
+c
+1100mm
+e
+f
+d
+Diagram 3.10	 Sanitary fittings associated clear access zones and permitted encroachment of basins –
+wheelchair adaptable
+[p51]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+43
+M4(3)
+3.39	Where the dwelling is defined as wheelchair accessible, WC facilities should also comply with all
+of the following.
+a.	 The WC, basin and shower (and their associated clear access zones) meet the provisions in
+Diagram 3.11. Examples of compliant designs are shown in Diagram 3.12.
+*all dimensions are minimum except where noted
+1500mm diameter clear
+turning circle – may overlap
+max 500mm with shower
+Notes:
+1. Sizes of fittings are minima based on the furniture schedule in Appendix D. Other sizes may affect the overall size of a
+bathroom or WC/cloakroom.
+2. Access zones may overlap except where noted.
+3. Clear access zone minimum 400mm-600mm high required under all basins other than essential traps and drainage
+connections providing these do not impede approach by a wheelchair user.
+4. Any radiator or towel rail should be clear of all access zones.
+Level access shower within bathroom
+1200 x 1200mm (or 1000 x 1200mm where
+potential to widen when bath removed)
+as shown in Diagram 3.17, example 3.17B. In
+WC/cloakroom, level access shower may
+be 1000 x 1000mm.
+a.
+a.
+a. Fittings can encroach
+up to 500mm one side
+or the other (not both).
+800mm
+1700mm
+2200mm
+800mm
+500mm
+500mm
+R750
+500mm max
+1650mm
+Key:
+a. WC access zone
+b, c. Alternative
+permitted locations for
+a wash hand basin (in a
+bathroom) or a hand
+rinse basin (in a WC)
+Hatched area shows
+1000mm long x  1000mm
+high x 100mm wide zone
+kept for fitting of grab
+rails.
+1200mm
+350mm
+450-500mm
+200mm
+Max
+200mm Max
+750mm
+a
+b
+c
+800mm
+800mm between
+c/l of WC and
+edge of shower
+in bathrooms
+750mm
+Diagram 3.11
+Sanitary fittings, associated clear access zones and permitted encroachment of basins –
+wheelchair accessible
+[p52]
+44
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+Example 3.12B –
+Wheelchair
+accessible WC
+cloakroom
+Example 3.12A –
+Wheelchair
+adaptable WC
+cloakroom
+1650mm
+1650mm
+1000mm
+450mm
+450mm
+2200mm
+2200mm
+1000mm
+750
+Notes:
+1. Dimensions for illustration purposes only.
+2. Doors must be capable of opening outwards – in wheelchair adaptable
+bathrooms the door may open inwards providing that the door can be easily
+rehung to open outwards (e.g. door stops are planted and easily moved).
+3. Stack and drainage positions to be shown clear of access zones where located within WC / Cloakroom.
+Diagram 3.12	 Example of wheelchair adaptable WC/cloakroom layout with potential to be
+wheelchair accessible
+[p53]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+45
+M4(3)
+3.40	Where the dwelling provides both a bathroom and a WC/cloakroom on the same storey, the WC
+and basin in the WC/cloakroom (and their associated clear access zones) should as a minimum
+comply with the provisions shown in Diagram 3.13. Examples of compliant designs are shown in
+Diagram 3.14.
+*all dimensions are minimum except where noted
+700mm
+750mm
+350mm
+450-500mm
+Key:
+a        WC clear access
+          zone (refer to
+          Diagram 2.5)
+b,c     Alternative permitted
+          locations for a wash
+          hand basin (within
+          a bathroom) or a
+          hand rinse basin
+          (within a WC)
+Dashed zones show
+areas where a basin
+may encroach into
+the WC clear access
+zone.
+200mm max
+200mm max
+200mm max
+200mm max
+750mm
+900mm
+900mm
+Diagram 3.13
+ Sanitary fittings, associated access zones and permitted encroachment of basis for
+second WC/cloakroom where on same floor level as first WC
+Notes:
+1. Dimensions for
+illustration purposes only.
+2. Doors should open
+outwards.
+3. Where future shower
+provision is provided in
+entrance level WC's, this
+need not be provided
+in adaptable bathrooms
+on other storeys.
+3. Stack and drainage
+positions to be clear of
+access zones shown
+where located within
+bathroom.
+Example 3.14A
+Example 3.14B
+1200mm
+1300mm
+1600mm
+1700mm
+450mm
+450mm
+Diagram 3.14	 Examples of compliant second WC/cloakrooms where on the same floor level as
+the first WC
+[p54]
+46
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+Bathroom facilities
+3.41	 To make suitable and convenient provision for a wheelchair user to bathe or use a wheelchair
+accessible shower, with assistance where necessary, the dwelling should comply with all of the
+following.
+a.	 Dwellings with up to four bedspaces should have as a minimum a bathroom that contains a
+WC, a basin and an installed level access shower with the potential for a bath to be installed
+above it (unless a bath is provided in addition to the installed level access shower within this
+bathroom or elsewhere on the same storey).
+b.	 The bathroom containing the installed level access shower should be located on the same
+storey as the principal double bedroom described in paragraph 3.35.
+NOTE 1: In dwellings with five bedspaces or more, where the provisions of paragraphs 3.42 or 3.43
+are satisfied by providing both a bathroom and a shower room, either room (but not both) may be
+an en-suite bathroom.
+NOTE 2: Where there is a fully accessible shower room on the same storey as the principal
+bedroom, a separate room providing the bath need only comply with the requirements set out in
+paragraph 2.29 for a Category 2 bathroom.
+NOTE 3: In dwellings with up to four bedspaces it would be reasonable for a bath to be fitted
+above the installed level access shower at the point that the works are completed.
+3.42	Where the dwelling is defined as wheelchair adaptable, it is assumed that most commonly a bath
+will be installed over a useable level access shower, though this is not a requirement. Wheelchair
+adaptable bathrooms should also comply with all of the following.
+a.	 The WC, basin, bath and shower (and their associated clear access zones) meet at least the
+provisions shown in Diagram 3.10. Examples of compliant designs are shown in Diagram 3.15.
+b.	 Drawings illustrate how the bathroom could be easily adapted in future to meet the provisions
+for a wheelchair accessible bathroom set out in paragraph 3.43 (but need only show either a
+bath or level access shower, not both).
+3.43	Where the dwelling is defined as wheelchair accessible, the bathroom should also comply with all
+of the following.
+a.	 The WC, basin, bath (where provided) and shower (and their associated clear access zones),
+meet the provisions in Diagram 3.11. Examples of compliant designs are shown in Diagram 3.16.
+b.	 In dwellings with up to four bedspaces, an installed level access shower is provided as the
+default but a bath can be accommodated as an alternative if required.
+c.	 In dwellings with five bedspaces or more, both a useable bath and an installed level access
+shower are provided (either in one bathroom or in more than one bathroom on the same
+storey as the principal bedroom). Examples of bathrooms with shower and bath are provided in
+Diagram 3.17.
+d.	 The level access shower is positioned in a corner to enable a shower seat to be fitted on one
+wall, with shower controls fitted on the adjacent wall.
+e.	 The bathroom (or bathrooms) provides a minimum 1500mm clear turning circle.
+[p55]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+47
+M4(3)
+Example 3.15A – wheelchair
+adaptable bathroom (based on
+wheelchair accessible layout 3.16A)
+Example 3.15B – wheelchair
+adaptable bathroom (based on
+wheelchair accessible layout 3.16B)
+2450mm
+950mm
+450mm
+1200mm
+800mm
+450mm
+2450mm
+2200mm
+2600mm
+1200mm
+Notes:
+1. Dimensions for illustration purposes only.
+2. Doors must be capable of opening outwards – in wheelchair adaptable
+bathrooms the door may open inwards providing that the door can be easily
+rehung to open outwards (e.g. door stops are planted and easily moved).
+3. Stack and drainage positions to be shown clear of access zones where located within bathroom.
+Diagram 3.15	 Examples of wheelchair adaptable bathroom layouts with potential to be
+wheelchair accessible
+[p56]
+48
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+Example 3.16A
+– wheelchair
+accessible
+bathroom with
+choice of bath
+or shower
+Example 3.16B
+– wheelchair
+accessible
+bathroom with
+choice of bath
+or shower
+Example 3.16C
+– wheelchair
+accessible
+bathroom with
+shower only –
+suitable where
+bath provided in
+wheelchair
+accessible
+bathroom
+elsewhere
+2600mm
+1200mm
+800mm
+450mm
+150mm
+2200mm
+750mm min.
+2450mm
+800mm
+450mm
+1200mm
+2450mm
+2450mm
+1200mm
+1200mm
+800mm
+450mm
+Notes for all diagrams:
+1. Dimensions for illustration purposes
+only.
+2. WC doors must be capable of
+opening outwards.
+3. Stack and drainage positions to be
+shown clear of access zones where
+located within bathroom.
+2200mm
+1000 x 1000 x 100mm zone kept
+clear to enable fitting of rails.
+1000 x 1000 x 100mm zone kept
+clear to enable fitting of rails.
+1000 x 1000 x 100mm zone kept
+clear to enable fitting of rails.
+Diagram 3.16	 Examples of wheelchair accessible bathrooms
+[p57]
+Building Regulations 2010
+Approved Document M Volume 1, 2015 edition
+49
+M4(3)
+1000mm
+Example 3.17A – wheelchair
+accessible bathroom with bath and
+1000 x 1200mm shower with capacity
+for larger shower if bath removed
+Example 3.17B – wheelchair
+accessible bathroom with bath
+and 1200 x 1200mm shower
+3100mm
+1000mm
+800mm
+450mm
+150mm
+2200mm
+750mm
+2900mm
+700mm
+1200mm
+1200mm
+800mm
+450mm
+800mm
+1700mm
+2600mm
+150mm
+1000 x 1000 x 100mm zone kept
+clear to enable fitting of rails.
+1000 x 1000 x 100mm zone kept
+clear to enable fitting of rails.
+1700mm
+1200mm
+Notes for all diagrams:
+1. Dimensions for illustration purposes
+only.
+2. WC doors must be capable of
+opening outwards.
+3. Stack and drainage positions to be
+shown clear of access zones where
+located within bathroom.
+Diagram 3.17	 Examples of wheelchair accessible bathrooms with both bath and shower
+Services and controls
+3.44	To assist wheelchair users who have reduced reach, services and controls should comply with all of
+the following.
+a.	 Consumer units should be mounted so that the switches are between 1350mm and 1450mm
+above floor level.
+b.	 Switches, sockets, stopcocks and controls, except controls to radiators, are located with their
+centre line 700-1000mm above floor level and a minimum of 700mm (measured horizontally)
+from an inside corner, and are not positioned behind appliances.
+[p58]
+50
+Approved Document M Volume 1, 2015 edition
+Building Regulations 2010
+M4(3)
+c.	 Kitchen appliances in wheelchair accessible dwellings have isolators located within the same
+height range.
+d.	 The handle to at least one window in the principal living area is 700-1000mm above floor level,
+unless fitted with a remote opening device that is within this height range.
+e.	 Handles to all other windows are 450-1200mm above floor level, unless the window is fitted
+with a remote opening device that is within this height range.
+f.	 Door handles, locks, latches and catches are both:
+•
+easy to grip and use, and
+•
+fitted 850-1000mm above floor level.
+g.	 Light switches are on individual plates unless wide rocker or full plate fittings are provided.
+h.	 Switches to double socket outlets are located at the outer ends of the plate (rather than in the
+centre).
+i.	 A door entry phone with remote door release facility is provided in the main living space and
+the principal bedroom.
+j.	 Suitable provision is made in the principal bedroom to install bedhead controls in the future
+(comprising a 2-way light switch, telephone and broadband socket, TV aerial and power socket
+outlets, and the door entry phone provision described above, grouped adjacent to the head of
+the bed), for example, by providing blank sockets, conduit and draw wires.
+k.	 A main electrical power socket and a telephone point are provided together in the main living space.
+l.	 Taps and bathroom controls are suitable for a person with limited grip to operate and for
+single handed operation.
+m.	 Boiler timer controls and thermostats are either mounted 900-1200mm above finished floor
+level on the boiler, or separate controllers (wired or wireless) are mounted elsewhere in an
+accessible location within the same height range.
+n.	 In wheelchair accessible dwellings, radiator controls are mounted 450-1000mm above floor level.
+Private outdoor space
+3.45	To enable a wheelchair user to use every private outdoor space that is provided, whether a private
+garden, balcony or roof terrace, outdoor space should comply with all of the following.
+a.	 Every outdoor space both:
+•
+has a minimum clear width of 1500mm, and
+•
+provides a minimum 1500mm level clear turning circle, free of any door swing.
+b.	 There is a level or gently sloping path with a minimum clear width of 1050mm to every private
+refuse, recycling, cycle or other external store.
+c.	 Every path terminates in a clear turning circle a minimum of 1500mm in diameter.
+d.	 Every gate (or gateway) has a minimum clear opening width of 850mm, a minimum 300mm nib
+to the leading edge and a minimum 200mm nib to the following edge.
+e.	 The door to every private external store that is integral with, or connected to, the dwelling has
+a minimum clear opening width of 850mm.
+f.	 All paved areas have a suitable ground surface.

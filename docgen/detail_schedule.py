@@ -1104,10 +1104,27 @@ JUNCTIONS = [
     ("D-216", "Basement wall to the ground floor over",     ["BW", "GF"],
      "Waterproofing termination; thermal bridge at the head", "not drawn"),
     ("D-217", "Dormer cheek to main roof",                  ["EW", "RF"],
-     "Insulation continuity around the dormer; weathering at the abutment", "next"),
+     "Insulation continuity around the dormer; weathering at the abutment", "drawn",
+     {"loft"}),
     ("D-218", "Door threshold, level access",               ["EW", "GF"],
      "Thermal bridge at the threshold; water and accessibility together", "drawn"),
+    ("D-219", "Dormer flat roof at the cheek head",          ["EW", "RF"],
+     "Warm deck to cheek insulation over the head plate; falls and the VCL", "drawn",
+     {"loft"}),
+    ("D-220", "Eaves at a room in roof — dwarf wall",        ["EW", "RF"],
+     "Insulation round two corners; the eaves void kept outside the envelope", "drawn",
+     {"loft"}),
+    ("D-221", "New loft floor into the existing wall",       ["IF", "EW"],
+     "REI 30 and Requirement E2; new floor spanning clear of the existing ceiling",
+     "drawn", {"loft"}),
+    ("D-222", "Existing gable to the new roof",              ["EW", "RF"],
+     "A renovated element meeting a new one; lining carried up to the roof insulation",
+     "drawn", {"loft"}),
 ]
+
+# Junctions confined to particular types, where the groups alone would over-reach.
+ONLY = {j[0]: j[5] for j in JUNCTIONS if len(j) > 5}
+JUNCTIONS = [j[:5] for j in JUNCTIONS]
 
 
 def register(S):
@@ -1135,7 +1152,8 @@ def register(S):
         cells = []
         for k in TYPE_NAMES:
             have = {b["g"] for b in S[k]["buildups"]}
-            cells.append("•" if all(g in have for g in groups) else "")
+            ok = all(g in have for g in groups) and k in ONLY.get(ref, {k})
+            cells.append("•" if ok else "")
         md.append("| `%s` | %s |" % (ref, " | ".join(cells)))
 
     md.append("\n## Build-ups available in each type, by group\n")

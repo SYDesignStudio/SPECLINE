@@ -57,7 +57,7 @@ CHECKS (printed every run; nothing is silently corrected).
 
 Nothing here touches the network.
 """
-import json, math, os, re, sys
+import glob, json, math, os, re, sys
 import xml.etree.ElementTree as ET
 
 try:
@@ -75,7 +75,8 @@ try:
 except ImportError:
     sys.exit("docgen/dxf_buildups.py is missing — it holds the material table.")
 
-SVG_SRC = os.path.join(ROOT, "reference", "details", "extension-junctions.html")
+SVG_DIR = os.path.join(ROOT, "reference", "details")
+SVG_SRC = sorted(glob.glob(os.path.join(SVG_DIR, "*-junctions.html")))
 JSON_SRC = os.path.join(ROOT, "reference", "details", "build-up-schedule.json")
 OUT = os.path.join(ROOT, "output", "dxf", "details")
 
@@ -96,13 +97,23 @@ JOINT = 10.0                       # bed joint thickness, drawn as two lines
 # Which build-up each reference on the sheets stands for, so the schedule can be printed
 # against the drawing and checked against it. Keys are the petrol references on the sheet.
 BUILDUPS = {
-    "EW1": ("extension", "Full Fill Cavity Wall"),
-    "GF1": ("extension", "Solid Floor — Insulation Over Slab (Screed Finish)"),
-    "RF1": ("extension", "Warm Deck Flat Roof"),
-    "RF2": ("extension", "Pitched Roof — Insulation at Rafter Level"),
-    "RF3": ("extension", "Pitched Roof — Insulation at Rafter Level"),
-    "IF1": ("extension", "Intermediate Floor — Solid Timber Joists"),
-    "FD1": ("extension", "Trench Fill Foundation"),
+    "extension-junctions": {
+        "EW1": ("extension", "Full Fill Cavity Wall"),
+        "GF1": ("extension", "Solid Floor — Insulation Over Slab (Screed Finish)"),
+        "RF1": ("extension", "Warm Deck Flat Roof"),
+        "RF2": ("extension", "Pitched Roof — Insulation at Rafter Level"),
+        "RF3": ("extension", "Pitched Roof — Insulation at Rafter Level"),
+        "IF1": ("extension", "Intermediate Floor — Solid Timber Joists"),
+        "FD1": ("extension", "Trench Fill Foundation"),
+    },
+    "loft-junctions": {
+        "EW1": ("loft", "Dormer Cheek"),
+        "EW2": ("loft", "Dwarf / Ashlar Wall at Eaves"),
+        "EW3": ("loft", "Existing Gable or Flank Wall — Internally Insulated"),
+        "RF1": ("loft", "Pitched Roof — Insulation Between and Under Rafters (Room in Roof)"),
+        "RF2": ("loft", "Dormer Flat Roof — Warm Deck"),
+        "IF1": ("loft", "New Loft Floor"),
+    },
 }
 
 LAYERS = [
@@ -134,9 +145,17 @@ def nums(s):
     return [float(x) for x in NUM.findall(s or "")]
 
 
-def read_sheets(path, wanted=None):
-    """Pull each detail off the HTML page: its reference, title, viewBox and its SVG."""
+def read_sheets(paths, wanted=None):
+    """Pull each detail off the HTML pages: reference, title, viewBox, SVG and source."""
+    out = []
+    for path in ([paths] if isinstance(paths, str) else paths):
+        out += _read_one(path, wanted)
+    return out
+
+
+def _read_one(path, wanted=None):
     html = open(path, encoding="utf-8").read()
+    stem = os.path.splitext(os.path.basename(path))[0]
     out = []
     for ref, title, sub, body in SHEET.findall(html):
         ref = ref.strip()
@@ -152,6 +171,7 @@ def read_sheets(path, wanted=None):
             "sub": sub.strip(),
             "view": nums(svg.get("viewBox")),
             "svg": svg,
+            "src": stem,
         })
     return out
 
@@ -539,16 +559,16 @@ def build(sheet, schedule, paper):
     for tag, el, st in items:
         if tag == "text" and (st.get("fill") or "").upper() == PETROL.upper():
             t = (el.text or "").strip()
-            if t in BUILDUPS:
+            if t in BUILDUPS.get(sheet["src"], {}):
                 refs.add(t)
     refs = sorted(refs)
-    problems += check_schedule(sheet, refs, notes, schedule)
+    problems += check_schedule(sheet, refs, notes, schedule.get(sheet["src"], {}))
     if sheet["sub"].lower().startswith("horizontal") and any(
             m in COURSE for m, _t in notes):
         problems.append("horizontal section, but the masonry carries bed joints — a "
                         "plan cut through stretcher bond shows perpends, not beds "
                         "(fix the hatch on the SVG sheet, not here)")
-    layout(doc, sheet, sorted(used), refs, schedule, paper)
+    layout(doc, sheet, sorted(used), refs, schedule.get(sheet["src"], {}), paper)
     return doc, problems
 
 
@@ -629,11 +649,22 @@ def check_schedule(sheet, refs, drawn, schedule):
         rec = schedule.get(ref)
         if not rec:
             continue
+        cut_between = "between" in sheet["sub"].lower()
         for lay in rec["layers"]:
             mat, t = lay["hatch"], float(lay["t"])
             if mat in ("void", "membrane") or mat not in by_mat:
                 continue
-            if not matches(t, by_mat[mat]):
+            # A section cut BETWEEN joists or rafters does not cut the members, so the
+            # member is not on the sheet to measure. That is the section, not an error.
+            if cut_between and mat == "timber" and any(
+                    w in lay["material"].lower() for w in ("joist", "rafter")):
+                continue
+            # The schedule merges a member zone into the material that fills it — a
+            # 100mm quilt in a 220mm joist zone is stored as one 220mm band, and the
+            # note on the record says so. A section that draws the quilt at its real
+            # thickness is right, so accept the figure the clause sentence gives too.
+            wants = [t] + [v for v in nums(lay.get("read_from") or "") if v > 0]
+            if not any(matches(w, by_mat[mat]) for w in wants):
                 problems.append(
                     "%s %s: clause gives %g %s (%s); the sheet draws it at %s"
                     % (ref, rec["title"][:34], t, mat, lay["material"][:34],
@@ -732,16 +763,23 @@ MATERIAL_NAMES = {
 # ---------------------------------------------------------------- schedule
 
 def load_schedule():
-    """The build-ups the sheets reference, keyed by their reference on the drawing."""
+    """The build-ups the sheets reference, keyed by source file then by reference.
+
+    References are per job, not fixed library codes, so EW1 on the loft sheets is a
+    different build-up to EW1 on the extension sheets. Keying by the file the sheet
+    came from is what keeps them apart.
+    """
     data = json.load(open(JSON_SRC, encoding="utf-8"))
     out = {}
-    for ref, (type_key, title) in BUILDUPS.items():
-        for rec in data["types"][type_key]["buildups"]:
-            if rec["title"] == title:
-                out[ref] = rec
-                break
-        else:
-            print("  ! %s: no build-up called %r in %s" % (ref, title, type_key))
+    for src, refs in BUILDUPS.items():
+        out[src] = {}
+        for ref, (type_key, title) in sorted(refs.items()):
+            for rec in data["types"][type_key]["buildups"]:
+                if rec["title"] == title:
+                    out[src][ref] = rec
+                    break
+            else:
+                print("  ! %s %s: no build-up called %r in %s" % (src, ref, title, type_key))
     return out
 
 
@@ -795,8 +833,8 @@ def main():
 
     if paper not in PAPER:
         sys.exit("paper must be a3 or a4")
-    if not os.path.exists(SVG_SRC):
-        sys.exit("missing %s" % SVG_SRC)
+    if not SVG_SRC:
+        sys.exit("no *-junctions.html in %s" % SVG_DIR)
     schedule = load_schedule()
     sheets = read_sheets(SVG_SRC, wanted or None)
     if not sheets:
