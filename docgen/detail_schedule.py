@@ -178,7 +178,7 @@ REACHES_INSTEAD = re.compile(
 # swallow a real layer.
 INFILLING = re.compile(r"(?:stud|rafter|joist)s?\s+depth\s+(?:filled|infilled|insulated|with)|"
                        r"filled with|infilled with|\binfill\b|between the (?:studs|joists|rafters)|"
-                       r"in the (?:stud|joist|rafter) void|in each frame|in the frames?\b",
+                       r"(?:stud|joist|rafter) void|in each frame|in the frames?\b",
                        re.I)
 
 
@@ -190,7 +190,7 @@ VENT_EQUIV = re.compile(r"equivalent to (?:a |an )?(?:continuous )?"
 LAYERS_OF = re.compile(r"\b(two|three|2|3)\s+layers\s+of\s+$", re.I)
 # A wall built as two separate frames with a gap between them.
 # Insulation at the floor edge rather than across it.
-PERIMETER = re.compile(r"perimeter (?:insulation|upstands?)|perimeter[^.]{0,20}upstand|"
+PERIMETER = re.compile(r"perimeter (?:insulation|upstands?|gaps?)|perimeter[^.]{0,20}upstand|"
                        r"insulation around floor edges|edge insulation", re.I)
 # A wall built as two of something with a gap between: two frames, or two masonry leaves.
 TWIN = re.compile(r"two independent frames|two leaves of", re.I)
