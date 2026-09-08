@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-08T01:58:34+00:00",
+ "generated": "2026-09-08T02:07:11+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [
@@ -45,25 +45,28 @@
        "read_from": "90mm SOPRATHERM GA4000 "
       },
       {
-       "t": 25,
-       "material": "perimeter upstand insulation carried around the full edge",
-       "hatch": "ins",
-       "read_from": "25mm perimeter upstand insulation carried around the full edge of the floor"
-      },
-      {
        "t": 75,
        "material": "sand",
        "hatch": "screed",
        "read_from": "75mm sand and cement screed"
       }
      ],
-     "total_mm": 340,
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter upstand insulation carried around the full edge",
+       "hatch": "ins",
+       "read_from": "25mm perimeter upstand insulation carried around the full edge of the floor"
+      }
+     ],
+     "total_mm": 315,
      "extraction_notes": [
       "not a layer — 450mm reads as a spacing, a level, working or an alternative construction: 'for both mesh and bar'",
       "not a layer — 40mm reads as a spacing, a level, working or an alternative construction: 'cover to the concrete'",
       "not treated as a layer: 'and sealed at all joints and linked to the wall damp pro'",
       "not a layer — 65mm is the alternative to the figure before it: 'where reinforced'",
-      "not a layer — 90mm reads as a spacing, a level, working or an alternative construction: 'calculates at 0'"
+      "not a layer — 90mm reads as a spacing, a level, working or an alternative construction: 'calculates at 0'",
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -85,6 +88,7 @@
      "u_target": null,
      "standard": "Wall + 300 × 225, 1000 deep",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "not a layer — 1000mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'",
@@ -110,6 +114,7 @@
      "u_target": null,
      "standard": "Wall + 300 wide, 1000 deep",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "skipped 750mm thick — too thick to be a layer",
@@ -140,6 +145,7 @@
      "u_target": null,
      "standard": "0.30 W/m²K",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'above finished ground level so the damp proof course'"
@@ -192,6 +198,7 @@
        "read_from": "12.5mm plasterboard on dabs"
       }
      ],
+     "edge": [],
      "total_mm": 315.5,
      "extraction_notes": [
       "not a layer — 10mm restates a cavity already read: 'residual cavity'",
@@ -249,6 +256,7 @@
        "read_from": "12.5mm plasterboard on dabs"
       }
      ],
+     "edge": [],
      "total_mm": 365.5,
      "extraction_notes": [
       "not a layer — 450mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'vertical and 900mm horizontal centres and an air'"
@@ -282,6 +290,7 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard "
       }
      ],
+     "edge": [],
      "total_mm": 287.5,
      "extraction_notes": [
       "not a layer — 62.5mm is the alternative to the figure before it: 'to an uninsulated cavity wall'",
@@ -338,6 +347,7 @@
        "read_from": "12.5mm plasterboard internal finish"
       }
      ],
+     "edge": [],
      "total_mm": 314.5,
      "extraction_notes": [
       "not treated as a layer: 'centres to the frame designer's specification'",
@@ -378,6 +388,7 @@
        "read_from": "12.5mm plasterboard with joints staggered and all perimeters sealed"
       }
      ],
+     "edge": [],
      "total_mm": 114.0,
      "extraction_notes": [
       "not treated as a layer: 'centres with head and sole plates'",
@@ -417,6 +428,7 @@
        "read_from": "12.5mm plasterboard on dabs"
       }
      ],
+     "edge": [],
      "total_mm": 125.0,
      "extraction_notes": [
       "lining mirrored to the other face - the clause lines both faces with it"
@@ -455,6 +467,7 @@
        "read_from": "12.5mm plasterboard to BS EN 520 lining both faces of 50mm minimum galvanised "
       }
      ],
+     "edge": [],
      "total_mm": 75.0,
      "extraction_notes": [
       "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'centres'",
@@ -506,20 +519,24 @@
        "read_from": "90mm Kingspan Kooltherm K103 Floorboard "
       },
       {
-       "t": 25,
-       "material": "perimeter upstand",
-       "hatch": "ins",
-       "read_from": "25mm perimeter upstand"
-      },
-      {
        "t": 65,
        "material": "minimum sand/cement screed",
        "hatch": "screed",
        "read_from": "65mm minimum sand/cement screed or a floating floor deck"
       }
      ],
-     "total_mm": 430,
-     "extraction_notes": [],
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter upstand",
+       "hatch": "ins",
+       "read_from": "25mm perimeter upstand"
+      }
+     ],
+     "total_mm": 405,
+     "extraction_notes": [
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
+     ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
@@ -551,6 +568,7 @@
        "read_from": "150mm slab"
       }
      ],
+     "edge": [],
      "total_mm": 300,
      "extraction_notes": [],
      "verified_table": null,
@@ -592,7 +610,9 @@
        "material": "minimum GEN1 ground-bearing concrete slab over",
        "hatch": "conc",
        "read_from": "100mm minimum GEN1 ground-bearing concrete slab over"
-      },
+      }
+     ],
+     "edge": [
       {
        "t": 25,
        "material": "perimeter insulation upstand to the full depth",
@@ -600,8 +620,10 @@
        "read_from": "25mm perimeter insulation upstand to the full depth of the slab at all abutm"
       }
      ],
-     "total_mm": 425,
-     "extraction_notes": [],
+     "total_mm": 400,
+     "extraction_notes": [
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
+     ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
@@ -637,22 +659,25 @@
        "read_from": "80mm Kingspan Kooltherm K103 Floorboard "
       },
       {
-       "t": 25,
-       "material": "perimeter insulation around floor edges to reduce thermal bridging",
-       "hatch": "ins",
-       "read_from": "25mm perimeter insulation around floor edges to reduce thermal bridging"
-      },
-      {
        "t": 65,
        "material": "minimum sand/cement screed",
        "hatch": "screed",
        "read_from": "65mm minimum sand/cement screed"
       }
      ],
-     "total_mm": 320,
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter insulation around floor edges to reduce thermal bridging",
+       "hatch": "ins",
+       "read_from": "25mm perimeter insulation around floor edges to reduce thermal bridging"
+      }
+     ],
+     "total_mm": 295,
      "extraction_notes": [
       "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'to a minimum finished thickness of 150mm'",
-      "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'lapped and sealed joints'"
+      "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'lapped and sealed joints'",
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
      ],
      "verified_table": "GF1",
      "stud_core": null,
@@ -694,6 +719,7 @@
        "read_from": "18mm moisture resistant tongued and grooved flooring grade board"
       }
      ],
+     "edge": [],
      "total_mm": 268,
      "extraction_notes": [
       "not a layer — 400mm reads as a spacing, a level, working or an alternative construction: 'centres'",
@@ -736,6 +762,7 @@
        "read_from": "18mm moisture resistant tongued and grooved flooring grade board"
       }
      ],
+     "edge": [],
      "total_mm": 280.5,
      "extraction_notes": [
       "not treated as a layer: 'centres'",
@@ -780,6 +807,7 @@
        "read_from": "18mm or 22mm moisture resistant tongued and grooved flooring grade board"
       }
      ],
+     "edge": [],
      "total_mm": 250.5,
      "extraction_notes": [
       "not treated as a layer: 'centres'",
@@ -824,6 +852,7 @@
        "read_from": "300mm mineral wool quilt laid cross-wise over the joists"
       }
      ],
+     "edge": [],
      "total_mm": 412.5,
      "extraction_notes": [
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'",
@@ -868,6 +897,7 @@
        "read_from": "50mm ventilated air gap above the insulation with ventilation equivalent to "
       }
      ],
+     "edge": [],
      "total_mm": 262.5,
      "extraction_notes": [
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres'",
@@ -911,6 +941,7 @@
        "read_from": "150mm Kingspan Thermaroof TR27 insulation "
       }
      ],
+     "edge": [],
      "total_mm": 368,
      "extraction_notes": [
       "not treated as a layer: 'centres'",
@@ -959,6 +990,7 @@
        "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped"
       }
      ],
+     "edge": [],
      "total_mm": 195.5,
      "extraction_notes": [
       "not treated as a layer: 'centres with the full stud depth filled with'",
@@ -1000,6 +1032,7 @@
        "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped"
       }
      ],
+     "edge": [],
      "total_mm": 195.5,
      "extraction_notes": [
       "not treated as a layer: 'centres with the full depth filled with 140mm'",
@@ -1047,6 +1080,7 @@
        "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped"
       }
      ],
+     "edge": [],
      "total_mm": 220.5,
      "extraction_notes": [
       "not treated as a layer: 'centres with the full stud depth filled with'"
@@ -1081,6 +1115,7 @@
        "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard to the room face"
       }
      ],
+     "edge": [],
      "total_mm": 126.5,
      "extraction_notes": [
       "skipped 1050mm to 1200mm high as the sections — too thick to be a layer",
@@ -1117,6 +1152,7 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs or on treated ba"
       }
      ],
+     "edge": [],
      "total_mm": 287.5,
      "extraction_notes": [
       "not treated as a layer: 'calculates at 0'",
@@ -1155,6 +1191,7 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to th"
       }
      ],
+     "edge": [],
      "total_mm": 287.5,
      "extraction_notes": [
       "not a layer — 100mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'single-leaf block wall at 0'",
@@ -1212,6 +1249,7 @@
        "read_from": "90mm board in a 100mm cavity leaves only a 10mm residual cavity"
       }
      ],
+     "edge": [],
      "total_mm": 302.5,
      "extraction_notes": [
       "not a layer — 100mm restates a cavity already read: 'cavity'"
@@ -1260,6 +1298,7 @@
        "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped and sk"
       }
      ],
+     "edge": [],
      "total_mm": 326.5,
      "extraction_notes": [
       "not treated as a layer: 'centres with head and sole plates and noggins'",
@@ -1303,6 +1342,7 @@
        "read_from": "12.5mm fire-rated plasterboard each face with all joints taped and filled and "
       }
      ],
+     "edge": [],
      "total_mm": 114.0,
      "extraction_notes": [
       "not treated as a layer: 'centres'",
@@ -1343,6 +1383,7 @@
        "read_from": "12.5mm plasterboard with joints staggered and all perimeters sealed"
       }
      ],
+     "edge": [],
      "total_mm": 114.0,
      "extraction_notes": [
       "not treated as a layer: 'centres with head and sole plates and solid n'",
@@ -1383,6 +1424,7 @@
        "read_from": "22mm moisture resistant tongued and grooved flooring grade board"
       }
      ],
+     "edge": [],
      "total_mm": 267,
      "extraction_notes": [
       "not treated as a layer: 'centres'",
@@ -1427,6 +1469,7 @@
        "read_from": "150mm Kingspan Thermaroof TR27 insulation "
       }
      ],
+     "edge": [],
      "total_mm": 368,
      "extraction_notes": [
       "not treated as a layer: 'centres'",
@@ -1463,6 +1506,7 @@
        "read_from": "150mm Kingspan Kooltherm K107 Pitched Roof Board "
       }
      ],
+     "edge": [],
      "total_mm": 212.5,
      "extraction_notes": [
       "not treated as a layer: 'centres to the structural engineer's desig'",
@@ -1506,6 +1550,7 @@
        "read_from": "50mm ventilated gap above the board where a non-breathable underlay is prese"
       }
      ],
+     "edge": [],
      "total_mm": 247.5,
      "extraction_notes": [
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'rafter centres with K107 at a thermal conductivi'",
@@ -1546,6 +1591,7 @@
        "read_from": "300mm mineral wool quilt laid cross-wise over the joists"
       }
      ],
+     "edge": [],
      "total_mm": 400,
      "extraction_notes": [
       "not a layer — 400mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'centres'",
@@ -1600,6 +1646,7 @@
        "read_from": "12.5mm plasterboard of minimum mass 10 kg/m²"
       }
      ],
+     "edge": [],
      "total_mm": 335,
      "extraction_notes": [
       "12.5mm is two layers of it, so the band is 25mm",
@@ -1656,6 +1703,7 @@
        "read_from": "12.5mm plasterboard"
       }
      ],
+     "edge": [],
      "total_mm": 240,
      "extraction_notes": [
       "not a layer — 89mm is a member named inside another phrase: 'x 38mm timber studs'",
@@ -1700,6 +1748,7 @@
        "read_from": "65mm sand and cement screed reinforced with mesh"
       }
      ],
+     "edge": [],
      "total_mm": 225,
      "extraction_notes": [
       "not a layer — 25mm is an alternative or a continuation: 'mineral wool board with the edges turned up at every'",
@@ -1722,6 +1771,7 @@
      "u_target": null,
      "standard": "43 / 64 dB",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [],
      "verified_table": null,
@@ -1773,6 +1823,7 @@
        "read_from": "18mm tongued and grooved board on 19mm plank flooring"
       }
      ],
+     "edge": [],
      "total_mm": 307,
      "extraction_notes": [
       "not treated as a layer: 'centres and to be confirmed on site'",
@@ -1807,6 +1858,7 @@
        "read_from": "100mm expanded polystyrene of 0"
       }
      ],
+     "edge": [],
      "total_mm": 100,
      "extraction_notes": [
       "not a layer — 100mm is the alternative to the figure before it: 'mineral wool slab of 0'",
@@ -1842,6 +1894,7 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard "
       }
      ],
+     "edge": [],
      "total_mm": 287.5,
      "extraction_notes": [
       "not a layer — 62.5mm is the alternative to the figure before it: 'to an uninsulated cavity wall'",
@@ -1881,6 +1934,7 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to th"
       }
      ],
+     "edge": [],
      "total_mm": 287.5,
      "extraction_notes": [
       "not treated as a layer: 'wall'",
@@ -1922,6 +1976,7 @@
        "read_from": "12.5mm plasterboard"
       }
      ],
+     "edge": [],
      "total_mm": 114.0,
      "extraction_notes": [
       "not treated as a layer: 'centres with head and sole plates and solid n'",
@@ -1949,12 +2004,6 @@
        "read_from": "80mm Kingspan Kooltherm K103 Floorboard "
       },
       {
-       "t": 25,
-       "material": "perimeter upstands",
-       "hatch": "ins",
-       "read_from": "25mm perimeter upstands"
-      },
-      {
        "t": 22,
        "material": "tongued and grooved P5 chipboard as a floating floor with a 10mm perim",
        "hatch": "timber",
@@ -1967,10 +2016,19 @@
        "read_from": "10mm perimeter gap"
       }
      ],
-     "total_mm": 137,
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter upstands",
+       "hatch": "ins",
+       "read_from": "25mm perimeter upstands"
+      }
+     ],
+     "total_mm": 112,
      "extraction_notes": [
       "not a layer — 65mm is the alternative to the figure before it: 'screed where headroom allows and the slab will c'",
-      "not a layer — 60mm reads as a spacing, a level, working or an alternative construction: 'calculates at 0'"
+      "not a layer — 60mm reads as a spacing, a level, working or an alternative construction: 'calculates at 0'",
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -2002,6 +2060,7 @@
        "read_from": "22mm P5 chipboard deck"
       }
      ],
+     "edge": [],
      "total_mm": 172,
      "extraction_notes": [
       "not treated as a layer: 'centres and to be confirmed on site'",
@@ -2043,6 +2102,7 @@
        "read_from": "130mm Kingspan Thermaroof TR26 LPC/FM "
       }
      ],
+     "edge": [],
      "total_mm": 348,
      "extraction_notes": [
       "not treated as a layer: 'centres and to be confirmed on site'",
@@ -2085,6 +2145,7 @@
        "read_from": "50mm ventilated gap remains above the board where the underlay is "
       }
      ],
+     "edge": [],
      "total_mm": 237.5,
      "extraction_notes": [
       "not a layer — 150mm deepens a member already in the build-up: 'where necessary so that a 50mm ventilated gap re'",
@@ -2126,6 +2187,7 @@
        "read_from": "300mm mineral wool quilt laid cross-wise over them"
       }
      ],
+     "edge": [],
      "total_mm": 400,
      "extraction_notes": [
       "not a layer — 400mm reads as a spacing, a level, working or an alternative construction: 'calculates at 0'",
@@ -2152,6 +2214,7 @@
      "u_target": null,
      "standard": "Wall + 300 × 225, 1000 deep",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "not a layer — 1000mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'",
@@ -2177,6 +2240,7 @@
      "u_target": null,
      "standard": "Wall + 300 wide, 1000 deep",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "skipped 750mm thick — too thick to be a layer",
@@ -2232,6 +2296,7 @@
        "read_from": "62.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs with a continuou"
       }
      ],
+     "edge": [],
      "total_mm": 315.5,
      "extraction_notes": [
       "not a layer - 37.5mm is in a sentence offering another way to build it: 'insulated plasterboard'",
@@ -2268,6 +2333,7 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to th"
       }
      ],
+     "edge": [],
      "total_mm": 172.5,
      "extraction_notes": [
       "not a layer — 215mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'brick wall at 0'",
@@ -2298,6 +2364,7 @@
        "read_from": "100mm expanded polystyrene of 0"
       }
      ],
+     "edge": [],
      "total_mm": 100,
      "extraction_notes": [
       "not a layer — 100mm is the alternative to the figure before it: 'mineral wool of 0'",
@@ -2346,6 +2413,7 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard fixed on battens over th"
       }
      ],
+     "edge": [],
      "total_mm": 275.0,
      "extraction_notes": [
       "not a layer — 215mm is an alternative or a continuation: 'brick single-leaf wall to be retained'",
@@ -2392,6 +2460,7 @@
        "read_from": "12.5mm plasterboard on dabs"
       }
      ],
+     "edge": [],
      "total_mm": 212.5,
      "extraction_notes": [
       "not a layer — 102mm is an alternative or a continuation: 'brick wall as the outer leaf and build a new 100mm a'",
@@ -2430,6 +2499,7 @@
        "read_from": "52.5mm insulated plasterboard on dabs where the cavity is 50mm"
       }
      ],
+     "edge": [],
      "total_mm": 102.5,
      "extraction_notes": [
       "not a layer — 12.5mm is the alternative to the figure before it: 'plasterboard on dabs where the cavity is 100mm o'",
@@ -2488,6 +2558,7 @@
        "read_from": "12.5mm plasterboard on dabs"
       }
      ],
+     "edge": [],
      "total_mm": 315.5,
      "extraction_notes": [
       "not a layer — 10mm restates a cavity already read: 'residual cavity'",
@@ -2529,6 +2600,7 @@
        "read_from": "37.5mm insulated plasterboard with a vapour control layer"
       }
      ],
+     "edge": [],
      "total_mm": 252.5,
      "extraction_notes": [
       "not a layer — 100mm is the alternative to the figure before it: 'dense blockwork rendered to match'",
@@ -2592,6 +2664,7 @@
        "read_from": "37.5mm insulated plasterboard incorporating a vapour control layer"
       }
      ],
+     "edge": [],
      "total_mm": 479.5,
      "extraction_notes": [
       "not treated as a layer: 'centres with head and sole plates and noggins'",
@@ -2635,6 +2708,7 @@
        "read_from": "12.5mm plasterboard each side"
       }
      ],
+     "edge": [],
      "total_mm": 150,
      "extraction_notes": [
       "not treated as a layer: 'centres with 100mm mineral wool infill of 33 kg/m'",
@@ -2680,23 +2754,26 @@
        "read_from": "100mm Kingspan Thermafloor TF70 "
       },
       {
-       "t": 25,
-       "material": "perimeter upstand insulation to all external walls",
-       "hatch": "ins",
-       "read_from": "25mm perimeter upstand insulation to all external walls"
-      },
-      {
        "t": 65,
        "material": "sand",
        "hatch": "screed",
        "read_from": "65mm sand and cement screed reinforced with a polypropylene fibre or D49 mes"
       }
      ],
-     "total_mm": 190,
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter upstand insulation to all external walls",
+       "hatch": "ins",
+       "read_from": "25mm perimeter upstand insulation to all external walls"
+      }
+     ],
+     "total_mm": 165,
      "extraction_notes": [
       "not a layer — 10mm reads as a spacing, a level, working or an alternative construction: 'over 3m and free of oil contamination'",
       "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'below the house floor and were rarely laid on a damp'",
-      "not treated as a layer: 'added by this build-up usually brings the finished floor'"
+      "not treated as a layer: 'added by this build-up usually brings the finished floor'",
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -2735,6 +2812,7 @@
        "read_from": "10mm expansion gap at the perimeter behind the skirting"
       }
      ],
+     "edge": [],
      "total_mm": 112,
      "extraction_notes": [
       "not a layer — 400mm reads as a spacing, a level, working or an alternative construction: 'centres between insulation strips'"
@@ -2775,12 +2853,6 @@
        "read_from": "100mm Kingspan Thermafloor TF70 with 25mm perimeter upstands"
       },
       {
-       "t": 25,
-       "material": "perimeter upstands",
-       "hatch": "ins",
-       "read_from": "25mm perimeter upstands"
-      },
-      {
        "t": 100,
        "material": "minimum GEN1 concrete slab reinforced",
        "hatch": "conc",
@@ -2793,8 +2865,18 @@
        "read_from": "65mm screed or a timber deck as GF2"
       }
      ],
-     "total_mm": 490,
-     "extraction_notes": [],
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter upstands",
+       "hatch": "ins",
+       "read_from": "25mm perimeter upstands"
+      }
+     ],
+     "total_mm": 465,
+     "extraction_notes": [
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
+     ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
@@ -2825,6 +2907,7 @@
        "fill_t": 100.0
       }
      ],
+     "edge": [],
      "total_mm": 222.5,
      "extraction_notes": [
       "not a layer — 25mm reads as a spacing, a level, working or an alternative construction: 'openings along two opposite eaves'",
@@ -2871,6 +2954,7 @@
        "read_from": "130mm Kingspan Thermaroof TR26 LPC/FM "
       }
      ],
+     "edge": [],
      "total_mm": 348,
      "extraction_notes": [
       "not treated as a layer: 'centres and to be confirmed on site'",
@@ -2915,6 +2999,7 @@
        "read_from": "200mm laid cross-wise over the joists"
       }
      ],
+     "edge": [],
      "total_mm": 312.5,
      "extraction_notes": [
       "200mm continues the wool laid below it: 'laid cross-wise over the joists'",
@@ -2958,6 +3043,7 @@
        "read_from": "50mm ventilated gap remains above the board under a non-breathable underlay "
       }
      ],
+     "edge": [],
      "total_mm": 222.5,
      "extraction_notes": [
       "not a layer — 125mm deepens a member already in the build-up: 'by counter-battens or bolted deepening pieces wh'",
@@ -3003,6 +3089,7 @@
        "read_from": "150mm Kingspan Thermaroof TR27 LPC/FM "
       }
      ],
+     "edge": [],
      "total_mm": 368,
      "extraction_notes": [
       "not treated as a layer: 'centres to the structural engineer's design'",
@@ -3030,6 +3117,7 @@
      "u_target": null,
      "standard": "Wall + 300 × 225, 1000 deep",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "not a layer — 1000mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'",
@@ -3055,6 +3143,7 @@
      "u_target": null,
      "standard": "Wall + 300 wide, 1000 deep",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "skipped 750mm thick — too thick to be a layer",
@@ -3116,6 +3205,7 @@
        "read_from": "12.5mm plasterboard on dabs with a continuous adhesive ribbon at the perimeter"
       }
      ],
+     "edge": [],
      "total_mm": 295.5,
      "extraction_notes": [
       "the second leaf drawn — the clause states two of them and describes one"
@@ -3163,6 +3253,7 @@
        "read_from": "12.5mm plasterboard on dabs with a continuous ribbon of adhesive at the perime"
       }
      ],
+     "edge": [],
      "total_mm": 315.5,
      "extraction_notes": [
       "not a layer — 450mm reads as a spacing, a level, working or an alternative construction: 'vertical and 900mm horizontal centres'",
@@ -3220,6 +3311,7 @@
        "read_from": "12.5mm plasterboard on dabs"
       }
      ],
+     "edge": [],
      "total_mm": 365.5,
      "extraction_notes": [
       "not a layer — 50mm restates a cavity already read: 'clear residual cavity maintained'",
@@ -3279,6 +3371,7 @@
        "read_from": "25mm service void is wanted for the cabling it is to be formed on the room s"
       }
      ],
+     "edge": [],
      "total_mm": 364.5,
      "extraction_notes": [
       "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'horizontal and 375mm vertical centres'",
@@ -3324,6 +3417,7 @@
        "read_from": "12.5mm plasterboard on dabs or 13mm plaster"
       }
      ],
+     "edge": [],
      "total_mm": 125.0,
      "extraction_notes": [
       "not a layer — 13mm is an alternative or a continuation: 'plaster'",
@@ -3365,6 +3459,7 @@
        "read_from": "12.5mm plasterboard of not less than 10 kg/m² each side"
       }
      ],
+     "edge": [],
      "total_mm": 114.0,
      "extraction_notes": [
       "not treated as a layer: 'centres with head and sole plates and solid n'",
@@ -3407,23 +3502,26 @@
        "read_from": "130mm Kingspan Kooltherm K103 Floorboard "
       },
       {
-       "t": 25,
-       "material": "perimeter upstand insulation",
-       "hatch": "ins",
-       "read_from": "25mm perimeter upstand insulation"
-      },
-      {
        "t": 75,
        "material": "sand",
        "hatch": "screed",
        "read_from": "75mm sand and cement screed with underfloor heating pipes where specified"
       }
      ],
-     "total_mm": 480,
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter upstand insulation",
+       "hatch": "ins",
+       "read_from": "25mm perimeter upstand insulation"
+      }
+     ],
+     "total_mm": 455,
      "extraction_notes": [
       "not a layer - 100mm is in a sentence offering another way to build it: 'concrete on hardcore may be used to cover it'",
       "not a layer - 50mm is in a sentence offering another way to build it: 'concrete on a damp proof membrane where grou'",
-      "not a layer — 130mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'and at 0'"
+      "not a layer — 130mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'and at 0'",
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -3467,20 +3565,24 @@
        "read_from": "130mm Kingspan Kooltherm K103 Floorboard with 25mm perimeter upstands"
       },
       {
-       "t": 25,
-       "material": "perimeter upstands",
-       "hatch": "ins",
-       "read_from": "25mm perimeter upstands"
-      },
-      {
        "t": 75,
        "material": "screed",
        "hatch": "screed",
        "read_from": "75mm screed"
       }
      ],
-     "total_mm": 530,
-     "extraction_notes": [],
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter upstands",
+       "hatch": "ins",
+       "read_from": "25mm perimeter upstands"
+      }
+     ],
+     "total_mm": 505,
+     "extraction_notes": [
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
+     ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
@@ -3523,6 +3625,7 @@
        "read_from": "100mm concrete on compacted hardcore or 50mm concrete on a 1200 g"
       }
      ],
+     "edge": [],
      "total_mm": 492,
      "extraction_notes": [
       "not treated as a layer: 'centres to the engineer's design on treated'",
@@ -3566,6 +3669,7 @@
        "read_from": "22mm tongued and grooved P5 chipboard glued at all joints and screwed to the"
       }
      ],
+     "edge": [],
      "total_mm": 254.5,
      "extraction_notes": [
       "not a layer — 400mm is an alternative or a continuation: 'or 600'",
@@ -3609,6 +3713,7 @@
        "read_from": "100mm K107 laid over the rafters as a continuous sarking layer with the joint"
       }
      ],
+     "edge": [],
      "total_mm": 262.5,
      "extraction_notes": [
       "not treated as a layer: 'centres'",
@@ -3652,6 +3757,7 @@
        "read_from": "50mm ventilated gap above the insulation is required and the rafter depth in"
       }
      ],
+     "edge": [],
      "total_mm": 322.5,
      "extraction_notes": [
       "not treated as a layer: 'centres to the engineer's design'",
@@ -3693,6 +3799,7 @@
        "read_from": "300mm laid cross-wise over"
       }
      ],
+     "edge": [],
      "total_mm": 412.5,
      "extraction_notes": [
       "300mm continues the wool laid below it: 'laid cross-wise over'",
@@ -3739,6 +3846,7 @@
        "read_from": "200mm Kingspan Thermaroof TR26 LPC/FM "
       }
      ],
+     "edge": [],
      "total_mm": 418,
      "extraction_notes": [
       "not treated as a layer: 'centres to the engineer's design'",
@@ -3766,6 +3874,7 @@
      "u_target": null,
      "standard": "Wall + 300 × 225, 1000 deep",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "not a layer — 1000mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'",
@@ -3791,6 +3900,7 @@
      "u_target": null,
      "standard": "Wall + 300 wide, 1000 deep",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "skipped 750mm thick — too thick to be a layer",
@@ -3852,6 +3962,7 @@
        "read_from": "12.5mm plasterboard on dabs to each face with a continuous perimeter ribbon "
       }
      ],
+     "edge": [],
      "total_mm": 300.0,
      "extraction_notes": [
       "not a layer — 13mm is the alternative to the figure before it: 'plaster where the Robust Detail requires a wet f'",
@@ -3909,6 +4020,7 @@
        "read_from": "12.5mm plasterboard of not less than 22 kg/m² total on each face "
       }
      ],
+     "edge": [],
      "total_mm": 240,
      "extraction_notes": [
       "not a layer — 89mm is the alternative to the figure before it: 'x 38mm timber studs'",
@@ -3941,6 +4053,7 @@
        "read_from": "215mm dense blockwork or two leaves of 100mm blockwork as the separating wall"
       }
      ],
+     "edge": [],
      "total_mm": 215,
      "extraction_notes": [
       "not a layer — 100mm is an alternative or a continuation: 'blockwork as the separating wall build-up'"
@@ -3986,6 +4099,7 @@
        "read_from": "150mm or 225mm precast prestressed concrete beams with dense aggregate infill"
       }
      ],
+     "edge": [],
      "total_mm": 277.5,
      "extraction_notes": [
       "not a layer — 100mm is an alternative or a continuation: 'mineral wool in the void'",
@@ -4039,6 +4153,7 @@
        "read_from": "100mm mineral wool in the void"
       }
      ],
+     "edge": [],
      "total_mm": 337.5,
      "extraction_notes": [],
      "verified_table": null,
@@ -4084,6 +4199,7 @@
        "read_from": "25mm mineral wool board or more"
       }
      ],
+     "edge": [],
      "total_mm": 282,
      "extraction_notes": [
       "not a layer — 400mm is an alternative or a continuation: 'or 600mm centres to'",
@@ -4132,6 +4248,7 @@
        "read_from": "12.5mm plasterboard on dabs with a continuous adhesive ribbon at every perimet"
       }
      ],
+     "edge": [],
      "total_mm": 315.5,
      "extraction_notes": [
       "not a layer — 450mm reads as a spacing, a level, working or an alternative construction: 'vertical and 900mm horizontal centres'",
@@ -4189,6 +4306,7 @@
        "read_from": "12.5mm plasterboard"
       }
      ],
+     "edge": [],
      "total_mm": 428,
      "extraction_notes": [
       "not treated as a layer: 'cement particle or calcium silicate sheathing board'",
@@ -4244,6 +4362,7 @@
        "read_from": "37.5mm Kingspan Kooltherm K118 insulated plasterboard with joints taped"
       }
      ],
+     "edge": [],
      "total_mm": 339.5,
      "extraction_notes": [
       "not treated as a layer: 'horizontal and 375mm vertical centres'",
@@ -4290,6 +4409,7 @@
        "read_from": "12.5mm plasterboard of not less than 10 kg/m² each side with joints staggered"
       }
      ],
+     "edge": [],
      "total_mm": 95.0,
      "extraction_notes": [
       "not a layer — 89mm is a member named inside another phrase: 'x 38mm timber studs at 400mm or 600mm cen'",
@@ -4330,23 +4450,26 @@
        "read_from": "130mm Kingspan Kooltherm K103 Floorboard "
       },
       {
-       "t": 25,
-       "material": "perimeter upstands",
-       "hatch": "ins",
-       "read_from": "25mm perimeter upstands"
-      },
-      {
        "t": 75,
        "material": "screed",
        "hatch": "screed",
        "read_from": "75mm screed"
       }
      ],
-     "total_mm": 380,
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter upstands",
+       "hatch": "ins",
+       "read_from": "25mm perimeter upstands"
+      }
+     ],
+     "total_mm": 355,
      "extraction_notes": [
       "not a layer — 130mm reads as a spacing, a level, working or an alternative construction: 'of the same board with a 15mm fire-rated soffit boar'",
       "not a layer — 15mm reads as a spacing, a level, working or an alternative construction: 'fire-rated soffit board calculates'",
-      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'at 0'"
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'at 0'",
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -4384,6 +4507,7 @@
        "read_from": "22mm tongued and grooved P5 chipboard glued and screwed"
       }
      ],
+     "edge": [],
      "total_mm": 254.5,
      "extraction_notes": [
       "not a layer — 400mm is an alternative or a continuation: 'or 600mm centres'",
@@ -4426,6 +4550,7 @@
        "read_from": "300mm laid over"
       }
      ],
+     "edge": [],
      "total_mm": 412.5,
      "extraction_notes": [
       "300mm continues the wool laid below it: 'laid over'",
@@ -4455,6 +4580,7 @@
        "read_from": "200mm Kingspan Thermaroof TR26 LPC/FM "
       }
      ],
+     "edge": [],
      "total_mm": 200,
      "extraction_notes": [
       "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands'",
@@ -4494,6 +4620,7 @@
        "read_from": "72.5mm Kingspan Kooltherm K118 insulated plasterboard on dabs or battens to a "
       }
      ],
+     "edge": [],
      "total_mm": 287.5,
      "extraction_notes": [
       "not a layer — 62.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'",
@@ -4516,6 +4643,7 @@
      "u_target": null,
      "standard": "0.26 W/m²K / REI 60",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "not a layer — 72.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'Kingspan Kooltherm K118 insulated plasterboard o'"
@@ -4556,6 +4684,7 @@
        "read_from": "12.5mm plasterboard each side with joints tape"
       }
      ],
+     "edge": [],
      "total_mm": 95.0,
      "extraction_notes": [
       "not a layer — 89mm is a member named inside another phrase: 'x 38mm treated timber studs at 600mm centres with th'",
@@ -4598,6 +4727,7 @@
        "fill_t": 100.0
       }
      ],
+     "edge": [],
      "total_mm": 245,
      "extraction_notes": [
       "not treated as a layer: 'centres and the existing size to be confirmed o'",
@@ -4649,6 +4779,7 @@
        "read_from": "200mm of room width on each wall and adds load to the slab"
       }
      ],
+     "edge": [],
      "total_mm": 387.5,
      "extraction_notes": [
       "not a layer — 50mm reads as a spacing, a level, working or an alternative construction: 'of board this build-up calculates at 0'",
@@ -4685,6 +4816,7 @@
        "read_from": "37.5mm insulated plasterboard lining with a vapour control layer"
       }
      ],
+     "edge": [],
      "total_mm": 107.5,
      "extraction_notes": [
       "not treated as a layer: 'clear of the membrane with 70mm Kingspan Kooltherm K112 '",
@@ -4727,6 +4859,7 @@
        "read_from": "12.5mm plasterboard skimmed"
       }
      ],
+     "edge": [],
      "total_mm": 412.5,
      "extraction_notes": [],
      "verified_table": null,
@@ -4760,6 +4893,7 @@
        "read_from": "12.5mm plasterboard"
       }
      ],
+     "edge": [],
      "total_mm": 112.5,
      "extraction_notes": [],
      "verified_table": null,
@@ -4810,6 +4944,7 @@
        "read_from": "65mm screed"
       }
      ],
+     "edge": [],
      "total_mm": 495,
      "extraction_notes": [
       "not a layer — 60mm reads as a spacing, a level, working or an alternative construction: 'of the same board with a 50mm proprietary screed cal'",
@@ -4851,23 +4986,26 @@
        "read_from": "100mm Kingspan Kooltherm K103 Floorboard "
       },
       {
-       "t": 25,
-       "material": "perimeter upstands",
-       "hatch": "ins",
-       "read_from": "25mm perimeter upstands"
-      },
-      {
        "t": 75,
        "material": "sand",
        "hatch": "screed",
        "read_from": "75mm sand and cement screed reinforced with fibres or D49 mesh"
       }
      ],
-     "total_mm": 450,
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter upstands",
+       "hatch": "ins",
+       "read_from": "25mm perimeter upstands"
+      }
+     ],
+     "total_mm": 425,
      "extraction_notes": [
       "not treated as a layer: 'compacted clean stone with a perimeter land drain where '",
       "not a layer — 8mm reads as a spacing, a level, working or an alternative construction: 'stud height with all joints taped'",
-      "not a layer — 500mm is a component, not a section: 'x 500mm x 700mm minimum set into the slab'"
+      "not a layer — 500mm is a component, not a section: 'x 500mm x 700mm minimum set into the slab'",
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
      ],
      "verified_table": null,
      "stud_core": null,
@@ -4892,6 +5030,7 @@
      "u_target": null,
      "standard": "Wall + 300 × 225, 1000 deep",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "not a layer — 1000mm reads as a spacing, a level, working or an alternative construction: 'below finished ground level'",
@@ -4917,6 +5056,7 @@
      "u_target": null,
      "standard": "Wall + 300 wide, 1000 deep",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "skipped 750mm thick — too thick to be a layer",
@@ -4960,6 +5100,7 @@
        "read_from": "12.5mm plasterboard on the garage side and one on the dwelling side with miner"
       }
      ],
+     "edge": [],
      "total_mm": 125,
      "extraction_notes": [
       "12.5mm is two layers of it, so the band is 25mm",
@@ -5014,6 +5155,7 @@
        "read_from": "100mm aircrete inner leaf of 0"
       }
      ],
+     "edge": [],
      "total_mm": 493,
      "extraction_notes": [
       "not a layer — 450mm reads as a spacing, a level, working or an alternative construction: 'vertical and 900mm horizontal centres and at not mor'",
@@ -5045,6 +5187,7 @@
        "read_from": "100mm dense concrete blockwork or 102"
       }
      ],
+     "edge": [],
      "total_mm": 100,
      "extraction_notes": [
       "not a layer — 102.5mm is an alternative or a continuation: 'facing brick in 1:1:6 mortar'",
@@ -5101,6 +5244,7 @@
        "read_from": "12.5mm plasterboard"
       }
      ],
+     "edge": [],
      "total_mm": 225.5,
      "extraction_notes": [
       "not treated as a layer: 'centres with head and sole plates and noggins'",
@@ -5149,6 +5293,7 @@
        "read_from": "225mm under any internal pier or where the slab carries the door post"
       }
      ],
+     "edge": [],
      "total_mm": 575,
      "extraction_notes": [
       "not treated as a layer: 'step or a proprietary threshold drainage channel at the '",
@@ -5178,20 +5323,24 @@
        "read_from": "100mm Kingspan Thermafloor TF70 "
       },
       {
-       "t": 25,
-       "material": "perimeter upstands",
-       "hatch": "ins",
-       "read_from": "25mm perimeter upstands"
-      },
-      {
        "t": 150,
        "material": "reinforced concrete over",
        "hatch": "conc",
        "read_from": "150mm reinforced concrete over"
       }
      ],
-     "total_mm": 275,
-     "extraction_notes": [],
+     "edge": [
+      {
+       "t": 25,
+       "material": "perimeter upstands",
+       "hatch": "ins",
+       "read_from": "25mm perimeter upstands"
+      }
+     ],
+     "total_mm": 250,
+     "extraction_notes": [
+      "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
+     ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
@@ -5221,6 +5370,7 @@
        "read_from": "100mm mineral wool between ceiling joists and 300mm over "
       }
      ],
+     "edge": [],
      "total_mm": 200,
      "extraction_notes": [
       "not treated as a layer: 'centres for clear spans up to 2'",
@@ -5260,6 +5410,7 @@
        "read_from": "18mm exterior grade plywood or OSB3 decking"
       }
      ],
+     "edge": [],
      "total_mm": 168,
      "extraction_notes": [
       "not treated as a layer: 'centres to span the garage with firrings to'",
@@ -5307,6 +5458,7 @@
        "read_from": "47mm x 200mm C24 joists at 400mm centres to the engineer's design"
       }
      ],
+     "edge": [],
      "total_mm": 380.5,
      "extraction_notes": [
       "not treated as a layer: 'centres to the engineer's design'",
@@ -5330,6 +5482,7 @@
      "u_target": null,
      "standard": "",
      "layers": [],
+     "edge": [],
      "total_mm": null,
      "extraction_notes": [
       "not a layer — 600mm reads as a spacing, a level, working or an alternative construction: 'centres on a 100mm x 50mm wall plate bedded and stra'",

@@ -27,15 +27,16 @@ with the layers read out of its clause and the clause itself underneath.
 |---|---|---|---|
 | 1 | of well consolidated hardcore capable | **150** | `hard` |
 | 2 | SOPRATHERM GA4000 | **90** | `ins` |
-| 3 | perimeter upstand insulation carried around the full edge | **25** | `ins` |
-| 4 | sand | **75** | `screed` |
-| | **Extracted total** | **340** | |
+| 3 | sand | **75** | `screed` |
+| | **Extracted total** | **315** | |
+| e | perimeter upstand insulation carried around the full edge *(at the floor edge, not in the total)* | 25 | `ins` |
 
 - ⚠ not a layer — 450mm reads as a spacing, a level, working or an alternative construction: 'for both mesh and bar'
 - ⚠ not a layer — 40mm reads as a spacing, a level, working or an alternative construction: 'cover to the concrete'
 - ⚠ not treated as a layer: 'and sealed at all joints and linked to the wall damp pro'
 - ⚠ not a layer — 65mm is the alternative to the figure before it: 'where reinforced'
 - ⚠ not a layer — 90mm reads as a spacing, a level, working or an alternative construction: 'calculates at 0'
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -413,9 +414,11 @@ Provide proprietary fixing plates or timber pattresses at all fixings for sanita
 | 1 | clear ventilated void | **150** | `void` |
 | 2 | infill blocks laid between | **100** | `dense` |
 | 3 | Kingspan Kooltherm K103 Floorboard | **90** | `ins` |
-| 4 | perimeter upstand | **25** | `ins` |
-| 5 | minimum sand/cement screed | **65** | `screed` |
-| | **Extracted total** | **430** | |
+| 4 | minimum sand/cement screed | **65** | `screed` |
+| | **Extracted total** | **405** | |
+| e | perimeter upstand *(at the floor edge, not in the total)* | 25 | `ins` |
+
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -475,8 +478,10 @@ Provide a minimum 150mm clear ventilated void beneath with through ventilation t
 | 2 | sand | **50** | `screed` |
 | 3 | Kingspan Thermafloor TF70 below the slab | **100** | `ins` |
 | 4 | minimum GEN1 ground-bearing concrete slab over | **100** | `conc` |
-| 5 | perimeter insulation upstand to the full depth | **25** | `ins` |
-| | **Extracted total** | **425** | |
+| | **Extracted total** | **400** | |
+| e | perimeter insulation upstand to the full depth *(at the floor edge, not in the total)* | 25 | `ins` |
+
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -506,12 +511,13 @@ Continue 25mm perimeter insulation upstand to the full depth of the slab at all 
 | 1 | of sand | **50** | `screed` |
 | 2 | in GEN1 or RC20 concrete | **100** | `conc` |
 | 3 | Kingspan Kooltherm K103 Floorboard | **80** | `ins` |
-| 4 | perimeter insulation around floor edges to reduce thermal bridging | **25** | `ins` |
-| 5 | minimum sand/cement screed | **65** | `screed` |
-| | **Extracted total** | **320** | |
+| 4 | minimum sand/cement screed | **65** | `screed` |
+| | **Extracted total** | **295** | |
+| e | perimeter insulation around floor edges to reduce thermal bridging *(at the floor edge, not in the total)* | 25 | `ins` |
 
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'to a minimum finished thickness of 150mm'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'lapped and sealed joints'
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -1549,13 +1555,14 @@ Internal stud partition to comprise 89mm x 38mm C16 studs at 400mm centres with 
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | Kingspan Kooltherm K103 Floorboard | **80** | `ins` |
-| 2 | perimeter upstands | **25** | `ins` |
-| 3 | tongued and grooved P5 chipboard as a floating floor with a 10mm perim | **22** | `timber` |
-| 4 | perimeter gap | **10** | `void` |
-| | **Extracted total** | **137** | |
+| 2 | tongued and grooved P5 chipboard as a floating floor with a 10mm perim | **22** | `timber` |
+| 3 | perimeter gap | **10** | `void` |
+| | **Extracted total** | **112** | |
+| e | perimeter upstands *(at the floor edge, not in the total)* | 25 | `ins` |
 
 - ⚠ not a layer — 65mm is the alternative to the figure before it: 'screed where headroom allows and the slab will c'
 - ⚠ not a layer — 60mm reads as a spacing, a level, working or an alternative construction: 'calculates at 0'
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -2159,13 +2166,14 @@ NOTE — This separation is only required where a garage remains. Where the whol
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | Kingspan Thermafloor TF70 | **100** | `ins` |
-| 2 | perimeter upstand insulation to all external walls | **25** | `ins` |
-| 3 | sand | **65** | `screed` |
-| | **Extracted total** | **190** | |
+| 2 | sand | **65** | `screed` |
+| | **Extracted total** | **165** | |
+| e | perimeter upstand insulation to all external walls *(at the floor edge, not in the total)* | 25 | `ins` |
 
 - ⚠ not a layer — 10mm reads as a spacing, a level, working or an alternative construction: 'over 3m and free of oil contamination'
 - ⚠ not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'below the house floor and were rarely laid on a damp'
 - ⚠ not treated as a layer: 'added by this build-up usually brings the finished floor'
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -2230,10 +2238,12 @@ This build-up calculates at 0.18 W/m²K to BS EN ISO 13370 for a perimeter/area 
 | 1 | minimum well compacted hardcore blinded | **150** | `hard` |
 | 2 | sand | **50** | `screed` |
 | 3 | Kingspan Thermafloor TF70 | **100** | `ins` |
-| 4 | perimeter upstands | **25** | `ins` |
-| 5 | minimum GEN1 concrete slab reinforced | **100** | `conc` |
-| 6 | screed | **65** | `screed` |
-| | **Extracted total** | **490** | |
+| 4 | minimum GEN1 concrete slab reinforced | **100** | `conc` |
+| 5 | screed | **65** | `screed` |
+| | **Extracted total** | **465** | |
+| e | perimeter upstands *(at the floor edge, not in the total)* | 25 | `ins` |
+
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -2713,13 +2723,14 @@ Where a partition carries a floor or roof load it is to be to the structural eng
 | 1 | clear ventilated void | **150** | `void` |
 | 2 | infill blocks to the manufacturer's design | **100** | `dense` |
 | 3 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
-| 4 | perimeter upstand insulation | **25** | `ins` |
-| 5 | sand | **75** | `screed` |
-| | **Extracted total** | **480** | |
+| 4 | sand | **75** | `screed` |
+| | **Extracted total** | **455** | |
+| e | perimeter upstand insulation *(at the floor edge, not in the total)* | 25 | `ins` |
 
 - ⚠ not a layer - 100mm is in a sentence offering another way to build it: 'concrete on hardcore may be used to cover it'
 - ⚠ not a layer - 50mm is in a sentence offering another way to build it: 'concrete on a damp proof membrane where grou'
 - ⚠ not a layer — 130mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'and at 0'
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -2750,9 +2761,11 @@ This build-up calculates at 0.12 W/m²K to BS EN ISO 13370 for a floor with a pe
 | 2 | sand | **50** | `screed` |
 | 3 | minimum GEN1 or RC25/30 concrete slab reinforced with A142 mesh where  | **100** | `conc` |
 | 4 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
-| 5 | perimeter upstands | **25** | `ins` |
-| 6 | screed | **75** | `screed` |
-| | **Extracted total** | **530** | |
+| 5 | screed | **75** | `screed` |
+| | **Extracted total** | **505** | |
+| e | perimeter upstands *(at the floor edge, not in the total)* | 25 | `ins` |
+
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -3392,13 +3405,14 @@ Boards to BS EN 520, moisture-resistant in bathrooms and kitchens, fixed with dr
 |---|---|---|---|
 | 1 | minimum reinforced concrete slab | **150** | `conc` |
 | 2 | Kingspan Kooltherm K103 Floorboard | **130** | `ins` |
-| 3 | perimeter upstands | **25** | `ins` |
-| 4 | screed | **75** | `screed` |
-| | **Extracted total** | **380** | |
+| 3 | screed | **75** | `screed` |
+| | **Extracted total** | **355** | |
+| e | perimeter upstands *(at the floor edge, not in the total)* | 25 | `ins` |
 
 - ⚠ not a layer — 130mm reads as a spacing, a level, working or an alternative construction: 'of the same board with a 15mm fire-rated soffit boar'
 - ⚠ not a layer — 15mm reads as a spacing, a level, working or an alternative construction: 'fire-rated soffit board calculates'
 - ⚠ not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'at 0'
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -3804,13 +3818,14 @@ Type C cavity drainage floor membrane with perimeter channel and sump as BF1, 80
 | 1 | minimum reinforced concrete to the structural engineer's design | **200** | `conc` |
 | 2 | blinding over | **50** | `screed` |
 | 3 | Kingspan Kooltherm K103 Floorboard | **100** | `ins` |
-| 4 | perimeter upstands | **25** | `ins` |
-| 5 | sand | **75** | `screed` |
-| | **Extracted total** | **450** | |
+| 4 | sand | **75** | `screed` |
+| | **Extracted total** | **425** | |
+| e | perimeter upstands *(at the floor edge, not in the total)* | 25 | `ins` |
 
 - ⚠ not treated as a layer: 'compacted clean stone with a perimeter land drain where '
 - ⚠ not a layer — 8mm reads as a spacing, a level, working or an alternative construction: 'stud height with all joints taped'
 - ⚠ not a layer — 500mm is a component, not a section: 'x 500mm x 700mm minimum set into the slab'
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -4077,9 +4092,11 @@ NOTE — A garage slab is not required to be insulated where the garage is unhea
 | # | Layer | mm | Hatch |
 |---|---|---|---|
 | 1 | Kingspan Thermafloor TF70 | **100** | `ins` |
-| 2 | perimeter upstands | **25** | `ins` |
-| 3 | reinforced concrete over | **150** | `conc` |
-| | **Extracted total** | **275** | |
+| 2 | reinforced concrete over | **150** | `conc` |
+| | **Extracted total** | **250** | |
+| e | perimeter upstands *(at the floor edge, not in the total)* | 25 | `ins` |
+
+- ⚠ 25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor
 
 <details><summary>Clause</summary>
 
@@ -4215,4 +4232,4 @@ NOTE — Where the roof void is used for storage the trusses are to be designed 
 
 ---
 
-*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T01:58:34+00:00*
+*124 build-ups · 0 layers with no hatch matched · generated 2026-09-08T02:07:11+00:00*

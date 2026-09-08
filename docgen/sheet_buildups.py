@@ -556,7 +556,10 @@ def floor_svg(rec, sents):
             parts += members_across(W, y, t, run["breadth"], run["centres"], run["hatch"])
         tops.append(y + t / 2)
         pos += t
-    for x in (0, W):
+    # A break line says the element carries on past the cut. Where the perimeter upstand is
+    # drawn, that end of the floor is its edge and does not carry on, so it gets no break.
+    ends = (0,) if rec.get("edge") else (0, W)
+    for x in ends:
         parts.append('<path d="M%.1f %.1f v%.1f" stroke="#1B1B1B" stroke-width="2.2" stroke-dasharray="26 16"/>'
                      % (x, -26, total + 52))
 
@@ -580,6 +583,26 @@ def floor_svg(rec, sents):
         parts.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="%g" fill="#1B1B1B">%d</text>'
                      % (cx, tops[i] + 11, TXT, i + 1))
         notes.append((i + 1, thick_label(l), note_for(l, ctext, used)))
+
+    # A perimeter upstand stands against the wall at the edge of the floor, through the depth of
+    # what it isolates. Drawn as a band across the section it read as insulation under the whole
+    # floor, and added its thickness to a floor it is not part of. It goes at the end of the run,
+    # standing on the section, with the wall it abuts left to the junction details.
+    for j, e in enumerate(rec.get("edge") or []):
+        w = float(e["t"])
+        parts.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s" '
+                     'stroke="#1B1B1B" stroke-width="2.6"/>'
+                     % (W - w, 0.0, w, total, layer_fill(parts, 90 + j, e.get("hatch") or "ins",
+                                                         w, False)))
+        n = len(layers) + j + 1
+        cx = W - 190 - j * 90          # inside the section, clear of the strip it points at
+        parts.append('<path d="M%.1f %.1f H%.1f" stroke="#1B1B1B" stroke-width="1.8"/>'
+                     % (cx + 34, total / 2, W - w))
+        parts.append('<circle cx="%.1f" cy="%.1f" r="30" fill="#FFFFFF" stroke="#1B1B1B" '
+                     'stroke-width="2.4"/>' % (cx, total / 2))
+        parts.append('<text x="%.1f" y="%.1f" text-anchor="middle" font-size="%g" '
+                     'fill="#1B1B1B">%d</text>' % (cx, total / 2 + 11, TXT, n))
+        notes.append((n, "%g mm edge" % w, note_for(e, ctext, used)))
 
     # the key beneath the section
     body = []

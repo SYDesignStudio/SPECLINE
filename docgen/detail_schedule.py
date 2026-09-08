@@ -183,6 +183,9 @@ VENT_EQUIV = re.compile(r"equivalent to (?:a |an )?(?:continuous )?"
 # "two layers of 12.5mm plasterboard" — the band is both of them.
 LAYERS_OF = re.compile(r"\b(two|three|2|3)\s+layers\s+of\s+$", re.I)
 # A wall built as two separate frames with a gap between them.
+# Insulation at the floor edge rather than across it.
+PERIMETER = re.compile(r"perimeter (?:insulation|upstands?)|perimeter[^.]{0,20}upstand|"
+                       r"insulation around floor edges|edge insulation", re.I)
 # A wall built as two of something with a gap between: two frames, or two masonry leaves.
 TWIN = re.compile(r"two independent frames|two leaves of", re.I)
 # A member being made deeper, not a layer being added.
@@ -921,11 +924,22 @@ def build():
                 l.pop("_laid_over", None)
             got, tgt = uvals(b)
             unmatched += sum(1 for l in layers if l["hatch"] is None)
+            # A perimeter upstand is at the floor EDGE, standing against the wall. It is not a
+            # layer of the floor and it is not part of its thickness: counted as one it made the
+            # block and beam floor 430mm when the floor is 405mm with a 25mm upstand at its edge,
+            # and drew a band of insulation right across a section it does not cross.
+            edge = [l for l in layers if PERIMETER.search(l.get("material") or "")]
+            if edge:
+                layers = [l for l in layers if l not in edge]
+                notes.append("%s taken out of the layers and drawn at the edge — a perimeter "
+                             "upstand stands against the wall, it does not cross the floor"
+                             % ", ".join("%gmm" % float(l["t"]) for l in edge))
+
             rec = {"group": b["g"], "group_name": GROUPS.get(b["g"], b["g"]),
                    "category": b["c"], "title": b["t"],
                    "u_achieved": got, "u_target": tgt,
                    "standard": (b.get("u") or "").strip(),
-                   "layers": layers,
+                   "layers": layers, "edge": edge,
                    "total_mm": round(sum(l["t"] for l in layers), 1) if layers else None,
                    "extraction_notes": notes,
                    "verified_table": VERIFIED.get((key, b["t"])),
@@ -949,6 +963,11 @@ def build():
                     md.append("| %d | %s | **%g** | `%s` |"
                               % (i, l["material"], l["t"], l["hatch"] or "— unmatched —"))
                 md.append("| | **Extracted total** | **%g** | |" % rec["total_mm"])
+                # The upstand is listed but not totalled: it stands at the floor edge and is not
+                # part of the thickness of the floor.
+                for e in edge:
+                    md.append("| e | %s *(at the floor edge, not in the total)* | %g | `%s` |"
+                              % (e["material"], e["t"], e["hatch"] or "— unmatched —"))
             else:
                 md.append("\n*No layer thicknesses stated in the clause — this build-up is described "
                           "by performance or by reference to another. Draw it from the clause.*")

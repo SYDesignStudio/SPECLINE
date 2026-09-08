@@ -299,7 +299,9 @@ def draw(doc, rec, type_name):
         break_line(msp, (0, SECTION), (total, SECTION), True)
         break_line(msp, (0, 0), (total, 0), True)
     else:
-        break_line(msp, (SECTION, 0), (SECTION, total), False)
+        # no break where the perimeter upstand is: that end of the floor is its edge
+        if not rec.get("edge"):
+            break_line(msp, (SECTION, 0), (SECTION, total), False)
         break_line(msp, (0, 0), (0, total), False)
 
     # a dimension per layer, and the overall above it
@@ -331,6 +333,21 @@ def draw(doc, rec, type_name):
                      ).set_placement((lx + TXT * 0.6, ly - TXT_S * 0.4))
         pos += t
         i += 1
+
+    # A perimeter upstand stands at the edge of the floor against the wall, through the depth of
+    # what it isolates. It is not a layer and it is not part of the thickness, so it is drawn
+    # where it is: a strip at the end of the run, dimensioned like everything else at 1:1.
+    for j, e in enumerate(rec.get("edge") or []):
+        w = float(e["t"])
+        if horiz:
+            continue                      # a wall has no floor edge
+        band(msp, SECTION - w, 0, SECTION, total, e.get("hatch") or "ins")
+        ly = -TXT * 2.2 * (j + 1)
+        msp.add_lwpolyline([(SECTION - w / 2, total * 0.5), (lx - TXT * 2, ly), (lx, ly)],
+                           dxfattribs={"layer": "S-LEAD"})
+        msp.add_text(ascii_("%g  %s  (at the floor edge)" % (w, e["material"])),
+                     height=TXT_S, dxfattribs={"layer": "S-TEXT"}
+                     ).set_placement((lx + TXT * 0.6, ly - TXT_S * 0.4))
 
     # title block, under the section
     y = -TXT * 3
