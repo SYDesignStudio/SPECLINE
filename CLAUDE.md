@@ -1068,6 +1068,16 @@ was swapped every checkout pointed at a price that does not exist in that mode â
 surfaces on the subscriber at the till, where nobody here would see it. Identifiers saved before
 the buckets existed answer for **test**; live is never inherited, only set up deliberately.
 
+**The same is true of a Stripe customer, and the first live checkout proved it.** The practice
+row held one `stripe_customer_id`, so a live checkout was offered the customer created during
+the test purchase and Stripe refused it outright â€” every practice that had bought in test would
+have been unable to buy in live, and nothing before a first live sale could have shown it.
+`stripe_customer_id` is now the live customer and `stripe_customer_id_test` the test one, chosen
+by `stripe_customer_col()`; events are placed by **either** column, because the identifiers are
+unique across the two modes. Schema 9 moved the old column's contents into the test one once.
+The lesson generalises: **anything Stripe issues an id for belongs to one mode**, so ask of every
+stored Stripe identifier which mode it came from.
+
 **The first real test payment was made on 9 September 2026 in test mode and taught three things**,
 all now covered by `tests/billing_test.php`: `incomplete` is not a cancellation (it is the moment
 between a subscription existing and its first payment confirming, and it was ending the
