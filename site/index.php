@@ -351,25 +351,25 @@ footer .links span{color:var(--ink-3)}
     <p class="lede">A specimen house extension, produced in Specline and shown exactly as it prints. The practice name, address and accent on it are the practice's own — Specline's mark never appears on a specification.</p>
     <div class="shots">
       <figure class="shot">
-        <img src="/static/img/spec-cover.png" width="1440" height="880" loading="lazy" decoding="async"
+        <img src="/static/img/spec-cover.png" width="1640" height="1706" loading="lazy" decoding="async"
              alt="Cover page of a Building Regulations specification for a house extension, showing the practice name and address, the project, site address, job number, local authority, application type and revision, above the construction build-up schedule.">
         <figcaption><p class="eyebrow">Cover and schedule</p><p class="cap">Your identity, and the build-up schedule</p>
           <p class="sub">The cover carries the practice's logo or name, the job record and the responsibility statement. Underneath it, every build-up on the job with its reference and the standard it meets.</p></figcaption>
       </figure>
       <figure class="shot">
-        <img src="/static/img/spec-clauses.png" width="1440" height="860" loading="lazy" decoding="async"
+        <img src="/static/img/spec-clauses.png" width="1640" height="1720" loading="lazy" decoding="async"
              alt="Part A of the specification: trench fill foundation and full fill cavity wall clauses written out layer by layer, with target U-values and designer notes.">
         <figcaption><p class="eyebrow">Part A</p><p class="cap">Construction, layer by layer</p>
           <p class="sub">Flowing prose rather than numbered legal clauses: the construction described as it is built, with named products, their alternatives, the standards cited inline, and notes to the designer set apart in grey.</p></figcaption>
       </figure>
       <figure class="shot">
-        <img src="/static/img/uvalue-working.png" width="1404" height="900" loading="lazy" decoding="async"
+        <img src="/static/img/uvalue-working.png" width="2808" height="1800" loading="lazy" decoding="async"
              alt="U-value working for a full fill cavity wall: layer by layer thermal resistances, upper and lower resistance limits, the Annex F air gap and wall tie corrections, and the resulting U-value of 0.18 W/m²K against a target of 0.18.">
         <figcaption><p class="eyebrow">Section 4</p><p class="cap">U-value working you can hand over</p>
           <p class="sub">Every calculated build-up prints its arithmetic: layer resistances, the upper and lower limits of the combined method, the Annex F corrections for air gaps and wall ties, and the conductivity source for each material.</p></figcaption>
       </figure>
       <figure class="shot">
-        <img src="/static/img/detail-sheet.png" width="1192" height="720" loading="lazy" decoding="async"
+        <img src="/static/img/detail-sheet.png" width="2384" height="1440" loading="lazy" decoding="async"
              alt="A typical vertical section through a full fill cavity wall at 1:10, dimensioned and annotated, with each annotation quoted from the specification clause beside it.">
         <figcaption><p class="eyebrow">Detail sheets</p><p class="cap">The section, drawn from the same clause</p>
           <p class="sub">Each build-up draws as a dimensioned section at 1:10, and every annotation on it is quoted from the clause, so the drawing cannot drift away from the specification.</p></figcaption>
