@@ -93,6 +93,33 @@ The destination was created on API version **2026-06-24.dahlia**, which carries
 `current_period_end` on the subscription ITEM rather than on the subscription. `stripe_period_end()`
 reads both shapes and returns nothing rather than a guess when neither is present.
 
+## Where LIVE mode got to on 9 September 2026
+
+Everything that can be done without a key is done. The three products and five prices exist in live
+mode, the destination **Specline** is Active on `https://specline.co.uk/webhook.php` listening to
+the same six events, and both sets of identifiers are saved on the admin page, which reads
+`Prices set up · test in use 5 of 5` and `Prices set up · live 5 of 5 ready for when the key is
+live`. The live identifiers, which are not secret:
+
+| | Price |
+|---|---|
+| Solo monthly | `price_1UDZVXKGvzcMFbObuY09fYVV` |
+| Solo annual | `price_1UDZXFKGvzcMFbOb3gw5tWNt` |
+| Practice monthly | `price_1UDZYqKGvzcMFbObEWqLsDEz` |
+| Practice annual | `price_1UDZYqKGvzcMFbOb9M1lEnwr` |
+| Specification credit | `price_1UDZZpKGvzcMFbObRHJ0SEXc` |
+
+**One thing is left, and only you can do it**: put the live secret key and the live webhook signing
+secret into `specline-config.php`, in the same edit. The live signing secret is a different string
+from the test one; it is on the live destination's own page in Stripe behind the reveal icon beside
+*Signing secret*. Until both are there the site stays in test mode, which is a safe place to sit —
+nothing live can be charged, and any live event that does arrive is refused rather than acted on.
+
+**The Stripe account also sells ArchLens**, so its public business name is *SY design studio* rather
+than *Specline*, and that is what a subscriber sees on the checkout page, in the billing portal and
+on the card statement. Renaming the account would mislabel the other product, so the honest fix if
+it matters is a per-product statement descriptor, not a rename.
+
 ---
 
 ## 4. Paste the price identifiers
