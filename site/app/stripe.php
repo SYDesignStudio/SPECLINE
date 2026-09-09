@@ -258,15 +258,37 @@ function stripe_handle_event(array $ev): string {
         $plan   = $found['plan'] ?: (string)($obj['metadata']['plan'] ?? 'solo');
         $pe     = stripe_period_end($obj);
         $ends   = $pe ? gmdate('c', $pe) : null;
+        $subId  = (string)($obj['id'] ?? '');
+        $at     = (int)($ev['created'] ?? 0);
         if ($pid <= 0) { $note = 'no practice on the event; nothing written'; break; }
-        if (in_array($status, ['active', 'trialing', 'past_due'], true)) {
+
+        /* Stripe does not promise delivery order, and the first real payment showed why that
+           matters: created (incomplete) and updated (active) were issued in the same second.
+           Had they arrived the other way round, a stale created would have undone a live
+           subscription. An event older than the one already acted on for this subscription is
+           therefore ignored — the state we hold came from a later truth. */
+        $seen = entitlement_event_at($subId);
+        if ($at && $seen && $at < $seen) {
+            $note = "practice $pid — older than the event already applied; ignored";
+            break;
+        }
+
+        /* `incomplete` is the moment between a subscription being created and its first payment
+           confirming. It is NOT a cancellation, and treating it as one ended the entitlement for
+           the instant between two events on the very first live test. Only the states that mean
+           the subscription is over end anything; anything unrecognised — including a status
+           Stripe adds later — writes nothing rather than guessing. */
+        $liveStates = ['active', 'trialing', 'past_due'];
+        $overStates = ['canceled', 'cancelled', 'unpaid', 'incomplete_expired', 'paused'];
+        if (in_array($status, $liveStates, true)) {
             grant_entitlement($pid, $plan, $status === 'trialing' ? 'trialing' : ($status === 'past_due' ? 'past_due' : 'active'),
-                              $ends, 'stripe', 'Stripe subscription ' . (string)($obj['id'] ?? ''), 'stripe', null,
-                              (string)($obj['id'] ?? ''));
+                              $ends, 'stripe', 'Stripe subscription ' . $subId, 'stripe', null, $subId, $at);
             $note = "practice $pid $plan $status" . ($ends ? ' until ' . substr($ends, 0, 10) : '');
-        } else {
+        } elseif (in_array($status, $overStates, true)) {
             end_entitlement($pid, 'stripe', 'Stripe says the subscription is ' . $status);
             $note = "practice $pid ended ($status)";
+        } else {
+            $note = "practice $pid $status — waiting, nothing written";
         }
         break;
     }

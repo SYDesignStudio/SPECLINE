@@ -158,6 +158,17 @@ function entitled_to_open(array $u): bool {
     return $e['credits'] > 0;
 }
 
+/**
+ * The newest event we have already acted on for one processor subscription, as the processor's
+ * own timestamp. Webhook delivery order is NOT guaranteed, so this is what stops a stale
+ * `created` arriving after a fresh `updated` and undoing it.
+ */
+function entitlement_event_at(string $ref): int {
+    if ($ref === '') return 0;
+    $v = val("SELECT event_at FROM entitlements WHERE ref = ? AND event_at <> '' ORDER BY id DESC LIMIT 1", [$ref]);
+    return $v === null ? 0 : (int)$v;
+}
+
 /** The latest entitlement of any status, live or not: what this practice USED to hold. */
 function last_entitlement(int $practice_id): ?array {
     return row('SELECT * FROM entitlements WHERE practice_id = ? ORDER BY id DESC LIMIT 1', [$practice_id]);
@@ -196,16 +207,17 @@ function entitled_to_issue(int $practice_id): bool {
 
 /** Grant, extend or start something. The only way an entitlement is written by hand. */
 function grant_entitlement(int $practice_id, string $plan, string $status, ?string $ends_at,
-                           string $source, string $note, string $by, ?int $seats = null, string $ref = ''): int {
+                           string $source, string $note, string $by, ?int $seats = null, string $ref = '',
+                           ?int $event_at = null): int {
     $plan = array_key_exists($plan, plan_catalogue()) ? $plan : 'solo';
     $status = in_array($status, ENTITLEMENT_LIVE, true) ? $status : 'active';
     $seats = $seats !== null ? max(1, $seats) : (int)plan_meta($plan)['seats'];
     $in = "'" . implode("','", ENTITLEMENT_LIVE) . "'";
     q("UPDATE entitlements SET status = 'superseded', ended_at = ? WHERE practice_id = ? AND status IN ($in)",
       [now(), $practice_id]);
-    q('INSERT INTO entitlements (practice_id, plan, seats, status, source, note, ref, started_at, ends_at, created_at, created_by)
-       VALUES (?,?,?,?,?,?,?,?,?,?,?)',
-      [$practice_id, $plan, $seats, $status, $source, $note, $ref, now(), $ends_at, now(), $by]);
+    q('INSERT INTO entitlements (practice_id, plan, seats, status, source, note, ref, event_at, started_at, ends_at, created_at, created_by)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+      [$practice_id, $plan, $seats, $status, $source, $note, $ref, $event_at ? (string)$event_at : '', now(), $ends_at, now(), $by]);
     audit('billing.grant', "practice $practice_id $plan $status" . ($ends_at ? " until $ends_at" : ' open-ended') . " by $by");
     return (int)db()->lastInsertId();
 }

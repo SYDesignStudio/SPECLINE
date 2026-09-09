@@ -198,6 +198,40 @@ $orphan = stripe_handle_event(['id' => 'evt_d', 'type' => 'customer.subscription
                'items' => ['data' => [['price' => ['id' => 'price_practice_monthly']]]]]]]);
 ok('an event this site cannot place writes nothing', str_contains($orphan, 'no practice'), $orphan);
 
+/* --- the two faults the first real payment exposed --- */
+/* Stripe issued created (incomplete) and updated (active) in the same second on the first live
+   test. `incomplete` is the gap between a subscription existing and its first payment
+   confirming — it is not a cancellation, and it must not end anything. */
+q('DELETE FROM entitlements WHERE practice_id = ?', [$pid]);
+$mk = function (string $evid, string $status, int $at, string $subid = 'sub_o') use ($pid, $soon) {
+    return ['id' => $evid, 'type' => 'customer.subscription.updated', 'created' => $at, 'data' => ['object' => [
+        'id' => $subid, 'customer' => 'cus_123', 'status' => $status, 'metadata' => ['practice_id' => (string)$pid],
+        'items' => ['data' => [['current_period_end' => $soon, 'price' => ['id' => 'price_practice_monthly']]]],
+    ]]];
+};
+$t0 = time();
+$r = stripe_handle_event($mk('evt_inc', 'incomplete', $t0));
+ok('an incomplete subscription writes nothing at all', str_contains($r, 'waiting'), $r);
+ok('and does not end an entitlement that is not there yet', !entitlement($pid)['live']);
+
+stripe_handle_event($mk('evt_act', 'active', $t0 + 1));
+ok('the payment confirming grants it', entitlement($pid)['live'] && entitlement($pid)['plan'] === 'practice');
+
+/* Delivery order is not guaranteed. A stale created arriving after a fresh updated must not
+   undo it — which is exactly what would have happened had the two arrived the other way. */
+$late = stripe_handle_event($mk('evt_stale', 'incomplete', $t0 - 60));
+ok('an event older than the one already applied is ignored', str_contains($late, 'older than'), $late);
+ok('and the live subscription is untouched by it', entitlement($pid)['live']);
+
+/* A status this site has never heard of writes nothing rather than guessing at it. */
+$unknown = stripe_handle_event($mk('evt_new', 'some_future_status', $t0 + 2));
+ok('an unrecognised status writes nothing', str_contains($unknown, 'waiting'), $unknown);
+ok('and still leaves the subscription live', entitlement($pid)['live']);
+
+/* The ones that really are over do end it. */
+stripe_handle_event($mk('evt_gone', 'canceled', $t0 + 3));
+ok('a cancelled subscription ends the entitlement', !entitlement($pid)['live']);
+
 /* --- per-spec credits arrive by checkout --- */
 stripe_handle_event(['id' => 'evt_e', 'type' => 'checkout.session.completed', 'data' => ['object' => [
     'mode' => 'payment', 'payment_status' => 'paid', 'customer' => 'cus_123', 'payment_intent' => 'pi_1',

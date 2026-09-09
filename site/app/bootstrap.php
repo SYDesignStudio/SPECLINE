@@ -109,7 +109,7 @@ function db(): PDO {
     }
     return $pdo;
 }
-const SCHEMA_VERSION = 7;
+const SCHEMA_VERSION = 8;
 function db_driver(): string { db(); return $GLOBALS['DB_DRIVER'] ?? '?'; }
 
 function migrate(PDO $pdo): void {
@@ -177,6 +177,7 @@ function migrate(PDO $pdo): void {
     foreach ([['practices', 'contact_email', "VARCHAR(254) NOT NULL DEFAULT ''"],
               ['practices', 'stripe_customer_id', "VARCHAR(80) NOT NULL DEFAULT ''"],
               ['entitlements', 'ref', "VARCHAR(120) NOT NULL DEFAULT ''"],
+              ['entitlements', 'event_at', "VARCHAR(20) NOT NULL DEFAULT ''"],
               ['tokens',    'payload',       "TEXT NOT NULL DEFAULT ''"]] as [$table, $col, $type]) {
         try { $pdo->query("SELECT $col FROM $table LIMIT 1"); }
         catch (Throwable $t) { try { $pdo->exec("ALTER TABLE $table ADD COLUMN $col $type"); } catch (Throwable $t2) {} }
