@@ -134,12 +134,15 @@ case 'doc.del': {
 case 'spec.issue': {
     $jobId = (string)($in['job'] ?? '');
     if (!preg_match('#^[A-Za-z0-9_-]{1,48}$#', $jobId)) fail(400, 'Which job?');
-    if (!billing_enforced()) out(200, ['ok' => true, 'charged' => false, 'credits' => spec_credit_balance($pid)]);
-    $e = entitlement($pid);
-    if ($e['live'] && $e['plan'] !== 'payg') out(200, ['ok' => true, 'charged' => false, 'credits' => $e['credits']]);
-    if (!consume_spec_credit($pid, $jobId, (string)$u['email']))
-        fail(402, 'There is no specification credit left to issue against. Buy another, or take a subscription.');
-    out(200, ['ok' => true, 'charged' => true, 'credits' => spec_credit_balance($pid)]);
+    /* The revision being issued. It makes the charge idempotent, so the app can ask before it
+       builds the document and a failed build does not cost a credit. */
+    $rev = strtoupper(trim((string)($in['rev'] ?? '')));
+    if ($rev !== '' && !preg_match('#^[A-Z]{0,4}[0-9]{1,4}$#', $rev)) $rev = '';
+    /* The decision itself is in billing.php, where it can be tested without a web server. */
+    $r = issue_charge($pid, $u, $jobId, $rev);
+    if (!$r['ok']) fail(402, (string)$r['error']);
+    out(200, ['ok' => true, 'charged' => $r['charged'], 'already' => $r['already'],
+              'credits' => $r['credits'], 'why' => $r['why']]);
 }
 
 case 'coll.get': {

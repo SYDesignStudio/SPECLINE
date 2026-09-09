@@ -288,6 +288,58 @@ ok('and still leaves the subscription live', entitlement($pid)['live']);
 stripe_handle_event($mk('evt_gone', 'canceled', $t0 + 3));
 ok('a cancelled subscription ends the entitlement', !entitlement($pid)['live']);
 
+/* --- issuing a specification spends a credit --- */
+/* The server could always do this; until 9 September 2026 nothing called it, so per-spec was
+   unenforceable while subscriptions were not. These are the rules the app now obeys. */
+q('DELETE FROM entitlements WHERE practice_id = ?', [$pid]);
+q('DELETE FROM spec_credits WHERE practice_id = ?', [$pid]);
+$member = ['role' => 'member', 'email' => 'someone@example.com', 'practice_id' => $pid];
+$owner  = ['role' => 'owner',  'email' => 'owner@example.com',  'practice_id' => $pid];
+
+set_setting('billing_enforce', '0');
+$r = issue_charge($pid, $member, 'job_a', 'P01');
+ok('with enforcement off, issuing charges nothing', $r['ok'] && !$r['charged'], $r['why'] ?? '');
+ok('and spends no credit doing it', spec_credit_balance($pid) === 0);
+
+set_setting('billing_enforce', '1');
+$r = issue_charge($pid, $member, 'job_a', 'P01');
+ok('WITH IT ON AND NOTHING TO SPEND, THE ISSUE IS REFUSED', !$r['ok'], $r['error'] ?? '');
+ok('and the refusal says what to do about it', str_contains((string)($r['error'] ?? ''), 'Buy another'));
+
+ok('the owner is never charged, as the owner is never locked out',
+   issue_charge($pid, $owner, 'job_a', 'P01')['ok']);
+
+add_spec_credits($pid, 2, 'bought', 'test');
+$r = issue_charge($pid, $member, 'job_a', 'P01');
+ok('a per-spec practice with credits issues, and is charged', $r['ok'] && $r['charged'], $r['why'] ?? '');
+ok('one credit went, not two', spec_credit_balance($pid) === 1, (string)spec_credit_balance($pid));
+
+/* The app asks BEFORE it builds the document, because a downloaded PDF cannot be taken back.
+   That is only fair if a second attempt at the same revision is free — which is what makes a
+   failed build cost nothing. */
+$r = issue_charge($pid, $member, 'job_a', 'P01');
+ok('ISSUING THE SAME REVISION AGAIN IS A RETRY, NOT A SECOND CHARGE', $r['ok'] && !$r['charged'] && $r['already']);
+ok('and the balance is untouched by it', spec_credit_balance($pid) === 1, (string)spec_credit_balance($pid));
+
+$r = issue_charge($pid, $member, 'job_a', 'P02');
+ok('but the NEXT revision is a new issue and is charged', $r['ok'] && $r['charged'] && !$r['already']);
+ok('which empties the balance', spec_credit_balance($pid) === 0);
+$r = issue_charge($pid, $member, 'job_b', 'P01');
+ok('and with nothing left the next job is refused', !$r['ok']);
+
+/* A revision that arrives blank cannot be told from any other, so it must never look paid for. */
+ok('a blank revision is never already paid', !spec_issue_already_paid($pid, 'job_a', ''));
+
+/* A subscription covers issuing outright, and spends nothing. */
+grant_entitlement($pid, 'solo', 'active', null, 'admin', 'test', 'test');
+add_spec_credits($pid, 1, 'granted', 'test');
+$r = issue_charge($pid, $member, 'job_c', 'P01');
+ok('a subscription covers the issue', $r['ok'] && !$r['charged'], $r['why'] ?? '');
+ok('AND DOES NOT QUIETLY EAT A CREDIT AS WELL', spec_credit_balance($pid) === 1);
+q('DELETE FROM entitlements WHERE practice_id = ?', [$pid]);
+q('DELETE FROM spec_credits WHERE practice_id = ?', [$pid]);
+set_setting('billing_enforce', '0');
+
 /* --- per-spec credits arrive by checkout --- */
 stripe_handle_event(['id' => 'evt_e', 'type' => 'checkout.session.completed', 'data' => ['object' => [
     'mode' => 'payment', 'payment_status' => 'paid', 'customer' => 'cus_123', 'payment_intent' => 'pi_1',

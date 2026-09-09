@@ -55,5 +55,11 @@ function serverStore(cfg){
     return api;
   };
 
-  return {doc, collection, hosted: true};
+  /* Issuing a specification. The server decides whether it costs anything — a subscription says
+     yes and charges nothing, per-spec spends one credit — and answers {charged, already, credits}.
+     It throws with the server's own words when there is nothing left to spend, so the app can
+     stop before it writes an issue into a job's history that was never paid for. */
+  const issue = (jobId, rev) => post("spec.issue", {job: jobId, rev});
+
+  return {doc, collection, issue, hosted: true};
 }

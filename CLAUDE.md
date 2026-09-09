@@ -1097,10 +1097,36 @@ writing nothing, a replay granting nothing twice, and an unpaid checkout adding 
 webhook was also checked end to end over HTTP against `php -S` — unsigned refused, tampered
 refused, signed accepted, replay ignored, refusals counted.
 
-Still to do before selling: **the app must call `/api.php` op `spec.issue`** at the moment of
-issue, without which per-spec cannot be enforced (subscriptions can), and **a solicitor** on
-auto-renewal, refunds, the founding-member promise and unspent credits — questions 5 to 11 of
-`docs/TERMS-DRAFT.md`.
+### Issuing spends a credit — `issue_charge()`
+
+Built 9 September 2026, the last piece that made per-spec enforceable. `issue()` in `app_js.js`
+asks `/api.php` op `spec.issue` through `db.issue()` **before** it builds the document, and stops
+on a refusal, so an issue is never written into a job's history unpaid.
+
+- **The decision is `issue_charge()` in `billing.php`, not in the endpoint.** A rule that lives in
+  a switch inside an endpoint can only be tested through HTTP, and this one decides whether
+  someone is charged. `api.php` is a thin caller; the assertions call the function.
+- **Asking before building is only fair because the charge is idempotent.** A downloaded PDF
+  cannot be taken back, so charging afterwards would let a practice keep the document without
+  paying — but charging first would bill for a build that failed. So the ledger records the
+  revision (`ref`), and `spec_issue_already_paid()` makes a second attempt at the same job and
+  revision a retry rather than a second charge. A blank revision is never treated as already
+  paid, because it cannot be told from any other.
+- **The owner is never charged**, the same rule as `entitled_to_open()`: the vendor's own account
+  cannot be shut out of its own product by its own billing. A subscription that is not per-spec
+  covers the issue and **does not quietly spend a credit as well** — asserted, because holding both
+  is normal after a practice upgrades.
+- **The toast says what it cost** — *One specification credit spent, 2 left* — and the figure is
+  the server's, never one counted in the browser.
+
+**The hole this does not close: a draft download is the same document.** `Download PDF` on the
+specification page produces the identical file without pressing Issue, so a per-spec practice can
+take the deliverable and never pay. Closing it means marking draft downloads for an enforced
+per-spec practice, which changes what the customer's own document looks like — a product decision,
+not a technical one, and it is Salman's to make.
+
+Still to do before selling: **a solicitor** on auto-renewal, refunds, the founding-member promise
+and unspent credits — questions 5 to 11 of `docs/TERMS-DRAFT.md`.
 
 ## Mail — info@specline.co.uk
 

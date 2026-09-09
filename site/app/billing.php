@@ -243,15 +243,59 @@ function add_spec_credits(int $practice_id, int $n, string $reason, string $by, 
 }
 
 /**
- * Spend one credit for an issued specification. Returns false when there is none to spend,
- * and the caller must then refuse the issue rather than let it through unrecorded.
+ * Has this practice already paid for this exact issue? A revision of a job is issued once, and
+ * the ledger records which. Asking this is what lets the credit be spent BEFORE the document is
+ * built: if the build then fails, the second attempt at the same revision costs nothing.
+ *
+ * A blank revision cannot be told apart from any other, so it is never treated as already paid.
  */
-function consume_spec_credit(int $practice_id, string $job_id, string $by): bool {
+function spec_issue_already_paid(int $practice_id, string $job_id, string $rev): bool {
+    if ($rev === '' || $job_id === '') return false;
+    return (int)val('SELECT COUNT(*) FROM spec_credits WHERE practice_id = ? AND delta < 0 AND job_id = ? AND ref = ?',
+                    [$practice_id, $job_id, $rev]) > 0;
+}
+
+/**
+ * Spend one credit for an issued specification. Returns false when there is none to spend,
+ * and the caller must then refuse the issue rather than let it through unrecorded. Spending
+ * twice on the same revision of the same job is not a charge — it is a retry.
+ */
+function consume_spec_credit(int $practice_id, string $job_id, string $by, string $rev = ''): bool {
+    if (spec_issue_already_paid($practice_id, $job_id, $rev)) return true;
     if (spec_credit_balance($practice_id) <= 0) return false;
     q('INSERT INTO spec_credits (practice_id, delta, reason, ref, job_id, at, by_who) VALUES (?,?,?,?,?,?,?)',
-      [$practice_id, -1, 'issued', '', $job_id, now(), $by]);
-    audit('billing.issue', "practice $practice_id job $job_id by $by");
+      [$practice_id, -1, 'issued', $rev, $job_id, now(), $by]);
+    audit('billing.issue', "practice $practice_id job $job_id" . ($rev !== '' ? " $rev" : '') . " by $by");
     return true;
+}
+
+/**
+ * What issuing this specification costs, and whether it may go ahead. One place, so the answer
+ * cannot differ between the endpoint that charges and the test that checks it.
+ *
+ * Four rules, in this order:
+ *   - enforcement off charges nothing, which is how the site has shipped so far;
+ *   - the OWNER is never charged, for the same reason `entitled_to_open()` never locks them out:
+ *     the vendor's own account cannot be shut out of its own product by its own billing;
+ *   - a live subscription that is not per-spec covers it, and charges nothing;
+ *   - otherwise it costs one credit, and where there is none the issue is refused rather than
+ *     let through unrecorded.
+ */
+function issue_charge(int $practice_id, array $user, string $job_id, string $rev): array {
+    $ok = fn(bool $charged, bool $already, string $why) => [
+        'ok' => true, 'charged' => $charged, 'already' => $already,
+        'credits' => spec_credit_balance($practice_id), 'why' => $why,
+    ];
+    if (!billing_enforced())                  return $ok(false, false, 'billing is not enforced');
+    if (($user['role'] ?? '') === 'owner')    return $ok(false, false, 'the owner is never charged');
+    $e = entitlement($practice_id);
+    if ($e['live'] && $e['plan'] !== 'payg')  return $ok(false, false, 'covered by the ' . $e['plan_name'] . ' subscription');
+
+    $already = spec_issue_already_paid($practice_id, $job_id, $rev);
+    if (!consume_spec_credit($practice_id, $job_id, (string)($user['email'] ?? ''), $rev))
+        return ['ok' => false, 'charged' => false, 'already' => false, 'credits' => 0,
+                'error' => 'There is no specification credit left to issue against. Buy another, or take a subscription.'];
+    return $ok(!$already, $already, $already ? 'this revision was already paid for' : 'one credit spent');
 }
 
 /* ---------------------------------------------------------------- reporting */

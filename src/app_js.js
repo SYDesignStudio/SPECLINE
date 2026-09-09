@@ -565,14 +565,35 @@ function renderReview(){
 }
 function nextRev(rev){ const m=/^([A-Za-z]*)(\d+)$/.exec(rev||"P01"); if(!m) return "P02";
   return m[1]+String(+m[2]+1).padStart(m[2].length,"0"); }
+/**
+ * Issuing is the moment a specification is paid for. The server holds that decision — a
+ * subscription says yes and charges nothing, a per-spec practice spends one credit, and with
+ * enforcement off nothing is charged at all — so the app asks and obeys the answer rather than
+ * deciding for itself.
+ *
+ * It asks BEFORE building the document, because a document that has been downloaded cannot be
+ * taken back if the charge then fails. That ordering is only fair because the charge is
+ * idempotent on the job and the revision: if the PDF fails to build, pressing Issue again
+ * costs nothing. Opened outside the hosted site there is no store and nothing to ask.
+ */
 async function issue(){
+  const was=S.data.rev||"P01";
+  let charged=null;
+  if(db && db.issue){
+    try{ charged=await db.issue(S.id, was); }
+    catch(e){ toast((e&&e.message) || "This specification could not be issued."); return; }
+  }
   const ok=await makePdf();
   if(!ok) return;
   let n=0, ns=noteSections(); ns.forEach(v=>n+=v.length);
-  S.history=S.history||[]; S.history.push({rev:S.data.rev||"P01", at:Date.now(), n:orderedSel().length, m:n});
-  const was=S.data.rev||"P01"; S.data.rev=nextRev(was);
+  S.history=S.history||[]; S.history.push({rev:was, at:Date.now(), n:orderedSel().length, m:n});
+  S.data.rev=nextRev(was);
   save(); renderStage(); renderSteps(); renderPaper();
-  toast(`Issued ${was}. Working revision is now ${S.data.rev}.`);
+  /* Say what it cost, in the same breath as what was issued. A balance that changes silently is
+     a balance nobody trusts, and the number here is the server's, never one counted locally. */
+  const spent = charged && charged.charged
+    ? ` One specification credit spent, ${charged.credits} left.` : "";
+  toast(`Issued ${was}. Working revision is now ${S.data.rev}.${spent}`);
 }
 
 /* ---------------- preview ---------------- */
