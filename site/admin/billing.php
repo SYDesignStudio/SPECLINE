@@ -105,6 +105,11 @@ page_start('Billing', ['admin' => true]);
       <tr><td>Prices set up</td><td><span class="pill <?= $proc['prices'] === $proc['prices_total'] ? 'pill-pass' : 'pill-hold' ?>"><?= (int)$proc['prices'] ?> of <?= (int)$proc['prices_total'] ?></span></td></tr>
       <tr><td>Last event</td><td class="mono small"><?= e(setting('stripe_webhook_last', 'none yet')) ?> <?= e(setting('stripe_webhook_last_type', '')) ?></td></tr>
       <tr><td>Rejected as unsigned</td><td class="mono small"><?= e(setting('stripe_webhook_rejected', '0')) ?><?= setting('stripe_webhook_rejected_at') ? ' · last ' . e(setting('stripe_webhook_rejected_at')) : '' ?></td></tr>
+      <?php /* Which code is actually answering. A deployment that silently did not happen is
+               indistinguishable from a fix that did not work, and an hour went on exactly that
+               confusion on 9 September 2026. The file that does the Stripe work says when the
+               server last received it. */ ?>
+      <tr><td>Payment code deployed</td><td class="mono small"><?= e(gmdate('Y-m-d H:i', (int)@filemtime(__DIR__ . '/../app/stripe.php'))) ?> UTC</td></tr>
     </tbody>
   </table>
   <form method="post" style="margin-top:16px"><?= csrf_field() ?><input type="hidden" name="action" value="prices">
