@@ -195,7 +195,7 @@ def php_billing_test():
 
 def test():
     fails = 0
-    for n in range(1, 9):
+    for n in range(1, 10):
         t = os.path.join(ROOT, "tests", "test%d.py" % n)
         r = subprocess.run([sys.executable, t], capture_output=True, text=True, cwd=ROOT)
         passes = r.stdout.count('"r": "PASS"')

@@ -150,7 +150,16 @@ def build(key, S):
     fn=f"SPEC_{T['name'].replace(' ','_')}_{T.get('region','England')}.docx"
     path=os.path.join(OUT,fn); d.save(path)
     if SOFFICE:
-        subprocess.run([SOFFICE,'--headless','--convert-to','pdf','--outdir',OUT,path],check=True,capture_output=True)
+        # A LibreOffice that is present but refuses (another instance holding the profile, a
+        # locked output file) must not throw away the whole run: the .docx is written and it is
+        # the file the practice edits. Say so loudly and carry on, exactly as a missing
+        # LibreOffice already did - a PDF that did not convert is not a document that failed.
+        r = subprocess.run([SOFFICE,'--headless','--convert-to','pdf','--outdir',OUT,path],
+                           capture_output=True)
+        if r.returncode != 0:
+            print('WARNING: LibreOffice could not convert %s - .docx written, PDF skipped (%s)'
+                  % (fn, (r.stderr or b'').decode('utf-8','replace').strip()[:160] or 'exit %d' % r.returncode),
+                  file=sys.stderr)
     else:
         print('WARNING: LibreOffice not found - .docx written, PDF skipped',file=sys.stderr)
     print(key,"->",fn,"build-ups:",len(BUILDUPS),"notes:",len(T['notes']))
