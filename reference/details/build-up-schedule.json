@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-08T18:15:24+00:00",
+ "generated": "2026-09-09T02:29:59+00:00",
  "source": "data/specdata_*.js, merged to dist/specdata.js",
  "warning": "Layer thicknesses are EXTRACTED from the clause prose, not stored as data. Check every layer against `clause` before drawing. Where a figure is not in the clause it is not here either.",
  "hatches": [
@@ -219,7 +219,7 @@
      "verified_table": "EW1",
      "stud_core": null,
      "clause": [
-      "External cavity wall to be built up as a 103mm facing brick outer leaf matched to the existing dwelling, a 100mm cavity fully filled with 90mm Kingspan Kooltherm K106, and a 100mm aircrete blockwork inner leaf of 0.11 W/mK thermal conductivity — Celcon Solar, Thermalite Turbo or equivalent, 2.9N with the strength grade confirmed by the structural engineer — finished internally with 12.5mm plasterboard on dabs. A nominal 10mm residual cavity is to remain between the face of the insulation and the back of the outer leaf. All masonry laid in 1:1:6 cement:lime:sand mortar. This build-up calculates at 0.17 W/m²K to BS EN ISO 6946 allowing for mortar joints, wall ties and an air-gap correction of 0.01; with a 0.15 W/mK block (Celcon Standard, Thermalite Shield) it calculates at 0.18 W/m²K and still meets the limiting value.",
+      "External cavity wall to be built up as a 103mm facing brick outer leaf matched to the existing dwelling, a 100mm cavity fully filled with 90mm Kingspan Kooltherm K106, and a 100mm aircrete blockwork inner leaf of 0.11 W/mK thermal conductivity — Celcon Solar, Thermalite Turbo or equivalent, 2.9N with the strength grade confirmed by the structural engineer — finished internally with 12.5mm plasterboard on dabs. A nominal 10mm residual cavity is to remain between the face of the insulation and the back of the outer leaf. All masonry laid in 1:1:6 cement:lime:sand mortar. This build-up calculates at 0.17 W/m²K to BS EN ISO 6946 allowing for mortar joints, wall ties and an air-gap correction of 0.01; with a 0.15 W/mK block (Celcon Standard, Thermalite Shield) it calculates at 0.18 W/m²K and meets the limiting value with no margin. Where a block of a different thermal conductivity is proposed, the contractor is to provide the manufacturer's project-specific U-value calculation for the build-up as it will be built, demonstrating a maximum of 0.18 W/m²K, before any materials are ordered.",
       "Insulation boards to be installed strictly to the manufacturer's published instructions and the current BBA certificate, tightly butted on every edge with vertical joints staggered course to course. Corner, reveal and junction details to follow the certificate rather than being improvised on site.",
       "The exposure of the site is to be assessed for the suitability of full fill construction before boards are ordered. Where exposure is severe, a partial fill build-up is to be adopted instead.",
       "Stainless steel wall ties to be provided at 450mm vertical and 900mm horizontal centres, staggered, and at 225mm vertical centres within 225mm of all unbonded jambs, reveals and movement joints. Ties to be set with a slight fall to the outer leaf and kept free of mortar droppings."
@@ -714,6 +714,8 @@
      ],
      "total_mm": 445,
      "extraction_notes": [
+      "not a layer — 80mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'complies up to a ratio of 0'",
+      "not a layer — 100mm reads as a spacing, a level, working or an alternative construction: 'is to be used'",
       "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'lapped and sealed joints'",
       "25mm taken out of the layers and drawn at the edge — a perimeter upstand stands against the wall, it does not cross the floor"
      ],
@@ -723,7 +725,8 @@
       "Excavate to formation and lay 150mm minimum well-compacted hardcore, in layers not exceeding 150mm, blinded with 50mm of sand or other suitable fine material to protect the membrane above.",
       "Cast a ground-bearing slab of not less than 100mm in GEN1 or RC20 concrete, conforming to BS EN 206 and BS 8500.",
       "Lay a proprietary polyethylene damp proof membrane not less than 1200 gauge (300 micron), or 1600 gauge where required by the local authority, site conditions or where acting as a combined gas/radon membrane, installed in accordance with the manufacturer's recommendations. Lap and seal joints in accordance with the manufacturer's details and link the membrane with the damp proof course within the walls.",
-      "Provide 80mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) over the damp proof membrane with all joints tightly butted; this build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a perimeter/area ratio of 0.5 on clay and at 0.18 at a ratio of 0.7 — where the extension floor is small with three exposed sides (ratio above 0.7) use 100mm, which calculates at 0.15 at a ratio of 0.7. The perimeter/area ratio of the whole enlarged dwelling may be used in the calculation (Approved Document L Volume 1 Table 4.2 note).",
+      "Provide 80mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) over the damp proof membrane with all joints tightly butted; this build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a perimeter/area ratio of 0.5 on clay and at 0.18 at a ratio of 0.7, so 80mm complies up to a ratio of 0.7 and not beyond it. Above that ratio 100mm is to be used, which calculates at 0.15 at a ratio of 0.7. The perimeter/area ratio of the whole enlarged dwelling may be used in the calculation (Approved Document L Volume 1 Table 4.2 note). The ratio for this floor is to be calculated by the designer and one thickness stated on this specification before it is issued; the choice is not to be left to be made on site.",
+      "NOTE — Calculate the perimeter/area ratio for this floor, or for the whole enlarged dwelling, and fix the insulation thickness before issue. The floor calculator does it and writes the figure into the build-up. A specification that offers two thicknesses leaves the U-value to whoever is ordering the boards.",
       "Continue 25mm perimeter insulation around floor edges to reduce thermal bridging.",
       "Provide a vapour control layer over the insulation (and beneath the insulation where required by the insulation manufacturer) with 150mm lapped and sealed joints, turned up at room perimeters behind the skirting to maintain continuity.",
       "Finish with 65mm minimum sand/cement screed, reinforced where required in accordance with the screed manufacturer's recommendations and ready to receive the final floor finish."
@@ -745,12 +748,6 @@
        "read_from": "150mm clear ventilated void"
       },
       {
-       "t": 150,
-       "material": "Kingspan Kooltherm K103 Floorboard between 47 x 150mm C24 joists at 400mm centres",
-       "hatch": "ins",
-       "read_from": "150mm Kingspan Kooltherm K103 Floorboard "
-      },
-      {
        "t": 18,
        "material": "moisture resistant tongued and grooved flooring grade board",
        "hatch": "timber",
@@ -758,16 +755,17 @@
       }
      ],
      "edge": [],
-     "total_mm": 318,
+     "total_mm": 168,
      "extraction_notes": [
-      "not treated as a layer: 'centres'",
+      "not a layer — 47mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'x 150mm C24 joists at 400mm centres'",
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'Kingspan Kooltherm K103 Floorboard'",
       "not a layer - 100mm is in a sentence offering another way to build it: 'concrete on well-compacted hardcore may be u'",
       "not a layer - 50mm is in a sentence offering another way to build it: 'concrete on a 1200 gauge damp proof membrane'"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Suspended timber ground floor over a minimum 150mm clear ventilated void, to comprise floor joists to the structural engineer's design, drawn here as 47mm x 150mm C24 joists at 400mm centres, with 150mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) between the joists on breathable insulation support netting. This build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a perimeter/area ratio of 0.7 on clay.",
+      "Suspended timber ground floor over a minimum 150mm clear ventilated void, to comprise floor joists to the structural engineer's design and calculations, shown here as 47mm x 150mm C24 joists at 400mm centres, indicative only and to be confirmed before construction, with 150mm Kingspan Kooltherm K103 Floorboard (thermal conductivity 0.019 W/mK) between the joists on breathable insulation support netting. This build-up calculates at 0.17 W/m²K to BS EN ISO 13370 for a floor with a perimeter/area ratio of 0.7 on clay.",
       "Ventilate the void beneath the joists through to opposing external walls, equivalent to 1500mm² per metre run, by means of proprietary air bricks and telescopic ducts carried through the cavity.",
       "The oversite is to prevent plant growth; 100mm concrete on well-compacted hardcore may be used, or 50mm concrete on a 1200 gauge damp proof membrane. All timber to be isolated from masonry by a damp proof course. Finish with 18mm moisture resistant tongued and grooved flooring grade board."
      ]
@@ -962,39 +960,22 @@
      "u_achieved": "0.15",
      "u_target": "0.15",
      "standard": "0.15 W/m²K",
-     "layers": [
-      {
-       "t": 200,
-       "material": "47 x 200mm C24 joists at 400mm centres",
-       "hatch": "timber",
-       "read_from": "47mm x 200mm C24 joists at 400mm centres"
-      },
-      {
-       "t": 18,
-       "material": "external quality plywood decking",
-       "hatch": "timber",
-       "read_from": "18mm external quality plywood decking or OSB3 laid to falls"
-      },
-      {
-       "t": 150,
-       "material": "Kingspan Thermaroof TR27 insulation",
-       "hatch": "ins",
-       "read_from": "150mm Kingspan Thermaroof TR27 insulation "
-      }
-     ],
+     "layers": [],
      "edge": [],
-     "total_mm": 368,
+     "total_mm": null,
      "extraction_notes": [
-      "not treated as a layer: 'centres'",
-      "not a layer — 120mm reads as a spacing, a level, working or an alternative construction: 'and over'",
+      "not a layer — 47mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'x 200mm C24 joists at 400mm centres'",
+      "not a layer — 18mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'external quality plywood decking or OSB3 laid to'",
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'Kingspan Thermaroof TR27 insulation'",
+      "not a layer — 120mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'and over'",
       "not a layer — 160mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'is to be used instead'",
       "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'at all abutments'"
      ],
      "verified_table": "RF1",
      "stud_core": null,
      "clause": [
-      "Warm deck flat roof to comprise timber joists to the structural engineer's design, drawn here as 47mm x 200mm C24 joists at 400mm centres, 18mm external quality plywood decking or OSB3 laid to falls, vapour control layer fully bonded to the deck with all laps sealed, 150mm Kingspan Thermaroof TR27 insulation (thermal conductivity 0.024 W/mK at 120mm and over) laid break-bonded in two layers and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where the insulation is mechanically fixed the fastener correction takes it to 0.16 and 160mm is to be used instead.",
-      "Falls to be a minimum finished 1:40, achieved by a design fall of 1:80 or firrings as detailed, to allow for construction tolerance and deflection. Cold deck flat roof construction is not to be used.",
+      "Warm deck flat roof to comprise timber joists to the structural engineer's design and calculations, shown here as 47mm x 200mm C24 joists at 400mm centres, indicative only and to be confirmed before construction, 18mm external quality plywood decking or OSB3 laid to falls, vapour control layer fully bonded to the deck with all laps sealed, 150mm Kingspan Thermaroof TR27 insulation (thermal conductivity 0.024 W/mK at 120mm and over) laid break-bonded in two layers and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where the insulation is mechanically fixed the fastener correction takes it to 0.16 and 160mm is to be used instead.",
+      "Falls to be designed to a fall of not less than 1:40 so that a finished fall of not less than 1:80 is achieved after construction deviations and deflection, in accordance with BS 6229, set out by firrings or by tapered insulation as detailed. Cold deck flat roof construction is not to be used.",
       "Provide proprietary edge trims, upstands of not less than 150mm at all abutments, and cavity trays with stop ends and weep holes where the roof abuts a cavity wall."
      ]
     }
@@ -1312,7 +1293,7 @@
      "stud_core": null,
      "clause": [
       "Where the roof is converted from hip to gable, the hip rafters and jack rafters are to be removed and a new gable wall constructed, all to the structural engineer's design. The new gable is to be built off the existing flank wall, whose adequacy — together with that of the foundation beneath it — is to be confirmed by the engineer before the hip is removed.",
-      "New gable in masonry to comprise a 103mm brick outer leaf to match existing, 100mm cavity with 90mm Kingspan Kooltherm K106 Cavity Board (thermal conductivity 0.019 W/mK) retained against the inner leaf, and a 100mm aircrete block inner leaf of 0.11 W/mK thermal conductivity (Celcon Solar, Thermalite Turbo or equivalent, 2.9N with the strength grade confirmed by the structural engineer) with 12.5mm plasterboard on dabs. This build-up calculates at 0.17 W/m²K to BS EN ISO 6946 allowing for mortar joints, wall ties and an air-gap correction of 0.01; with a 0.15 W/mK block (Celcon Standard, Thermalite Shield) it calculates at 0.18 and meets the standard with no margin, and the 0.11 block is what gives a mineral wool full fill of the same cavity the margin to meet it. Alternatively in timber frame, with an outer leaf of tile hanging or render to match the elevations.",
+      "New gable in masonry to comprise a 103mm brick outer leaf to match existing, 100mm cavity with 90mm Kingspan Kooltherm K106 Cavity Board (thermal conductivity 0.019 W/mK) retained against the inner leaf, and a 100mm aircrete block inner leaf of 0.11 W/mK thermal conductivity (Celcon Solar, Thermalite Turbo or equivalent, 2.9N with the strength grade confirmed by the structural engineer) with 12.5mm plasterboard on dabs. This build-up calculates at 0.17 W/m²K to BS EN ISO 6946 allowing for mortar joints, wall ties and an air-gap correction of 0.01; with a 0.15 W/mK block (Celcon Standard, Thermalite Shield) it calculates at 0.18 and meets the standard with no margin, and the 0.11 block is what gives a mineral wool full fill of the same cavity the margin to meet it. Where a block of a different thermal conductivity is proposed, the contractor is to provide the manufacturer's project-specific U-value calculation for the build-up as it will be built, demonstrating a maximum of 0.18 W/m²K, before any materials are ordered. Alternatively in timber frame, with an outer leaf of tile hanging or render to match the elevations.",
       "The new gable is to be tied into the existing flank wall and to the new roof structure, with a new wall plate bedded and strapped. Provide lateral restraint straps at not more than 2m centres at roof and floor level. Cavity trays, damp proof courses and cavity barriers to be continued through the new work.",
       "Temporary support to the roof is to be designed and installed before the hip is cut, and is not to be struck until the new gable and roof structure are complete and have gained adequate strength.",
       "NOTE — A 90mm board in a 100mm cavity leaves only a 10mm residual cavity, less than the board's certificate normally allows for partial fill. Confirm the actual cavity width on site and the residual cavity the BBA certificate permits before ordering; where it cannot be achieved, widen the cavity to the engineer's approval or use the timber frame gable build-up."
@@ -1500,39 +1481,22 @@
      "u_achieved": "0.15",
      "u_target": "0.15",
      "standard": "0.15 W/m²K",
-     "layers": [
-      {
-       "t": 200,
-       "material": "47 x 200mm C24 joists at 400mm centres",
-       "hatch": "timber",
-       "read_from": "47mm x 200mm C24 joists at 400mm centres"
-      },
-      {
-       "t": 18,
-       "material": "external quality plywood",
-       "hatch": "timber",
-       "read_from": "18mm external quality plywood or OSB3 decking laid to falls"
-      },
-      {
-       "t": 150,
-       "material": "Kingspan Thermaroof TR27 insulation",
-       "hatch": "ins",
-       "read_from": "150mm Kingspan Thermaroof TR27 insulation "
-      }
-     ],
+     "layers": [],
      "edge": [],
-     "total_mm": 368,
+     "total_mm": null,
      "extraction_notes": [
-      "not treated as a layer: 'centres'",
-      "not a layer — 120mm reads as a spacing, a level, working or an alternative construction: 'and over'",
+      "not a layer — 47mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'x 200mm C24 joists at 400mm centres'",
+      "not a layer — 18mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'external quality plywood or OSB3 decking laid to'",
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'Kingspan Thermaroof TR27 insulation'",
+      "not a layer — 120mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'and over'",
       "not a layer — 160mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'is to be used instead'",
       "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'at all abutments'"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Dormer roof to comprise timber joists to the structural engineer's design, drawn here as 47mm x 200mm C24 joists at 400mm centres, 18mm external quality plywood or OSB3 decking laid to falls, vapour control layer fully bonded to the deck with all laps sealed, 150mm Kingspan Thermaroof TR27 insulation (thermal conductivity 0.024 W/mK at 120mm and over) laid break-bonded in two layers and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where the insulation is mechanically fixed the fastener correction takes it to 0.16 and 160mm is to be used instead.",
-      "Falls to be a minimum finished 1:40. Cold deck construction is not to be used. Provide proprietary edge trims and upstands of not less than 150mm at all abutments, with cavity trays and stepped flashings where the dormer abuts masonry."
+      "Dormer roof to comprise timber joists to the structural engineer's design and calculations, shown here as 47mm x 200mm C24 joists at 400mm centres, indicative only and to be confirmed before construction, 18mm external quality plywood or OSB3 decking laid to falls, vapour control layer fully bonded to the deck with all laps sealed, 150mm Kingspan Thermaroof TR27 insulation (thermal conductivity 0.024 W/mK at 120mm and over) laid break-bonded in two layers and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate. This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where the insulation is mechanically fixed the fastener correction takes it to 0.16 and 160mm is to be used instead.",
+      "Falls to be designed to a fall of not less than 1:40 so that a finished fall of not less than 1:80 is achieved after construction deviations and deflection, in accordance with BS 6229. Cold deck construction is not to be used. Provide proprietary edge trims and upstands of not less than 150mm at all abutments, with cavity trays and stepped flashings where the dormer abuts masonry."
      ]
     },
     {
@@ -3201,26 +3165,21 @@
        "t": 18,
        "material": "exterior grade plywood",
        "hatch": "timber",
-       "read_from": "18mm exterior grade plywood or OSB3 decking laid to falls of not less than 1"
-      },
-      {
-       "t": 150,
-       "material": "Kingspan Thermaroof TR27 LPC/FM",
-       "hatch": "ins",
-       "read_from": "150mm Kingspan Thermaroof TR27 LPC/FM "
+       "read_from": "18mm exterior grade plywood or OSB3 decking designed to a fall of not less t"
       }
      ],
      "edge": [],
-     "total_mm": 368,
+     "total_mm": 218,
      "extraction_notes": [
       "not treated as a layer: 'centres to the structural engineer's design'",
-      "not a layer — 120mm reads as a spacing, a level, working or an alternative construction: 'and over'",
-      "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands and edge trims'"
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'Kingspan Thermaroof TR27 LPC/FM'",
+      "not a layer — 120mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'and over'",
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'upstands and edge trims'"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Where the garage roof is renewed in full, provide 47mm x 200mm C24 joists at 400mm centres to the structural engineer's design, 18mm exterior grade plywood or OSB3 decking laid to falls of not less than 1:40 finished, a vapour control layer fully bonded to the deck, 150mm Kingspan Thermaroof TR27 LPC/FM (thermal conductivity 0.024 W/mK at 120mm and over) fully adhered, and a single ply or built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands and edge trims.",
+      "Where the garage roof is renewed in full, provide 47mm x 200mm C24 joists at 400mm centres to the structural engineer's design, 18mm exterior grade plywood or OSB3 decking designed to a fall of not less than 1:40 so that a finished fall of not less than 1:80 is achieved after construction deviations and deflection, in accordance with BS 6229, a vapour control layer fully bonded to the deck, 150mm Kingspan Thermaroof TR27 LPC/FM (thermal conductivity 0.024 W/mK at 120mm and over) fully adhered, and a single ply or built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands and edge trims.",
       "This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where mechanically fixed use 160mm."
      ]
     }
@@ -3953,25 +3912,20 @@
        "t": 18,
        "material": "exterior grade plywood",
        "hatch": "timber",
-       "read_from": "18mm exterior grade plywood or OSB3 decking laid to finished falls of not le"
-      },
-      {
-       "t": 200,
-       "material": "Kingspan Thermaroof TR26 LPC/FM",
-       "hatch": "ins",
-       "read_from": "200mm Kingspan Thermaroof TR26 LPC/FM "
+       "read_from": "18mm exterior grade plywood or OSB3 decking on firrings"
       }
      ],
      "edge": [],
-     "total_mm": 418,
+     "total_mm": 218,
      "extraction_notes": [
       "not treated as a layer: 'centres to the engineer's design'",
-      "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands'"
+      "not a layer — 200mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'Kingspan Thermaroof TR26 LPC/FM'",
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'upstands'"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Warm deck flat roof of 47mm x 200mm C24 joists at 400mm centres to the engineer's design, 18mm exterior grade plywood or OSB3 decking laid to finished falls of not less than 1:40 on firrings, a vapour control layer fully bonded to the deck with all laps sealed, 200mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) in two layers break-bonded and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands, edge trims and outlets.",
+      "Warm deck flat roof of 47mm x 200mm C24 joists at 400mm centres to the engineer's design, 18mm exterior grade plywood or OSB3 decking on firrings, designed to a fall of not less than 1:40 so that a finished fall of not less than 1:80 is achieved after construction deviations and deflection, in accordance with BS 6229, a vapour control layer fully bonded to the deck with all laps sealed, 200mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) in two layers break-bonded and fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands, edge trims and outlets.",
       "This build-up calculates at 0.10 W/m²K to BS EN ISO 6946 fully adhered. Where a green or terrace roof is specified the joists and deck are to be designed for the additional load and the waterproofing root-resistant.",
       "NOTE — Flat roofs on new dwellings are commonly used for dormers and single-storey elements only; where a flat roof is a large proportion of the roof area the SAP assessor is to be told at design stage because the notional dwelling value of 0.11 applies to it."
      ]
@@ -4686,20 +4640,13 @@
      "u_achieved": "0.10",
      "u_target": "0.11",
      "standard": "0.10 W/m²K",
-     "layers": [
-      {
-       "t": 220,
-       "material": "Kingspan Thermaroof TR26 LPC/FM",
-       "hatch": "ins",
-       "read_from": "220mm Kingspan Thermaroof TR26 LPC/FM "
-      }
-     ],
+     "layers": [],
      "edge": [],
-     "total_mm": 220,
+     "total_mm": null,
      "extraction_notes": [
-      "110mm is two layers of it, so the band is 220mm",
-      "not treated as a layer: 'break-bonded and fully adhered or mechanically fixed wit'",
-      "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands'",
+      "not a layer — 220mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'Kingspan Thermaroof TR26 LPC/FM'",
+      "not a layer — 110mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'break-bonded and fully adhered or mechanically f'",
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'upstands'",
       "not a layer — 300mm reads as a spacing, a level, working or an alternative construction: 'is to be used in that zone'",
       "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'concrete deck'",
       "not a layer — 200mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'calculates at 0'"
@@ -4707,7 +4654,7 @@
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Warm deck flat roof of a concrete slab or profiled metal deck to the structural engineer's design laid to falls of not less than 1:80 finished, a vapour control layer fully bonded with laps sealed, 220mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) in two layers of 110mm break-bonded and fully adhered or mechanically fixed with the fastener correction included, and a single ply or reinforced bitumen membrane waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands, outlets, overflows and edge trims. Where the building has a storey more than 11m above ground the roof insulation within 1.5m of a boundary or a higher external wall is to be Class A2-s1, d0 or better, and mineral wool or cellular glass of 0.038 W/mK at 300mm is to be used in that zone.",
+      "Warm deck flat roof of a concrete slab or profiled metal deck to the structural engineer's design designed to a fall of not less than 1:40 so that a finished fall of not less than 1:80 is achieved after construction deviations and deflection, in accordance with BS 6229, a vapour control layer fully bonded with laps sealed, 220mm Kingspan Thermaroof TR26 LPC/FM (thermal conductivity 0.022 W/mK) in two layers of 110mm break-bonded and fully adhered or mechanically fixed with the fastener correction included, and a single ply or reinforced bitumen membrane waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands, outlets, overflows and edge trims. Where the building has a storey more than 11m above ground the roof insulation within 1.5m of a boundary or a higher external wall is to be Class A2-s1, d0 or better, and mineral wool or cellular glass of 0.038 W/mK at 300mm is to be used in that zone.",
       "This build-up calculates at 0.10 W/m²K to BS EN ISO 6946 fully adhered on a 150mm concrete deck; 200mm calculates at 0.11 on a concrete deck, meeting the notional value with no margin. Roof-mounted plant, photovoltaics and access routes are to be on paving supports or a proprietary system, with the waterproofing protected and a guarded access route where maintenance is regular."
      ]
     }
@@ -5516,26 +5463,21 @@
        "t": 150,
        "material": "47 x 150mm C16 joists at 400mm centres to span the garage with firring",
        "hatch": "timber",
-       "read_from": "47mm x 150mm C16 joists at 400mm centres to span the garage with firrings to"
-      },
-      {
-       "t": 18,
-       "material": "exterior grade plywood",
-       "hatch": "timber",
-       "read_from": "18mm exterior grade plywood or OSB3 decking"
+       "read_from": "47mm x 150mm C16 joists at 400mm centres to span the garage with firrings"
       }
      ],
      "edge": [],
-     "total_mm": 168,
+     "total_mm": 150,
      "extraction_notes": [
-      "not treated as a layer: 'centres to span the garage with firrings to'",
-      "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands and edge trims'",
+      "not treated as a layer: 'centres to span the garage with firrings'",
+      "not a layer — 18mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'exterior grade plywood or OSB3 decking'",
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'upstands and edge trims'",
       "not a layer — 25mm reads as a spacing, a level, working or an alternative construction: 'gap along two opposite eaves where a ceiling is fitt'"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Flat roof of 47mm x 150mm C16 joists at 400mm centres to span the garage with firrings to a finished fall of not less than 1:40, 18mm exterior grade plywood or OSB3 decking, and a three-layer built-up reinforced bitumen membrane, a single ply membrane or a GRP system to the manufacturer's specification and BBA certificate with 150mm upstands and edge trims. The joist void is to be cross-ventilated by a continuous 25mm gap along two opposite eaves where a ceiling is fitted; where the joists are exposed no ventilation is needed.",
+      "Flat roof of 47mm x 150mm C16 joists at 400mm centres to span the garage with firrings, the roof designed to a fall of not less than 1:40 so that a finished fall of not less than 1:80 is achieved after construction deviations and deflection, in accordance with BS 6229, 18mm exterior grade plywood or OSB3 decking, and a three-layer built-up reinforced bitumen membrane, a single ply membrane or a GRP system to the manufacturer's specification and BBA certificate with 150mm upstands and edge trims. The joist void is to be cross-ventilated by a continuous 25mm gap along two opposite eaves where a ceiling is fitted; where the joists are exposed no ventilation is needed.",
       "A cold deck roof is only acceptable on an unheated building; where the garage is heated or is to be converted, the roof is to be a warm deck as RF3. Joists to be strapped to the walls at not more than 2m centres and to be treated where they bear on masonry."
      ]
     },
@@ -5549,42 +5491,31 @@
      "standard": "0.15 W/m²K",
      "layers": [
       {
-       "t": 12.5,
-       "material": "plasterboard ceiling below",
-       "hatch": "pboard",
-       "read_from": "12.5mm plasterboard ceiling below"
-      },
-      {
-       "t": 150,
-       "material": "Kingspan Thermaroof TR27 LPC/FM",
-       "hatch": "ins",
-       "read_from": "150mm Kingspan Thermaroof TR27 LPC/FM "
+       "t": 200,
+       "material": "47 x 200mm C24 joists at 400mm centres to the engineer's design",
+       "hatch": "timber",
+       "read_from": "47mm x 200mm C24 joists at 400mm centres to the engineer's design"
       },
       {
        "t": 18,
        "material": "exterior grade plywood",
        "hatch": "timber",
-       "read_from": "18mm exterior grade plywood or OSB3 decking laid to finished falls of not le"
-      },
-      {
-       "t": 200,
-       "material": "47 x 200mm C24 joists at 400mm centres to the engineer's design",
-       "hatch": "timber",
-       "read_from": "47mm x 200mm C24 joists at 400mm centres to the engineer's design"
+       "read_from": "18mm exterior grade plywood or OSB3 decking on firrings"
       }
      ],
      "edge": [],
-     "total_mm": 380.5,
+     "total_mm": 218,
      "extraction_notes": [
       "not treated as a layer: 'centres to the engineer's design'",
-      "not a layer — 120mm reads as a spacing, a level, working or an alternative construction: 'and over'",
-      "not a layer — 150mm reads as a spacing, a level, working or an alternative construction: 'upstands'",
-      "layers reversed so the ceiling finish reads at the bottom — the clause states this build-up from the outside in"
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'Kingspan Thermaroof TR27 LPC/FM'",
+      "not a layer — 120mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'and over'",
+      "not a layer — 150mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'upstands'",
+      "not a layer — 12.5mm comes after a stated result in its sentence, so it reads as working or as an alternative rather than as this build-up; read the clause: 'plasterboard ceiling below'"
      ],
      "verified_table": null,
      "stud_core": null,
      "clause": [
-      "Warm deck flat roof of 47mm x 200mm C24 joists at 400mm centres to the engineer's design, 18mm exterior grade plywood or OSB3 decking laid to finished falls of not less than 1:40 on firrings, a vapour control layer fully bonded to the deck with laps sealed, 150mm Kingspan Thermaroof TR27 LPC/FM (thermal conductivity 0.024 W/mK at 120mm and over) fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands, edge trims and outlets, and a 12.5mm plasterboard ceiling below.",
+      "Warm deck flat roof of 47mm x 200mm C24 joists at 400mm centres to the engineer's design, 18mm exterior grade plywood or OSB3 decking on firrings, designed to a fall of not less than 1:40 so that a finished fall of not less than 1:80 is achieved after construction deviations and deflection, in accordance with BS 6229, a vapour control layer fully bonded to the deck with laps sealed, 150mm Kingspan Thermaroof TR27 LPC/FM (thermal conductivity 0.024 W/mK at 120mm and over) fully adhered, and a single ply or high performance built-up felt waterproofing system to the manufacturer's specification and BBA certificate with 150mm upstands, edge trims and outlets, and a 12.5mm plasterboard ceiling below.",
       "This build-up calculates at 0.15 W/m²K to BS EN ISO 6946 fully adhered; where mechanically fixed use 160mm. The joist void is unventilated in a warm deck and no soffit vents are to be provided."
      ]
     },

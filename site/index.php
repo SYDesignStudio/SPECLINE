@@ -12,20 +12,23 @@ header('Cache-Control: public, max-age=60');
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Specline — Building Regulations specifications for building control</title>
-<meta name="description" content="Specline drafts Building Regulations specifications for building control: eight residential project types for England, written to the Approved Documents, with the U-value working attached. Issued under your practice's name. For architects and architectural technologists.">
+<title>Building Regulations specification software for architects — Specline</title>
+<meta name="description" content="Write a Building Regulations specification for a house extension, loft conversion, garage conversion or new build in England. Eight project types, written to the Approved Documents, with U-value calculations to BS EN ISO 6946 attached. Issued under your own practice's name. For architects and architectural technologists.">
 <!-- TODO before launch: set the real domain on the canonical and og:url tags below. -->
 <link rel="canonical" href="https://specline.co.uk/">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0E6E85">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Specline">
-<meta property="og:title" content="Specline — Building Regulations specifications for building control">
+<meta property="og:title" content="Building Regulations specification software for architects — Specline">
 <meta property="og:description" content="Building Regulations specifications for extensions, lofts, conversions and new build in England, written to the Approved Documents with the U-value working attached. Issued under your own name.">
 <meta property="og:url" content="https://specline.co.uk/">
 <meta property="og:locale" content="en_GB">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Specline — Building Regulations specifications for building control">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://specline.co.uk/static/img/spec-cover.png">
+<meta property="og:image" content="https://specline.co.uk/static/img/spec-cover.png">
+<meta property="og:image:alt" content="The cover page of a Building Regulations specification produced in Specline, carrying the practice's own name and address.">
+<meta name="twitter:title" content="Building Regulations specification software for architects — Specline">
 <meta name="twitter:description" content="Specifications written to the Approved Documents, with the U-value working attached. Issued under your practice's name.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230E6E85'/%3E%3Cpath d='M13.5 7.5H8V24.5H13.5M18.5 7.5H24V24.5H18.5' fill='none' stroke='%23FBFAF8' stroke-width='3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,6 +41,7 @@ header('Cache-Control: public, max-age=60');
  {"@type":"SoftwareApplication","name":"Specline","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://specline.co.uk/",
   "description":"Drafts Building Regulations specifications for building control across eight residential project types in England, written to the Approved Documents, with U-value calculations to BS EN ISO 6946 and BS EN ISO 13370 attached.",
   "publisher":{"@id":"https://specline.co.uk/#org"},
+  "screenshot":["https://specline.co.uk/static/img/spec-cover.png","https://specline.co.uk/static/img/spec-clauses.png","https://specline.co.uk/static/img/uvalue-working.png","https://specline.co.uk/static/img/detail-sheet.png"],
   "offers":[
    {"@type":"Offer","name":"Solo","price":"39","priceCurrency":"GBP","availability":"https://schema.org/PreOrder","description":"1 user, all 8 project types, unlimited specifications. £39 a month or £390 a year, ex VAT."},
    {"@type":"Offer","name":"Practice","price":"89","priceCurrency":"GBP","availability":"https://schema.org/PreOrder","description":"Up to 5 users, shared job library, the practice's own added clauses. £89 a month or £890 a year, ex VAT."},
@@ -46,6 +50,10 @@ header('Cache-Control: public, max-age=60');
   {"@type":"Question","name":"Does Specline certify Building Regulations compliance?","acceptedAnswer":{"@type":"Answer","text":"No. Specline drafts the specification. The named designer at the practice remains responsible for its suitability for the project, and compliance of the work is determined by the building control body. Nothing Specline produces is a certificate, an approval or a plan check."}},
   {"@type":"Question","name":"Which regions and project types does Specline cover?","acceptedAnswer":{"@type":"Answer","text":"England, across eight residential project types: house extension, loft conversion, flat conversion, garage conversion, new build house, new build flats, basement conversion and new garage. Wales is planned as a second region."}},
   {"@type":"Question","name":"Whose name goes on the specification?","acceptedAnswer":{"@type":"Answer","text":"The practice's own. The logo, address, named designer and running header come from the practice profile on every plan, including per-specification purchases. Specline's mark never appears on a generated document."}},
+  {"@type":"Question","name":"What is a Building Regulations specification?","acceptedAnswer":{"@type":"Answer","text":"A written description of how a building will be constructed, clause by clause, submitted to building control alongside the drawings. It states the construction of each element layer by layer, the U-values achieved, fire and sound performance, ventilation rates, drainage and services. Building control reads it with the plans; the drawings show where things are and the specification says what they are."}},
+  {"@type":"Question","name":"Do I need a specification for a house extension?","acceptedAnswer":{"@type":"Answer","text":"A full plans application is assessed on the drawings and the written information submitted with them. Generic notes on a drawing sheet are usually where queries come from, because they are rarely project-specific. A separate specification answers the questions before they are asked, and it is the document Specline produces."}},
+  {"@type":"Question","name":"Does it include U-value calculations?","acceptedAnswer":{"@type":"Answer","text":"Yes. Cavity walls, framed walls, floors, basements and roofs are calculated to BS EN ISO 6946 by the combined method with the Annex F corrections for air gaps and wall ties, and to BS EN ISO 13370 for ground floors and heated basements. The working prints in the specification as its own section, so a plan checker can follow the arithmetic rather than take the figure on trust."}},
+  {"@type":"Question","name":"Is Specline a specification template?","acceptedAnswer":{"@type":"Answer","text":"No. A template is a document you edit. Specline assembles the specification from a maintained clause library for the project type you choose, numbers the build-up references per job, calculates the U-values for the construction you specify, and produces a PDF and an editable Word file under your own practice identity."}},
   {"@type":"Question","name":"What happens when the Approved Documents change?","acceptedAnswer":{"@type":"Answer","text":"The 2026 editions of Approved Documents L1 and F1 were published on 24 March 2026 and come into force on 24 March 2027. Every specification carries that flag, and the library is maintained against the editions in force. That is why Specline is a subscription rather than a one-off licence."}}]}
 ]}
 </script>
@@ -175,6 +183,17 @@ section.tight{padding:64px 0}
 .type .td{color:var(--ink-2);font-size:13.5px;line-height:1.4}
 .total{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin:14px 0 0}
 
+/* what it produces — real output, not mock-ups */
+.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:34px}
+@media(max-width:820px){.shots{grid-template-columns:1fr}}
+.shot{margin:0;background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-card);overflow:hidden;display:flex;flex-direction:column}
+.shot img{display:block;width:100%;height:auto;border-bottom:1px solid var(--rule-soft);background:#fff}
+.shot figcaption{padding:14px 18px 16px}
+.shot .cap{font-weight:600;font-size:15px;margin:0 0 4px}
+.shot .sub{color:var(--ink-2);font-size:14px;line-height:1.5;margin:0}
+.shot .eyebrow{margin:0 0 8px}
+.shotnote{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin:18px 0 0}
+
 /* practice section */
 .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
 @media(max-width:820px){.two{grid-template-columns:1fr;gap:32px}}
@@ -258,6 +277,7 @@ footer .links span{color:var(--ink-3)}
     <a class="lockup" href="#top" aria-label="Specline"><svg viewBox="0 0 6.7 28" aria-hidden="true"><path d="M5.7 1H1V27H5.7" fill="none" stroke="var(--bracket)" stroke-width="2" stroke-linejoin="miter"/></svg><b aria-hidden="true">Specline</b><svg viewBox="0 0 6.7 28" aria-hidden="true"><path d="M1 1H5.7V27H1" fill="none" stroke="var(--bracket)" stroke-width="2" stroke-linejoin="miter"/></svg></a>
     <nav class="nav" aria-label="Sections">
       <a href="#what">What you issue</a>
+      <a href="#output">The document</a>
       <a href="#types">Project types</a>
       <a href="#practices">For practices</a>
       <a href="#pricing">Pricing</a>
@@ -324,22 +344,57 @@ footer .links span{color:var(--ink-3)}
   </div>
 </section>
 
+<section id="output">
+  <div class="wrap">
+    <p class="eyebrow">What comes out of it</p>
+    <h2>The document, and the working behind it</h2>
+    <p class="lede">A specimen house extension, produced in Specline and shown exactly as it prints. The practice name, address and accent on it are the practice's own — Specline's mark never appears on a specification.</p>
+    <div class="shots">
+      <figure class="shot">
+        <img src="/static/img/spec-cover.png" width="1440" height="880" loading="lazy" decoding="async"
+             alt="Cover page of a Building Regulations specification for a house extension, showing the practice name and address, the project, site address, job number, local authority, application type and revision, above the construction build-up schedule.">
+        <figcaption><p class="eyebrow">Cover and schedule</p><p class="cap">Your identity, and the build-up schedule</p>
+          <p class="sub">The cover carries the practice's logo or name, the job record and the responsibility statement. Underneath it, every build-up on the job with its reference and the standard it meets.</p></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="/static/img/spec-clauses.png" width="1440" height="860" loading="lazy" decoding="async"
+             alt="Part A of the specification: trench fill foundation and full fill cavity wall clauses written out layer by layer, with target U-values and designer notes.">
+        <figcaption><p class="eyebrow">Part A</p><p class="cap">Construction, layer by layer</p>
+          <p class="sub">Flowing prose rather than numbered legal clauses: the construction described as it is built, with named products, their alternatives, the standards cited inline, and notes to the designer set apart in grey.</p></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="/static/img/uvalue-working.png" width="1404" height="900" loading="lazy" decoding="async"
+             alt="U-value working for a full fill cavity wall: layer by layer thermal resistances, upper and lower resistance limits, the Annex F air gap and wall tie corrections, and the resulting U-value of 0.18 W/m²K against a target of 0.18.">
+        <figcaption><p class="eyebrow">Section 4</p><p class="cap">U-value working you can hand over</p>
+          <p class="sub">Every calculated build-up prints its arithmetic: layer resistances, the upper and lower limits of the combined method, the Annex F corrections for air gaps and wall ties, and the conductivity source for each material.</p></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="/static/img/detail-sheet.png" width="1192" height="720" loading="lazy" decoding="async"
+             alt="A typical vertical section through a full fill cavity wall at 1:10, dimensioned and annotated, with each annotation quoted from the specification clause beside it.">
+        <figcaption><p class="eyebrow">Detail sheets</p><p class="cap">The section, drawn from the same clause</p>
+          <p class="sub">Each build-up draws as a dimensioned section at 1:10, and every annotation on it is quoted from the clause, so the drawing cannot drift away from the specification.</p></figcaption>
+      </figure>
+    </div>
+    <p class="shotnote">Specimen project. No client, address or job of anyone's appears on this page.</p>
+  </div>
+</section>
+
 <section id="types">
   <div class="wrap">
     <p class="eyebrow">Project types · England</p>
     <h2>Eight residential project types</h2>
     <p class="lede" style="margin-bottom:30px">Each carries its own categories, build-ups and notes. Pick the type, work through the categories, and the document builds as you go.</p>
     <div class="types">
-      <div class="type"><span class="tk"><b>EXT</b><span>18 build-ups · 53 notes</span></span><span class="tn">House extension</span><span class="td">Single and two storey, rear and side</span></div>
+      <div class="type"><span class="tk"><b>EXT</b><span>21 build-ups · 53 notes</span></span><span class="tn">House extension</span><span class="td">Single and two storey, rear and side</span></div>
       <div class="type"><span class="tk"><b>LFT</b><span>15 build-ups · 36 notes</span></span><span class="tn">Loft conversion</span><span class="td">Dormer, hip to gable, room in roof</span></div>
       <div class="type"><span class="tk"><b>FLT</b><span>14 build-ups · 37 notes</span></span><span class="tn">Flat conversion</span><span class="td">Material change of use, Part E</span></div>
-      <div class="type"><span class="tk"><b>GAR</b><span>18 build-ups · 35 notes</span></span><span class="tn">Garage conversion</span><span class="td">Integral and detached</span></div>
-      <div class="type"><span class="tk"><b>NBH</b><span>14 build-ups · 58 notes</span></span><span class="tn">New build house</span><span class="td">Full notional dwelling assessment</span></div>
-      <div class="type"><span class="tk"><b>NBF</b><span>14 build-ups · 51 notes</span></span><span class="tn">New build flats</span><span class="td">Separating construction, common parts</span></div>
+      <div class="type"><span class="tk"><b>GAR</b><span>20 build-ups · 36 notes</span></span><span class="tn">Garage conversion</span><span class="td">Integral and detached</span></div>
+      <div class="type"><span class="tk"><b>NBH</b><span>16 build-ups · 58 notes</span></span><span class="tn">New build house</span><span class="td">Full notional dwelling assessment</span></div>
+      <div class="type"><span class="tk"><b>NBF</b><span>16 build-ups · 55 notes</span></span><span class="tn">New build flats</span><span class="td">Separating construction, common parts</span></div>
       <div class="type"><span class="tk"><b>BSM</b><span>10 build-ups · 32 notes</span></span><span class="tn">Basement conversion</span><span class="td">Underpinning, tanking, BS 8102</span></div>
-      <div class="type"><span class="tk"><b>GBD</b><span>10 build-ups · 23 notes</span></span><span class="tn">New garage</span><span class="td">Detached and attached, unheated</span></div>
+      <div class="type"><span class="tk"><b>GBD</b><span>12 build-ups · 23 notes</span></span><span class="tn">New garage</span><span class="td">Detached and attached, unheated</span></div>
     </div>
-    <p class="total">113 build-ups · 325 notes · conductivities verified against manufacturer and BBA data · Wales planned as a second region</p>
+    <p class="total">124 build-ups · 330 notes · conductivities verified against manufacturer and BBA data · Wales planned as a second region</p>
   </div>
 </section>
 
@@ -420,12 +475,16 @@ footer .links span{color:var(--ink-3)}
     <p class="eyebrow">Questions</p>
     <h2>Straight answers</h2>
     <dl class="faq" style="margin-top:22px">
+      <div><dt>What is a Building Regulations specification?</dt><dd>A written description of how a building will be constructed, clause by clause, submitted to building control alongside the drawings. It states the construction of each element layer by layer, the U-values achieved, fire and sound performance, ventilation rates, drainage and services. The drawings show where things are; the specification says what they are.</dd></div>
+      <div><dt>Do I need one for a house extension?</dt><dd>A full plans application is assessed on the drawings and the written information sent with them. Generic notes on a drawing sheet are where most queries come from, because they are rarely project-specific. A separate specification answers those questions before they are asked.</dd></div>
+      <div><dt>Does it include U-value calculations?</dt><dd>Yes, and it shows the working. Cavity walls, framed walls, floors, basements and roofs are calculated to BS EN ISO 6946 by the combined method with the Annex F corrections for air gaps and wall ties, and to BS EN ISO 13370 for ground floors and heated basements. The arithmetic prints as its own section so a plan checker can follow it rather than take the figure on trust.</dd></div>
+      <div><dt>Is this a specification template?</dt><dd>No. A template is a document you edit and hope you edited everywhere. Specline assembles the specification from a maintained library for the project type, numbers the build-up references per job, calculates the U-values for the construction you specify, and produces the PDF and the Word file under your own identity.</dd></div>
       <div><dt>Does Specline certify Building Regulations compliance?</dt><dd>No. Specline drafts the specification. The named designer at the practice remains responsible for its suitability for the project, and compliance of the work is determined by the building control body. Nothing Specline produces is a certificate, an approval or a plan check.</dd></div>
       <div><dt>Which regions and project types does it cover?</dt><dd>England, across eight residential project types: house extension, loft conversion, flat conversion, garage conversion, new build house, new build flats, basement conversion and new garage. Wales is planned as a second region.</dd></div>
       <div><dt>Whose name goes on the specification?</dt><dd>Yours. The logo, address, named designer and running header come from your practice profile on every plan, including per-specification purchases. Specline's mark never appears on a generated document.</dd></div>
       <div><dt>What happens when the Approved Documents change?</dt><dd>The 2026 editions of Approved Documents L1 and F1 were published on 24 March 2026 and come into force on 24 March 2027. Every specification carries that flag, and the library is maintained against the editions in force. That is why Specline is a subscription rather than a one-off licence.</dd></div>
       <div><dt>Where does the wording come from?</dt><dd>It is written from the Approved Documents and the British Standards they cite, in our own words. Nothing is copied from a commercial specification library. Every figure in it has been checked against the source, with the date recorded.</dd></div>
-      <div><dt>Can I export to Word?</dt><dd>PDF at launch, with an editable Word export to follow. The PDF carries the U-value working as its own section.</dd></div>
+      <div><dt>Can I export to Word?</dt><dd>Yes. Every specification downloads as a PDF and as an editable .docx, both carrying the U-value working as their own section. The Word file is the one to edit if you want to add a project-specific clause of your own before issue.</dd></div>
     </dl>
   </div>
 </section>
