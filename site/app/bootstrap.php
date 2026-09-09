@@ -109,7 +109,7 @@ function db(): PDO {
     }
     return $pdo;
 }
-const SCHEMA_VERSION = 8;
+const SCHEMA_VERSION = 9;
 function db_driver(): string { db(); return $GLOBALS['DB_DRIVER'] ?? '?'; }
 
 function migrate(PDO $pdo): void {
@@ -176,12 +176,31 @@ function migrate(PDO $pdo): void {
        only if the query fails; that works the same on SQLite and MySQL. */
     foreach ([['practices', 'contact_email', "VARCHAR(254) NOT NULL DEFAULT ''"],
               ['practices', 'stripe_customer_id', "VARCHAR(80) NOT NULL DEFAULT ''"],
+              ['practices', 'stripe_customer_id_test', "VARCHAR(80) NOT NULL DEFAULT ''"],
               ['entitlements', 'ref', "VARCHAR(120) NOT NULL DEFAULT ''"],
               ['entitlements', 'event_at', "VARCHAR(20) NOT NULL DEFAULT ''"],
               ['tokens',    'payload',       "TEXT NOT NULL DEFAULT ''"]] as [$table, $col, $type]) {
         try { $pdo->query("SELECT $col FROM $table LIMIT 1"); }
         catch (Throwable $t) { try { $pdo->exec("ALTER TABLE $table ADD COLUMN $col $type"); } catch (Throwable $t2) {} }
     }
+
+    /* A Stripe customer exists in one mode only. `stripe_customer_id` used to hold whichever one
+       had been seen last, which meant the first LIVE checkout for a practice that had bought in
+       test reused a test customer and Stripe refused it outright. The column now holds the live
+       customer and `stripe_customer_id_test` the test one.
+
+       Anything already in the old column was written while this site was in test mode - billing
+       shipped on 9 September 2026 and the live key went in the same evening, after this fault was
+       found by the first live checkout, so no live customer can have been recorded. It is moved
+       once, under a flag, rather than on every request. */
+    try {
+        $done = $pdo->query("SELECT v FROM settings WHERE k = 'stripe_customer_split'")->fetchColumn();
+        if ($done === false) {
+            $pdo->exec("UPDATE practices SET stripe_customer_id_test = stripe_customer_id WHERE stripe_customer_id <> ''");
+            $pdo->exec("UPDATE practices SET stripe_customer_id = '' WHERE stripe_customer_id <> ''");
+            $pdo->prepare('INSERT INTO settings (k, v) VALUES (?, ?)')->execute(['stripe_customer_split', gmdate('c')]);
+        }
+    } catch (Throwable $t) { /* a database that has no practices table yet has nothing to move */ }
 }
 
 require_once __DIR__ . '/billing.php';

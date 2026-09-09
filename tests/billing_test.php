@@ -154,6 +154,37 @@ ok('and saving it did not disturb the test one', stripe_price_id('practice', 'mo
 ok('an event naming the live price is still understood in test mode',
    stripe_plan_for_price('price_live_practice_monthly')['plan'] === 'practice');
 
+/* --- a Stripe customer belongs to one mode too --- */
+/* The first live checkout failed on exactly this: the practice still held the customer created
+   during the test purchase, and Stripe answered "No such customer ...; a similar object exists in
+   test mode, but a live mode key was used". Every practice that had bought in test would have been
+   unable to buy anything in live. */
+q('UPDATE practices SET stripe_customer_id = \'\', stripe_customer_id_test = \'\' WHERE id = ?', [$pid]);
+stripe_remember_customer($pid, 'cus_test_one');
+ok('a customer met in test mode is remembered as a test customer', stripe_customer_for($pid) === 'cus_test_one');
+$GLOBALS['CFG']['stripe_secret_key'] = 'sk_live_abc123';
+ok('AND IS NEVER OFFERED TO A LIVE CHECKOUT — Stripe refuses it outright',
+   stripe_customer_for($pid) === '', stripe_customer_for($pid));
+stripe_remember_customer($pid, 'cus_live_one');
+ok('the live customer is remembered separately', stripe_customer_for($pid) === 'cus_live_one');
+$GLOBALS['CFG']['stripe_secret_key'] = 'sk_test_abc123';
+ok('and the test one is still there to go back to', stripe_customer_for($pid) === 'cus_test_one');
+
+/* An event carrying no practice metadata is placed by its customer, and must be placed whichever
+   mode it came from — the identifiers are unique across the two. */
+$byCust = function (string $evid, string $cust) {
+    return ['id' => $evid, 'type' => 'customer.subscription.updated', 'data' => ['object' => [
+        'id' => 'sub_c', 'customer' => $cust, 'status' => 'active', 'metadata' => [],
+        'items' => ['data' => [['price' => ['id' => 'price_practice_monthly']]]],
+    ]]];
+};
+ok('an event is placed by a live customer id even while the key is test',
+   stripe_practice_of($byCust('evt_c1', 'cus_live_one')['data']['object']) === $pid);
+ok('and by a test one', stripe_practice_of($byCust('evt_c2', 'cus_test_one')['data']['object']) === $pid);
+ok('an unknown customer places nothing', stripe_practice_of($byCust('evt_c3', 'cus_nobody')['data']['object']) === 0);
+/* Left clear, so what follows meets this practice with no customer of either kind. */
+q("UPDATE practices SET stripe_customer_id = '', stripe_customer_id_test = '' WHERE id = ?", [$pid]);
+
 /* The identifiers saved before the buckets existed are test-mode ones and must keep working. */
 set_setting('stripe_price_solo_year', 'price_legacy_solo_year');
 ok('an identifier saved before the buckets existed still answers for test',
@@ -180,7 +211,7 @@ $e = entitlement($pid);
 ok('a subscription event grants the plan its price names', $e['live'] && $e['plan'] === 'practice', $e['plan'] . ' ' . $e['status']);
 ok('and it is recorded as coming from Stripe', $e['source'] === 'stripe', $e['source']);
 ok('the customer is remembered for the events that follow',
-   (string)val('SELECT stripe_customer_id FROM practices WHERE id = ?', [$pid]) === 'cus_123');
+   stripe_customer_for($pid) === 'cus_123', stripe_customer_for($pid));
 
 $before = (int)val('SELECT COUNT(*) FROM entitlements WHERE practice_id = ?', [$pid]);
 $again = stripe_handle_event($sub('evt_a', 'active', time() + 2592000));

@@ -147,7 +147,7 @@ function stripe_checkout(int $practice_id, string $plan, string $period, int $qt
         'metadata'             => ['practice_id' => (string)$practice_id, 'plan' => $plan, 'period' => $period],
     ];
     if ($email !== '') $p['customer_email'] = $email;
-    $cust = (string)(val('SELECT stripe_customer_id FROM practices WHERE id = ?', [$practice_id]) ?? '');
+    $cust = stripe_customer_for($practice_id);
     if ($cust !== '') { $p['customer'] = $cust; unset($p['customer_email']); }
     if ($sub) {
         $p['subscription_data'] = ['metadata' => ['practice_id' => (string)$practice_id, 'plan' => $plan, 'period' => $period]];
@@ -163,7 +163,7 @@ function stripe_checkout(int $practice_id, string $plan, string $period, int $qt
 
 /** The customer portal, where a subscriber changes a card or cancels — Stripe's page, not ours. */
 function stripe_portal(int $practice_id, string $base): array {
-    $cust = (string)(val('SELECT stripe_customer_id FROM practices WHERE id = ?', [$practice_id]) ?? '');
+    $cust = stripe_customer_for($practice_id);
     if ($cust === '') return ['ok' => false, 'error' => 'This practice has no Stripe customer record yet.'];
     $r = stripe_call('billing_portal/sessions', ['customer' => $cust, 'return_url' => $base . '/account/']);
     if (!$r['ok']) return ['ok' => false, 'error' => (string)($r['body']['error']['message'] ?? 'Stripe refused to open the billing portal.')];
@@ -221,16 +221,33 @@ function stripe_practice_of(array $obj): int {
     if (!empty($obj['client_reference_id'])) return (int)$obj['client_reference_id'];
     $cust = (string)($obj['customer'] ?? '');
     if ($cust !== '') {
-        $id = val('SELECT id FROM practices WHERE stripe_customer_id = ?', [$cust]);
+        /* Both columns are searched. Customer identifiers are unique across the two modes, so an
+           event that arrives from the other one is still placed rather than dropped. */
+        $id = val('SELECT id FROM practices WHERE stripe_customer_id = ? OR stripe_customer_id_test = ?', [$cust, $cust]);
         if ($id !== null) return (int)$id;
     }
     return 0;
 }
 
+/**
+ * Which column holds this practice's customer. A Stripe customer belongs to ONE mode: a customer
+ * created in test does not exist in live, and passing it to a live checkout is refused outright.
+ * The two are therefore kept apart exactly as the price identifiers are.
+ */
+function stripe_customer_col(): string {
+    return stripe_price_bucket() === 'live' ? 'stripe_customer_id' : 'stripe_customer_id_test';
+}
+function stripe_customer_for(int $practice_id): string {
+    if ($practice_id <= 0) return '';
+    $c = stripe_customer_col();
+    return (string)(val("SELECT $c FROM practices WHERE id = ?", [$practice_id]) ?? '');
+}
+
 /** Remember the customer so later events can find their way home. */
 function stripe_remember_customer(int $practice_id, string $customer): void {
     if ($practice_id <= 0 || $customer === '') return;
-    q('UPDATE practices SET stripe_customer_id = ? WHERE id = ? AND (stripe_customer_id IS NULL OR stripe_customer_id = \'\')',
+    $c = stripe_customer_col();
+    q("UPDATE practices SET $c = ? WHERE id = ? AND ($c IS NULL OR $c = '')",
       [$customer, $practice_id]);
 }
 
