@@ -312,6 +312,14 @@ h1,h2,h3{font-family:var(--disp);font-weight:400;letter-spacing:-.015em;margin:0
   --pmuted:#6C7278;--prule:#DED9D1;--psoft:#EFF0F0;--pacc:#3E4244;--pacc-ink:#303335}
 .plogo{height:64px;width:auto;margin:0 0 4px;display:block}
 /* No logo: the practice's own name set as a wordmark. A cover has to carry something. */
+/* A draft download is marked for a practice that pays per specification — the paper shows the
+   same mark the file will carry. Amber is semantic here in the sense the identity sheet allows:
+   confirm before issue. It is not brand colour and must never be used as one. */
+.draftband{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:-10px -12px 20px;padding:8px 12px;
+  border:1px solid #E7C9A0;border-left:3px solid #B45309;border-radius:var(--r-input);background:#FDF6EC}
+.draftband b{font-family:var(--cond);font-size:11px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:#8A4308}
+.draftband span{font-size:11.5px;line-height:1.45;color:#6B5B49}
 .pmark{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0 0 6px;color:#23262A}
 .pmark span{color:var(--pacc)}
 .paddr{font-size:10px;color:var(--pmuted);margin:3px 0 0;padding-bottom:10px;border-bottom:2.5px solid var(--pacc)}

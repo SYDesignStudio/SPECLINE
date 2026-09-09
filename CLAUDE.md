@@ -1119,11 +1119,31 @@ on a refusal, so an issue is never written into a job's history unpaid.
 - **The toast says what it cost** — *One specification credit spent, 2 left* — and the figure is
   the server's, never one counted in the browser.
 
-**The hole this does not close: a draft download is the same document.** `Download PDF` on the
-specification page produces the identical file without pressing Issue, so a per-spec practice can
-take the deliverable and never pay. Closing it means marking draft downloads for an enforced
-per-spec practice, which changes what the customer's own document looks like — a product decision,
-not a technical one, and it is Salman's to make.
+### Marked drafts — `drafts_are_marked()`
+
+**A draft download was the same document.** `Download PDF` produced the identical file without
+pressing Issue, so a per-spec practice could take the deliverable and never pay. The mark is now
+the difference between what is free and what is paid for, and it is deliberately narrow:
+`drafts_are_marked()` takes `issue_charge()`'s own three exemptions — enforcement off, the owner,
+and a subscription that is not per-spec — so **anyone who is not charged to issue is not marked
+when drafting**. For them a draft never cost anything, and marking it would change a document they
+already pay for. `app.php` settles it at page load and injects `billing.mark_drafts`; the app
+reads it into `MARK_DRAFTS` and marks everything except what `issue()` builds.
+
+Three marks, because one is not enough:
+
+- **A diagonal across every page of the PDF**, light enough to read the specification through.
+- **A line in the CENTRE OF THE FOOTER.** It was at the top first and printed straight through the
+  running header, leaving both unreadable — the footer centre is the only band free on every page.
+  It exists because a light diagonal tint can disappear in a monochrome print, which is how
+  building control usually prints.
+- **A centred line in the Word header.** Word's own watermark is a VML shape and `docx.js` emits
+  no VML, so the mark is a paragraph above the running header instead: it repeats on every page
+  and cannot be scrolled past. The body of the document is untouched.
+
+The draft file is also named `…_DRAFT.docx`, and the preview carries the same band saying what it
+is and why. **Look at the PDF after touching any of this** — the header collision passed every
+assertion and was obvious the moment the page was looked at.
 
 Still to do before selling: **a solicitor** on auto-renewal, refunds, the founding-member promise
 and unspent credits — questions 5 to 11 of `docs/TERMS-DRAFT.md`.

@@ -340,6 +340,28 @@ q('DELETE FROM entitlements WHERE practice_id = ?', [$pid]);
 q('DELETE FROM spec_credits WHERE practice_id = ?', [$pid]);
 set_setting('billing_enforce', '0');
 
+/* --- a draft download is marked for whoever pays per specification --- */
+/* Issuing spends a credit and the Download button spends nothing, so without a mark a per-spec
+   practice could take the same document and never issue it. The exemptions are issue_charge()'s
+   own, deliberately: anyone who is not charged to issue is not marked when drafting. */
+q('DELETE FROM entitlements WHERE practice_id = ?', [$pid]);
+q('DELETE FROM spec_credits WHERE practice_id = ?', [$pid]);
+set_setting('billing_enforce', '0');
+ok('with enforcement off nothing is marked', !drafts_are_marked($member));
+set_setting('billing_enforce', '1');
+ok('WITH IT ON, A PRACTICE THAT PAYS PER SPEC HAS ITS DRAFTS MARKED', drafts_are_marked($member));
+ok('the owner is never marked, as the owner is never charged', !drafts_are_marked($owner));
+add_spec_credits($pid, 1, 'bought', 'test');
+ok('holding a credit does not exempt it — the credit is spent at issue, not at download',
+   drafts_are_marked($member));
+grant_entitlement($pid, 'solo', 'active', null, 'admin', 'test', 'test');
+ok('a subscription that is not per-spec is not marked', !drafts_are_marked($member));
+grant_entitlement($pid, 'payg', 'active', null, 'admin', 'test', 'test');
+ok('but a per-spec entitlement still is', drafts_are_marked($member));
+q('DELETE FROM entitlements WHERE practice_id = ?', [$pid]);
+q('DELETE FROM spec_credits WHERE practice_id = ?', [$pid]);
+set_setting('billing_enforce', '0');
+
 /* --- per-spec credits arrive by checkout --- */
 stripe_handle_event(['id' => 'evt_e', 'type' => 'checkout.session.completed', 'data' => ['object' => [
     'mode' => 'payment', 'payment_status' => 'paid', 'customer' => 'cus_123', 'payment_intent' => 'pi_1',

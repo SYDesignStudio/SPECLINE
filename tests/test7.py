@@ -130,6 +130,51 @@ with sync_playwright() as p:
     for brand in ("B5640A", "E8850C", "F5900A", "0E6E85"):
         ok("W22 no fixed brand colour: " + brand, brand not in xml.upper())
 
+    # W22b a draft download is marked for a practice that pays per specification. Without this
+    # the Download button hands over the same document the Issue button charges for, so the
+    # mark is the difference between what is free and what is paid for. The server decides who
+    # is marked (drafts_are_marked in site/app/billing.php); here the flag is set directly,
+    # because these suites run against dist/preview.html with no server behind them.
+    with zipfile.ZipFile(path) as z:
+        clean_hdr = z.read("word/header1.xml").decode("utf-8")
+    ok("W22b an unmarked download carries no draft mark", "NOT FOR ISSUE" not in clean_hdr.upper())
+
+    pg.evaluate("MARK_DRAFTS = true; renderPaper();")
+    pg.wait_for_timeout(300)
+    ok("W22c the preview says so, and says why",
+       pg.locator("#paper .draftband").count() == 1
+       and "credit is spent when you issue" in pg.locator("#paper .draftband").inner_text())
+
+    with pg.expect_download(timeout=40000) as di2:
+        pg.click("#btnDocx")
+    d2 = di2.value
+    p2 = os.path.join(DL, d2.suggested_filename)
+    d2.save_as(p2)
+    ok("W22d the draft file is named a draft", "_DRAFT" in d2.suggested_filename, d2.suggested_filename)
+    with zipfile.ZipFile(p2) as z:
+        hdr = z.read("word/header1.xml").decode("utf-8")
+        body2 = z.read("word/document.xml").decode("utf-8")
+    # The mark has to be in the HEADER, because that is what repeats on every page. In the body
+    # it would sit on page one and be scrolled past.
+    ok("W22e the mark is in the running header, so it is on every page",
+       "NOT FOR ISSUE" in hdr.upper(), hdr[:160])
+    ok("W22f and the specification itself is unchanged", "NOT FOR ISSUE" not in body2.upper())
+
+    # Issuing is the paid act, so the document it produces is never marked.
+    pg.evaluate("S.data.rev='P01'; S.history=[];")
+    with pg.expect_download(timeout=40000) as di3:
+        pg.evaluate("makeDoc('docx', true)")
+    d3 = di3.value
+    ok("W22g THE ISSUED DOCUMENT IS NEVER MARKED", "_DRAFT" not in d3.suggested_filename,
+       d3.suggested_filename)
+    p3 = os.path.join(DL, d3.suggested_filename)
+    d3.save_as(p3)
+    with zipfile.ZipFile(p3) as z:
+        ok("W22h nor is its header", "NOT FOR ISSUE" not in z.read("word/header1.xml").decode("utf-8").upper())
+    pg.evaluate("MARK_DRAFTS = false; renderPaper();")
+    pg.wait_for_timeout(200)
+    ok("W22i and with nothing to mark the band is gone", pg.locator("#paper .draftband").count() == 0)
+
     # W23 the practice page: three views, and each tab keeps the state the glance used to give
     pg.evaluate("go('practice')"); pg.wait_for_timeout(400)
     labs = [t.strip().splitlines()[0] for t in pg.locator("#practicepage .stab").all_inner_texts()]

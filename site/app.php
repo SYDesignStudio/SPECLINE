@@ -85,7 +85,11 @@ $boot = [
     'practice' => $profile,
     /* what this practice may do, so the tool can say so rather than fail at the last step */
     'billing'  => ['enforced' => billing_enforced(), 'issue' => entitled_to_issue((int)$u['practice_id']),
-                   'credits' => spec_credit_balance((int)$u['practice_id'])],
+                   'credits' => spec_credit_balance((int)$u['practice_id']),
+                   /* Whether a draft download carries the DRAFT mark. Settled here at page load,
+                      so a practice that subscribes in another tab has to reopen the tool for its
+                      drafts to come out clean — which is the safe way round. */
+                   'mark_drafts' => drafts_are_marked($u)],
     'account'  => '/account/',
     'signout'  => '/account/logout.php',
 ];

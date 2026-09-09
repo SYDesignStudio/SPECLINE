@@ -583,7 +583,7 @@ async function issue(){
     try{ charged=await db.issue(S.id, was); }
     catch(e){ toast((e&&e.message) || "This specification could not be issued."); return; }
   }
-  const ok=await makePdf();
+  const ok=await makeDoc("pdf",true);      /* the issued document is never marked */
   if(!ok) return;
   let n=0, ns=noteSections(); ns.forEach(v=>n+=v.length);
   S.history=S.history||[]; S.history.push({rev:was, at:Date.now(), n:orderedSel().length, m:n});
@@ -607,7 +607,11 @@ function renderPaper(){
   const w = pName().split(" ");
   const mark = P.logo ? `<img class="plogo" src="${P.logo}" alt="${esc(pName())}">`
                       : `<p class="pmark">${esc(w[0])}${w.length>1?`<span> ${esc(w.slice(1).join(" "))}</span>`:""}</p>`;
-  let h=`${mark}
+  /* The preview is what the draft download looks like, so it carries the same mark. It says why
+     as well as what, because a mark whose reason is not on the page reads as a fault. */
+  const band = MARK_DRAFTS ? `<div class="draftband"><b>${esc(DRAFT_MARK)}</b>
+      <span>A specification credit is spent when you issue. Drafting costs nothing, and a draft is marked.</span></div>` : "";
+  let h=`${band}${mark}
     <p class="paddr">${esc(P.addr)}${P.email?" &nbsp;·&nbsp; "+esc(P.email):""}${P.phone?" &nbsp;·&nbsp; "+esc(P.phone):""}</p>
     <h1 class="ptitle">BUILDING REGULATIONS<span class="o">SPECIFICATION</span></h1>
     <p class="psub">${esc(spec().name)} — ${esc(spec().region)}</p>
@@ -806,7 +810,25 @@ function safe(t){
       return n<0x100 || SAFE_KEEP.test(c); }).join("");
 }
 
-function buildPdf(){
+/**
+ * Stamp every page of a draft. Two marks, on purpose: the diagonal reads at a glance on screen,
+ * and the line in the running header survives a monochrome print, where a light tint does not.
+ * Both go on last, so no later page can escape them.
+ */
+function stampDraft(doc){
+  const n=doc.getNumberOfPages();
+  for(let i=1;i<=n;i++){
+    doc.setPage(i);
+    doc.setFont("helvetica","bold"); doc.setFontSize(44);
+    doc.setTextColor(232,206,178);        /* light enough to read the specification through */
+    doc.text(safe(DRAFT_MARK),105,180,{align:"center",angle:34});
+    /* The small one goes in the CENTRE OF THE FOOTER, which is the only band free on every page:
+       at the top it printed straight through the running header and left both unreadable. */
+    doc.setFontSize(7.5); doc.setTextColor(180,83,9);
+    doc.text(safe(DRAFT_MARK),105,290,{align:"center"});
+  }
+}
+function buildPdf(draft){
   const {jsPDF}=window.jspdf;
   const doc=new jsPDF({unit:"mm",format:"a4"});
   const L=22,R=18,W=210-L-R,BOT=280;
@@ -961,6 +983,7 @@ function buildPdf(){
        "before 24 March 2028. Confirm all clause and table references against the edition in force at the date "+
        "of submission.",8,2,MUTED);
   foot();
+  if(draft) stampDraft(doc);
   return doc;
 }
 
@@ -972,7 +995,7 @@ function buildPdf(){
    every heading, rule and reference on every subscriber's specification. */
 const DARK_HEX = "23262A", MUTED_HEX = "6E7477", RULE_HEX = "D9DCDD", WELL_HEX = "FBFAF8";
 
-function buildDocx(){
+function buildDocx(draft){
   const D = DOCX, d = S.data, r = refs(), sel = orderedSel();
   const ACC_HEX = accInk();
   const today = new Date().toLocaleDateString("en-GB", {day:"numeric", month:"long", year:"numeric"});
@@ -1122,7 +1145,8 @@ function buildDocx(){
   return D.build({
     body: out.join(""),
     header: {left: spec().name + " — Building Regulations Specification" + (d.address ? "  ·  " + d.address : ""),
-             right: (d.job ? "Job " + d.job : "") + "  |  Rev " + (d.rev || "P01")},
+             right: (d.job ? "Job " + d.job : "") + "  |  Rev " + (d.rev || "P01"),
+             mark: draft ? DRAFT_MARK : ""},
     footer: {left: pName() + (P.email ? "  ·  " + P.email : "")},
     image: img
   });
@@ -1130,11 +1154,17 @@ function buildDocx(){
 
 /* ---------------- actions ---------------- */
 let downloads=null, db=null;
+/* Whether a DRAFT download is marked as a draft. The server settles it (see drafts_are_marked()
+   in site/app/billing.php): only a practice that pays per specification is marked, because only
+   for them is the Download button a way to take the deliverable without paying for it. Opened
+   anywhere but the hosted site there is no answer and nothing is marked. */
+let MARK_DRAFTS=false;
+const DRAFT_MARK="DRAFT — NOT FOR ISSUE";
 function toast(m){ const t=document.createElement("div");t.className="toast";t.textContent=m;
   document.body.appendChild(t);setTimeout(()=>t.remove(),3400); }
 
-function specFilename(ext){
-  return `${(S.data.job||"spec").replace(/[^\w-]/g,"")}_${spec().name.replace(/\s+/g,"_")}_Spec_${S.data.rev||"P01"}.${ext}`;
+function specFilename(ext,draft){
+  return `${(S.data.job||"spec").replace(/[^\w-]/g,"")}_${spec().name.replace(/\s+/g,"_")}_Spec_${S.data.rev||"P01"}${draft?"_DRAFT":""}.${ext}`;
 }
 async function deliver(blob, filename, label){
   if(downloads){
@@ -1146,8 +1176,10 @@ async function deliver(blob, filename, label){
   setTimeout(()=>URL.revokeObjectURL(u),4000);
   toast(label+" downloaded"); return true;
 }
-/* fmt: "pdf" | "docx" */
-async function makeDoc(fmt){
+/* fmt: "pdf" | "docx". `issued` is set only by issue(), which is the paid act: everything else
+   is a draft, and a draft is marked where the practice pays per specification. */
+async function makeDoc(fmt,issued){
+  const draft = MARK_DRAFTS && !issued;
   const label = fmt==="docx" ? "Word file" : "PDF";
   const btns=[el("btnPdf"),el("btnPdf2"),el("btnDocx"),el("btnDocx2"),el("finish"),el("finishDocx"),el("issue")].filter(Boolean);
   btns.forEach(b=>{b.disabled=true;b.dataset.l=b.textContent;});
@@ -1155,8 +1187,8 @@ async function makeDoc(fmt){
   active.forEach(b=>{ if((fmt==="docx") === /Word/.test(b.dataset.l||"")) b.textContent="Building the "+label+"…"; });
   let ok=false;
   try{
-    const blob = fmt==="docx" ? buildDocx() : buildPdf().output("blob");
-    ok = await deliver(blob, specFilename(fmt), label);
+    const blob = fmt==="docx" ? buildDocx(draft) : buildPdf(draft).output("blob");
+    ok = await deliver(blob, specFilename(fmt,draft), label);
   }catch(e){ toast("Something went wrong building the "+label); console.error(e); }
   btns.forEach(b=>{b.disabled=false;b.textContent=b.dataset.l;});
   return ok;
@@ -1271,6 +1303,7 @@ if(restore()){ renderAll(); setSaveState("",db?"Saved":"Kept in this browser"); 
      saving, so no downloads capability is needed. */
   if(window.SPECLINE && window.SPECLINE.api){
     db = serverStore(window.SPECLINE);
+    MARK_DRAFTS = !!(window.SPECLINE.billing && window.SPECLINE.billing.mark_drafts);
     /* The signed-in account's own practice becomes what a profile is merged onto, so a field
        this practice has not filled in falls back to its account details — never to a firm
        compiled into the app. app.php builds it from the practices row. */

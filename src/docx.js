@@ -250,8 +250,16 @@ ${hasImg ? `<Relationship Id="rIdLogo" Type="http://schemas.openxmlformats.org/o
       + `xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" `
       + `xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"`;
 
+    /* A mark that has to appear on EVERY page belongs in the header, not in the body. Word's own
+       watermark is a VML shape in the header and this writer does not emit VML, so the mark is a
+       centred line above the running header instead: it repeats on every page, it survives a
+       monochrome print, and it cannot be scrolled past. */
+    const hdrMark = o.header && o.header.mark
+      ? para(run(o.header.mark, { b: true, sz: 26, color: "B45309" }), { align: "center", after: 40 })
+      : "";
+
     const header = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:hdr ${NS}>${para(
+<w:hdr ${NS}>${hdrMark}${para(
   [run(o.header && o.header.left || "", { sz: 15, color: "6E7477" }),
    run("\t\t", { sz: 15 }),
    run(o.header && o.header.right || "", { sz: 15, color: "6E7477" })],

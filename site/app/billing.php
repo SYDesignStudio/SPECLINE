@@ -270,6 +270,26 @@ function consume_spec_credit(int $practice_id, string $job_id, string $by, strin
 }
 
 /**
+ * Is this practice's DRAFT download marked as a draft?
+ *
+ * Issuing spends a credit; the Download button produces the same document and spends nothing, so
+ * without this a per-spec practice could take the deliverable and never issue it. The mark is the
+ * difference between what is free and what is paid for.
+ *
+ * The three exemptions are `issue_charge()`'s own, deliberately: enforcement off, the owner, and a
+ * subscription that is not per-spec. Anyone who is not charged to issue is not marked when
+ * drafting, because for them a draft has never cost anything and marking it would be a change to
+ * a document they already pay for.
+ */
+function drafts_are_marked(array $user): bool {
+    if (!billing_enforced())               return false;
+    if (($user['role'] ?? '') === 'owner') return false;
+    $e = entitlement((int)($user['practice_id'] ?? 0));
+    if ($e['live'] && $e['plan'] !== 'payg') return false;
+    return true;
+}
+
+/**
  * What issuing this specification costs, and whether it may go ahead. One place, so the answer
  * cannot differ between the endpoint that charges and the test that checks it.
  *
