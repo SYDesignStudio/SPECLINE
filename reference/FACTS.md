@@ -75,3 +75,13 @@ Kingspan K103/K106/K107/K108/K118 = 0.019; TF70 0.022; TR26 0.022; TR27 0.027 (<
 - **Eurothane GP** general purpose PIR: λ 0.022 W/mK; thicknesses 25, 30, 40, 50, 60, 70, 75, 80, 90, 100, 110, 120, 130, 140, 150, 160 mm; 2400 × 1200 board; applications floor, pitched roof, internal wall, ceiling and loft; BBA certificate for underfloor use cited on the page (number not shown). Ids `egp` (floor), `egpr` (rafter), `egpf` (frame).
 - No Recticel partial-fill cavity board, flat roof board or insulated plasterboard was verified, so those roles fall back to the Kingspan product and the clause says so.
 - Thickness lists: the roof and frame entries for GA4000, XT/PR-UF and Eco-Versal take the list verified for the floor board of the same name (same product, different application).
+
+## Flat roof falls — BS 6229
+
+**Design fall 1:40; finished fall not less than 1:80.** The design fall is the steeper of the two:
+it exists so that after construction deviations and structural deflection the roof still drains at
+1:80. Stating a *finished* 1:40 is not a stricter version of the same rule, it is a different and
+much steeper roof, and stating a finished 1:40 achieved by a design fall of 1:80 is impossible —
+which is what the extension's warm deck clause said until 9 September 2026, when a review of an
+issued specification caught it. All seven flat roof clauses in the library now carry the same
+sentence and cite BS 6229.

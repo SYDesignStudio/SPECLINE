@@ -68,7 +68,7 @@ function applyAccent(node){ if(!node) return;
 function coverNotice(){
   const who = P.designer ? `${P.designer} of ${pName()}` : pName();
   return {
-    lead:`To be read with the ${pName()} drawing pack, the structural engineer's design and calculations, and any specialist sub-contractor design. All work to comply with the Building Regulations 2010 (as amended) and the Approved Documents current at the date of issue.`,
+    lead:`To be read with the ${pName()} drawing pack, the structural engineer's design and calculations, and any specialist sub-contractor design. All work to comply with the Building Regulations 2010 (as amended) and the Approved Documents current at the date of issue. This specification takes precedence over any conflicting generic Building Regulations notes in the drawing pack, and any discrepancy is to be referred to the designer before construction.`,
     resp:`${who} is the named designer and remains responsible for the suitability of this specification for this project. Every clause and table reference is to be confirmed against the Approved Documents in force at the date of submission. Compliance of the work is determined by the building control body; this document is the designer's specification of the work, not an approval of it.`
   };
 }
@@ -142,7 +142,12 @@ function catTotal(cat){ const {bus,nts}=catItems(cat); return bus.length+nts.len
 function defaults(){
   S.sel=[]; S.notes={}; S.step=-1; S.open={}; S.custom=[]; S.cfg=null; S.cfgF=null; S.cfgR=null; S.visited={}; S.ovr={}; S.tab=null;
   if(!S.data.mfr) S.data.mfr="kingspan";
-  spec().notes.forEach((n,i)=>S.notes[i]=true);
+  /* A note marked `opt` describes something the project either has or has not — a septic tank, a
+     stove, a photovoltaic array. Those start OFF: a rear extension issued with clauses for wind
+     turbines and ground-source heat pumps makes a building control officer work out which of
+     sixteen pages apply. Everything else starts on, because a missing clause costs more than a
+     redundant one, and the review step names every optional note left off. */
+  spec().notes.forEach((n,i)=>S.notes[i]=!n.opt);
   applyM4();
   ["FD","SW","SF","EW","GF","RF","IF","BW","BF"].forEach(g=>{ const i=spec().buildups.findIndex(b=>b.g===g); if(i>=0) S.sel.push(i); });
   S.sel.sort((a,b)=>a-b);
@@ -512,6 +517,12 @@ function mfrRow(b,i){
   return `<div class="mfrrow"><label>Insulation <select data-mo="${i}"><option value="">Job default — ${esc(dflt.short)}</option>${MFRS.map(m=>`<option value="${m.id}" ${m.id===cur?"selected":""}>${esc(m.short)}</option>`).join("")}</select></label>${chip}</div>`;
 }
 
+/* Which optional notes this job has left off, by title. They are off by default, so the one
+   place they must be visible is the step where the job is checked before it goes out. */
+function optOff(){
+  if(!S.type) return [];
+  return spec().notes.map((n,i)=>(n.opt && !S.notes[i]) ? n.t : null).filter(Boolean);
+}
 function renderReview(){
   const sel=orderedSel(), r=refs(), ns=noteSections(), calcs=calcsOnJob();
   let notes=0; ns.forEach(v=>notes+=v.length);
@@ -526,6 +537,7 @@ function renderReview(){
     ...(m4Notes()?[["Access", esc(m4Label()), ["dim","Approved Document M Volume 1"]]]:[]),
     ["Build-ups", sel.length?`${sel.length} in the schedule`:"None selected", [sel.length?"ok":"bad", sel.length?"Part A ready":"Part A empty"]],
     ["Notes", `${notes} notes in ${ns.size} of ${cats().length} categories`, [notes?"ok":"bad", notes?"Part B ready":"No notes selected"]],
+    ...(optOff().length?[["Not included", optOff().length + " optional " + (optOff().length===1?"note":"notes") + " left off: " + optOff().map(t=>t.replace(/ \u2014 .*$/,"")).join(", "), ["dim","Turn on any that apply"]]]:[]),
     ["Working", calcs.length?`${calcs.length} calculated build-up${calcs.length>1?"s":""} carried into section 4.0`:"No calculated build-ups on this job", ["dim", calcs.length?"BS EN ISO 6946 / 13370":"Optional"]],
     ["Regulatory flag", "AD L1 / F1 2026 editions in force 24 March 2027", ["dim","Carried on the last page"]]
   ];
@@ -622,6 +634,7 @@ function renderPaper(){
       <tr><td>Job number</td><td>${esc(d.job||"—")}</td></tr>
       <tr><td>Local authority</td><td>${esc(d.la||"—")}</td></tr>
       ${m4Label()?`<tr><td>Access category</td><td>${esc(m4Label())}</td></tr>`:""}
+      <tr><td>Application</td><td>Building Control Approval Application with Full Plans</td></tr>
       <tr><td>Prepared by</td><td>${esc(P.designer?P.designer+", ":"")}${esc(pName())}</td></tr>
       <tr><td>Date</td><td>${today}</td></tr>
       <tr><td>Revision</td><td>${esc(d.rev||"P01")}</td></tr>
@@ -657,9 +670,10 @@ function renderPaper(){
     calcs.forEach(({i,b})=>{ h+=`<div class="eh"><span class="tag2">${r[i]}</span><h4>${esc(b.t)}</h4></div>`+(b.calc.result.steps?layersOnly(b.calc.result)+stepsTable(b.calc.result):workingTable(b.calc.result))+
       `<p style="font-size:9.5px;color:var(--pmuted)">Sources: ${b.calc.result.src.map(esc).join(" · ")}</p>`; });
   }
-  h+=`<div class="flag" style="margin-top:26px"><b>VERIFY BEFORE ISSUE.</b> Approved Documents L1 and F1, 2026
-    editions, come into force on 24 March 2027; work with a full plans application submitted before that date
-    remains under the current standards provided work commences before 24 March 2028. Confirm all clause and
+  h+=`<div class="flag" style="margin-top:26px"><b>TRANSITIONAL PROVISIONS.</b> This specification is written to the
+    Approved Documents in force at the date of issue. The 2026 editions of Approved Documents L and F come into
+    force on 24 March 2027; work with a Building Control Approval Application with full plans made before that
+    date remains under the current standards provided the work commences before 24 March 2028. Confirm all clause and
     table references against the edition in force at the date of submission.</div>`;
   el("paper").innerHTML=h;
   applyAccent(el("paper"));
@@ -875,7 +889,7 @@ function buildPdf(draft){
   doc.setFontSize(11);doc.setTextColor(...MUTED);
   doc.text(safe((spec().name+" — "+spec().region).toUpperCase()),L,100);
   const rows=[["Project",d.project],["Site address",d.address],["Client",d.client],["Job number",d.job],
-    ["Local authority",d.la],...(m4Label()?[["Access category",m4Label()]]:[]),["Application","Full Plans Application"],
+    ["Local authority",d.la],...(m4Label()?[["Access category",m4Label()]]:[]),["Application","Building Control Approval Application with Full Plans"],
     ["Prepared by",(P.designer?P.designer+", ":"")+pName()],["Date",today],["Revision",d.rev||"P01"]];
   y=114;
   rows.forEach(([k,v])=>{
@@ -977,11 +991,8 @@ function buildPdf(draft){
   need(24);y+=4;
   doc.setDrawColor(...ACC);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
   doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.setTextColor(...ACC);
-  doc.text("VERIFY BEFORE ISSUE",L+6,y+1);y+=6;
-  para("Approved Documents L1 and F1, 2026 editions, come into force on 24 March 2027. Work with a full plans "+
-       "application submitted before that date remains under the current standards provided work commences "+
-       "before 24 March 2028. Confirm all clause and table references against the edition in force at the date "+
-       "of submission.",8,2,MUTED);
+  doc.text("TRANSITIONAL PROVISIONS",L+6,y+1);y+=6;
+  para("This specification is written to the Approved Documents in force at the date of issue. The 2026 editions of Approved Documents L and F come into force on 24 March 2027; work with a Building Control Approval Application with full plans made before that date remains under the current standards provided the work commences before 24 March 2028.",8,2,MUTED);
   foot();
   if(draft) stampDraft(doc);
   return doc;
@@ -1025,7 +1036,7 @@ function buildDocx(draft){
   out.push(D.para(D.run((spec().name + " — " + spec().region).toUpperCase(), {b:true, sz:22, color:MUTED_HEX}), {after:400}));
 
   const rows = [["Project", d.project], ["Site address", d.address], ["Client", d.client],
-    ["Job number", d.job], ["Local authority", d.la], ...(m4Label()?[["Access category", m4Label()]]:[]), ["Application", "Full Plans Application"],
+    ["Job number", d.job], ["Local authority", d.la], ...(m4Label()?[["Access category", m4Label()]]:[]), ["Application", "Building Control Approval Application with Full Plans"],
     ["Prepared by", (P.designer ? P.designer + ", " : "") + pName()], ["Date", today], ["Revision", d.rev || "P01"]];
   out.push(D.table(rows.map(([k,v]) => [
     {text:k, w:2600, b:true, sz:18, shade:WELL_HEX},
@@ -1138,8 +1149,8 @@ function buildDocx(draft){
   }
 
   /* ---- closing flag ---- */
-  out.push(D.para(D.run("VERIFY BEFORE ISSUE", {b:true, sz:18, color:ACC_HEX}), {before:320, after:60}));
-  out.push(D.para(D.run("Approved Documents L1 and F1, 2026 editions, come into force on 24 March 2027. Work with a full plans application submitted before that date remains under the current standards provided work commences before 24 March 2028. Confirm all clause and table references against the edition in force at the date of submission.",
+  out.push(D.para(D.run("TRANSITIONAL PROVISIONS", {b:true, sz:18, color:ACC_HEX}), {before:320, after:60}));
+  out.push(D.para(D.run("This specification is written to the Approved Documents in force at the date of issue. The 2026 editions of Approved Documents L and F come into force on 24 March 2027; work with a Building Control Approval Application with full plans made before that date remains under the current standards provided the work commences before 24 March 2028.",
     {sz:16, color:MUTED_HEX}), {after:0}));
 
   return D.build({

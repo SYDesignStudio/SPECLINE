@@ -78,7 +78,7 @@ def build(key, S):
     T=S[key]
     meta=dict(type=f"{T['name']} ({T.get('region','England')})", project="[PROJECT DESCRIPTION]",
       address="[SITE ADDRESS]", client="[CLIENT NAME]", job="[JOB NUMBER]", la="[LOCAL AUTHORITY]",
-      application="Full Plans Application",
+      application="Building Control Approval Application with Full Plans",
       date="September 2026", rev="P01")
     # No author and no logo path: cover() takes both from the practice profile. Naming a
     # designer here put one practice's director on every practice's specification.

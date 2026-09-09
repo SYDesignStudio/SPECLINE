@@ -9,7 +9,7 @@ PRACTICE = {
     "name":    "SY Design Studio Ltd",
     "designer":"Salman Yousaf",
     "addr":    "49 Durham Avenue, Hounslow, TW5 0HG",
-    "email":   "info@specline.co.uk",
+    "email":   "info@sydesignstudio.co.uk",
     "accent":  "F5900A",
     "logo":    "sy_logo.png",
     "web":     "www.sydesignstudio.co.uk",
