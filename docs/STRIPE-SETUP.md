@@ -136,6 +136,23 @@ subscribe page rather than failing at the till.
   questions 5 to 11 in `docs/TERMS-DRAFT.md`. Both published pages say they have not been
   reviewed, and that has to stop being true before the first live card is charged.
 
+## The one that cost an evening
+
+**The checkout button appeared to do nothing.** Every click created a real Checkout Session at
+Stripe — twelve of them in thirty-six seconds, all 200 OK — and the browser then refused to follow
+the redirect, silently. The cause was this site's own `Content-Security-Policy`: `form-action`
+governs the whole redirect chain of a form submission in Chrome and Safari, not just where the
+form posts, so a 302 to `checkout.stripe.com` was blocked.
+
+Two things worth remembering from it:
+
+- **The policy the browser enforces is the one in the root `.htaccess`**, not the one in
+  `site/app/bootstrap.php`. `Header always set` overrides what PHP sends. Change both, together,
+  or spend an hour watching a fix do nothing.
+- **Check the browser console before theorising.** The message named the directive outright. It
+  was the second thing looked at rather than the first, and the first hour went on the wrong
+  suspects — a slow deployment, a rate limit, a stale cache.
+
 ## If something goes wrong
 
 - **The subscribe page says payment is not connected.** The key or the webhook secret is missing
