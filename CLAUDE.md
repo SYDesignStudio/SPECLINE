@@ -380,6 +380,47 @@ The app had the identical fault one layer along, and worse, because the built ap
   colour does, and that none of the forbidden names — Specline included — appears anywhere in the
   document. Never assert a real firm's name in a test: it goes green on precisely this bug.
 
+## What a review of an issued specification found — 9 September 2026
+
+Job 1120, a single-storey rear extension, was issued and read back by a reviewer. Nine findings,
+seven of them the library's. They are worth keeping because they are all the same shape: **a
+decision that belonged to the designer was left on the page for somebody on site.**
+
+- **Flat roof falls were reversed.** "A minimum finished 1:40, achieved by a design fall of 1:80"
+  asks for a finished fall twice as steep as the design fall meant to produce it, which cannot be
+  built. BS 6229 puts the design fall at 1:40 so the finished fall after deviation and deflection
+  is not less than 1:80. Six other flat roof clauses stated half the rule and three demanded a
+  *finished* 1:40, which over-specifies the roof. All seven now carry the same sentence and cite
+  the standard; `reference/FACTS.md` records it.
+- **The floor offered 80mm or 100mm** depending on a perimeter/area ratio nobody had calculated;
+  **the wall named one aircrete block and mentioned another that also passes**; **new joists were
+  given a size while the clause said they were the engineer's**. Each now states one answer, or
+  says the figure is indicative and what must happen before it is built.
+- **"VERIFY BEFORE ISSUE" printed on the issued document.** It is an instruction to whoever writes
+  the specification; on a document going to building control it says the thing in their hands has
+  not been checked. It is now **TRANSITIONAL PROVISIONS**, which is what the paragraph always was.
+- **Every note was on by default**, so a rear extension went out with septic tanks, oil storage,
+  stoves, photovoltaics, wind turbines and ground-source heat pumps in it. Notes describing a
+  feature a project either has or has not now carry `opt:1` and start **off**; `optOff()` lists
+  them and the review step names every one left off, so nothing goes missing quietly. The list is
+  deliberately short — anything that is a matter of degree stays on, because a missing clause costs
+  more than a redundant one. **A new dwelling keeps its renewables note**: Part L compliance
+  normally leans on it.
+- **An optional note can be cross-referenced by a note that is on.** The loft's alarm clause
+  pointed at the Houses in Multiple Occupation section, which is now off by default, so the
+  document referred to a section that was not in it. It is now a designer NOTE saying to turn that
+  section on. If you mark another note optional, **sweep the library for references to its title**.
+
+Two things were the practice's own data rather than the library's: the contact email on the
+specification was the vendor's mailbox (`practices.contact_email` had been set to it, and the
+fallback is the sign-in address — for SY Design Studio's own account those are the same thing),
+and the client name and project description were blank or a typo.
+
+**`tests/test9.py` is the suite this produced.** It builds a whole specification for every project
+type, for two manufacturers, and asserts on the rendered document text — not the source, because
+the source can look perfectly reasonable while the document reads wrong. 227 assertions. It caught
+the dangling cross-reference above on its first run.
+
 ## Detail schedules — `docgen/detail_schedule.py`
 
 `python docgen/detail_schedule.py` writes three files into `reference/details/` from `data/`:
