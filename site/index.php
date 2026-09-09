@@ -254,7 +254,11 @@ section.tight{padding:64px 0}
 footer{border-top:1px solid var(--rule);padding:40px 0 48px;font-size:13.5px;color:var(--ink-2)}
 footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
 footer p{margin:0 0 4px}
-footer .links{display:flex;gap:16px;flex-wrap:wrap}
+footer .links{display:flex;gap:8px 16px;flex-wrap:wrap;align-items:center}
+/* A standalone navigation link needs a 24px pointer target. Inline links inside a sentence
+   are exempt and are deliberately not touched: padding them would break the line spacing of
+   the paragraph they sit in. */
+footer .links a{display:inline-flex;align-items:center;min-height:24px}
 footer .links span{color:var(--ink-3)}
 
 /* sign-in */
