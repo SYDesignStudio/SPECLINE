@@ -54,5 +54,15 @@ RedirectMatch 404 ^/(\.git|\.github|data|src|docgen|tests|reference|docs|dist|ou
   # the same policy is in site/app/bootstrap.php for anywhere this file is not read.
   # Google Fonts is the only third party; everything else is same-origin. Inline style and
   # script are allowed because the home page and the account pages carry both inline.
-  Header always set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; form-action 'self'; frame-ancestors 'self'; base-uri 'self'; upgrade-insecure-requests"
+  #
+  # THIS IS THE POLICY THE BROWSER ACTUALLY GETS. `Header always set` overrides the identical
+  # policy the PHP pages send, so changing bootstrap.php alone changes nothing on the live site —
+  # an hour was spent on 9 September 2026 learning that. Change both, together.
+  #
+  # form-action names Stripe because Chrome and Safari apply that directive to the whole redirect
+  # chain of a form submission, not just its action. Posting to a page that answers 302
+  # https://checkout.stripe.com is blocked otherwise — silently, after the checkout has already
+  # been created and paid for at Stripe's end. checkout.stripe.com is the till; billing.stripe.com
+  # is the portal where a subscriber changes a card or cancels.
+  Header always set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; form-action 'self' https://checkout.stripe.com https://billing.stripe.com; frame-ancestors 'self'; base-uri 'self'; upgrade-insecure-requests"
 </IfModule>
