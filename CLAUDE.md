@@ -1060,6 +1060,27 @@ Keys live in `specline-config.php` above the web root (`stripe_secret_key`,
 where anything not shaped like `price_…` is refused rather than saved. `stripe_mode()` reads test
 or live **from the key itself**, so nobody can be in one and believe they are in the other.
 
+**Test and live prices are separate objects in Stripe, so they are separate settings here.**
+`stripe_price_bucket()` reads the mode from the key and chooses which set is used; the admin page
+edits both, and shows `Prices set up · live 3 of 5` so a half-prepared switch is visible before it
+is made rather than after. Until 9 September 2026 there was one set, which meant the moment the key
+was swapped every checkout pointed at a price that does not exist in that mode — and that failure
+surfaces on the subscriber at the till, where nobody here would see it. Identifiers saved before
+the buckets existed answer for **test**; live is never inherited, only set up deliberately.
+
+**The first real test payment was made on 9 September 2026 in test mode and taught three things**,
+all now covered by `tests/billing_test.php`: `incomplete` is not a cancellation (it is the moment
+between a subscription existing and its first payment confirming, and it was ending the
+entitlement); Stripe does not promise delivery order, so an event older than the one already
+applied to a subscription is ignored (`entitlement_event_at()`); and a status this site does not
+recognise writes nothing rather than guessing. The cancellation half was tested the same day:
+cancelling in Stripe ended the entitlement within seconds, the account page read *Subscription:
+None*, and **the practice kept every saved job** — which is the promise the subscribe page makes.
+The webhook was also attacked from outside: unsigned, wrongly signed, stale and GET all refused,
+and the refusals counted on the admin page. **`Payment code deployed`** there is the filemtime of
+`site/app/stripe.php`, because a deployment that silently did not happen is indistinguishable from
+a fix that did not work, and an hour went on exactly that confusion.
+
 `tests/billing_test.php` is 60 assertions, 24 of them Stripe: signature verification including
 the fail-closed case and a rotated secret, the price map both ways, an event that cannot be placed
 writing nothing, a replay granting nothing twice, and an unpaid checkout adding no credits. The

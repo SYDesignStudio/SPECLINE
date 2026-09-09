@@ -41,23 +41,53 @@ function stripe_mode(): string {
 
 /* ---------------------------------------------------------------- the price map */
 
+/**
+ * Which set of price identifiers is in use. A price created in test mode does not exist in live
+ * and the other way round, so one set of settings could only ever be right for one of them: the
+ * moment the key was swapped, every checkout pointed at a price Stripe had never heard of. Both
+ * sets are held, and the key decides which is read. Before a key is set at all the site is being
+ * built, so it edits the test set.
+ */
+function stripe_price_bucket(): string { return stripe_mode() === 'live' ? 'live' : 'test'; }
+
 /** plan+period => the Stripe price id, set on the admin page. Not secret. */
-function stripe_price_key(string $plan, string $period): string { return 'stripe_price_' . $plan . '_' . $period; }
-function stripe_price_id(string $plan, string $period): string { return (string)setting(stripe_price_key($plan, $period), ''); }
+function stripe_price_key(string $plan, string $period, string $bucket = ''): string {
+    return 'stripe_price_' . ($bucket ?: stripe_price_bucket()) . '_' . $plan . '_' . $period;
+}
+
+/** The name this setting had before the bucket existed. Read, never written. */
+function stripe_price_key_legacy(string $plan, string $period): string { return 'stripe_price_' . $plan . '_' . $period; }
+
+function stripe_price_id(string $plan, string $period, string $bucket = ''): string {
+    $b = $bucket ?: stripe_price_bucket();
+    $v = (string)setting(stripe_price_key($plan, $period, $b), '');
+    /* The identifiers saved before this existed are test-mode ones, so they answer for the test
+       bucket until they are saved again under their own name. Live is never guessed at. */
+    if ($v === '' && $b === 'test') $v = (string)setting(stripe_price_key_legacy($plan, $period), '');
+    return $v;
+}
 
 /** Every price this site can sell, and whether it has been set up. */
-function stripe_price_map(): array {
+function stripe_price_map(string $bucket = ''): array {
+    $b = $bucket ?: stripe_price_bucket();
     $out = [];
     foreach (['solo' => ['month', 'year'], 'practice' => ['month', 'year'], 'payg' => ['each']] as $plan => $periods)
         foreach ($periods as $p)
-            $out[] = ['plan' => $plan, 'period' => $p, 'key' => stripe_price_key($plan, $p), 'id' => stripe_price_id($plan, $p)];
+            $out[] = ['plan' => $plan, 'period' => $p, 'bucket' => $b,
+                      'key' => stripe_price_key($plan, $p, $b), 'id' => stripe_price_id($plan, $p, $b)];
     return $out;
 }
 
-/** The other direction: which plan a Stripe price belongs to, for an incoming event. */
+/**
+ * The other direction: which plan a Stripe price belongs to, for an incoming event. Both buckets
+ * are searched — a price identifier is unique across them, and an event that arrives from the
+ * other mode should still be understood rather than filed under a guess at the plan.
+ */
 function stripe_plan_for_price(string $price_id): array {
-    foreach (stripe_price_map() as $p)
-        if ($p['id'] !== '' && $p['id'] === $price_id) return ['plan' => $p['plan'], 'period' => $p['period']];
+    if ($price_id === '') return ['plan' => '', 'period' => ''];
+    foreach (['test', 'live'] as $b)
+        foreach (stripe_price_map($b) as $p)
+            if ($p['id'] !== '' && $p['id'] === $price_id) return ['plan' => $p['plan'], 'period' => $p['period']];
     return ['plan' => '', 'period' => ''];
 }
 

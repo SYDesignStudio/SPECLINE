@@ -117,13 +117,41 @@ subscribe page rather than failing at the till.
 
 ## 6. Go live
 
-1. Recreate the five prices in live mode (test and live objects are separate in Stripe) and paste
-   the live identifiers into the admin page.
-2. Add a live webhook endpoint and put its `whsec_` into the config file.
-3. Swap `sk_test_…` for `sk_live_…`.
-4. Confirm the admin page reads **LIVE mode**, and that the price rules still hold.
-5. Only then: **Administration → Billing → Start enforcing.** Until that switch is on, billing
+The order matters, and it is this way round on purpose: **everything live is prepared while the
+site is still running on the test key**, so there is never a moment when the site is charging real
+cards through a configuration that is half done.
+
+1. Recreate the three products and five prices in live mode. Test and live objects are separate in
+   Stripe, and a test price does not exist in live.
+2. Paste the live identifiers into **Administration → Billing → Live prices**. The admin page holds
+   both sets at once and the key chooses which is read, so pasting these changes nothing while the
+   key is still `sk_test_`. The panel above shows `Prices set up · live 5 of 5` when the set is
+   ready for the switch.
+3. Add a **live** webhook destination on `https://specline.co.uk/webhook.php` with the same six
+   events. It has its own `whsec_`, different from the test one.
+4. In `specline-config.php`, swap `sk_test_…` for `sk_live_…` and the test `whsec_` for the live
+   one. **Both, in the same edit** — a live key with a test signing secret means every real payment
+   is refused at the webhook and no entitlement is ever written, which looks exactly like a payment
+   that never arrived.
+5. Confirm the admin page reads **LIVE mode**, `Prices set up · live 5 of 5`, and that the price
+   rules still hold.
+6. Buy something real and small to prove it, then refund it in Stripe. A £25 credit is the cheapest
+   honest end-to-end test, and the refund does not undo the credit — remove that by hand on the
+   same page if you want the ledger clean.
+7. Only then: **Administration → Billing → Start enforcing.** Until that switch is on, billing
    changes nothing for anyone — which is how it has shipped so far.
+
+**The customer sees your Stripe account's public name**, on the checkout page, the billing portal
+and the card statement. Set it to Specline in Stripe under Settings → Business, or a subscriber who
+bought Specline gets a receipt from a company they have not heard of.
+
+### Test and live prices are kept apart
+
+`stripe_price_bucket()` reads the mode from the key and picks the settings the price identifiers are
+stored under. Before this the site held **one** set: swapping the key pointed every checkout at a
+price that did not exist in that mode, and the failure surfaced on the subscriber at the till rather
+than anywhere an administrator would see it. Identifiers saved before the buckets existed are read
+as test-mode ones, and **live is never inherited** — it is set up deliberately or it is empty.
 
 ---
 

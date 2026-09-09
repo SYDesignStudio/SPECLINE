@@ -71,7 +71,7 @@ function price_rules(): array {
         'says' => '£' . ($c['payg']['each'] * 3) . ' against £' . $c['solo']['month'],
     ];
     $out[] = [
-        'rule' => 'Practice costs more per seat than Solo does not hold — it must cost less',
+        'rule' => 'Practice costs less per seat than Solo',
         'pass' => ($c['practice']['month'] / max(1, $c['practice']['seats'])) < $c['solo']['month'],
         'says' => '£' . round($c['practice']['month'] / max(1, $c['practice']['seats']), 2) . ' a seat against £' . $c['solo']['month'],
     ];

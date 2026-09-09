@@ -32,12 +32,17 @@ if (is_post()) {
         flash('Ended. Their work is untouched; with enforcement on they can no longer open the tool.');
     } elseif ($a === 'prices') {
         $n = 0;
-        foreach (stripe_price_map() as $p) {
-            $v = trim((string)($_POST[$p['key']] ?? ''));
-            /* A price identifier is Stripe's own shape. Refusing anything else keeps a typo out
-               of a checkout, where it would surface as an error the subscriber sees. */
-            if ($v !== '' && !preg_match('/^price_[A-Za-z0-9]+$/', $v)) continue;
-            set_setting($p['key'], $v); $n++;
+        /* Both sets are saved together, so the live prices can be put in place before the key is
+           swapped rather than in the gap after it. */
+        foreach (['test', 'live'] as $bucket) {
+            foreach (stripe_price_map($bucket) as $p) {
+                if (!array_key_exists($p['key'], $_POST)) continue;
+                $v = trim((string)$_POST[$p['key']]);
+                /* A price identifier is Stripe's own shape. Refusing anything else keeps a typo
+                   out of a checkout, where it would surface as an error the subscriber sees. */
+                if ($v !== '' && !preg_match('/^price_[A-Za-z0-9]+$/', $v)) continue;
+                set_setting($p['key'], $v); $n++;
+            }
         }
         flash($n . ' price ' . ($n === 1 ? 'identifier' : 'identifiers') . ' saved. Anything that did not look like price_… was left alone.');
     } elseif ($a === 'credits' && $pid) {
@@ -102,7 +107,10 @@ page_start('Billing', ['admin' => true]);
       <tr><td>Secret key</td><td><span class="pill <?= $proc['key'] ? 'pill-pass' : 'pill-hold' ?>"><?= $proc['key'] ? 'set · ' . e($proc['mode']) . ' mode' : 'not set' ?></span></td></tr>
       <tr><td>Webhook secret</td><td><span class="pill <?= $proc['webhook'] ? 'pill-pass' : 'pill-fail' ?>"><?= $proc['webhook'] ? 'set' : 'not set — payments would be taken and never recorded' ?></span></td></tr>
       <tr><td>Webhook address</td><td class="mono small"><?= e(rtrim((string)cfg('base_url', 'https://specline.co.uk'), '/')) ?>/webhook.php</td></tr>
-      <tr><td>Prices set up</td><td><span class="pill <?= $proc['prices'] === $proc['prices_total'] ? 'pill-pass' : 'pill-hold' ?>"><?= (int)$proc['prices'] ?> of <?= (int)$proc['prices_total'] ?></span></td></tr>
+      <?php $bucket = stripe_price_bucket(); $other = $bucket === 'live' ? 'test' : 'live';
+            $otherSet = count(array_filter(stripe_price_map($other), fn($p) => $p['id'] !== '')); ?>
+      <tr><td>Prices set up · <?= e($bucket) ?> <span class="small muted">in use</span></td><td><span class="pill <?= $proc['prices'] === $proc['prices_total'] ? 'pill-pass' : 'pill-hold' ?>"><?= (int)$proc['prices'] ?> of <?= (int)$proc['prices_total'] ?></span></td></tr>
+      <tr><td>Prices set up · <?= e($other) ?></td><td><span class="pill <?= $otherSet === (int)$proc['prices_total'] ? 'pill-pass' : 'pill-hold' ?>"><?= $otherSet ?> of <?= (int)$proc['prices_total'] ?></span> <span class="small muted">ready for when the key is <?= e($other) ?></span></td></tr>
       <tr><td>Last event</td><td class="mono small"><?= e(setting('stripe_webhook_last', 'none yet')) ?> <?= e(setting('stripe_webhook_last_type', '')) ?></td></tr>
       <tr><td>Rejected as unsigned</td><td class="mono small"><?= e(setting('stripe_webhook_rejected', '0')) ?><?= setting('stripe_webhook_rejected_at') ? ' · last ' . e(setting('stripe_webhook_rejected_at')) : '' ?></td></tr>
       <?php /* Which code is actually answering. A deployment that silently did not happen is
@@ -113,13 +121,16 @@ page_start('Billing', ['admin' => true]);
     </tbody>
   </table>
   <form method="post" style="margin-top:16px"><?= csrf_field() ?><input type="hidden" name="action" value="prices">
-    <p class="small muted" style="max-width:78ch">Create the products in Stripe, then paste each price identifier here. A plan with no price cannot be bought, and the subscribe page disables it rather than failing at checkout.</p>
-    <table class="ledger" style="max-width:70ch"><tbody>
-      <?php foreach (stripe_price_map() as $p): ?>
-        <tr><td><?= e(plan_meta($p['plan'])['n']) ?> · <?= e($p['period']) ?></td>
-          <td><input type="text" name="<?= e($p['key']) ?>" value="<?= e($p['id']) ?>" placeholder="price_…" style="width:100%;max-width:340px" class="mono"></td></tr>
-      <?php endforeach; ?>
-    </tbody></table>
+    <p class="small muted" style="max-width:78ch">Create the products in Stripe, then paste each price identifier here. A plan with no price cannot be bought, and the subscribe page disables it rather than failing at checkout. A price created in test mode does not exist in live, so the two sets are kept apart and <strong>the key decides which is used</strong> — fill the live set in before the key is swapped, and nothing is misconfigured in between.</p>
+    <?php foreach ([$bucket, $other] as $bkt): $inUse = $bkt === $bucket; ?>
+      <h3 style="margin-top:18px;margin-bottom:6px"><?= e(ucfirst($bkt)) ?> prices <?= $inUse ? '<span class="pill pill-pass">in use</span>' : '<span class="small muted">not in use — the key is ' . e($bucket) . '</span>' ?></h3>
+      <table class="ledger" style="max-width:70ch"><tbody>
+        <?php foreach (stripe_price_map($bkt) as $p): ?>
+          <tr><td><?= e(plan_meta($p['plan'])['n']) ?> · <?= e($p['period']) ?></td>
+            <td><input type="text" name="<?= e($p['key']) ?>" value="<?= e($p['id']) ?>" placeholder="price_…" style="width:100%;max-width:340px" class="mono"></td></tr>
+        <?php endforeach; ?>
+      </tbody></table>
+    <?php endforeach; ?>
     <p style="margin-top:10px"><button class="btn btn-sm btn-primary" type="submit">Save prices</button></p>
   </form>
   <?php $evs = rows('SELECT * FROM billing_events ORDER BY id DESC LIMIT 12'); if ($evs): ?>

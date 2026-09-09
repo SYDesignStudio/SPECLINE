@@ -138,6 +138,31 @@ set_setting(stripe_price_key('payg', 'each'), 'price_credit');
 ok('a price maps back to its plan', stripe_plan_for_price('price_practice_monthly')['plan'] === 'practice');
 ok('an unknown price maps to nothing rather than guessing', stripe_plan_for_price('price_never_seen')['plan'] === '');
 
+/* --- test and live prices are different objects, and must not share a setting --- */
+/* A price created in test mode does not exist in live. One set of identifiers could only ever be
+   right for one mode, so the instant the key was swapped every checkout pointed at a price Stripe
+   had never heard of — and the failure lands on the subscriber at the till, not here. */
+ok('the bucket follows the key', stripe_price_bucket() === 'test', stripe_price_bucket());
+$GLOBALS['CFG']['stripe_secret_key'] = 'sk_live_abc123';
+ok('a live key reads the live set', stripe_price_bucket() === 'live', stripe_price_bucket());
+ok('and the live set is empty rather than inheriting the test identifiers',
+   stripe_price_id('practice', 'month') === '', stripe_price_id('practice', 'month'));
+set_setting(stripe_price_key('practice', 'month'), 'price_live_practice_monthly');
+ok('a live price saves under its own name', stripe_price_id('practice', 'month') === 'price_live_practice_monthly');
+$GLOBALS['CFG']['stripe_secret_key'] = 'sk_test_abc123';
+ok('and saving it did not disturb the test one', stripe_price_id('practice', 'month') === 'price_practice_monthly');
+ok('an event naming the live price is still understood in test mode',
+   stripe_plan_for_price('price_live_practice_monthly')['plan'] === 'practice');
+
+/* The identifiers saved before the buckets existed are test-mode ones and must keep working. */
+set_setting('stripe_price_solo_year', 'price_legacy_solo_year');
+ok('an identifier saved before the buckets existed still answers for test',
+   stripe_price_id('solo', 'year') === 'price_legacy_solo_year');
+$GLOBALS['CFG']['stripe_secret_key'] = 'sk_live_abc123';
+ok('AND IS NEVER READ AS A LIVE PRICE — live is set up deliberately, never inherited',
+   stripe_price_id('solo', 'year') === '', stripe_price_id('solo', 'year'));
+$GLOBALS['CFG']['stripe_secret_key'] = 'sk_test_abc123';
+
 /* --- events become entitlements --- */
 q('DELETE FROM entitlements WHERE practice_id = ?', [$pid]);
 q('DELETE FROM spec_credits WHERE practice_id = ?', [$pid]);
