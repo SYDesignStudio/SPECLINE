@@ -89,6 +89,31 @@ ok('spent down to nothing', spec_credit_balance($pid) === 0);
 ok('and the fourth issue is refused', !consume_spec_credit($pid, 'j4', 'a@example.test'));
 ok('every movement is explainable', (int)val('SELECT COUNT(*) FROM spec_credits WHERE practice_id = ?', [$pid]) === 4);
 
+/* ---- taking credits back off ---- */
+/* A refunded payment left its credit on the practice and nothing could remove it. The correction
+   is a negative row, never a deletion: a balance that cannot be explained is a balance nobody
+   should trust, and a row that can be quietly removed explains nothing. */
+q('DELETE FROM spec_credits WHERE practice_id = ?', [$pid]);
+add_spec_credits($pid, 3, 'bought', 'owner@example.test');
+ok('three to start', spec_credit_balance($pid) === 3);
+ok('removing one says it removed one', remove_spec_credits($pid, 1, 'refunded', 'owner@example.test') === 1);
+ok('and the balance is two', spec_credit_balance($pid) === 2, (string)spec_credit_balance($pid));
+ok('THE POSITIVE ROW IS STILL THERE — the correction is a row of its own',
+   (int)val('SELECT COUNT(*) FROM spec_credits WHERE practice_id = ? AND delta > 0', [$pid]) === 1);
+ok('and the negative one carries the reason',
+   (string)val('SELECT reason FROM spec_credits WHERE practice_id = ? AND delta < 0 ORDER BY id DESC LIMIT 1', [$pid]) === 'refunded');
+
+ok('asking for more than there is removes only what there is',
+   remove_spec_credits($pid, 99, 'refunded', 'owner@example.test') === 2);
+ok('AND NEVER TAKES A BALANCE BELOW ZERO', spec_credit_balance($pid) === 0, (string)spec_credit_balance($pid));
+ok('removing from an empty balance does nothing at all',
+   remove_spec_credits($pid, 1, 'refunded', 'owner@example.test') === 0);
+ok('and writes no row for it',
+   (int)val('SELECT COUNT(*) FROM spec_credits WHERE practice_id = ?', [$pid]) === 3);
+ok('a removal of zero or less is refused rather than treated as one',
+   remove_spec_credits($pid, 0, 'x', 'owner@example.test') === 0 && remove_spec_credits($pid, -5, 'x', 'owner@example.test') === 0);
+q('DELETE FROM spec_credits WHERE practice_id = ?', [$pid]);
+
 /* ---- ending ---- */
 grant_entitlement($pid, 'solo', 'active', null, 'manual', '', 'owner@example.test');
 ok('granted again', entitlement($pid)['live']);

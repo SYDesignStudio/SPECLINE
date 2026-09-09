@@ -48,6 +48,12 @@ if (is_post()) {
     } elseif ($a === 'credits' && $pid) {
         add_spec_credits($pid, (int)($_POST['n'] ?? 1), clean('note', 40) ?: 'granted', (string)$me['email']);
         flash('Credits added. One is spent on each specification issued.');
+    } elseif ($a === 'credits_off' && $pid) {
+        /* A correction, for a refund or a grant that should not have been made. */
+        $n = remove_spec_credits($pid, (int)($_POST['n'] ?? 1), clean('note', 40) ?: 'removed', (string)$me['email']);
+        flash($n > 0
+            ? $n . ' credit' . ($n === 1 ? '' : 's') . ' removed. The ledger keeps both rows, so the balance still explains itself.'
+            : 'Nothing to remove — that practice has no credits.');
     }
     redirect('/admin/billing.php');
 }
@@ -178,6 +184,14 @@ page_start('Billing', ['admin' => true]);
           <input type="text" name="note" placeholder="reason" maxlength="40" style="max-width:150px">
           <button class="btn btn-sm" type="submit">Add spec credits</button>
         </form>
+        <?php if ($r['credits'] > 0): ?>
+        <form method="post" class="inline" style="gap:8px"><?= csrf_field() ?>
+          <input type="hidden" name="action" value="credits_off"><input type="hidden" name="practice_id" value="<?= (int)$r['practice_id'] ?>">
+          <input type="number" name="n" value="1" min="1" max="<?= (int)$r['credits'] ?>" style="width:70px" aria-label="Credits to remove">
+          <input type="text" name="note" placeholder="reason" maxlength="40" style="max-width:150px">
+          <button class="btn btn-sm btn-quiet" type="submit">Remove spec credits</button>
+        </form>
+        <?php endif; ?>
         <?php if ($r['live']): ?>
         <form method="post" class="inline" style="gap:8px"><?= csrf_field() ?>
           <input type="hidden" name="action" value="end"><input type="hidden" name="practice_id" value="<?= (int)$r['practice_id'] ?>">

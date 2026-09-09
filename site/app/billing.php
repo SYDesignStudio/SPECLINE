@@ -243,6 +243,24 @@ function add_spec_credits(int $practice_id, int $n, string $reason, string $by, 
 }
 
 /**
+ * Take credits off a practice — a refund, or a grant that was a mistake.
+ *
+ * It writes a NEGATIVE ROW rather than removing the positive one. The ledger's whole purpose is
+ * that a balance can be explained, and a row that can be deleted explains nothing. It never takes
+ * the balance below zero, and it returns how many it actually removed so the caller can say so
+ * rather than assume.
+ */
+function remove_spec_credits(int $practice_id, int $n, string $reason, string $by): int {
+    $have = spec_credit_balance($practice_id);
+    $n = max(0, min((int)$n, $have));
+    if ($n === 0) return 0;
+    q('INSERT INTO spec_credits (practice_id, delta, reason, ref, job_id, at, by_who) VALUES (?,?,?,?,?,?,?)',
+      [$practice_id, -$n, $reason !== '' ? $reason : 'removed', '', '', now(), $by]);
+    audit('billing.credits', "practice $practice_id -$n ($reason) by $by");
+    return $n;
+}
+
+/**
  * Has this practice already paid for this exact issue? A revision of a job is issued once, and
  * the ledger records which. Asking this is what lets the credit be spent BEFORE the document is
  * built: if the build then fails, the second attempt at the same revision costs nothing.
