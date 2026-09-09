@@ -109,7 +109,22 @@ live`. The live identifiers, which are not secret:
 | Practice annual | `price_1UDZYqKGvzcMFbOb9M1lEnwr` |
 | Specification credit | `price_1UDZZpKGvzcMFbObRHJ0SEXc` |
 
-**One thing is left, and only you can do it**: put the live secret key and the live webhook signing
+**It is live and proven.** The keys went in on the evening of 9 September 2026 and a real £25
+specification credit was bought with a real card at 02:38. Everything answered: the payment
+succeeded in Stripe, the webhook delivered at a 0 per cent error rate, the admin page recorded
+*practice 1 bought 1 credit*, the ledger shows `+1 bought · stripe`, and the account page reads
+*Specification credits 1*. The refusal counter did not move, which is the only proof that exists
+that the LIVE signing secret is the right one — a wrong secret shows up there and nowhere else.
+
+The first live checkout before that failed, and finding it was worth the attempt: a Stripe customer
+belongs to one mode, and the practice was still carrying the customer created during the test
+purchase. See CLAUDE.md, *Test and live prices are kept apart*.
+
+Two things to tidy when you are ready: refund the £25 in Stripe, and take the credit off the
+practice by hand on the admin page — a refund does not undo the credit, and nothing should pretend
+it does.
+
+**The step that was left, now done**: put the live secret key and the live webhook signing
 secret into `specline-config.php`, in the same edit. The live signing secret is a different string
 from the test one; it is on the live destination's own page in Stripe behind the reveal icon beside
 *Signing secret*. Until both are there the site stays in test mode, which is a safe place to sit —
