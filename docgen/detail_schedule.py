@@ -297,13 +297,19 @@ def _consider(t, phrase, raw, after, layers, notes, before=""):
 
 # The rescue pass is a salvage operation, not the primary reading, so it is deliberately meaner
 # than the top-level scan. Three tells separate a swallowed layer from swallowed prose:
-WORKING = re.compile(r"calculat|W/m|achiev|U-value", re.I)   # the whole sentence is arithmetic
+WORKING = re.compile(r"calculat(?:e|es|ed|ing)\b|W/m|achiev(?:e|es|ed|ing)\b|U-value", re.I)   # the whole sentence is arithmetic
 # "...board or a 90mm lining", "215mm dense blockwork or two leaves of 100mm blockwork" — an "or"
 # anywhere between the two figures makes the second a choice, not an extra band.
 ALTERNATIVE = re.compile(r"\bor\b", re.I)
 # Only the verb marks a sentence as arithmetic. W/mK appears in perfectly good layer phrases
 # ("100mm aircrete inner leaf of 0.11 W/mK"), so it cannot be the test.
-WORKING_SENTENCE = re.compile(r"calculat|achiev", re.I)
+#
+# And it has to be the VERB, not any word that starts the same way. "calculat" alone also matches
+# the NOUN: "to the structural engineer's design and calculations" says nothing about arithmetic,
+# and it sits at the front of the sentence that lists the deck, the insulation and the covering.
+# Two warm deck roofs lost every layer to that on 9 September 2026 and quietly stopped drawing —
+# the schedule reported "the clause states no thicknesses" for a clause full of them.
+WORKING_SENTENCE = re.compile(r"calculat(?:e|es|ed|ing)\b|achiev(?:e|es|ed|ing)\b", re.I)
 # A phrase that names a cavity and nothing else — the restatement of one already read.
 BARE_CAVITY = re.compile(r"^(?:clear\s+|residual\s+|nominal\s+|minimum\s+){0,3}"
                          r"(?:residual\s+)?cavit(?:y|ies)\b(?:\s+\w+){0,3}$", re.I)
@@ -1064,6 +1070,34 @@ def verify(doc):
         print("  %d build-up(s) came out thick enough to be worth checking against the clause:"
               % len(fat))
         print("\n".join(fat))
+
+    # A clause with thicknesses in it that produces no layers at all is a veto that has gone too
+    # far, not a clause with nothing to draw. Two warm deck roofs went dark this way when a rule
+    # meant to refuse arithmetic started matching the word "calculations" in "the structural
+    # engineer's design and calculations". The schedule reported "the clause states no
+    # thicknesses" for a clause that states five.
+    dark = []
+    for tk, t in doc["types"].items():
+        for b in t["buildups"]:
+            if b.get("layers"):
+                continue
+            # A foundation is not a layer stack and is never drawn as one: its figures are a
+            # width, a depth and a projection, not bands through a section. Excluded on purpose.
+            if (b.get("group") or b.get("g") or "") == "FD":
+                continue
+            # The test is not how many figures the clause holds — a trussed rafter roof states
+            # centres, a wall plate and a vent gap and correctly draws nothing. It is how many
+            # were refused by the ONE veto that can over-reach: the working-verb rule, which
+            # throws away everything after it in the sentence. Two or more of those, and no
+            # layers at all, is that veto reading a specification as arithmetic.
+            over = [n for n in b.get("extraction_notes", []) if "comes after a stated result" in n]
+            if len(over) >= 2:
+                dark.append("  %s / %s: %d thicknesses refused as working, and nothing drew"
+                            % (tk, b["title"][:44], len(over)))
+    if dark:
+        print("  %d build-up(s) STOPPED DRAWING despite a clause full of thicknesses:" % len(dark))
+        print("\n".join(dark))
+        print("  That is a veto reading too widely, not a clause with nothing in it.")
 
 
 # ─────────────────────────────────────────────────────────────────────────────────────────
