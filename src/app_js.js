@@ -817,23 +817,46 @@ const SAFE_MAP={"≤":"<=","≥":">=","Ψ":"psi","ψ":"psi","±":"+/-","×":"x",
   "½":"1/2","¼":"1/4","¾":"3/4","Ø":"dia.","⌀":"dia.","∅":"dia.",
   "•":"-"," ":" ","λ":"lambda ","π":"pi","Δ":"delta","₀":"0","·":"."};
 const SAFE_KEEP=/[‘’“”—…€™ŒœŠšŽžŸƒˆ˜†‡‰‹›‚„]/;
+/**
+ * Make a string safe for the PDF's font.
+ *
+ * With the embedded font (see src/fonts.js) the subset is the authority: anything in it is kept
+ * exactly as written, so the superscript two, the em dash, the middle dot and the degree sign all
+ * reach the page as themselves. Anything outside it is mapped to an ASCII equivalent or dropped,
+ * because a character the font does not carry renders as an empty box, and an empty box on a
+ * building control document is worse than "1/2".
+ *
+ * Without it — an older browser, or a font that failed to register — this falls back to exactly
+ * what it did before: the WinAnsi range plus the few typographic characters the standard fonts
+ * carry.
+ */
 function safe(t){
+  const str = String(t==null?"":t);
+  if(FONT_OK && typeof SPECLINE_FONT_CHARS === "string"){
+    return str.split("").map(c=>{
+      if(SPECLINE_FONT_CHARS.indexOf(c) >= 0) return c;
+      return SAFE_MAP[c] !== undefined ? SAFE_MAP[c] : (c.charCodeAt(0) < 0x80 ? c : "");
+    }).join("");
+  }
   return String(t==null?"":t)
     .replace(/[≤≥Ψψ±×÷→≈≠−–‒½¼¾Ø⌀∅• λπΔ₀]/g, c=>SAFE_MAP[c])
     .split("").filter(c=>{ const n=c.charCodeAt(0);
       return n<0x100 || SAFE_KEEP.test(c); }).join("");
 }
+/* Set while a document is being built: whether the embedded font registered on THIS document.
+   It is a module-level flag rather than an argument because safe() is called from forty places. */
+let FONT_OK = false;
 
 /**
  * Stamp every page of a draft. Two marks, on purpose: the diagonal reads at a glance on screen,
  * and the line in the running header survives a monochrome print, where a light tint does not.
  * Both go on last, so no later page can escape them.
  */
-function stampDraft(doc){
+function stampDraft(doc, font){
   const n=doc.getNumberOfPages();
   for(let i=1;i<=n;i++){
     doc.setPage(i);
-    doc.setFont("helvetica","bold"); doc.setFontSize(44);
+    doc.setFont(font||"helvetica","bold"); doc.setFontSize(44);
     doc.setTextColor(232,206,178);        /* light enough to read the specification through */
     doc.text(safe(DRAFT_MARK),105,180,{align:"center",angle:34});
     /* The small one goes in the CENTRE OF THE FOOTER, which is the only band free on every page:
@@ -845,6 +868,11 @@ function stampDraft(doc){
 function buildPdf(draft){
   const {jsPDF}=window.jspdf;
   const doc=new jsPDF({unit:"mm",format:"a4"});
+  /* Embed the font before a word is written. If it will not register the document still builds,
+     on Helvetica, exactly as it did before: an export that fails is worse than one whose
+     superscripts might be substituted by the reader's viewer. */
+  const FONT = (typeof splineFont === "function" ? splineFont(doc) : null) || "helvetica";
+  FONT_OK = FONT !== "helvetica";
   const L=22,R=18,W=210-L-R,BOT=280;
   const d=S.data,r=refs(),sel=orderedSel();
   const today=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
@@ -852,19 +880,32 @@ function buildPdf(draft){
   const ACC=accRGB(),DARK=[34,38,42],MUTED=[113,118,122],RULE=[220,216,210];
   let y=0,page=1;
   const foot=()=>{ doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.line(L,286,210-R,286);
-    doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
+    doc.setFont(FONT,"normal");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
     doc.text(safe(pName()+(P.email?"  ·  "+P.email:"")),L,290);
     doc.text("Page "+page,210-R,290,{align:"right"}); };
-  const head=()=>{ doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
+  const head=()=>{ doc.setFont(FONT,"normal");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
     const left=safe(spec().name+" — Building Regulations Specification"+(d.address?"  ·  "+d.address:""));
     doc.text(doc.splitTextToSize(left,W-40)[0],L,13);
     doc.text(safe((d.job?"Job "+d.job:"")+"  |  Rev "+(d.rev||"P01")),210-R,13,{align:"right"});
     doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.line(L,15.5,210-R,15.5); };
   const newPage=()=>{ foot();doc.addPage();page++;head();y=24; };
   const need=h=>{ if(y+h>BOT) newPage(); };
+  /* A paragraph that runs past the bottom of a page used to finish in the FOOTER's colour and
+     size: need() breaks the page, foot() and head() set 7.5pt grey for the running lines, and the
+     rest of the paragraph inherited them. Every long clause that crossed a page carried four or
+     five lines of small grey text into the issued document. The face, the size and the colour are
+     therefore set per line rather than per paragraph — it costs nothing and cannot drift. */
   const para=(t,size=9,gap=2.4,color=DARK,style="normal")=>{
-    doc.setFont("helvetica",style);doc.setFontSize(size);doc.setTextColor(...color);
-    doc.splitTextToSize(safe(t),W).forEach(ln=>{ need(5);doc.text(ln,L,y);y+=size*0.42+1.1; }); y+=gap; };
+    /* Set BEFORE the split, because splitTextToSize measures with the font currently selected —
+       wrap it under the last heading's bold and the lines come out short. */
+    doc.setFont(FONT,style);doc.setFontSize(size);doc.setTextColor(...color);
+    doc.splitTextToSize(safe(t),W).forEach(ln=>{
+      need(5);
+      /* And again after every line, because need() may have broken the page, and foot() and
+         head() leave 7.5pt grey behind them. Every long clause that crossed a page used to
+         finish in the footer's colour and size. */
+      doc.setFont(FONT,style);doc.setFontSize(size);doc.setTextColor(...color);
+      doc.text(ln,L,y);y+=size*0.42+1.1; }); y+=gap; };
 
   /* The practice's logo, fitted to a 34 x 30 mm box at its own proportions. No logo: its own
      name as a wordmark, never a compiled-in mark. */
@@ -874,16 +915,16 @@ function buildPdf(draft){
       doc.addImage(P.logo,fmt,L,20,w,hh); }catch(e){ console.error(e); }
   } else {
     const wd=pName().split(" ");
-    doc.setFont("helvetica","bold");doc.setFontSize(22);doc.setTextColor(...DARK);
+    doc.setFont(FONT,"bold");doc.setFontSize(22);doc.setTextColor(...DARK);
     doc.text(safe(wd[0]),L,45);
     if(wd.length>1){ const adv=doc.getTextWidth(safe(wd[0])+" ");
       doc.setFontSize(13);doc.setTextColor(...ACC);
       doc.text(safe(wd.slice(1).join(" ").toUpperCase()),L+adv,45); }
   }
-  doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(...MUTED);
+  doc.setFont(FONT,"normal");doc.setFontSize(8);doc.setTextColor(...MUTED);
   doc.text(safe(P.addr+(P.email?"  ·  "+P.email:"")+(P.phone?"  ·  "+P.phone:"")),L,58.5);
   doc.setDrawColor(...ACC);doc.setLineWidth(1.1);doc.line(L,61.5,210-R,61.5);
-  doc.setFont("helvetica","bold");doc.setFontSize(28);doc.setTextColor(...DARK);
+  doc.setFont(FONT,"bold");doc.setFontSize(28);doc.setTextColor(...DARK);
   doc.text("BUILDING REGULATIONS",L,78);
   doc.setTextColor(...ACC);doc.text("SPECIFICATION",L,90);
   doc.setFontSize(11);doc.setTextColor(...MUTED);
@@ -895,33 +936,33 @@ function buildPdf(draft){
   rows.forEach(([k,v])=>{
     doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.setFillColor(251,250,248);
     doc.rect(L,y-5,42,7.6,"FD");doc.rect(L+42,y-5,W-42,7.6,"D");
-    doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...DARK);doc.text(safe(k),L+2.5,y);
-    doc.setFont("helvetica","normal");doc.setFontSize(8.5);
+    doc.setFont(FONT,"bold");doc.setFontSize(8);doc.setTextColor(...DARK);doc.text(safe(k),L+2.5,y);
+    doc.setFont(FONT,"normal");doc.setFontSize(8.5);
     doc.text(doc.splitTextToSize(safe(v||"—"),W-46)[0],L+44.5,y); y+=7.6; });
   y+=10;
   doc.setDrawColor(...ACC);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
-  doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(...ACC);
+  doc.setFont(FONT,"bold");doc.setFontSize(9);doc.setTextColor(...ACC);
   doc.text("ISSUED FOR BUILDING CONTROL APPROVAL",L+6,y+1); y+=7;
   { const nt=coverNotice(); para(nt.lead,8,1.6,MUTED); para(nt.resp,8,2,MUTED); }
   const hist=S.history||[];
   if(hist.length){ y+=6;
-    doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...MUTED);doc.text("ISSUE HISTORY",L,y);y+=5;
-    hist.forEach(hh=>{ doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(...DARK);
+    doc.setFont(FONT,"bold");doc.setFontSize(8);doc.setTextColor(...MUTED);doc.text("ISSUE HISTORY",L,y);y+=5;
+    hist.forEach(hh=>{ doc.setFont(FONT,"normal");doc.setFontSize(8);doc.setTextColor(...DARK);
       doc.text(safe(hh.rev),L,y); doc.text(safe("Issued "+fmtDate(hh.at)),L+16,y); y+=4.6; }); }
   foot();doc.addPage();page++;head();y=24;
 
   const secHead=(num,txt)=>{ need(16);y+=4;
-    doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(...ACC);doc.text(num,L,y);
+    doc.setFont(FONT,"bold");doc.setFontSize(13);doc.setTextColor(...ACC);doc.text(num,L,y);
     doc.setTextColor(...DARK);doc.text(safe(txt.toUpperCase()),L+13,y);
     y+=2.5;doc.setDrawColor(...ACC);doc.setLineWidth(.7);doc.line(L,y,210-R,y);y+=6; };
   /* The bullet is DRAWN, not written: safe() maps the character to a hyphen because jsPDF's
      WinAnsi fonts cannot be relied on for it. Part A's category headings carry it, matching the
      practice documents; Part B's headings are numbered there and here, so they do not. */
-  const grpLabel=(t,cat)=>{ need(10);y+=3;doc.setFont("helvetica","bold");doc.setFontSize(8);
+  const grpLabel=(t,cat)=>{ need(10);y+=3;doc.setFont(FONT,"bold");doc.setFontSize(8);
     if(cat){ doc.setFillColor(...ACC); doc.circle(L+1.1,y-1.1,1.05,"F"); }
     doc.setTextColor(...MUTED);doc.text(safe(t.toUpperCase()),cat?L+5:L,y);y+=5; };
   const entry=(tag,title)=>{ need(13);y+=3.5;
-    doc.setFont("helvetica","bold");doc.setFontSize(9.5);
+    doc.setFont(FONT,"bold");doc.setFontSize(9.5);
     if(tag){doc.setTextColor(...ACC);doc.text(tag,L,y);}
     doc.setTextColor(...DARK);doc.text(safe(title.toUpperCase()),L+(tag?14:0),y);
     y+=1.8;doc.setDrawColor(...RULE);doc.setLineWidth(.15);doc.line(L,y,210-R,y);y+=4.6; };
@@ -932,14 +973,14 @@ function buildPdf(draft){
     doc.setFillColor(251,250,248);doc.setDrawColor(...RULE);doc.setLineWidth(.2);
     /* draw all header cells first, then the labels, so no fill paints over a neighbour's text */
     let x=L;cw.forEach(w=>{doc.rect(x,y-4.6,w,7,"FD");x+=w;});
-    x=L;doc.setFont("helvetica","bold");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
+    x=L;doc.setFont(FONT,"bold");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
     ["REF","BUILD-UP","STANDARD"].forEach((hd,j)=>{doc.text(hd,x+2,y);x+=cw[j];});
     y+=7;
     sel.forEach(i=>{ const b=allBU()[i];need(9);
       const tl=doc.splitTextToSize(safe(b.t),cw[1]-4), rh=Math.max(7,tl.length*3.6+3.4);
       let x2=L;cw.forEach(w=>{doc.rect(x2,y-4.6,w,rh,"D");x2+=w;});
-      doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...ACC);doc.text(r[i],L+2,y);
-      doc.setFont("helvetica","normal");doc.setTextColor(...DARK);
+      doc.setFont(FONT,"bold");doc.setFontSize(8);doc.setTextColor(...ACC);doc.text(r[i],L+2,y);
+      doc.setFont(FONT,"normal");doc.setTextColor(...DARK);
       tl.forEach((ln,k)=>doc.text(ln,L+cw[0]+2,y+k*3.6));
       doc.text(safe(b.u||"—"),L+cw[0]+cw[1]+2,y); y+=rh; });
     y+=4;
@@ -967,11 +1008,11 @@ function buildPdf(draft){
       entry(r[i],b.t);
       const res=b.calc.result, cw=[112,18,40];
       const row=(a,bb,c,bold)=>{ need(6.5);
-        doc.setFont("helvetica",bold?"bold":"normal");doc.setFontSize(8);doc.setTextColor(...DARK);
+        doc.setFont(FONT,bold?"bold":"normal");doc.setFontSize(8);doc.setTextColor(...DARK);
         doc.splitTextToSize(safe(a),cw[0]-3).forEach((ln,k)=>doc.text(ln,L+1.5,y+k*3.4));
         doc.text(safe(bb),L+cw[0]+cw[1]-2,y,{align:"right"}); doc.text(safe(c),L+cw[0]+cw[1]+cw[2]-2,y,{align:"right"});
         y+=Math.max(4.6,doc.splitTextToSize(safe(a),cw[0]-3).length*3.4+1.2); };
-      doc.setFont("helvetica","bold");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
+      doc.setFont(FONT,"bold");doc.setFontSize(7.5);doc.setTextColor(...MUTED);
       doc.text("LAYER",L+1.5,y);doc.text("MM",L+cw[0]+cw[1]-2,y,{align:"right"});doc.text("R  m²K/W",L+cw[0]+cw[1]+cw[2]-2,y,{align:"right"});
       y+=1.5;doc.setDrawColor(...RULE);doc.setLineWidth(.2);doc.line(L,y,L+cw[0]+cw[1]+cw[2],y);y+=4.2;
       res.layers.forEach(l=>row(l.n, l.d!=null?String(l.d):"—", l.R.toFixed(3)));
@@ -990,11 +1031,11 @@ function buildPdf(draft){
   }
   need(24);y+=4;
   doc.setDrawColor(...ACC);doc.setLineWidth(.8);doc.line(L,y,L+3,y);
-  doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.setTextColor(...ACC);
+  doc.setFont(FONT,"bold");doc.setFontSize(8.5);doc.setTextColor(...ACC);
   doc.text("TRANSITIONAL PROVISIONS",L+6,y+1);y+=6;
   para("This specification is written to the Approved Documents in force at the date of issue. The 2026 editions of Approved Documents L and F come into force on 24 March 2027; work with a Building Control Approval Application with full plans made before that date remains under the current standards provided the work commences before 24 March 2028.",8,2,MUTED);
   foot();
-  if(draft) stampDraft(doc);
+  if(draft) stampDraft(doc, FONT);
   return doc;
 }
 

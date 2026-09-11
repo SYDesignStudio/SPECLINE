@@ -799,14 +799,28 @@ preview), **Specification** (the preview full width with a contents nav), **U-va
 
 Roughly in order:
 
-- Parametric timber frame walls, dormer cheeks and internal linings — these are still fixed
-  build-ups while cavity walls, floors, basements and roofs are configurable.
+- Parametric internal linings. Timber frame walls and dormer cheeks became configurable in
+  `src/configurator4.js` (the Framed wall calculator tab); linings are still fixed build-ups,
+  although `UC.lined()` already calculates them.
 - Wales as a second region (different Part L/F targets and a separate notional dwelling).
 - Rebuild the A102 General Notes drawing sheet, which still cites withdrawn standards
   (BS 5950, BS 5628, BS 6206, BS 5588-9) and carries another practice's name.
-- Embed a font in the PDF export if the documents are to go to unknown recipients. The `²`/`³`
-  characters *are* in the file; some viewers substitute a font that lacks the glyph because the
-  standard PDF fonts are referenced rather than embedded. Costs roughly 300 KB per file.
+- ~~Embed a font in the PDF export.~~ **Done 11 September 2026.** `docgen/make_pdf_font.py`
+  subsets DejaVu Sans — whose licence permits embedding — to the 134 characters this library can
+  print, regular and bold, and writes `src/fonts.js`. It costs 68 KB rather than the 300 KB a whole
+  font would, and `²`, `³`, `—`, `·`, `°` and `×` now reach the page as themselves instead of
+  depending on whatever the reader's viewer substitutes. `safe()` keeps exactly what the subset
+  contains and maps or drops the rest, because a character the font does not carry renders as an
+  empty box, which is worse than "1/2". If the font will not register the export still runs on
+  Helvetica, exactly as before.
+
+  Two defects came out of that work, both of which had been in every issued document. **A
+  paragraph running past the bottom of a page finished in the FOOTER's 7.5pt grey**, because
+  `need()` breaks the page and `foot()` and `head()` leave their own size and colour behind; the
+  face, size and colour are now set per line. And **wrapping is measured with the font that is
+  currently selected**, so setting it after `splitTextToSize` wraps the paragraph under the
+  previous heading's bold and the lines come out short. Set it before the split AND after every
+  break.
 
 - **Billing.** Accounts, the admin dashboard, the regulations watch and the tool behind the
   login were all built on 6 September 2026 (see "Accounts, administration and the regulations

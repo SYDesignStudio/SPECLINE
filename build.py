@@ -71,6 +71,7 @@ def assemble():
     srv  = rd(os.path.join(SRC, "serverstore.js"))
     dcx   = rd(os.path.join(SRC, "docx.js")).replace(
         'if (typeof module !== "undefined") module.exports = DOCX;', "")
+    fonts = rd(os.path.join(SRC, "fonts.js"))
     logos = rd(os.path.join(SRC, "logos.js"))
     assert "const SPECLINE_ICON" in logos, "src/logos.js must declare SPECLINE_ICON"
     # The built app is what every subscribing practice runs, and site/app/spec.html is committed
@@ -87,7 +88,7 @@ def assemble():
     assert marker in app, "anchor comment missing from src/app_js.js"
     app = app.replace(marker, cfg + "\n" + cfg2 + "\n" + cfg3 + "\n" + cfg4 + "\n" + marker, 1)
 
-    js = "\n".join([spec, uc, uc2, uc3, uc4, mfr, dcx, logos, srv, app])
+    js = "\n".join([spec, uc, uc2, uc3, uc4, mfr, dcx, fonts, logos, srv, app])
     html = (head + "\n" + body +
             '\n<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>\n'
             '<script>\n' + js + '\n</script>\n')
