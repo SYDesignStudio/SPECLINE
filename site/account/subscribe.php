@@ -117,6 +117,12 @@ page_start('Plans');
   <?php endif; ?>
 
   <hr>
+  <?php /* Specline is a trading name, and the Stripe account it bills through also sells another
+           product, so the statement descriptor is the company's rather than the product's. Saying
+           so before someone pays costs nothing and stops a charge nobody recognises becoming a
+           chargeback. */ ?>
+  <p class="small muted">Payments are taken by Stripe and appear on your statement as
+    <span class="mono">SY DESIGN STUDIO</span>, the company that trades as Specline.</p>
   <p class="small muted">Terms are at <a href="/terms.html">specline.co.uk/terms.html</a>. They are drafted in house and say so; a solicitor has not reviewed them yet, and that is stated on the page rather than hidden.</p>
   <p><a href="/account/">Back to your account</a></p>
 </div>
