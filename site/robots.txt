@@ -1,0 +1,16 @@
+# specline.co.uk
+#
+# The public pages are open to crawlers. Everything behind a login is not: the account
+# pages, the administration, the specification tool and the two endpoints it talks to.
+# None of them is secret — they all check the session before they answer — but none of
+# them belongs in a search index either.
+
+User-agent: *
+Allow: /
+Disallow: /account/
+Disallow: /admin/
+Disallow: /app.php
+Disallow: /api.php
+Disallow: /webhook.php
+
+Sitemap: https://specline.co.uk/sitemap.xml

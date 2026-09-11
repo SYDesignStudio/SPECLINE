@@ -24,6 +24,11 @@ RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
+# --- the home page was index.html before it became PHP ---
+# Old links, bookmarks and anything already indexed still point at it, and it was answering 404:
+# the rewrite below sends it to site/index.html, which no longer exists.
+RewriteRule ^index\.html$ / [R=301,L]
+
 # --- site/ is an implementation detail: send visitors to the canonical address ---
 # REDIRECT_STATUS is empty only on a real external request, so the internal rewrite
 # below cannot trigger this and loop.

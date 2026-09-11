@@ -129,6 +129,44 @@ def hosted():
           % (len(page), len(vendor)))
 
 
+def sitemap():
+    """site/sitemap.xml, from the pages that are actually public.
+
+    The last-modified date of each page is the date of the last commit that touched it. Where git
+    cannot answer — a shallow checkout, no repository — the date is left out rather than guessed,
+    because a sitemap that lies about freshness is worse than one that says nothing.
+    """
+    base = "https://specline.co.uk"
+    pages = [("index.php", "/", "weekly", "1.0"),
+             ("terms.html", "/terms.html", "yearly", "0.3"),
+             ("privacy.html", "/privacy.html", "yearly", "0.3"),
+             ("contact.php", "/contact.php", "yearly", "0.4")]
+    out = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9">'.replace("www.sitemap.org", "www.sitemaps.org")]
+    for fn, url, freq, pri in pages:
+        rel = os.path.join("site", fn)
+        if not os.path.exists(os.path.join(ROOT, rel)):
+            continue
+        when = ""
+        try:
+            r = subprocess.run(["git", "log", "-1", "--format=%cs", "--", rel],
+                               capture_output=True, text=True, cwd=ROOT, timeout=20)
+            if r.returncode == 0:
+                when = r.stdout.strip()
+        except Exception:
+            when = ""
+        out.append("  <url>")
+        out.append("    <loc>%s%s</loc>" % (base, url))
+        if when:
+            out.append("    <lastmod>%s</lastmod>" % when)
+        out.append("    <changefreq>%s</changefreq>" % freq)
+        out.append("    <priority>%s</priority>" % pri)
+        out.append("  </url>")
+    out.append("</urlset>")
+    wr(os.path.join(ROOT, "site", "sitemap.xml"), "\n".join(out) + "\n")
+    print("wrote site/sitemap.xml (%d public pages)" % (len(out) // 6))
+
+
 def check():
     """Structural checks on the merged library. Cheap, and catches the mistakes that matter."""
     js = ('const fs=require("fs");const s=fs.readFileSync(%r,"utf8");'
@@ -229,7 +267,7 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     flags = [a for a in args if a.startswith("--")]
     rest  = [a for a in args if not a.startswith("--")]
-    merge(); assemble(); check()
+    merge(); assemble(); sitemap(); check()
     if "--test" in flags or "--all" in flags:
         test()
     if "--docs" in flags or "--all" in flags:
