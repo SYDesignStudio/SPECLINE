@@ -197,6 +197,23 @@ as test-mode ones, and **live is never inherited** — it is set up deliberately
 
 ---
 
+## Founding members, and what "locked for life" means in practice
+
+Thirty places, promised on the home page. The **count** is enforced: `founding_taken()` counts
+distinct practices with a founding entitlement, a regrant of the same practice does not spend a
+second place, and the thirty-first is still entitled but is recorded as a standard grant with a
+note saying the places were full. Administration → Billing shows how many are taken.
+
+The **price being held is a procedure, not a feature.** Stripe keeps a subscription on the price it
+started on until somebody moves it, so honouring the promise means one thing:
+
+> **When prices rise, create new prices and leave every existing subscription where it is.**
+> Never migrate a founding member's subscription to a new price, and never use Stripe's bulk
+> price-migration tools on the whole product.
+
+That is the whole mechanism. It is written on the admin page as well, because the moment it matters
+is a price rise, which will be months away and long after anyone remembers this file.
+
 ## Two things still to do before selling
 
 - **Issuing a specification must spend a credit.** The server side is built and honest about

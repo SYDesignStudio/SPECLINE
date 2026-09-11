@@ -123,6 +123,11 @@ page_start('Billing', ['admin' => true]);
                indistinguishable from a fix that did not work, and an hour went on exactly that
                confusion on 9 September 2026. The file that does the Stripe work says when the
                server last received it. */ ?>
+      <?php /* The promise on the home page, and the one operating rule that keeps it. */ ?>
+      <tr><td>Founding places</td><td>
+        <span class="pill <?= founding_left() > 0 ? 'pill-pass' : 'pill-hold' ?>"><?= founding_taken() ?> of <?= FOUNDING_PLACES ?> taken</span>
+        <span class="small muted">Their price is held by never moving their subscription to a new price in Stripe. A price rise applies to new subscribers only.</span>
+      </td></tr>
       <tr><td>Payment code deployed</td><td class="mono small"><?= e(gmdate('Y-m-d H:i', (int)@filemtime(__DIR__ . '/../app/stripe.php'))) ?> UTC</td></tr>
     </tbody>
   </table>

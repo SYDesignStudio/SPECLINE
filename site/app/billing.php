@@ -78,6 +78,43 @@ function price_rules(): array {
     return $out;
 }
 
+/* ------------------------------------------------------------- founding members */
+
+/**
+ * The promise on the home page: founding-member pricing for the first 30 practices, held for as
+ * long as the subscription runs. Two halves, and only one of them is code.
+ *
+ * The COUNT is code: a practice is a founding member when an entitlement was written for it with
+ * source 'founding', it is counted once however many times its entitlement is renewed or
+ * regranted, and the thirty-first is refused rather than quietly becoming the thirty-first
+ * founding member of thirty.
+ *
+ * The PRICE being held is a procedure, not a feature: Stripe keeps a subscription on the price it
+ * started on until somebody moves it, so honouring the promise means never migrating a founding
+ * member's subscription to a new price. It is written on the admin page for whoever raises prices
+ * later, because that is when it will matter and nobody will remember.
+ */
+const FOUNDING_PLACES = 30;
+
+/** How many distinct practices hold, or have held, a founding-member entitlement. */
+function founding_taken(): int {
+    return (int)val("SELECT COUNT(DISTINCT practice_id) FROM entitlements WHERE source = 'founding'");
+}
+function founding_left(): int { return max(0, FOUNDING_PLACES - founding_taken()); }
+
+/**
+ * May this practice be made a founding member? A practice that is already one may be regranted
+ * without using a second place — renewing or correcting an entitlement must not cost a place.
+ */
+function founding_available(int $practice_id): bool {
+    if ($practice_id > 0 &&
+        (int)val("SELECT COUNT(*) FROM entitlements WHERE source = 'founding' AND practice_id = ?",
+                 [$practice_id]) > 0) {
+        return true;
+    }
+    return founding_left() > 0;
+}
+
 /* ---------------------------------------------------------------- the switch */
 
 function billing_enforced(): bool { return setting('billing_enforce', '0') === '1'; }
@@ -211,6 +248,13 @@ function grant_entitlement(int $practice_id, string $plan, string $status, ?stri
                            ?int $event_at = null): int {
     $plan = array_key_exists($plan, plan_catalogue()) ? $plan : 'solo';
     $status = in_array($status, ENTITLEMENT_LIVE, true) ? $status : 'active';
+    /* Thirty places were promised in public. The thirty-first grant is still made — refusing to
+       entitle a paying practice would be worse — but it is not recorded as a founding member,
+       because that is a promise that has run out rather than one to break quietly. */
+    if ($source === 'founding' && !founding_available($practice_id)) {
+        $source = 'manual';
+        $note = trim($note . ' (founding places were full; granted on the standard basis)');
+    }
     $seats = $seats !== null ? max(1, $seats) : (int)plan_meta($plan)['seats'];
     $in = "'" . implode("','", ENTITLEMENT_LIVE) . "'";
     q("UPDATE entitlements SET status = 'superseded', ended_at = ? WHERE practice_id = ? AND status IN ($in)",

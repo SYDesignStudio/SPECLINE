@@ -89,6 +89,53 @@ ok('spent down to nothing', spec_credit_balance($pid) === 0);
 ok('and the fourth issue is refused', !consume_spec_credit($pid, 'j4', 'a@example.test'));
 ok('every movement is explainable', (int)val('SELECT COUNT(*) FROM spec_credits WHERE practice_id = ?', [$pid]) === 4);
 
+/* ---- the founding-member promise ---- */
+/* Thirty places were promised in public and nothing counted them. `source = 'founding'` was a
+   label, so a thirty-first practice could quietly become one of thirty. */
+q("DELETE FROM entitlements WHERE source = 'founding'");
+ok('no founding members to start', founding_taken() === 0, (string)founding_taken());
+ok('and thirty places open', founding_left() === FOUNDING_PLACES, (string)founding_left());
+
+grant_entitlement($pid, 'solo', 'active', null, 'founding', 'Founding member', 'owner@example.test');
+ok('a founding grant is counted', founding_taken() === 1);
+ok('and a place is gone', founding_left() === FOUNDING_PLACES - 1);
+
+/* Renewing or correcting the same practice must not cost a second place. */
+grant_entitlement($pid, 'practice', 'active', null, 'founding', 'Renewed', 'owner@example.test');
+ok('REGRANTING THE SAME PRACTICE COSTS NO SECOND PLACE', founding_taken() === 1, (string)founding_taken());
+ok('and it is still a founding member',
+   (string)val("SELECT source FROM entitlements WHERE practice_id = ? ORDER BY id DESC LIMIT 1", [$pid]) === 'founding');
+
+/* Fill the rest, then check the thirty-first. */
+$made = [];
+for ($i = 0; $i < FOUNDING_PLACES - 1; $i++) {
+    q('INSERT INTO practices (name, address, designer, phone, plan, seats, contact_email, created_at) VALUES (?,?,?,?,?,?,?,?)',
+      ['Founder ' . $i, '', '', '', 'solo', 1, '', now()]);
+    $made[] = $fp = (int)db()->lastInsertId();
+    grant_entitlement($fp, 'solo', 'active', null, 'founding', 'Founding member', 'owner@example.test');
+}
+ok('thirty places fill exactly', founding_taken() === FOUNDING_PLACES, (string)founding_taken());
+ok('and none are left', founding_left() === 0);
+
+q('INSERT INTO practices (name, address, designer, phone, plan, seats, contact_email, created_at) VALUES (?,?,?,?,?,?,?,?)',
+  ['One too many', '', '', '', 'solo', 1, '', now()]);
+$late = (int)db()->lastInsertId();
+ok('a practice past the thirtieth is not available for a place', !founding_available($late));
+grant_entitlement($late, 'solo', 'active', null, 'founding', 'Late', 'owner@example.test');
+ok('THE THIRTY-FIRST IS STILL ENTITLED — refusing a paying practice would be worse',
+   entitlement($late)['live']);
+ok('but is NOT recorded as a founding member',
+   (string)val("SELECT source FROM entitlements WHERE practice_id = ? ORDER BY id DESC LIMIT 1", [$late]) === 'manual');
+ok('and the note says why', str_contains(
+   (string)val("SELECT note FROM entitlements WHERE practice_id = ? ORDER BY id DESC LIMIT 1", [$late]), 'founding places were full'));
+ok('so the count stays at thirty', founding_taken() === FOUNDING_PLACES, (string)founding_taken());
+
+q("DELETE FROM entitlements WHERE source = 'founding'");
+q('DELETE FROM entitlements WHERE practice_id = ?', [$late]);
+foreach ($made as $fp) q('DELETE FROM practices WHERE id = ?', [$fp]);
+q('DELETE FROM practices WHERE id = ?', [$late]);
+q('DELETE FROM entitlements WHERE practice_id = ?', [$pid]);
+
 /* ---- taking credits back off ---- */
 /* A refunded payment left its credit on the practice and nothing could remove it. The correction
    is a negative row, never a deletion: a balance that cannot be explained is a balance nobody
